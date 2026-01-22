@@ -1,0 +1,2726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventPro | Professional Event Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Lightbox2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+    <style>
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --accent-color: #ff7e5f;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Navigation */
+        .navbar {
+            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-brand span {
+            color: var(--secondary-color);
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            margin: 0 8px;
+            position: relative;
+            color: var(--dark-color) !important;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            width: 100%;
+        }
+
+        .navbar-nav .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.9) 0%, rgba(37, 117, 252, 0.9) 100%), url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 150px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 80px 0;
+            background: var(--light-color);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--gray-color);
+            font-size: 1.1rem;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 100px 0;
+        }
+
+        .about-img {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .feature-list li i {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            color: var(--primary-color);
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 100px 0;
+            background: var(--light-color);
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            margin-bottom: 30px;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .service-content {
+            padding: 30px;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Packages Section */
+        .packages-section {
+            padding: 100px 0;
+        }
+
+        .package-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .package-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .package-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .package-period {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .package-body {
+            padding: 30px;
+        }
+
+        .package-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        .package-features li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .package-features li i {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            color: var(--primary-color);
+        }
+
+        .package-features li.disabled {
+            color: var(--gray-color);
+        }
+
+        .package-features li.disabled i {
+            color: var(--gray-color);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 100px 0;
+            background: var(--light-color);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            height: 300px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(106, 17, 203, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 100px 0;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            height: 100%;
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .testimonial-rating {
+            color: var(--warning-color);
+            margin-bottom: 15px;
+        }
+
+        /* Blog Section */
+        .blog-section {
+            padding: 100px 0;
+            background: var(--light-color);
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            margin-bottom: 30px;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .blog-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 25px;
+        }
+
+        .blog-meta {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 100px 0;
+        }
+
+        .contact-info {
+            margin-bottom: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control,
+        .form-select {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 70px 0 30px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-logo span {
+            color: var(--secondary-color);
+        }
+
+        .footer-about {
+            margin-bottom: 30px;
+        }
+
+        .footer-links h5 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            margin-top: 50px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Modals */
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .modal-title {
+            color: white;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Booking Steps */
+        .booking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .booking-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: 600;
+            color: var(--gray-color);
+        }
+
+        .step.active .step-number {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* FAQ */
+        .faq-item {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 0;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-top: 15px;
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        /* Animation Classes */
+        .animate-fade-in {
+            animation: fadeIn 1s ease;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.8s ease;
+        }
+
+        .animate-slide-left {
+            animation: slideLeft 0.8s ease;
+        }
+
+        .animate-slide-right {
+            animation: slideRight 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .navbar-nav {
+                text-align: center;
+                padding-top: 15px;
+            }
+
+            .contact-form {
+                padding: 25px;
+            }
+        }
+
+        /* User Dashboard */
+        .dashboard-section {
+            padding: 100px 0;
+            min-height: 70vh;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 15px;
+            color: var(--dark-color);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .dashboard-content {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .booking-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .booking-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transform: translateY(-3px);
+        }
+
+        .booking-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-in-progress {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">Event<span>Pro</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#packages">Packages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="authDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> Account
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">Login</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#registerModal">Register</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#dashboardModal">My Dashboard</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#bookEventModal">
+                            <i class="fas fa-calendar-check me-2"></i>Book Event
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home/Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content animate-slide-left">
+                        <h1 class="hero-title">Create Unforgettable Events With Us</h1>
+                        <p class="hero-subtitle">Professional event planning and management for weddings, corporate
+                            events, parties, and special occasions. Let us turn your vision into reality.</p>
+                        <div class="mt-4">
+                            <a href="#" class="btn btn-primary btn-lg me-3" data-bs-toggle="modal"
+                                data-bs-target="#bookEventModal">Book Now</a>
+                            <a href="#packages" class="btn btn-secondary btn-lg">View Packages</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <!-- Hero image will be background -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item animate-fade-in" style="animation-delay: 0.1s;">
+                        <span class="stat-number" data-count="500">0</span>
+                        <span class="stat-label">Events Managed</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item animate-fade-in" style="animation-delay: 0.2s;">
+                        <span class="stat-number" data-count="98">0</span>
+                        <span class="stat-label">Satisfaction Rate</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item animate-fade-in" style="animation-delay: 0.3s;">
+                        <span class="stat-number" data-count="50">0</span>
+                        <span class="stat-label">Expert Planners</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item animate-fade-in" style="animation-delay: 0.4s;">
+                        <span class="stat-number" data-count="15">0</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title animate-fade-in">About Us</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="about-img animate-slide-left">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                            alt="About EventPro" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="animate-slide-right">
+                        <h3 class="mb-4">We Create Memorable Experiences</h3>
+                        <p class="mb-4">Founded in 2008, EventPro has grown to become one of the most trusted event
+                            management companies. Our team of dedicated professionals brings creativity, precision, and
+                            passion to every event we manage.</p>
+                        <p class="mb-4">We believe that every event tells a story, and we're here to help you tell
+                            yours. From intimate gatherings to large-scale corporate events, we handle every detail with
+                            care and expertise.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle me-2"></i> 15+ years of experience</li>
+                            <li><i class="fas fa-check-circle me-2"></i> Award-winning event planning</li>
+                            <li><i class="fas fa-check-circle me-2"></i> Professional vendor network</li>
+                            <li><i class="fas fa-check-circle me-2"></i> Stress-free event management</li>
+                            <li><i class="fas fa-check-circle me-2"></i> Budget optimization</li>
+                            <li><i class="fas fa-check-circle me-2"></i> 24/7 customer support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2 class="section-title animate-fade-in">Our Services</h2>
+            <p class="text-center mb-5 animate-fade-in" style="animation-delay: 0.2s;">Comprehensive event management
+                solutions tailored to your needs</p>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="service-icon">
+                            <i class="fas fa-glass-cheers"></i>
+                        </div>
+                        <div class="service-content">
+                            <h4>Wedding Planning</h4>
+                            <p>Complete wedding planning and coordination services to make your special day
+                                unforgettable. From venue selection to vendor management.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check me-1"></i> Full wedding planning</li>
+                                <li><i class="fas fa-check me-1"></i> Partial planning packages</li>
+                                <li><i class="fas fa-check me-1"></i> Day-of coordination</li>
+                                <li><i class="fas fa-check me-1"></i> Destination weddings</li>
+                            </ul>
+                            <a href="#" class="btn btn-primary mt-3">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="service-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="service-content">
+                            <h4>Corporate Events</h4>
+                            <p>Professional management for conferences, seminars, product launches, and corporate
+                                gatherings that deliver results and impress stakeholders.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check me-1"></i> Conference planning</li>
+                                <li><i class="fas fa-check me-1"></i> Product launches</li>
+                                <li><i class="fas fa-check me-1"></i> Team building events</li>
+                                <li><i class="fas fa-check me-1"></i> Annual meetings</li>
+                            </ul>
+                            <a href="#" class="btn btn-primary mt-3">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card animate-slide-up" style="animation-delay: 0.3s;">
+                        <div class="service-icon">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <div class="service-content">
+                            <h4>Social Events</h4>
+                            <p>Fun and creative celebrations for all ages, from intimate gatherings to large parties
+                                that create lasting memories for you and your guests.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check me-1"></i> Birthday parties</li>
+                                <li><i class="fas fa-check me-1"></i> Anniversary celebrations</li>
+                                <li><i class="fas fa-check me-1"></i> Baby showers</li>
+                                <li><i class="fas fa-check me-1"></i> Engagement parties</li>
+                            </ul>
+                            <a href="#" class="btn btn-primary mt-3">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section id="packages" class="packages-section">
+        <div class="container">
+            <h2 class="section-title animate-fade-in">Event Packages</h2>
+            <p class="text-center mb-5 animate-fade-in" style="animation-delay: 0.2s;">Choose from our curated packages
+                or customize your own</p>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="package-card animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="package-header">
+                            <h4>Basic Package</h4>
+                            <div class="package-price">$999</div>
+                            <div class="package-period">Perfect for small events</div>
+                        </div>
+                        <div class="package-body">
+                            <ul class="package-features">
+                                <li><i class="fas fa-check me-1"></i> Event Planning Consultation</li>
+                                <li><i class="fas fa-check me-1"></i> Vendor Recommendations</li>
+                                <li><i class="fas fa-check me-1"></i> Basic Decorations</li>
+                                <li><i class="fas fa-check me-1"></i> 8 Hours of Coordination</li>
+                                <li class="disabled"><i class="fas fa-times me-1"></i> Custom Design</li>
+                                <li class="disabled"><i class="fas fa-times me-1"></i> Full Catering Management</li>
+                            </ul>
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal"
+                                data-bs-target="#bookEventModal">Select Package</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="package-card animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="package-header">
+                            <h4>Premium Package</h4>
+                            <div class="package-price">$2,499</div>
+                            <div class="package-period">Most Popular</div>
+                        </div>
+                        <div class="package-body">
+                            <ul class="package-features">
+                                <li><i class="fas fa-check me-1"></i> Full Event Planning</li>
+                                <li><i class="fas fa-check me-1"></i> Custom Design & Theme</li>
+                                <li><i class="fas fa-check me-1"></i> Vendor Management</li>
+                                <li><i class="fas fa-check me-1"></i> Catering Coordination</li>
+                                <li><i class="fas fa-check me-1"></i> 24/7 Support</li>
+                                <li><i class="fas fa-check me-1"></i> On-site Event Manager</li>
+                            </ul>
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal"
+                                data-bs-target="#bookEventModal">Select Package</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="package-card animate-slide-up" style="animation-delay: 0.3s;">
+                        <div class="package-header">
+                            <h4>Custom Package</h4>
+                            <div class="package-price">Custom</div>
+                            <div class="package-period">Tailored to your needs</div>
+                        </div>
+                        <div class="package-body">
+                            <ul class="package-features">
+                                <li><i class="fas fa-check me-1"></i> Bespoke Event Design</li>
+                                <li><i class="fas fa-check me-1"></i> Full Production Management</li>
+                                <li><i class="fas fa-check me-1"></i> International Vendor Network</li>
+                                <li><i class="fas fa-check me-1"></i> Multi-day Event Support</li>
+                                <li><i class="fas fa-check me-1"></i> Premium Catering & Beverages</li>
+                                <li><i class="fas fa-check me-1"></i> Post-event Analysis</li>
+                            </ul>
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal"
+                                data-bs-target="#bookEventModal">Contact for Quote</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title animate-fade-in">Event Gallery</h2>
+            <p class="text-center mb-5 animate-fade-in" style="animation-delay: 0.2s;">A glimpse of our successful
+                events</p>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <a href="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                        data-lightbox="gallery" data-title="Wedding Event">
+                        <div class="gallery-item animate-fade-in" style="animation-delay: 0.1s;">
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                alt="Wedding">
+                            <div class="gallery-overlay">
+                                <h5>Wedding Event</h5>
+                                <p>Elegant wedding ceremony</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <a href="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                        data-lightbox="gallery" data-title="Corporate Event">
+                        <div class="gallery-item animate-fade-in" style="animation-delay: 0.2s;">
+                            <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                alt="Corporate">
+                            <div class="gallery-overlay">
+                                <h5>Corporate Event</h5>
+                                <p>Annual conference</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <a href="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                        data-lightbox="gallery" data-title="Birthday Party">
+                        <div class="gallery-item animate-fade-in" style="animation-delay: 0.3s;">
+                            <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                alt="Birthday">
+                            <div class="gallery-overlay">
+                                <h5>Birthday Party</h5>
+                                <p>Surprise birthday celebration</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <a href="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                        data-lightbox="gallery" data-title="Conference">
+                        <div class="gallery-item animate-fade-in" style="animation-delay: 0.4s;">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                                alt="Conference">
+                            <div class="gallery-overlay">
+                                <h5>Conference</h5>
+                                <p>Industry conference setup</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="#" class="btn btn-primary btn-lg">View More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title animate-fade-in">Client Testimonials</h2>
+            <p class="text-center mb-5 animate-fade-in" style="animation-delay: 0.2s;">What our clients say about us</p>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="testimonial-header">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson"
+                                class="testimonial-img">
+                            <div>
+                                <h5>Sarah Johnson</h5>
+                                <p class="text-muted">Wedding Client</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"EventPro made our wedding day absolutely perfect! Their attention to detail and professional
+                            approach took all the stress away. Highly recommended!"</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card animate-slide-up" style="animation-delay: 0.2s;">
+                        <div class="testimonial-header">
+                            <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Michael Chen"
+                                class="testimonial-img">
+                            <div>
+                                <h5>Michael Chen</h5>
+                                <p class="text-muted">Corporate Client</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"Our annual conference was executed flawlessly by the EventPro team. Their professionalism
+                            and expertise made this our most successful event yet."</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card animate-slide-up" style="animation-delay: 0.3s;">
+                        <div class="testimonial-header">
+                            <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Emma Williams"
+                                class="testimonial-img">
+                            <div>
+                                <h5>Emma Williams</h5>
+                                <p class="text-muted">Birthday Party Client</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p>"The surprise birthday party they organized for my husband was incredible! Every detail was
+                            perfect, and our guests are still talking about it."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog-section">
+        <div class="container">
+            <h2 class="section-title animate-fade-in">Latest Blog & News</h2>
+            <p class="text-center mb-5 animate-fade-in" style="animation-delay: 0.2s;">Stay updated with event trends
+                and tips</p>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card animate-slide-up" style="animation-delay: 0.1s;">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Wedding Trends" class="blog-img">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar me-1"></i> June 15, 2023</span>
+                                <span class="ms-3"><i class="far fa-folder me-1"></i> Wedding Tips</span>
+                            </div>
+                            <h4>2023 Wedding Trends You Need to Know</h4>
+                            <p>Discover the latest wedding trends for 2023, from sustainable choices to intimate
+                                celebrations that make a big impact.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card animate-slide-up" style="animation-delay: 0.2s;">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Corporate Events" class="blog-img">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar me-1"></i> May 28, 2023</span>
+                                <span class="ms-3"><i class="far fa-folder me-1"></i> Corporate Events</span>
+                            </div>
+                            <h4>Planning Successful Hybrid Corporate Events</h4>
+                            <p>Learn how to seamlessly blend in-person and virtual elements for engaging hybrid
+                                corporate events in the new normal.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="blog-card animate-slide-up" style="animation-delay: 0.3s;">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                            alt="Budget Planning" class="blog-img">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span><i class="far fa-calendar me-1"></i> April 12, 2023</span>
+                                <span class="ms-3"><i class="far fa-folder me-1"></i> Event Planning</span>
+                            </div>
+                            <h4>How to Plan an Event on a Budget</h4>
+                            <p>Expert tips on creating memorable events without breaking the bank. Smart budgeting
+                                strategies for event planners.</p>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="#" class="btn btn-primary btn-lg">View All Posts</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title animate-fade-in">Contact Us</h2>
+            <p class="text-center mb-5 animate-fade-in" style="animation-delay: 0.2s;">Get in touch to plan your next
+                event</p>
+
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <div class="contact-info animate-slide-left">
+                        <h3 class="mb-4">Contact Information</h3>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h5>Our Office</h5>
+                                <p>123 Event Street, New York, NY 10001</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h5>Phone Number</h5>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h5>Email Address</h5>
+                                <p>info@eventpro.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h5>Working Hours</h5>
+                                <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: 10:00 AM - 4:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="contact-form animate-slide-right">
+                        <h3 class="mb-4">Send Us a Message</h3>
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Full Name *</label>
+                                        <input type="text" class="form-control" id="name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email Address *</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="eventType" class="form-label">Event Type *</label>
+                                        <select class="form-select" id="eventType" required>
+                                            <option value="">Select Event Type</option>
+                                            <option value="wedding">Wedding</option>
+                                            <option value="corporate">Corporate Event</option>
+                                            <option value="birthday">Birthday Party</option>
+                                            <option value="conference">Conference</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <input type="text" class="form-control" id="subject" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea class="form-control" id="message" rows="5" required></textarea>
+                            </div>
+
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="newsletter">
+                                <label class="form-check-label" for="newsletter">Subscribe to our newsletter</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <a href="#home" class="footer-logo">Event<span>Pro</span></a>
+                    <div class="footer-about">
+                        <p>Creating memorable experiences through professional event management. Let us help you bring
+                            your vision to life with our expert planning and coordination services.</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-4 mb-5 mb-md-0">
+                    <div class="footer-links">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="#services">Services</a></li>
+                            <li><a href="#packages">Packages</a></li>
+                            <li><a href="#gallery">Gallery</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 mb-5 mb-md-0">
+                    <div class="footer-links">
+                        <h5>Important Links</h5>
+                        <ul>
+                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>
+                            </li>
+                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a>
+                            </li>
+                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#faqModal">FAQ</a></li>
+                            <li><a href="#contact">Contact Us</a></li>
+                            <li><a href="#" data-bs-toggle="modal" data-bs-target="#bookEventModal">Book an Event</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="footer-links">
+                        <h5>Newsletter</h5>
+                        <p>Subscribe to our newsletter for event tips and special offers.</p>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your email">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2023 EventPro. All rights reserved. | Designed with <i class="fas fa-heart text-danger"></i>
+                    for event management</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== MODALS ===================== -->
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login to Your Account</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginFormModal">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email Address *</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password *</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        <div class="text-center mb-3">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal"
+                                data-bs-dismiss="modal">Forgot Password?</a>
+                        </div>
+                        <div class="text-center">
+                            <p>Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"
+                                    data-bs-dismiss="modal">Register here</a></p>
+                        </div>
+                        <div class="separator">or continue with</div>
+                        <div class="d-grid gap-2 mt-3">
+                            <button type="button" class="btn btn-outline-primary">
+                                <i class="fab fa-google me-2"></i>Continue with Google
+                            </button>
+                            <button type="button" class="btn btn-outline-primary">
+                                <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Account</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="registerFirstName" class="form-label">First Name *</label>
+                                    <input type="text" class="form-control" id="registerFirstName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="registerLastName" class="form-label">Last Name *</label>
+                                    <input type="text" class="form-control" id="registerLastName" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email Address *</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="registerPassword" class="form-label">Password *</label>
+                                    <input type="password" class="form-control" id="registerPassword" required>
+                                    <div class="form-text">Minimum 8 characters</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="registerConfirmPassword" class="form-label">Confirm Password *</label>
+                                    <input type="password" class="form-control" id="registerConfirmPassword" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPhone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="registerPhone">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsAgreement" required>
+                            <label class="form-check-label" for="termsAgreement">I agree to the <a href="#"
+                                    data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a> and <a
+                                    href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy
+                                    Policy</a></label>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="newsletterSignup">
+                            <label class="form-check-label" for="newsletterSignup">Subscribe to newsletter for event
+                                tips and offers</label>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary">Create Account</button>
+                        </div>
+                        <div class="text-center">
+                            <p>Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+                                    data-bs-dismiss="modal">Login here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset Your Password</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="forgotPasswordForm">
+                        <p class="mb-3">Enter your email address and we'll send you a link to reset your password.</p>
+                        <div class="mb-3">
+                            <label for="forgotEmail" class="form-label">Email Address *</label>
+                            <input type="email" class="form-control" id="forgotEmail" required>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                        </div>
+                        <div class="text-center">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Back
+                                to Login</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Password</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password *</label>
+                            <input type="password" class="form-control" id="currentPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password *</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                            <div class="form-text">Minimum 8 characters with letters and numbers</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmNewPassword" class="form-label">Confirm New Password *</label>
+                            <input type="password" class="form-control" id="confirmNewPassword" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Event Modal -->
+    <div class="modal fade" id="bookEventModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Book Your Event</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="booking-steps mb-5">
+                        <div class="step active">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Event Details</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Package Selection</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Personal Info</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Confirmation</div>
+                        </div>
+                    </div>
+
+                    <form id="bookingForm">
+                        <!-- Step 1: Event Details -->
+                        <div class="booking-step active" id="step1">
+                            <h5 class="mb-4">Event Details</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="eventTypeBooking" class="form-label">Event Type *</label>
+                                        <select class="form-select" id="eventTypeBooking" required>
+                                            <option value="">Select Event Type</option>
+                                            <option value="wedding">Wedding</option>
+                                            <option value="corporate">Corporate Event</option>
+                                            <option value="birthday">Birthday Party</option>
+                                            <option value="anniversary">Anniversary</option>
+                                            <option value="conference">Conference</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="eventDate" class="form-label">Event Date *</label>
+                                        <input type="date" class="form-control" id="eventDate" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="startTime" class="form-label">Start Time *</label>
+                                        <input type="time" class="form-control" id="startTime" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="endTime" class="form-label">End Time *</label>
+                                        <input type="time" class="form-control" id="endTime" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="eventLocation" class="form-label">Event Location *</label>
+                                <input type="text" class="form-control" id="eventLocation"
+                                    placeholder="Venue name or address" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="guestCount" class="form-label">Estimated Number of Guests *</label>
+                                <input type="number" class="form-control" id="guestCount" min="10" max="1000" required>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-primary"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="step2">Next: Package
+                                    Selection</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Package Selection -->
+                        <div class="booking-step" id="step2">
+                            <h5 class="mb-4">Select Package</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="package-option mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="package"
+                                                id="packageBasic" value="basic" checked>
+                                            <label class="form-check-label" for="packageBasic">
+                                                <strong>Basic Package</strong><br>
+                                                <span class="text-muted">$999 - Perfect for small events</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="package-option mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="package"
+                                                id="packagePremium" value="premium">
+                                            <label class="form-check-label" for="packagePremium">
+                                                <strong>Premium Package</strong><br>
+                                                <span class="text-muted">$2,499 - Most popular</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="package-option mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="package"
+                                                id="packageCustom" value="custom">
+                                            <label class="form-check-label" for="packageCustom">
+                                                <strong>Custom Package</strong><br>
+                                                <span class="text-muted">Contact for quote - Fully customizable</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h6>Add-on Services</h6>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="addonPhotography">
+                                    <label class="form-check-label" for="addonPhotography">
+                                        Professional Photography (+$300)
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="addonVideography">
+                                    <label class="form-check-label" for="addonVideography">
+                                        Videography Package (+$500)
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="addonCatering">
+                                    <label class="form-check-label" for="addonCatering">
+                                        Full Catering Service (+$800)
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="addonEntertainment">
+                                    <label class="form-check-label" for="addonEntertainment">
+                                        Entertainment/DJ (+$400)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="price-summary mb-4 p-3 bg-light rounded">
+                                <h6>Price Summary</h6>
+                                <div class="d-flex justify-content-between">
+                                    <span>Package:</span>
+                                    <span id="packagePrice">$999</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Add-ons:</span>
+                                    <span id="addonsPrice">$0</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between fw-bold">
+                                    <span>Total:</span>
+                                    <span id="totalPrice">$999</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-primary prev-step"
+                                    data-prev="step1">Back</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="step3">Next: Personal
+                                    Info</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Personal Info -->
+                        <div class="booking-step" id="step3">
+                            <h5 class="mb-4">Personal Information</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="bookingFirstName" class="form-label">First Name *</label>
+                                        <input type="text" class="form-control" id="bookingFirstName" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="bookingLastName" class="form-label">Last Name *</label>
+                                        <input type="text" class="form-control" id="bookingLastName" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="bookingEmail" class="form-label">Email Address *</label>
+                                        <input type="email" class="form-control" id="bookingEmail" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="bookingPhone" class="form-label">Phone Number *</label>
+                                        <input type="tel" class="form-control" id="bookingPhone" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="specialRequests" class="form-label">Special Requests or Notes</label>
+                                <textarea class="form-control" id="specialRequests" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="termsAgreementBooking" required>
+                                <label class="form-check-label" for="termsAgreementBooking">I agree to the <a href="#"
+                                        data-bs-toggle="modal" data-bs-target="#termsModal"
+                                        data-bs-dismiss="modal">Terms & Conditions</a></label>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-primary prev-step"
+                                    data-prev="step2">Back</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="step4">Next:
+                                    Confirmation</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Confirmation -->
+                        <div class="booking-step" id="step4">
+                            <h5 class="mb-4">Booking Confirmation</h5>
+                            <div class="booking-summary mb-4 p-3 bg-light rounded">
+                                <h6>Booking Summary</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Event Type:</strong> <span id="summaryEventType">Wedding</span></p>
+                                        <p><strong>Date:</strong> <span id="summaryDate">June 15, 2023</span></p>
+                                        <p><strong>Time:</strong> <span id="summaryTime">2:00 PM - 10:00 PM</span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Location:</strong> <span id="summaryLocation">Grand Ballroom</span>
+                                        </p>
+                                        <p><strong>Guests:</strong> <span id="summaryGuests">100</span></p>
+                                        <p><strong>Package:</strong> <span id="summaryPackage">Basic Package</span></p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between fw-bold">
+                                    <span>Total Amount:</span>
+                                    <span id="summaryTotal">$999</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h6>Payment Method</h6>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paymentCard"
+                                        checked>
+                                    <label class="form-check-label" for="paymentCard">
+                                        Credit/Debit Card
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="paymentMethod"
+                                        id="paymentPaypal">
+                                    <label class="form-check-label" for="paymentPaypal">
+                                        PayPal
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paymentBank">
+                                    <label class="form-check-label" for="paymentBank">
+                                        Bank Transfer
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-primary prev-step"
+                                    data-prev="step3">Back</button>
+                                <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Modal -->
+    <div class="modal fade" id="dashboardModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">My Dashboard</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="dashboard-section">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="sidebar">
+                                    <div class="user-info text-center mb-4">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User"
+                                            class="rounded-circle mb-3" width="80" height="80">
+                                        <h5>Sarah Johnson</h5>
+                                        <p class="text-muted">sarah.j@email.com</p>
+                                    </div>
+                                    <ul class="sidebar-menu">
+                                        <li><a href="#dashboard-bookings" class="active"><i
+                                                    class="fas fa-calendar-alt me-2"></i> My Bookings</a></li>
+                                        <li><a href="#dashboard-profile"><i class="fas fa-user me-2"></i> Profile
+                                                Settings</a></li>
+                                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal"
+                                                data-bs-dismiss="modal"><i class="fas fa-key me-2"></i> Change
+                                                Password</a></li>
+                                        <li><a href="#dashboard-invoices"><i class="fas fa-file-invoice me-2"></i>
+                                                Invoices</a></li>
+                                        <li><a href="#dashboard-messages"><i class="fas fa-envelope me-2"></i>
+                                                Messages</a></li>
+                                        <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>
+                                                Logout</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="dashboard-content" id="dashboard-bookings">
+                                    <h4>My Bookings</h4>
+                                    <p class="text-muted mb-4">View and manage your event bookings</p>
+
+                                    <div class="booking-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5>Sarah & Michael's Wedding</h5>
+                                            <span class="booking-status status-confirmed">Confirmed</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><i class="fas fa-calendar me-2"></i> <strong>Date:</strong> June 15,
+                                                    2023</p>
+                                                <p><i class="fas fa-clock me-2"></i> <strong>Time:</strong> 2:00 PM -
+                                                    10:00 PM</p>
+                                                <p><i class="fas fa-map-marker-alt me-2"></i> <strong>Venue:</strong>
+                                                    Grand Ballroom</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><i class="fas fa-users me-2"></i> <strong>Guests:</strong> 150</p>
+                                                <p><i class="fas fa-tag me-2"></i> <strong>Package:</strong> Premium</p>
+                                                <p><i class="fas fa-dollar-sign me-2"></i> <strong>Total:</strong>
+                                                    $2,499</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <button class="btn btn-primary btn-sm me-2">View Details</button>
+                                            <button class="btn btn-outline-primary btn-sm">Download Invoice</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="booking-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5>Corporate Annual Conference</h5>
+                                            <span class="booking-status status-in-progress">Planning in Progress</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><i class="fas fa-calendar me-2"></i> <strong>Date:</strong> August
+                                                    22, 2023</p>
+                                                <p><i class="fas fa-clock me-2"></i> <strong>Time:</strong> 9:00 AM -
+                                                    5:00 PM</p>
+                                                <p><i class="fas fa-map-marker-alt me-2"></i> <strong>Venue:</strong>
+                                                    Convention Center</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><i class="fas fa-users me-2"></i> <strong>Guests:</strong> 300</p>
+                                                <p><i class="fas fa-tag me-2"></i> <strong>Package:</strong> Custom</p>
+                                                <p><i class="fas fa-dollar-sign me-2"></i> <strong>Total:</strong>
+                                                    $5,500</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <button class="btn btn-primary btn-sm me-2">View Details</button>
+                                            <button class="btn btn-outline-primary btn-sm">Contact Planner</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="booking-card">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5>Birthday Celebration</h5>
+                                            <span class="booking-status status-completed">Completed</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><i class="fas fa-calendar me-2"></i> <strong>Date:</strong> May 5,
+                                                    2023</p>
+                                                <p><i class="fas fa-clock me-2"></i> <strong>Time:</strong> 6:00 PM -
+                                                    11:00 PM</p>
+                                                <p><i class="fas fa-map-marker-alt me-2"></i> <strong>Venue:</strong>
+                                                    Private Residence</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><i class="fas fa-users me-2"></i> <strong>Guests:</strong> 50</p>
+                                                <p><i class="fas fa-tag me-2"></i> <strong>Package:</strong> Basic</p>
+                                                <p><i class="fas fa-dollar-sign me-2"></i> <strong>Total:</strong> $999
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <button class="btn btn-primary btn-sm me-2">View Details</button>
+                                            <button class="btn btn-outline-primary btn-sm">Leave Review</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Modal -->
+    <div class="modal fade" id="faqModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Frequently Asked Questions</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="faq-container">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                How far in advance should I book my event?
+                                <i class="fas fa-chevron-down faq-toggle"></i>
+                            </div>
+                            <div class="faq-answer">
+                                We recommend booking at least 3-6 months in advance for most events, and 9-12 months for
+                                weddings during peak season. This ensures we have adequate time for planning and vendor
+                                coordination.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                Can I customize a package to fit my specific needs?
+                                <i class="fas fa-chevron-down faq-toggle"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Absolutely! We offer fully customizable packages. Our team will work with you to create
+                                a package that fits your vision, budget, and requirements perfectly. You can also add
+                                additional services to any package.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                What is your cancellation policy?
+                                <i class="fas fa-chevron-down faq-toggle"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Cancellations made 30+ days before the event receive a 90% refund. Between 15-30 days, a
+                                50% refund is provided. Cancellations within 14 days of the event are non-refundable.
+                                Please refer to our full Terms & Conditions for details.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                Do you handle vendor contracts and payments?
+                                <i class="fas fa-chevron-down faq-toggle"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Yes, for our Premium and Custom packages, we manage all vendor contracts, negotiations,
+                                and payments. For the Basic package, we provide recommendations but the client handles
+                                contracts directly.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                What happens if it rains on the day of my outdoor event?
+                                <i class="fas fa-chevron-down faq-toggle"></i>
+                            </div>
+                            <div class="faq-answer">
+                                We always have a backup plan for outdoor events. This may include tents, indoor
+                                alternatives, or rescheduling options. We discuss weather contingency plans during the
+                                initial planning stages.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                How do you handle dietary restrictions for catering?
+                                <i class="fas fa-chevron-down faq-toggle"></i>
+                            </div>
+                            <div class="faq-answer">
+                                We work closely with our catering partners to accommodate all dietary restrictions. When
+                                collecting guest information, we include dietary requirement questions to ensure
+                                everyone's needs are met.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                Can I make changes to my booking after confirmation?
+                                <i class="fas fa-chevron-down faq-toggle"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Yes, changes can be made up to 30 days before the event, subject to availability and
+                                potential additional charges. Major changes may require a new quote. Contact your event
+                                planner to discuss any modifications.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p class="text-center w-100">Still have questions? <a href="#contact">Contact us</a> and we'll be
+                        happy to help!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Privacy Policy</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Last Updated: June 1, 2023</h6>
+
+                    <h5 class="mt-4">1. Information We Collect</h5>
+                    <p>We collect information you provide directly to us when you:</p>
+                    <ul>
+                        <li>Create an account or book an event</li>
+                        <li>Subscribe to our newsletter</li>
+                        <li>Contact us for information</li>
+                        <li>Participate in surveys or promotions</li>
+                    </ul>
+
+                    <h5 class="mt-4">2. How We Use Your Information</h5>
+                    <p>We use the information we collect to:</p>
+                    <ul>
+                        <li>Provide, maintain, and improve our services</li>
+                        <li>Process your event bookings and transactions</li>
+                        <li>Send you technical notices and support messages</li>
+                        <li>Respond to your comments and questions</li>
+                        <li>Communicate with you about events and offers</li>
+                    </ul>
+
+                    <h5 class="mt-4">3. Information Sharing</h5>
+                    <p>We do not sell, trade, or rent your personal information to third parties. We may share
+                        information with:</p>
+                    <ul>
+                        <li>Vendors and service providers who need access to perform services on our behalf</li>
+                        <li>Legal authorities when required by law</li>
+                        <li>Other parties with your consent</li>
+                    </ul>
+
+                    <h5 class="mt-4">4. Data Security</h5>
+                    <p>We implement appropriate technical and organizational measures to protect your personal
+                        information against unauthorized access, alteration, disclosure, or destruction.</p>
+
+                    <h5 class="mt-4">5. Your Rights</h5>
+                    <p>You have the right to:</p>
+                    <ul>
+                        <li>Access your personal information</li>
+                        <li>Correct inaccurate data</li>
+                        <li>Request deletion of your data</li>
+                        <li>Object to processing of your data</li>
+                        <li>Data portability</li>
+                    </ul>
+
+                    <h5 class="mt-4">6. Contact Us</h5>
+                    <p>If you have questions about this Privacy Policy, please contact us at privacy@eventpro.com.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Terms & Conditions</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Last Updated: June 1, 2023</h6>
+
+                    <h5 class="mt-4">1. Acceptance of Terms</h5>
+                    <p>By accessing and using EventPro's services, you accept and agree to be bound by these Terms &
+                        Conditions.</p>
+
+                    <h5 class="mt-4">2. Event Booking and Payment</h5>
+                    <ul>
+                        <li>Bookings are confirmed only upon receipt of deposit or full payment</li>
+                        <li>Prices are subject to change without notice</li>
+                        <li>Additional charges may apply for last-minute changes</li>
+                        <li>All payments are processed securely through our payment partners</li>
+                    </ul>
+
+                    <h5 class="mt-4">3. Cancellation Policy</h5>
+                    <ul>
+                        <li>Cancellations 30+ days before event: 90% refund</li>
+                        <li>Cancellations 15-30 days before event: 50% refund</li>
+                        <li>Cancellations within 14 days of event: No refund</li>
+                        <li>Rescheduling is subject to availability and may incur fees</li>
+                    </ul>
+
+                    <h5 class="mt-4">4. Client Responsibilities</h5>
+                    <ul>
+                        <li>Provide accurate information for event planning</li>
+                        <li>Make timely decisions and approvals</li>
+                        <li>Adhere to venue rules and regulations</li>
+                        <li>Ensure guest compliance with event policies</li>
+                    </ul>
+
+                    <h5 class="mt-4">5. Liability</h5>
+                    <p>EventPro's liability is limited to the value of services provided. We are not liable for
+                        circumstances beyond our control including weather, vendor failures, or venue issues.</p>
+
+                    <h5 class="mt-4">6. Intellectual Property</h5>
+                    <p>All content on this website, including text, graphics, logos, and images, is the property of
+                        EventPro and protected by copyright laws.</p>
+
+                    <h5 class="mt-4">7. Governing Law</h5>
+                    <p>These terms are governed by the laws of the State of New York. Any disputes shall be resolved in
+                        the courts of New York County.</p>
+
+                    <h5 class="mt-4">8. Changes to Terms</h5>
+                    <p>We reserve the right to modify these terms at any time. Continued use of our services constitutes
+                        acceptance of modified terms.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Lightbox2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    <script>
+        // Initialize Lightbox
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'albumLabel': 'Image %1 of %2'
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Animate elements on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animate-fade-in');
+                }
+            });
+        }
+
+        // Initialize animations
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Animate stats counter
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-count'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        stat.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current);
+                    }
+                }, 16);
+            });
+        }
+
+        // Initialize stats animation when in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // FAQ functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                });
+
+                // If clicked item wasn't active, activate it
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Form submissions
+        document.getElementById('contactForm')?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you within 24 hours.');
+            this.reset();
+        });
+
+        document.getElementById('loginFormModal')?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Login successful!');
+            document.querySelector('#loginModal .btn-close').click();
+            this.reset();
+        });
+
+        document.getElementById('registerForm')?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Account created successfully! Please check your email to verify your account.');
+            document.querySelector('#registerModal .btn-close').click();
+            this.reset();
+        });
+
+        document.getElementById('forgotPasswordForm')?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Password reset link has been sent to your email.');
+            document.querySelector('#forgotPasswordModal .btn-close').click();
+            this.reset();
+        });
+
+        document.getElementById('changePasswordForm')?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Password changed successfully!');
+            document.querySelector('#changePasswordModal .btn-close').click();
+            this.reset();
+        });
+
+        // Booking form functionality
+        const bookingSteps = document.querySelectorAll('.booking-step');
+        const stepIndicators = document.querySelectorAll('.step');
+
+        function showStep(stepId) {
+            // Hide all steps
+            bookingSteps.forEach(step => {
+                step.classList.remove('active');
+            });
+
+            // Show selected step
+            document.getElementById(stepId).classList.add('active');
+
+            // Update step indicators
+            const stepIndex = Array.from(bookingSteps).findIndex(step => step.id === stepId);
+            stepIndicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed');
+                if (index < stepIndex) {
+                    indicator.classList.add('completed');
+                } else if (index === stepIndex) {
+                    indicator.classList.add('active');
+                }
+            });
+        }
+
+        // Next step buttons
+        document.querySelectorAll('.next-step').forEach(button => {
+            button.addEventListener('click', function () {
+                const nextStep = this.getAttribute('data-next');
+                showStep(nextStep);
+
+                // Update booking summary in step 4
+                if (nextStep === 'step4') {
+                    updateBookingSummary();
+                }
+            });
+        });
+
+        // Previous step buttons
+        document.querySelectorAll('.prev-step').forEach(button => {
+            button.addEventListener('click', function () {
+                const prevStep = this.getAttribute('data-prev');
+                showStep(prevStep);
+            });
+        });
+
+        // Package selection price calculation
+        function calculatePrice() {
+            let packagePrice = 999;
+            let addonsPrice = 0;
+
+            // Get selected package
+            const selectedPackage = document.querySelector('input[name="package"]:checked');
+            if (selectedPackage) {
+                if (selectedPackage.value === 'premium') {
+                    packagePrice = 2499;
+                } else if (selectedPackage.value === 'custom') {
+                    packagePrice = 0;
+                }
+            }
+
+            // Calculate add-ons
+            const addons = document.querySelectorAll('input[type="checkbox"]:checked');
+            addons.forEach(addon => {
+                if (addon.id === 'addonPhotography') addonsPrice += 300;
+                if (addon.id === 'addonVideography') addonsPrice += 500;
+                if (addon.id === 'addonCatering') addonsPrice += 800;
+                if (addon.id === 'addonEntertainment') addonsPrice += 400;
+            });
+
+            // Update price display
+            document.getElementById('packagePrice').textContent = packagePrice === 0 ? 'Custom Quote' : '$' + packagePrice;
+            document.getElementById('addonsPrice').textContent = '$' + addonsPrice;
+            const total = packagePrice === 0 ? 'Custom Quote' : '$' + (packagePrice + addonsPrice);
+            document.getElementById('totalPrice').textContent = total;
+        }
+
+        // Event listeners for price calculation
+        document.querySelectorAll('input[name="package"], input[type="checkbox"]').forEach(input => {
+            input.addEventListener('change', calculatePrice);
+        });
+
+        // Update booking summary
+        function updateBookingSummary() {
+            // Event details
+            const eventType = document.getElementById('eventTypeBooking').value;
+            const eventDate = document.getElementById('eventDate').value;
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
+            const location = document.getElementById('eventLocation').value;
+            const guests = document.getElementById('guestCount').value;
+
+            // Format date
+            const dateObj = new Date(eventDate);
+            const formattedDate = dateObj.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Format time
+            const formatTime = (time) => {
+                if (!time) return '';
+                const [hours, minutes] = time.split(':');
+                const hour = parseInt(hours);
+                const ampm = hour >= 12 ? 'PM' : 'AM';
+                const formattedHour = hour % 12 || 12;
+                return `${formattedHour}:${minutes} ${ampm}`;
+            };
+
+            // Package info
+            const selectedPackage = document.querySelector('input[name="package"]:checked');
+            let packageName = 'Basic Package';
+            if (selectedPackage.value === 'premium') packageName = 'Premium Package';
+            if (selectedPackage.value === 'custom') packageName = 'Custom Package';
+
+            // Calculate total
+            calculatePrice();
+            const total = document.getElementById('totalPrice').textContent;
+
+            // Update summary elements
+            document.getElementById('summaryEventType').textContent = eventType.charAt(0).toUpperCase() + eventType.slice(1);
+            document.getElementById('summaryDate').textContent = formattedDate;
+            document.getElementById('summaryTime').textContent = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+            document.getElementById('summaryLocation').textContent = location;
+            document.getElementById('summaryGuests').textContent = guests;
+            document.getElementById('summaryPackage').textContent = packageName;
+            document.getElementById('summaryTotal').textContent = total;
+        }
+
+        // Booking form submission
+        document.getElementById('bookingForm')?.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Booking confirmed successfully! You will receive a confirmation email shortly.');
+            document.querySelector('#bookEventModal .btn-close').click();
+            this.reset();
+            showStep('step1');
+        });
+
+        // Set minimum date for event booking to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('eventDate')?.setAttribute('min', today);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+
+                // Skip for modal triggers and non-section links
+                if (href === '#' || this.dataset.bsToggle === 'modal') return;
+
+                e.preventDefault();
+                const targetElement = document.querySelector(href);
+
+                if (targetElement) {
+                    // Close navbar on mobile after clicking
+                    const navbarCollapse = document.querySelector('.navbar-collapse');
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarCollapse.classList.remove('show');
+                    }
+
+                    // Scroll to target
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // Update active nav link
+                    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Dashboard logout
+        document.getElementById('logoutBtn')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                document.querySelector('#dashboardModal .btn-close').click();
+                alert('You have been logged out successfully.');
+            }
+        });
+
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+</body>
+
+</html>
