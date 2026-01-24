@@ -1,0 +1,296 @@
+<%- include('./navbar.ejs') %>
+
+<title>User Login - Siddhivinayak Event Management</title>
+
+<style>
+  /* ✅ Isolate styles to login page (navbar safe) */
+  .demo * {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .demo{
+    margin-top: 70px; /* FIXED: replaced margin-top */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('images/slider3.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll; /* FIXED */
+    padding: 20px;
+  }
+
+  /* Login Container */
+  .login-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .login-header h2 {
+    color: #5232DB;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .login-header p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .input-group {
+    margin-bottom: 1.8rem;
+  }
+
+  .input-group label {
+    display: block;
+    color: #333;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background: #f8f9fa;
+  }
+
+  .input-group input:focus {
+    outline: none;
+    border-color: #5232DB;
+    box-shadow: 0 0 0 3px rgba(82, 50, 219, 0.1);
+    background: white;
+  }
+
+  .input-group input::placeholder {
+    color: #999;
+  }
+
+  .password-container {
+    position: relative;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+
+  .login-btn-form {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #5232DB, #7B52E8);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 1rem;
+    box-shadow: 0 6px 20px rgba(82, 50, 219, 0.3);
+  }
+
+  .login-btn-form:hover {
+    background: linear-gradient(135deg, #4629c4, #6a45d2);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(82, 50, 219, 0.4);
+  }
+
+  .login-btn-form:active {
+    transform: translateY(0);
+  }
+
+  .links {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+  }
+
+  .links a {
+    color: #5232DB;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    margin: 0 10px;
+  }
+
+  .links a:hover {
+    color: #7B52E8;
+    text-decoration: underline;
+  }
+
+  .separator {
+    color: #999;
+  }
+
+  .footer-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #777;
+    font-size: 0.9rem;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .demo {
+      padding: 15px;
+    }
+
+    .login-container {
+      padding: 2rem;
+      margin: 1rem;
+    }
+
+    .login-header h2 {
+      font-size: 1.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .login-container {
+      padding: 1.8rem;
+    }
+
+    .login-header h2 {
+      font-size: 1.6rem;
+    }
+
+    .input-group input {
+      padding: 0.9rem 1rem;
+    }
+
+    .links a {
+      display: block;
+      margin: 10px 0;
+    }
+
+    .separator {
+      display: none;
+    }
+  }
+</style>
+
+<div class="demo">
+
+  <!-- Login Form -->
+  <div class="login-container">
+
+    <div class="login-header">
+      <h2>User Login</h2>
+      <p>Siddhivinayak Event Management</p>
+    </div>
+
+    <form id="loginForm" action="/save_login" method="post">
+
+      <div class="input-group">
+        <label for="username">Username or Email</label>
+        <input type="text" id="username" required placeholder="Enter your username or email">
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <div class="password-container input-group">
+          <input type="password" id="password" required placeholder="Enter your password">
+          <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">👁️</button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label style="display:flex;align-items:center;font-weight:normal;">
+          <input type="checkbox" id="remember" style="width:auto;margin-right:8px;">
+          Remember me
+        </label>
+      </div>
+
+      <button type="submit" class="login-btn-form">Sign In</button>
+
+    </form>
+
+    <div class="links">
+      <a href="/forgot_password">Forgot Password?</a>
+      <span class="separator">|</span>
+      <a href="/user_register">Create New Account</a>
+    </div>
+
+    <div class="footer-text">
+      © 2024 Siddhivinayak Event Management. All rights reserved.
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if(username && password) {
+      const loginBtn = document.querySelector('.login-btn-form');
+      loginBtn.innerHTML = 'Signing In...';
+      loginBtn.disabled = true;
+
+      setTimeout(() => {
+        alert('Login successful! Redirecting...');
+        loginBtn.innerHTML = 'Sign In';
+        loginBtn.disabled = false;
+      }, 1500);
+    } else {
+      alert('Please fill in all required fields');
+    }
+  });
+
+  function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password');
+    const toggleBtn = document.querySelector('.toggle-password');
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleBtn.textContent = '👁️‍🗨️';
+    } else {
+      passwordInput.type = 'password';
+      toggleBtn.textContent = '👁️';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('username').focus();
+  });
+</script>
+
+<%- include('footer.ejs') %>

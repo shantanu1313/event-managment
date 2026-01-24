@@ -1,0 +1,52 @@
+       .demo_section {
+            margin-top: 80px;
+            padding-top:40px;
+            padding-bottom:40px;
+            font-family: 'Poppins', sans-serif;
+
+            background-image: url('/images/slider2.jpeg'); /* IMPORTANT */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .booking-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 35px;
+            max-width: 950px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .booking-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .booking-title h2 {
+            font-weight: 600;
+            color: #6a11cb;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .btn-book {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            border-radius: 30px;
+            padding: 12px 30px;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+        }

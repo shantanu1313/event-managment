@@ -1,0 +1,131 @@
+<%- include('navbar.ejs') %>
+
+<link rel="stylesheet" href="/css/FAQ.css">
+
+<!-- ===== FAQ BANNER ===== -->
+<section class="contact-banner">
+    <div class="container text-center">
+        <h1>Frequently Asked Questions</h1>
+        <p class="lead">Everything you need to know about our services ✨</p>
+    </div>
+</section>
+
+<!-- ===== FAQ SECTION ===== -->
+<section class="faq-section">
+  <div class="container">
+
+    <!-- FAQ LIST -->
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <details>
+          <summary>What services do you provide?</summary>
+          <p>We provide complete event planning and execution services.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>How can I book an event?</summary>
+          <p>You can book an event through our website booking form.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>Do you organize wedding events?</summary>
+          <p>Yes, we specialize in wedding and reception events.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>Is advance payment required?</summary>
+          <p>Yes, advance payment is required to confirm booking.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>Can I customize my event package?</summary>
+          <p>Yes, all event packages are fully customizable.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>Do you handle corporate events?</summary>
+          <p>Yes, we manage corporate meetings and seminars.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>Do you provide catering services?</summary>
+          <p>Yes, catering services are available on request.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>Do you provide decoration services?</summary>
+          <p>Yes, we offer customized decoration themes.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>How early should I book?</summary>
+          <p>We recommend booking at least 2–3 months in advance.</p>
+        </details>
+      </div>
+
+      <div class="faq-item">
+        <details>
+          <summary>Do you work outside the city?</summary>
+          <p>Yes, destination events are available.</p>
+        </details>
+      </div>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination" id="pagination"></div>
+
+  </div>
+</section>
+
+<%- include('footer.ejs') %>
+
+<script>
+  const faqItems = document.querySelectorAll('.faq-item');
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(faqItems.length / itemsPerPage);
+  const pagination = document.getElementById('pagination');
+
+  function showPage(page) {
+    faqItems.forEach((item, index) => {
+      item.style.display =
+        index >= (page - 1) * itemsPerPage && index < page * itemsPerPage
+          ? 'block'
+          : 'none';
+    });
+
+    document.querySelectorAll('.page-btn').forEach(btn =>
+      btn.classList.remove('active')
+    );
+
+    document.getElementById('page-' + page).classList.add('active');
+  }
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn';
+    btn.id = 'page-' + i;
+    btn.innerText = i;
+    btn.onclick = () => showPage(i);
+    pagination.appendChild(btn);
+  }
+
+  showPage(1);
+</script>

@@ -1,0 +1,109 @@
+/* ===============================
+   FAQ PAGE ONLY – NAVBAR SAFE
+================================ */
+
+/* FAQ SECTION */
+.faq-section {
+  padding: 100px 20px;
+  background: #f5f7fb;
+  min-height: 80vh;
+}
+
+.faq-section .container {
+  max-width: 900px;
+  margin: auto;
+}
+
+/* FAQ HEADING */
+.faq-title {
+  text-align: center;
+  font-size: 32px;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.faq-subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+/* FAQ ITEM */
+.faq-item {
+  background: #ffffff;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* DETAILS / SUMMARY */
+details summary {
+  padding: 18px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  position: relative;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* PLUS / MINUS ICON */
+details summary::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  font-size: 18px;
+}
+
+details[open] summary::after {
+  content: "-";
+}
+
+/* FAQ ANSWER */
+details p {
+  padding: 0 20px 20px;
+  color: #555;
+  margin: 0;
+}
+
+/* PAGINATION */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.page-btn {
+  padding: 8px 14px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.page-btn.active {
+  background: #555;
+}
+
+/* FAQ / CONTACT BANNER */
+.contact-banner {
+  background: linear-gradient( rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)),url('../images/faq.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.contact-banner h1 {
+  font-weight: 800;
+  font-size: 3rem;
+}

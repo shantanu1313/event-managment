@@ -1,0 +1,161 @@
+<%- include('./navbar.ejs') %>
+
+<link rel="stylesheet" href="css/book_event.css">
+
+<section class="demo_section"> 
+<div class="booking-card">
+    <div class="booking-title">
+        <h2><i class="fas fa-calendar-check me-2"></i>Book Your Event</h2>
+        <p>Fill the details & submit your booking</p>
+    </div>
+
+    <form id="bookEventForm">
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Enter Name " required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Mobile Number</label>
+                <input type="tel" id="mobile" class="form-control" name="mobile" placeholder="Enter Mobile" required>
+            </div>
+          
+           <div class="col-md-6">
+    <label class="form-label">Start Date</label>
+    <input type="date" id="startDate" class="form-control" required>
+     </div>
+
+     <div class="col-md-6">
+    <label class="form-label">End Date</label>
+    <input type="date" id="endDate" class="form-control" required>
+   </div>
+
+     <div class="col-md-6">
+                <label class="form-label" >Event Type</label>
+                <select id="eventType" class="form-select" name="event_type" required>
+                    <option value="">Select Event</option>
+                    <option>Wedding</option>
+                    <option>Birthday Party</option>
+                    <option>Corporate Event</option>
+                    <option>Engagement</option>
+                    <option>Reception</option>
+                </select>
+            </div>
+
+
+
+            <!-- Budget -->
+            <div class="col-md-6">
+                <label class="form-label">Budget (₹)</label>
+                <select id="budget" class="form-select"  name="budget" >
+                    <option value="">Select Budget</option>
+                    <option>Below ₹50,000</option>
+                    <option>₹50,000 – ₹1,00,000</option>
+                    <option>₹1,00,000 – ₹3,00,000</option>
+                    <option>Above ₹3,00,000</option>
+                </select>
+            </div>
+    
+            <!-- Payment Mode -->
+            <div class="col-md-12">
+                <label class="form-label">Payment Mode</label>
+                <select class="form-select" name="payment_mode" id="paymentMode" required>
+                    <option value="">Select Payment Mode</option>
+                    <option>Cash</option>
+                    <option>UPI (Google Pay / PhonePe)</option>
+                    <option>Bank Transfer</option>
+                    <option>Cheque</option>
+                </select>
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Additional Message</label>
+                <textarea class="form-control" name="message" id="message" rows="4"></textarea>
+            </div>
+
+          <div class="col-md-12 mt-3">
+                <button type="submit" class="btn btn-book">
+                    <i class="fas fa-paper-plane me-2"></i>Submit Booking
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+</section>
+ <%- include('./footer.ejs') %>
+
+<script>
+document.getElementById("bookEventForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const startDate = document.getElementById("startDate").value;
+    const endDate   = document.getElementById("endDate").value;
+
+    if (!startDate || !endDate) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Date',
+            text: 'Please select both start and end date'
+        });
+        return;
+    }
+
+    const start = new Date(startDate);
+    const end   = new Date(endDate);
+
+    if (end < start) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid Date',
+            text: 'End Date must be equal to or after Start Date'
+        });
+        return;
+    }
+
+    // Existing fields
+    const name = document.getElementById("name").value;
+    const mobile = document.getElementById("mobile").value;
+    const eventType = document.getElementById("eventType").value;
+    const budget = document.getElementById("budget").value;
+    const payment = document.getElementById("paymentMode").value;
+    const message = document.getElementById("message").value;
+
+    const whatsappNumber = "917823867123";
+
+    const whatsappMessage = 
+`📌 *New Event Booking* 🎉
+
+👤 Name: ${name}
+📞 Mobile: ${mobile}
+🎊 Event: ${eventType}
+
+📅 Start Date: ${startDate}
+📅 End Date: ${endDate}
+
+💰 Budget: ${budget}
+💳 Payment: ${payment}
+
+📝 Message:
+${message}`;
+
+    const whatsappURL =
+`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Booking Successful!',
+        text: 'Click OK to send details on WhatsApp',
+        confirmButtonText: 'Send on WhatsApp',
+        confirmButtonColor: '#25D366'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.open(whatsappURL, "_blank");
+            document.getElementById("bookEventForm").reset();
+        }
+    });
+});
+</script>

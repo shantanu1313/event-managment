@@ -1,0 +1,45 @@
+   
+   
+   /* ===== BANNER ===== */
+        .service-banner {
+            background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)),
+                url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+      .bootom {
+            background-image: url('/images/slider2.jpeg'); /* leading / MUST */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+
+            min-height: 300px;   /* REQUIRED */
+            width: 100%;
+        }
+
+
+
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+
+        .duration-300 {
+            transition-duration: 300ms;
+        }
+
+        .transform-on-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+        }
+
+        .bg-purple {
+            background-color: #6f42c1 !important;
+        }
+

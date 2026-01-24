@@ -1,1 +1,390 @@
-<h1>Welcome About Page</h1>
+<%- include('navbar.ejs') %>   
+
+<link rel="stylesheet" href="css/about.css">
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center">
+        <div class="container text-white text-center py-5 fade-in">
+            <h1 class="display-3 fw-bold mb-4">About Us</h1>
+            <p class="lead fs-4 mb-0">Creating unforgettable experiences since 2008</p>
+        </div>
+    </section>
+
+    <!-- Our Story with Enhanced Image Hover -->
+    <section class="py-5">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 fade-in delay-1">
+                    <div class="about-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                            alt="Our Team" class="about-img">
+                        <div class="img-overlay"></div>
+                        <div class="img-content">
+                            <h5 class="fw-bold">EventPro Team 2023</h5>
+                            <p class="mb-0">50+ dedicated professionals</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 fade-in delay-2">
+                    <h2 class="mb-4">Our Story</h2>
+                    <p class="lead">Founded in 2008, EventPro has grown from a small boutique service to a leading event
+                        management company.</p>
+                    <p>We specialize in creating personalized, memorable events that tell unique stories. With over 15
+                        years of experience and 2000+ events managed, we bring passion and professionalism to every
+                        occasion.</p>
+                    <div class="mt-4">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <i class="fas fa-check-circle text-primary me-2"></i> 15+ Years Experience
+                            </div>
+                            <div class="col-6 mb-3">
+                                <i class="fas fa-check-circle text-primary me-2"></i> 2000+ Events
+                            </div>
+                            <div class="col-6 mb-3">
+                                <i class="fas fa-check-circle text-primary me-2"></i> 500+ Vendor Partners
+                            </div>
+                            <div class="col-6 mb-3">
+                                <i class="fas fa-check-circle text-primary me-2"></i> 98% Satisfaction
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="py-5" style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+        <div class="container py-5">
+            <div class="row text-center text-white">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card p-4 rounded-3 bg-white bg-opacity-10">
+                        <h3 class="display-4 fw-bold">15+</h3>
+                        <p class="mb-0">Years Experience</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card p-4 rounded-3 bg-white bg-opacity-10">
+                        <h3 class="display-4 fw-bold">2000+</h3>
+                        <p class="mb-0">Events Managed</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card p-4 rounded-3 bg-white bg-opacity-10">
+                        <h3 class="display-4 fw-bold">500+</h3>
+                        <p class="mb-0">Vendor Partners</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="stat-card p-4 rounded-3 bg-white bg-opacity-10">
+                        <h3 class="display-4 fw-bold">98%</h3>
+                        <p class="mb-0">Client Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values -->
+    <section class="py-5 bg-light">
+        <div class="container py-5">
+            <h2 class="text-center mb-5 fade-in">Our Core Values</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-1">
+                        <div class="text-center mb-4">
+                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
+                                style="width: 70px; height: 70px;">
+                                <i class="fas fa-heart fa-2x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-center mb-3">Passion</h4>
+                        <p class="text-center mb-0">We approach every event with genuine enthusiasm and dedication to
+                            create memorable experiences.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-2">
+                        <div class="text-center mb-4">
+                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
+                                style="width: 70px; height: 70px;">
+                                <i class="fas fa-lightbulb fa-2x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-center mb-3">Innovation</h4>
+                        <p class="text-center mb-0">We constantly seek new ideas and approaches to keep events fresh,
+                            engaging, and memorable.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-3">
+                        <div class="text-center mb-4">
+                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
+                                style="width: 70px; height: 70px;">
+                                <i class="fas fa-handshake fa-2x text-white"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-center mb-3">Integrity</h4>
+                        <p class="text-center mb-0">We build relationships based on trust, transparency, and open
+                            communication with all partners.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section id="journey" class="py-5 bg-light">
+        <div class="container py-5">
+            <h2 class="text-center display-4 fw-bold gradient-text mb-5">Our Evolution</h2>
+            <p class="text-center lead mb-5" style="max-width: 800px; margin: 0 auto;">
+                A journey of innovation, growth, and industry leadership spanning over 15 years.
+            </p>
+
+            <div class="timeline-container">
+                <!-- 2008 -->
+                <div class="timeline-item">
+                    <div class="card border-0 timeline-card timeline-left shadow-medium">
+                        <div class="card-body p-4">
+                            <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2008</span>
+                            <h4 class="card-title fw-bold mb-3">Founding & Vision</h4>
+                            <p class="card-text">Sarah Johnson founded EventPro with a revolutionary approach to event
+                                management, introducing data-driven planning methodologies.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2012 -->
+                <div class="timeline-item">
+                    <div class="card border-0 timeline-card timeline-right shadow-medium">
+                        <div class="card-body p-4">
+                            <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2012</span>
+                            <h4 class="card-title fw-bold mb-3">Digital Transformation</h4>
+                            <p class="card-text">Launched proprietary event management software, becoming early adopters
+                                of cloud-based planning solutions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2016 -->
+                <div class="timeline-item">
+                    <div class="card border-0 timeline-card timeline-left shadow-medium">
+                        <div class="card-body p-4">
+                            <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2016</span>
+                            <h4 class="card-title fw-bold mb-3">Global Expansion</h4>
+                            <p class="card-text">Established offices in London, Dubai, and Singapore, managing
+                                international events across 30+ countries.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2020 -->
+                <div class="timeline-item">
+                    <div class="card border-0 timeline-card timeline-right shadow-medium">
+                        <div class="card-body p-4">
+                            <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2020</span>
+                            <h4 class="card-title fw-bold mb-3">Pandemic Innovation</h4>
+                            <p class="card-text">Pioneered hybrid event solutions, developing proprietary virtual event
+                                platform that served 500K+ attendees.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2023 -->
+                <div class="timeline-item">
+                    <div class="card border-0 timeline-card timeline-left shadow-medium">
+                        <div class="card-body p-4">
+                            <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2023</span>
+                            <h4 class="card-title fw-bold mb-3">Sustainability Leadership</h4>
+                            <p class="card-text">Awarded 'Most Sustainable Event Company' for achieving carbon-neutral
+                                status across all operations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="py-5">
+        <div class="container py-5">
+            <h2 class="text-center mb-5 fade-in">Meet Our Team</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div
+                        class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column delay-1 border">
+                        <div class="overflow-hidden rounded-circle mx-auto mb-3" style="width: 150px; height: 150px;">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                alt="Sarah Johnson" class="team-img w-100 h-100">
+                        </div>
+                        <h5 class="mb-2">Sarah Johnson</h5>
+                        <p class="text-primary mb-3">Founder & CEO</p>
+                        <p class="mb-0 flex-grow-1">With over 20 years in event management, Sarah founded EventPro to
+                            create personalized experiences.</p>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-outline-primary btn-sm me-2">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div
+                        class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column delay-2 border">
+                        <div class="overflow-hidden rounded-circle mx-auto mb-3" style="width: 150px; height: 150px;">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                alt="Michael Chen" class="team-img w-100 h-100">
+                        </div>
+                        <h5 class="mb-2">Michael Chen</h5>
+                        <p class="text-primary mb-3">Creative Director</p>
+                        <p class="mb-0 flex-grow-1">15 years of design experience ensuring every event has a unique
+                            visual identity and atmosphere.</p>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-outline-primary btn-sm me-2">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div
+                        class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column delay-3 border">
+                        <div class="overflow-hidden rounded-circle mx-auto mb-3" style="width: 150px; height: 150px;">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                                alt="Jessica Williams" class="team-img w-100 h-100">
+                        </div>
+                        <h5 class="mb-2">Jessica Williams</h5>
+                        <p class="text-primary mb-3">Operations Director</p>
+                        <p class="mb-0 flex-grow-1">Oversees all event logistics with precision for seamless execution
+                            from planning to implementation.</p>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-outline-primary btn-sm me-2">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="btn btn-outline-primary btn-sm">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('footer.ejs') %>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Scroll animations
+            function animateOnScroll() {
+                const elements = document.querySelectorAll(
+                    '.fade-in, .stat-card, .value-card, .team-card, .timeline-item'
+                );
+
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('show');
+                    }
+                });
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Add scroll event listener
+            window.addEventListener('scroll', function () {
+                animateOnScroll();
+                updateProgressBar();
+            });
+
+            // Initial animation check
+            animateOnScroll();
+
+            // Add click animation to timeline cards
+            document.querySelectorAll('.timeline-card').forEach(card => {
+                card.addEventListener('click', function () {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+
+            // Counter animation for stats
+            function animateStats() {
+                const statNumbers = document.querySelectorAll('.stat-card h3');
+                statNumbers.forEach(stat => {
+                    const text = stat.textContent;
+                    const finalValue = parseInt(text.replace(/[^0-9]/g, ''));
+                    let startValue = 0;
+                    const duration = 2000;
+                    const increment = finalValue / (duration / 16);
+
+                    const timer = setInterval(() => {
+                        startValue += increment;
+                        if (startValue >= finalValue) {
+                            stat.textContent = text;
+                            clearInterval(timer);
+                        } else {
+                            const suffix = text.includes('+') ? '+' : (text.includes('%') ? '%' : '');
+                            stat.textContent = Math.floor(startValue) + suffix;
+                        }
+                    }, 16);
+                });
+            }
+
+            // Trigger counter animation when stats section is visible
+            const statsSection = document.querySelector('.py-5[style*="background: linear-gradient"]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateStats();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+
+            // Enhanced hover effect for timeline cards
+            document.querySelectorAll('.timeline-card').forEach(card => {
+                card.addEventListener('mouseenter', function () {
+                    const isLeft = this.classList.contains('timeline-left');
+                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
+                    this.style.borderRightWidth = isLeft ? '6px' : '4px';
+                    this.style.borderLeftWidth = !isLeft ? '6px' : '4px';
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.08)';
+                    this.style.borderRightWidth = '';
+                    this.style.borderLeftWidth = '';
+                });
+            });
+        });
+    </script>
