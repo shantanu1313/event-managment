@@ -2,6 +2,7 @@
    
    /* ===== BANNER ===== */
         .service-banner {
+            margin-top:80px;
             background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)),
                 url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622');
             background-size: cover;

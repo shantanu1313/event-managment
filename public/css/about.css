@@ -19,6 +19,7 @@
         }
 
         .hero-section {
+            margin-top:80px;
             background-image: url('/images/slider3.jpeg'); /* IMPORTANT */
             background-repeat: no-repeat;
             background-size: cover;

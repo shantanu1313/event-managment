@@ -2,9 +2,339 @@
 
 <link rel="stylesheet" href="css/packages.css">
 
-<div class="demo">
-    <h1>Welcome To packages Page</h1>
-</div>
+    <!-- Page Header with Background Image -->
+    <section class="packages-header py-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center text-white">
+                    <h1 class="display-4 fw-bold mb-4">Event Packages</h1>
+                    <p class="lead mb-4">Experience excellence with our professionally curated event packages, designed to make your celebrations unforgettable</p>
+                    <div class="d-flex justify-content-center flex-wrap gap-3">
+                        <a href="#packages" class="btn btn-light btn-lg px-4">Explore Packages</a>
+                        <a href="#custom" class="btn btn-outline-light btn-lg px-4">Get Custom Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Packages Section -->
+    <section id="packages" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Our Premium Packages</h2>
+                <p class="lead text-muted">Choose the perfect package that matches your vision and budget</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Basic Package -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="package-card card shadow-lg">
+                        <div class="package-image">
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Basic Package">
+                            <div class="package-overlay"></div>
+                            <div class="package-label">Basic</div>
+                            <div class="package-price">
+                                <div class="amount">₹999</div>
+                                <div class="starting">Starting price</div>
+                            </div>
+                        </div>
+                        <div class="package-body">
+                            <h3 class="mb-3">Basic Package</h3>
+                            <p class="text-muted mb-4">Perfect for intimate gatherings and small celebrations</p>
+                            
+                            <div class="d-flex justify-content-around mb-4">
+                                <div class="text-center">
+                                    <div class="fw-bold text-primary fs-4">50</div>
+                                    <small class="text-muted">Max Guests</small>
+                                </div>
+                                <div class="text-center">
+                                    <div class="fw-bold text-primary fs-4">8h</div>
+                                    <small class="text-muted">Coordination</small>
+                                </div>
+                            </div>
+                            
+                            <ul class="list-unstyled mb-4">
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Planning Consultation</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Vendor Recommendations</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Basic Decor Setup</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> 8 Hours Coordination</li>
+                                <li class="package-feature disabled"><i class="fas fa-times-circle"></i> Custom Design</li>
+                                <li class="package-feature disabled"><i class="fas fa-times-circle"></i> Catering Management</li>
+                            </ul>
+
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bookEventModal">
+                                Select Package
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premium Package (Most Popular) -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="package-card card shadow-lg popular-package">
+                        <div class="popular-badge">
+                            <i class="fas fa-crown me-2"></i>MOST POPULAR
+                        </div>
+                        <div class="package-image">
+                            <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Premium Package">
+                            <div class="package-overlay"></div>
+                            <div class="package-label">Premium</div>
+                            <div class="package-price">
+                                <div class="amount">₹2,499</div>
+                                <div class="starting">Starting price</div>
+                            </div>
+                        </div>
+                        <div class="package-body">
+                            <h3 class="mb-3">Premium Package</h3>
+                            <p class="text-muted mb-4">Complete event solution for memorable celebrations</p>
+                            
+                            <div class="d-flex justify-content-around mb-4">
+                                <div class="text-center">
+                                    <div class="fw-bold text-primary fs-4">200</div>
+                                    <small class="text-muted">Max Guests</small>
+                                </div>
+                                <div class="text-center">
+                                    <div class="fw-bold text-primary fs-4">24/7</div>
+                                    <small class="text-muted">Support</small>
+                                </div>
+                                <div class="text-center">
+                                    <div class="fw-bold text-primary fs-4">Full</div>
+                                    <small class="text-muted">Planning</small>
+                                </div>
+                            </div>
+                            
+                            <ul class="list-unstyled mb-4">
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Full Event Planning</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Custom Theme Design</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Vendor Management</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Catering Coordination</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> 24/7 Support</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> On-site Manager</li>
+                            </ul>
+
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bookEventModal">
+                                <i class="fas fa-bolt me-2"></i>Select Premium
+                            </button>
+
+                            <div class="text-center mt-3">
+                                <small class="text-success fw-bold">
+                                    <i class="fas fa-star me-1"></i> Best Value Package
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Luxury Package -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="package-card card shadow-lg">
+                        <div class="package-image">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZVO1eXsTBNMzJRMB2doEEQFAUbxwEYw-ysQ&s" 
+                                 alt="Luxury Package">
+                            <div class="package-overlay"></div>
+                            <div class="package-label">Luxury</div>
+                            <div class="package-price">
+                                <div class="amount">₹4,999</div>
+                                <div class="starting">Starting price</div>
+                            </div>
+                        </div>
+                        <div class="package-body">
+                            <h3 class="mb-3">Luxury Package</h3>
+                            <p class="text-muted mb-4">Ultimate luxury experience for grand celebrations</p>
+                            
+                            <div class="d-flex justify-content-around mb-4">
+                                <div class="text-center">
+                                    <div class="fw-bold text-primary fs-4">500+</div>
+                                    <small class="text-muted">Guests</small>
+                                </div>
+                                <div class="text-center">
+                                    <div class="fw-bold text-primary fs-4">Multi</div>
+                                    <small class="text-muted">Days</small>
+                                </div>
+                                <div class="text-center">
+                                    <div class="fw-bold text-primary fs-4">VIP</div>
+                                    <small class="text-muted">Service</small>
+                                </div>
+                            </div>
+                            
+                            <ul class="list-unstyled mb-4">
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Premium Venue Selection</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Luxury Catering Service</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Professional Photography</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Videography Package</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Multi-day Support</li>
+                                <li class="package-feature"><i class="fas fa-check-circle"></i> Dedicated Event Team</li>
+                            </ul>
+
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#bookEventModal">
+                                Select Luxury Package
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Comparison -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Package Comparison</h2>
+                <p class="lead text-muted">Compare features to choose the perfect package</p>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table feature-comparison table-hover rounded overflow-hidden shadow">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Features</th>
+                            <th class="text-center">Basic</th>
+                            <th class="text-center">Premium</th>
+                            <th class="text-center">Luxury</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Event Planning Consultation</td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Custom Theme Design</td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Vendor Management</td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Catering Coordination</td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Entertainment Setup</td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Photography & Videography</td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Multi-day Support</td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Dedicated Event Manager</td>
+                            <td class="text-center"><i class="fas fa-times times-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                            <td class="text-center"><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Package Section -->
+    <section id="custom" class="py-5">
+        <div class="container">
+            <div class="custom-package-section">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h2 class="mb-3 text-white">Need a Custom Package?</h2>
+                        <p class="lead mb-4 text-white" style="opacity: 0.9;">
+                            Every event is unique. If none of our standard packages fit your requirements,
+                            we can create a completely customized solution tailored to your specific needs,
+                            budget, and vision.
+                        </p>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-check-circle text-white fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white">Flexible Options</h5>
+                                        <p class="text-white mb-0" style="opacity: 0.8;">Mix and match services as per your needs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-check-circle text-white fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white">Personal Consultation</h5>
+                                        <p class="text-white mb-0" style="opacity: 0.8;">One-on-one planning with our experts</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-gem text-white" style="font-size: 4rem;"></i>
+                        </div>
+                        <button class="btn btn-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#bookEventModal">
+                            Request Custom Quote
+                        </button>
+                        <p class="text-white mt-2 small" style="opacity: 0.8;">
+                            Get a personalized quote within 24 hours
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Package card hover effect
+        document.querySelectorAll('.package-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+                this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#' || this.dataset.bsToggle === 'modal') return;
+                
+                e.preventDefault();
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 
 <%- include('footer.ejs') %>

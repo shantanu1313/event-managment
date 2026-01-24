@@ -52,7 +52,7 @@
             background-color: #ffffff !important;
             opacity: 0.5;
 
-            margin: 0 10px !important;        /* MORE SPACE BETWEEN DOTS */
+            margin: 0 20px !important;        /* MORE SPACE BETWEEN DOTS */
             padding: 0 !important;
             border: none !important;
             text-indent: 0 !important;
@@ -62,14 +62,14 @@
         /* ACTIVE DOT */
         .carousel-indicators .active {
             opacity: 1;
-            background-color:blue !important;
+            background-color:black !important;
             transform: scale(1.1);  /* subtle, not big */
         }
 
       /* About Section */
         .about-section {
             padding:30px 0;
-            background-color: #f9f9f9;
+            background-color:lightgray;
         }
 
         .section-title {
@@ -191,7 +191,7 @@
             line-height: 1.6;
             font-size: 0.95rem;
         }
-/* Minimal Custom CSS for Enhanced Sections */
+Minimal Custom CSS for Enhanced Sections
 .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -426,32 +426,6 @@
             filter: brightness(0.9);
         }
 
-        /* Unified checkmark colors to match package theme */
-        .btn-basic-package {
-    background: linear-gradient(135deg, #9d7cd8 0%, #7a5db5 100%) !important;
-    border: none !important;
-    color: white !important;
-    font-weight: 600 !important;
-    padding: 12px 0 !important;
-    border-radius: 8px !important;
-    transition: all 0.3s ease !important;
-}
-
-.btn-basic-package:hover {
-    background: linear-gradient(135deg, #8b6bc7 0%, #694ca4 100%) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 5px 15px rgba(157, 124, 216, 0.3) !important;
-    color: white !important;
-}
-
-        .premium-package .fa-check-circle {
-            color: var(--primary-color) !important;
-        }
-
-        .custom-package .fa-check-circle {
-            color: var(--accent-color) !important;
-        }
-
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .hover-lift[style*="transform: translateY(-10px)"] {
@@ -478,3 +452,31 @@
             border-radius: 20px !important;
             overflow: hidden;
         }
+
+          body { font-family: 'Segoe UI', sans-serif; background:#f5f8fb; }
+
+    .why-section h2 { font-weight: 700; font-size: 2.5rem; text-align:center; margin-bottom: 1rem; }
+    .why-section p { color: #6c757d; font-size: 1rem; text-align:center; margin-bottom: 2.5rem; }
+
+    .why-card {
+      background:#fff; border-radius: 15px; padding: 40px 20px 30px; text-align:center;
+      height:100%; box-shadow: 0 15px 35px rgba(0,0,0,0.08); transition: all 0.4s ease;
+    }
+
+    .why-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+
+    .why-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      display:flex; align-items:center; justify-content:center;
+      margin: 0 auto 20px; font-size: 32px; color: #fff;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .why-icon:hover { transform: scale(1.1); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+
+    .why-card h5 { font-weight: 700; margin-bottom: 12px; font-size:1.1rem; }
+    .why-card p { color: #6c757d; font-size: 0.95rem; }
+
+    .text-gradient { background: linear-gradient(135deg, #6a11cb, #2575fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }

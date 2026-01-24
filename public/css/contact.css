@@ -1,7 +1,108 @@
-.demo{
-    height:100px;
-    width:auto;
-    font-size:20px;
-    color:black;
-    padding:100px;
+/* PAGE HEADER */
+.contact-header {
+    margin-top: 80px; /* fixed navbar space */
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+    text-align: center;
+    padding: 70px 0;
+}
+
+.contact-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.contact-header p {
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+/* CONTACT SECTION */
+.contact-section {
+    padding: 70px 0;
+}
+
+/* GET IN TOUCH BOX */
+.contact-info {
+    background: #fff;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-info h4 {
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* INFO ITEMS */
+.info-box {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+/* PERFECT ROUND ICON */
+.info-icon {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-color);
+    font-size: 18px;
+}
+
+/* CONTACT FORM */
+.contact-form {
+    background: #fff;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    height: 100%;
+}
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+}
+
+/* BUTTON */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: 30px;
+    padding: 12px 40px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* MAP */
+.map-section {
+    margin-top: 70px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 991px) {
+    .contact-info,
+    .contact-form {
+        padding: 35px;
+    }
 }
