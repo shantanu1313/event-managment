@@ -1,4 +1,4 @@
-        :root {
+:root {
             --primary-color: #6a11cb;
             --secondary-color: #2575fc;
             --accent-color: #ff7e5f;
@@ -6,25 +6,18 @@
             --dark-color: #212529;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #f8f9fa;
-        }
-
-        h1, h2, h3, h4, h5 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-        }
-
         /* Gallery Header */
         .gallery-header {
-            background: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 100px 0 60px;
-            margin-top: 80px;
-            text-align: center;
+            margin-top:80px;
+            min-height:60vh;
+            background:linear-gradient(rgba(0,0,0,.70),rgba(0,0,0,.70)),url('../images/all_page_bg.jpg');
+            background-size:cover;
+            background-position:center;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            text-align:center;
         }
 
         /* Filter Buttons */
@@ -198,3 +191,254 @@
                 font-size: 0.9rem;
             }
         }
+        
+        
+    /* Add these styles to your existing gallery.css */
+
+/* Lightbox Modal Styling */
+.lightbox-modal .modal-content {
+    background: rgba(0, 0, 0, 0.95);
+    border: none;
+    border-radius: 0;
+    backdrop-filter: blur(10px);
+}
+
+.lightbox-modal .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    border: none;
+    padding: 1.5rem 1.5rem 0 0;
+}
+
+.lightbox-modal .btn-close {
+    filter: invert(1);
+    opacity: 0.8;
+    background:linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    padding: 0.8rem;
+    font-size: 1.2rem;
+   
+}
+
+
+
+.lightbox-modal .modal-body {
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.lightbox-modal .carousel {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.lightbox-modal .carousel-inner {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-modal .carousel-item {
+    text-align: center;
+}
+
+.lightbox-modal .carousel-item img {
+    max-height: 70vh;
+    width: auto;
+    margin: 0 auto;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.lightbox-modal .carousel-control-prev,
+.lightbox-modal .carousel-control-next {
+    width: 60px;
+    height: 60px;
+    background: rgba(106, 17, 203, 0.8);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 1rem;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.lightbox-modal .carousel-control-prev:hover,
+.lightbox-modal .carousel-control-next:hover {
+    background: rgba(106, 17, 203, 1);
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-modal .carousel-control-prev {
+    left: 1rem;
+}
+
+.lightbox-modal .carousel-control-next {
+    right: 1rem;
+}
+
+.lightbox-modal .carousel-indicators {
+    bottom: -50px;
+}
+
+.lightbox-modal .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.lightbox-modal .carousel-indicators button.active {
+    background-color: var(--primary-color);
+    transform: scale(1.2);
+}
+
+.lightbox-modal .modal-footer {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    border: none;
+    padding: 2rem;
+    justify-content: center;
+}
+
+.lightbox-caption {
+    text-align: center;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-caption h5 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+    font-family: 'Playfair Display', serif;
+}
+
+.lightbox-caption .badge {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+}
+
+.lightbox-caption small {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Animation for carousel items */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.lightbox-modal .carousel-item.active {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Fullscreen mode adjustments */
+.lightbox-modal:fullscreen .modal-body {
+    min-height: 100vh;
+}
+
+.lightbox-modal:fullscreen .carousel-item img {
+    max-height: 85vh;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .lightbox-modal .modal-dialog {
+        margin: 0;
+    }
+    
+    .lightbox-modal .modal-body {
+        padding: 1rem 0;
+    }
+    
+    .lightbox-modal .carousel-item img {
+        max-height: 60vh;
+    }
+    
+    .lightbox-modal .carousel-control-prev,
+    .lightbox-modal .carousel-control-next {
+        width: 50px;
+        height: 50px;
+        margin: 0 0.5rem;
+    }
+    
+    .lightbox-modal .btn-close {
+        padding: 0.6rem;
+        font-size: 1rem;
+    }
+    
+    .lightbox-caption h5 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .lightbox-modal .carousel-item img {
+        max-height: 50vh;
+    }
+    
+    .lightbox-modal .carousel-control-prev,
+    .lightbox-modal .carousel-control-next {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .lightbox-modal .carousel-indicators {
+        bottom: -40px;
+    }
+    
+    .lightbox-modal .carousel-indicators button {
+        width: 8px;
+        height: 8px;
+        margin: 0 3px;
+    }
+    
+    .lightbox-caption h5 {
+        font-size: 1rem;
+    }
+}
+
+/* Enhance the carousel controls visibility */
+.lightbox-modal .carousel-control-prev-icon,
+.lightbox-modal .carousel-control-next-icon {
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Smooth transition for carousel */
+.lightbox-modal .carousel-item {
+    transition: transform 0.6s ease-in-out;
+}
+
+/* Hover effect for carousel indicators */
+.lightbox-modal .carousel-indicators button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Modal backdrop enhancement */
+.modal-backdrop.show {
+    opacity: 0.95;
+    backdrop-filter: blur(5px);
+}

@@ -35,16 +35,17 @@
             transform: translateX(-50%);
         }
 
-        /* Packages Header with Background */
-        .packages-header {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), 
-                        url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
+        .packages-banner{
+            margin-top:80px;
+            min-height:60vh;
+            background:linear-gradient(rgba(0,0,0,.70),rgba(0,0,0,.70)),url('../images/all_page_bg.jpg');
+            background-size:cover;
+            background-position:center;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            text-align:center;
         }
 
         /* Package Cards with Background Images */

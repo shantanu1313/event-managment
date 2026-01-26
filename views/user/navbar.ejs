@@ -42,16 +42,6 @@
             line-height: 1.6;
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
         .section-title {
             position: relative;
             margin-bottom: 3rem;
@@ -117,10 +107,11 @@
             position: absolute;
             width: 0;
             height: 2px;
-            background: var(--accent-color);
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             left: 0;
             bottom: 0;
             transition: width 0.3s ease;
+
         }
 
         .navbar-nav .nav-link:hover::after,
@@ -302,3 +293,25 @@
         </div>
     </nav>
 </header>
+
+<script>
+    // Navbar active link fix for page navigation
+    const currentPath = window.location.pathname;
+
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+        // Remove hardcoded active
+        link.classList.remove('active');
+
+        // Match current URL
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        }
+
+        // On click (for same-page behavior)
+        link.addEventListener('click', function () {
+            document.querySelectorAll('.navbar-nav .nav-link')
+                .forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
