@@ -3,7 +3,7 @@ var bodyparser = require("body-parser");
 var session = require("express-session");
 var upload = require("express-fileupload");
 var cookies = require('cookie-parser');
-// var admin_route = require("./routes/admin_route");
+var admin_route = require("./routes/admin_route");
 var user_route = require("./routes/user_route");
 
 var app = express();
@@ -18,7 +18,7 @@ app.use(session({
     saveUninitialized:true
 }));
 
-// app.use("/admin",admin_route);
+app.use("/admin",admin_route);
 app.use("/",user_route);
 
 app.listen(1000);

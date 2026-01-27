@@ -1,4 +1,4 @@
-:root {
+        :root {
             --primary-color: #6a11cb;
             --secondary-color: #2575fc;
             --accent-color: #ff7e5f;
@@ -6,18 +6,25 @@
             --dark-color: #212529;
         }
 
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
         /* Gallery Header */
         .gallery-header {
-            margin-top:80px;
-            min-height:60vh;
-            background:linear-gradient(rgba(0,0,0,.70),rgba(0,0,0,.70)),url('../images/all_page_bg.jpg');
-            background-size:cover;
-            background-position:center;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            color:#fff;
-            text-align:center;
+            background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0 60px;
+            margin-top: 80px;
+            text-align: center;
         }
 
         /* Filter Buttons */
@@ -193,7 +200,7 @@
         }
         
         
-    /* Add these styles to your existing gallery.css */
+   
 
 /* Lightbox Modal Styling */
 .lightbox-modal .modal-content {
@@ -337,61 +344,7 @@
     opacity: 0.9;
 }
 
-/* Animation for carousel items */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
 
-.lightbox-modal .carousel-item.active {
-    animation: fadeIn 0.5s ease-out;
-}
-
-/* Fullscreen mode adjustments */
-.lightbox-modal:fullscreen .modal-body {
-    min-height: 100vh;
-}
-
-.lightbox-modal:fullscreen .carousel-item img {
-    max-height: 85vh;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .lightbox-modal .modal-dialog {
-        margin: 0;
-    }
-    
-    .lightbox-modal .modal-body {
-        padding: 1rem 0;
-    }
-    
-    .lightbox-modal .carousel-item img {
-        max-height: 60vh;
-    }
-    
-    .lightbox-modal .carousel-control-prev,
-    .lightbox-modal .carousel-control-next {
-        width: 50px;
-        height: 50px;
-        margin: 0 0.5rem;
-    }
-    
-    .lightbox-modal .btn-close {
-        padding: 0.6rem;
-        font-size: 1rem;
-    }
-    
-    .lightbox-caption h5 {
-        font-size: 1.2rem;
-    }
-}
 
 @media (max-width: 576px) {
     .lightbox-modal .carousel-item img {

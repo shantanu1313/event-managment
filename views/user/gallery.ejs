@@ -1,366 +1,497 @@
 <link rel="stylesheet" href="css/gallery.css">
 
-    <%- include('navbar.ejs') %>
+<%- include('navbar.ejs') %>
 
-    <!-- Gallery Header -->
-    <section class="gallery-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h1 class="display-4 fw-bold mb-3">Event Gallery</h1>
-                    <p class="lead mb-0">Explore our portfolio of memorable events and celebrations</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Filter Buttons -->
+<!-- Gallery Header -->
+<section class="gallery-header">
     <div class="container">
-        <div class="filter-buttons">
-            <div class="d-flex flex-wrap justify-content-center">
-                <button class="filter-btn active" data-filter="all">All Events</button>
-                <button class="filter-btn" data-filter="wedding">Weddings</button>
-                <button class="filter-btn" data-filter="corporate">Corporate</button>
-                <button class="filter-btn" data-filter="birthday">Birthdays</button>
-                <button class="filter-btn" data-filter="anniversary">Anniversaries</button>
-                <button class="filter-btn" data-filter="conference">Conferences</button>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="display-4 fw-bold mb-3">Event Gallery</h1>
+                <p class="lead mb-0">Explore our portfolio of memorable events and celebrations</p>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Gallery Grid -->
-    <section class="gallery-grid">
-        <div class="container">
-            <div class="row" id="gallery-container">
-                <!-- Wedding 1 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="wedding">
-                    <a href="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Elegant Wedding Ceremony">
-                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Elegant Wedding" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Wedding</span>
-                            <h4 class="gallery-title">Elegant Wedding Ceremony</h4>
-                            <span class="gallery-date">June 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Corporate 1 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="corporate">
-                    <a href="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Corporate Conference">
-                        <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Corporate Conference" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Corporate</span>
-                            <h4 class="gallery-title">Annual Corporate Conference</h4>
-                            <span class="gallery-date">August 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Birthday 1 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="birthday">
-                    <a href="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Birthday Celebration">
-                        <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Birthday Party" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Birthday</span>
-                            <h4 class="gallery-title">Surprise Birthday Party</h4>
-                            <span class="gallery-date">May 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Wedding 2 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="wedding">
-                    <a href="https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Beach Wedding">
-                        <img src="https://cdn.greenvelope.com/blog/wp-content/uploads/wedding-arch-on-the-beach.jpg"
-                             alt="Beach Wedding" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Wedding</span>
-                            <h4 class="gallery-title">Beach Destination Wedding</h4>
-                            <span class="gallery-date">July 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Conference -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="conference">
-                    <a href="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Industry Conference">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Conference" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Conference</span>
-                            <h4 class="gallery-title">Industry Leadership Summit</h4>
-                            <span class="gallery-date">September 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Anniversary -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="anniversary">
-                    <a href="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Anniversary Celebration">
-                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Anniversary" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Anniversary</span>
-                            <h4 class="gallery-title">Golden Anniversary Celebration</h4>
-                            <span class="gallery-date">April 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Corporate 2 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="corporate">
-                    <a href="https://images.unsplash.com/photo-1492684223066-e9e4aab4d25e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Product Launch">
-                        <img src="https://cleancomedians.com/wp-content/uploads/2023/06/product-launch-event.jpg" 
-                             alt="Product Launch" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Corporate</span>
-                            <h4 class="gallery-title">Tech Product Launch Event</h4>
-                            <span class="gallery-date">March 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Wedding 3 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="wedding">
-                    <a href="https://images.unsplash.com/photo-1520854221256-17463ccb8b9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Traditional Wedding">
-                        <img src="https://www.marriagecolours.com/wp-content/uploads/2025/04/Sindhu-Nikhilesh-Wedding-Banner.jpg" 
-                             alt="Traditional Wedding" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Wedding</span>
-                            <h4 class="gallery-title">Traditional Indian Wedding</h4>
-                            <span class="gallery-date">December 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Birthday 2 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="birthday">
-                    <a href="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Kids Birthday">
-                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Kids Birthday" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Birthday</span>
-                            <h4 class="gallery-title">Kids Themed Birthday Party</h4>
-                            <span class="gallery-date">November 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Conference 2 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="conference">
-                    <a href="https://images.unsplash.com/photo-1545239351-ef35f43d514b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Medical Conference">
-                        <img src="https://images.unsplash.com/photo-1545239351-ef35f43d514b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Medical Conference" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Conference</span>
-                            <h4 class="gallery-title">Medical Innovation Summit</h4>
-                            <span class="gallery-date">October 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Anniversary 2 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="anniversary">
-                    <a href="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Silver Anniversary">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsBDzUGl6ncHNdSmbm6OvMUaF5NfzutHO5sg&s" 
-                             alt="Silver Anniversary" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Anniversary</span>
-                            <h4 class="gallery-title">Silver Jubilee Celebration</h4>
-                            <span class="gallery-date">January 2023</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Corporate 3 -->
-                <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="corporate">
-                    <a href="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                       data-lightbox="gallery" data-title="Award Ceremony">
-                        <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                             alt="Award Ceremony" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <span class="gallery-category">Corporate</span>
-                            <h4 class="gallery-title">Annual Award Ceremony</h4>
-                            <span class="gallery-date">February 2023</span>
-                        </div>
-                    </a>
-                </div>
-                
-                
-                <!-- Wedding 4 -->
-<div class="col-lg-4 col-md-6 mb-4 gallery-item extra-item" data-category="wedding">
-    <a href="https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=1200&q=80"
-       data-lightbox="gallery" data-title="Luxury Wedding Decor">
-        <img src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=600&q=80"
-             class="gallery-image" alt="Wedding Decor">
-        <div class="gallery-overlay">
-            <span class="gallery-category">Wedding</span>
-            <h4 class="gallery-title">Luxury Wedding Decor</h4>
-            <span class="gallery-date">2024</span>
+<!-- Filter Buttons -->
+<div class="container">
+    <div class="filter-buttons">
+        <div class="d-flex flex-wrap justify-content-center">
+            <button class="filter-btn active" data-filter="all">All Events</button>
+            <button class="filter-btn" data-filter="wedding">Weddings</button>
+            <button class="filter-btn" data-filter="corporate">Corporate</button>
+            <button class="filter-btn" data-filter="birthday">Birthdays</button>
+            <button class="filter-btn" data-filter="anniversary">Anniversaries</button>
+            <button class="filter-btn" data-filter="conference">Conferences</button>
         </div>
-    </a>
+    </div>
 </div>
 
-
-<!-- Corporate 4 -->
-<div class="col-lg-4 col-md-6 mb-4 gallery-item extra-item" data-category="corporate">
-    <a href="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80"
-       data-lightbox="gallery" data-title="Business Meetup">
-        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80"
-             class="gallery-image" alt="Corporate Event">
-        <div class="gallery-overlay">
-            <span class="gallery-category">Corporate</span>
-            <h4 class="gallery-title">Business Networking Meet</h4>
-            <span class="gallery-date">2024</span>
-        </div>
-    </a>
-</div>
-
-<!-- Birthday 3 -->
-<div class="col-lg-4 col-md-6 mb-4 gallery-item extra-item" data-category="birthday">
-    <a href="https://images.unsplash.com/photo-1558636508-e0db3814bd1d?auto=format&fit=crop&w=1200&q=80"
-       data-lightbox="gallery" data-title="Birthday Bash">
-        <img src="https://images.unsplash.com/photo-1558636508-e0db3814bd1d?auto=format&fit=crop&w=600&q=80"
-             class="gallery-image" alt="Birthday Event">
-        <div class="gallery-overlay">
-            <span class="gallery-category">Birthday</span>
-            <h4 class="gallery-title">Grand Birthday Bash</h4>
-            <span class="gallery-date">2024</span>
-        </div>
-    </a>
-</div>
-
-<!-- Conference 3 -->
-<div class="col-lg-4 col-md-6 mb-4 gallery-item extra-item" data-category="conference">
-    <a href="https://images.unsplash.com/photo-1503428593586-e225b39bddfe?auto=format&fit=crop&w=1200&q=80"
-       data-lightbox="gallery" data-title="Tech Conference">
-        <img src="https://images.unsplash.com/photo-1503428593586-e225b39bddfe?auto=format&fit=crop&w=600&q=80"
-             class="gallery-image" alt="Conference Event">
-        <div class="gallery-overlay">
-            <span class="gallery-category">Conference</span>
-            <h4 class="gallery-title">Technology Conference</h4>
-            <span class="gallery-date">2024</span>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            
-             <div class="text-center mt-5">
-                <button id="hidemore" class="btn btn-primary btn-lg px-5">
-                    <i class="fas fa-sync-alt me-2"></i>Show Less
-                </button>
-            </div>
-        </div>
-               
-
-            <!-- Load More Button -->
-            <div class="text-center mt-5">
-                <button id="loadMore" class="btn btn-primary btn-lg px-5">
-                    <i class="fas fa-sync-alt me-2"></i>Load More Events
-                </button>
-            </div>
-        </div>
-    </section>
-
-   
-    <!-- Contact CTA -->
-    <section class="contact-cta">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2 class="mb-3">Like What You See?</h2>
-                    <p class="lead text-muted mb-4">
-                        Let's create memorable moments for your next event. 
-                        Contact us to discuss your vision and requirements.
-                    </p>
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="/contact" class="btn btn-primary btn-lg">
-                            <i class="fas fa-phone-alt me-2"></i>Contact Us
-                        </a>
-                        <button class="btn btn-outline-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookEventModal">
-                            <i class="fas fa-calendar-check me-2"></i>Book Event
-                        </button>
+<!-- Gallery Grid -->
+<section class="gallery-grid">
+    <div class="container">
+        <div class="row" id="gallery-container">
+            <!-- Wedding 1 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="wedding">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Elegant Wedding Ceremony">
+                   
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Elegant Wedding" class="gallery-image gallery-link">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Wedding</span>
+                        <h4 class="gallery-title">Elegant Wedding Ceremony</h4>
+                        <span class="gallery-date">June 2023</span>
                     </div>
+                </a>
+            </div>
+
+            <!-- Corporate 1 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="corporate">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Corporate Conference">
+                    <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Corporate Conference" class="gallery-image gallery-link">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Corporate</span>
+                        <h4 class="gallery-title">Annual Corporate Conference</h4>
+                        <span class="gallery-date">August 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Birthday 1 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="birthday">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Birthday Celebration">
+                    <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Birthday Party" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Birthday</span>
+                        <h4 class="gallery-title">Surprise Birthday Party</h4>
+                        <span class="gallery-date">May 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Wedding 2 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="wedding">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Beach Wedding">
+                    <img src="https://cdn.greenvelope.com/blog/wp-content/uploads/wedding-arch-on-the-beach.jpg"
+                         alt="Beach Wedding" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Wedding</span>
+                        <h4 class="gallery-title">Beach Destination Wedding</h4>
+                        <span class="gallery-date">July 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Conference -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="conference">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Industry Conference">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Conference" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Conference</span>
+                        <h4 class="gallery-title">Industry Leadership Summit</h4>
+                        <span class="gallery-date">September 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Anniversary -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="anniversary">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Anniversary Celebration">
+                    <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Anniversary" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Anniversary</span>
+                        <h4 class="gallery-title">Golden Anniversary Celebration</h4>
+                        <span class="gallery-date">April 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Corporate 2 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="corporate">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1492684223066-e9e4aab4d25e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Product Launch">
+                    <img src="https://cleancomedians.com/wp-content/uploads/2023/06/product-launch-event.jpg" 
+                         alt="Product Launch" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Corporate</span>
+                        <h4 class="gallery-title">Tech Product Launch Event</h4>
+                        <span class="gallery-date">March 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Wedding 3 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="wedding">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1520854221256-17463ccb8b9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Traditional Wedding">
+                    <img src="https://www.marriagecolours.com/wp-content/uploads/2025/04/Sindhu-Nikhilesh-Wedding-Banner.jpg" 
+                         alt="Traditional Wedding" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Wedding</span>
+                        <h4 class="gallery-title">Traditional Indian Wedding</h4>
+                        <span class="gallery-date">December 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Birthday 2 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="birthday">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Kids Birthday">
+                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Kids Birthday" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Birthday</span>
+                        <h4 class="gallery-title">Kids Themed Birthday Party</h4>
+                        <span class="gallery-date">November 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Conference 2 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="conference">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1545239351-ef35f43d514b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Medical Conference">
+                    <img src="https://images.unsplash.com/photo-1545239351-ef35f43d514b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Medical Conference" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Conference</span>
+                        <h4 class="gallery-title">Medical Innovation Summit</h4>
+                        <span class="gallery-date">October 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Anniversary 2 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="anniversary">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Silver Anniversary">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsBDzUGl6ncHNdSmbm6OvMUaF5NfzutHO5sg&s" 
+                         alt="Silver Anniversary" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Anniversary</span>
+                        <h4 class="gallery-title">Silver Jubilee Celebration</h4>
+                        <span class="gallery-date">January 2023</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Corporate 3 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item" data-category="corporate">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Award Ceremony">
+                    <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                         alt="Award Ceremony" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Corporate</span>
+                        <h4 class="gallery-title">Annual Award Ceremony</h4>
+                        <span class="gallery-date">February 2023</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Wedding 4 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item extra-item" data-category="wedding">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Luxury Wedding Decor">
+                    <img src="https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=600&q=80"
+                         class="gallery-image" alt="Wedding Decor">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Wedding</span>
+                        <h4 class="gallery-title">Luxury Wedding Decor</h4>
+                        <span class="gallery-date">2024</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Corporate 4 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item extra-item" data-category="corporate">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Business Meetup">
+                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80"
+                         class="gallery-image" alt="Corporate Event">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Corporate</span>
+                        <h4 class="gallery-title">Business Networking Meet</h4>
+                        <span class="gallery-date">2024</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Birthday 3 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item extra-item" data-category="birthday">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1558636508-e0db3814bd1d?auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Birthday Bash">
+                    <img src="https://images.unsplash.com/photo-1558636508-e0db3814bd1d?auto=format&fit=crop&w=600&q=80"
+                         class="gallery-image" alt="Birthday Event">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Birthday</span>
+                        <h4 class="gallery-title">Grand Birthday Bash</h4>
+                        <span class="gallery-date">2024</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Conference 3 -->
+            <div class="col-lg-4 col-md-6 mb-4 gallery-item extra-item" data-category="conference">
+                <a href="#" class="gallery-link" 
+                   data-image="https://images.unsplash.com/photo-1503428593586-e225b39bddfe?auto=format&fit=crop&w=1200&q=80" 
+                   data-title="Tech Conference">
+                    <img src="https://images.unsplash.com/photo-1503428593586-e225b39bddfe?auto=format&fit=crop&w=600&q=80"
+                         class="gallery-image" alt="Conference Event">
+                    <div class="gallery-overlay">
+                        <span class="gallery-category">Conference</span>
+                        <h4 class="gallery-title">Technology Conference</h4>
+                        <span class="gallery-date">2024</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Show Less Button -->
+        <div class="text-center mt-5">
+            <button id="hidemore" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-sync-alt me-2"></i>Show Less
+            </button>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-5">
+            <button id="loadMore" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-sync-alt me-2"></i>Load More Events
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="contact-cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="mb-3">Like What You See?</h2>
+                <p class="lead text-muted mb-4">
+                    Let's create memorable moments for your next event. 
+                    Contact us to discuss your vision and requirements.
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/contact" class="btn btn-primary btn-lg">
+                        <i class="fas fa-phone-alt me-2"></i>Contact Us
+                    </a>
+                    <button class="btn btn-outline-primary btn-lg" href="/login">
+                        <i class="fas fa-calendar-check me-2"></i>Book Event
+                    </button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
- <script>
-lightbox.option({
-    resizeDuration: 200,
-    wrapAround: true
-});
+<!-- Bootstrap Carousel Lightbox Modal -->
+<div class="modal fade lightbox-modal" id="galleryLightbox" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <!-- Carousel will be inserted here by JavaScript -->
+                <div id="lightboxCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <!-- Items will be added dynamically -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#lightboxCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#lightboxCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <div class="lightbox-caption text-white text-center">
+                    <!-- Caption will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-// ====== VARIABLES ======
-const filterBtns = document.querySelectorAll('.filter-btn');
-const galleryItems = document.querySelectorAll('.gallery-item');
-const loadMoreBtn = document.getElementById('loadMore');
 
-// Hide extra items initially
-galleryItems.forEach(item => {
-    if (item.classList.contains('extra-item')) {
-        item.style.display = 'none';
-    }
-});
 
-// ====== FILTER FUNCTION ======
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', function () {
-        // Remove active from all buttons
-        filterBtns.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
 
-        const filter = this.dataset.filter;
+<script>
+// Lightbox functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const galleryLinks = document.querySelectorAll('.gallery-link');
+    const lightboxModal = new bootstrap.Modal(document.getElementById('galleryLightbox'));
+    const carouselInner = document.querySelector('#lightboxCarousel .carousel-inner');
+    const lightboxCaption = document.querySelector('.lightbox-caption');
+    
+    // Initialize carousel ONCE
+    const bsCarousel = new bootstrap.Carousel(document.getElementById('lightboxCarousel'), {
+        interval: false, // Disable auto sliding
+        ride: false
+    });
 
-        galleryItems.forEach(item => {
-            const isExtra = item.classList.contains('extra-item');
+    // Prev/Next buttons
+    const prevBtn = document.querySelector('#lightboxCarousel .carousel-control-prev');
+    const nextBtn = document.querySelector('#lightboxCarousel .carousel-control-next');
+    prevBtn.addEventListener('click', () => bsCarousel.prev());
+    nextBtn.addEventListener('click', () => bsCarousel.next());
 
-            // Show item if:
-            // 1. filter is 'all' or matches category
-            // 2. AND it's not an extra item that's hidden
-            if ((filter === 'all' || item.dataset.category === filter) && (!isExtra || item.style.display === 'block')) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
+    // Gallery click
+    galleryLinks.forEach((link, index) => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Clear carousel items
+            carouselInner.innerHTML = '';
+
+            // Add all images
+            galleryLinks.forEach((item, idx) => {
+                const itemImage = item.getAttribute('data-image');
+                const itemTitle = item.getAttribute('data-title');
+                const itemOverlay = item.querySelector('.gallery-overlay');
+                const itemDate = itemOverlay ? itemOverlay.querySelector('.gallery-date').textContent : '';
+                const itemCategory = item.closest('.gallery-item').getAttribute('data-category');
+
+                const carouselItem = document.createElement('div');
+                carouselItem.className = `carousel-item ${idx === index ? 'active' : ''}`;
+                carouselItem.innerHTML = `<img src="${itemImage}" class="d-block w-100" alt="${itemTitle}">`;
+                carouselInner.appendChild(carouselItem);
+
+                if (idx === index) {
+                    lightboxCaption.innerHTML = `
+                        <h5 class="mb-1">${itemTitle}</h5>
+                        <p class="mb-0">
+                            <span class="badge bg-primary me-2">${itemCategory}</span>
+                            <small class="text-white-50">${itemDate}</small>
+                        </p>
+                    `;
+                }
+            });
+
+            // Update caption on slide change
+            document.getElementById('lightboxCarousel').addEventListener('slide.bs.carousel', function(event) {
+                const activeIndex = event.to;
+                const activeLink = galleryLinks[activeIndex];
+                const activeTitle = activeLink.getAttribute('data-title');
+                const activeOverlay = activeLink.querySelector('.gallery-overlay');
+                const activeDate = activeOverlay ? activeOverlay.querySelector('.gallery-date').textContent : '';
+                const activeCategory = activeLink.closest('.gallery-item').getAttribute('data-category');
+
+                lightboxCaption.innerHTML = `
+                    <h5 class="mb-1">${activeTitle}</h5>
+                    <p class="mb-0">
+                        <span class="badge bg-primary me-2">${activeCategory}</span>
+                        <small class="text-white-50">${activeDate}</small>
+                    </p>
+                `;
+            });
+
+            // Show lightbox
+            lightboxModal.show();
         });
     });
 });
 
-$(document).ready(function() {
-    $('.extra-item').hide();
-     $('#hidemore').hide();
-
-    $('#loadMore').click(function() {
-        $('.extra-item').show();
-          $('#hidemore').show();
-        $(this).hide(); 
+    
+    // Gallery filtering
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const loadMoreBtn = document.getElementById('loadMore');
+    const hideMoreBtn = document.getElementById('hidemore');
+    
+    // Hide extra items initially
+    galleryItems.forEach(item => {
+        if (item.classList.contains('extra-item')) {
+            item.style.display = 'none';
+        }
     });
     
-     $('#hidemore').click(function(){
-         $('.extra-item').hide();
-          $(this).hide(); 
-           $('#loadMore').show();
-     });
-});
+    // Filter functionality
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            
+            galleryItems.forEach(item => {
+                const isExtra = item.classList.contains('extra-item');
+                const matchesFilter = filter === 'all' || item.dataset.category === filter;
+                
+                if (matchesFilter && (!isExtra || item.style.display === 'block')) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+    
+    // Load more functionality
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            document.querySelectorAll('.extra-item').forEach(item => {
+                item.style.display = 'block';
+            });
+            this.style.display = 'none';
+            if (hideMoreBtn) hideMoreBtn.style.display = 'block';
+        });
+    }
+    
+    // Show less functionality
+    if (hideMoreBtn) {
+        hideMoreBtn.addEventListener('click', function() {
+            document.querySelectorAll('.extra-item').forEach(item => {
+                item.style.display = 'none';
+            });
+            this.style.display = 'none';
+            if (loadMoreBtn) loadMoreBtn.style.display = 'block';
+        });
+        hideMoreBtn.style.display = 'none';
+    }
+    
+    // Event type buttons in booking modal
+    document.querySelectorAll('.event-type-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.event-type-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
 
 </script>
 
-<%- include('footer.ejs') %>
+<%-include("footer.ejs")%>
+
+
