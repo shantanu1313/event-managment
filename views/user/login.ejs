@@ -217,21 +217,21 @@
     <form id="loginForm" action="/save_login" method="post">
 
       <div class="input-group">
-        <label for="username">Username or Email</label>
-        <input type="text" id="username" required placeholder="Enter your username or email">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required placeholder="Enter your username or email">
       </div>
 
       <div class="input-group">
         <label for="password">Password</label>
         <div class="password-container input-group">
-          <input type="password" id="password" required placeholder="Enter your password">
+          <input type="password" id="password" name="password" required placeholder="Enter your password">
           <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">👁️</button>
         </div>
       </div>
 
       <div class="input-group">
         <label style="display:flex;align-items:center;font-weight:normal;">
-          <input type="checkbox" id="remember" style="width:auto;margin-right:8px;">
+          <input type="checkbox" id="remember" name="remember" style="width:auto;margin-right:8px;">
           Remember me
         </label>
       </div>
@@ -259,18 +259,19 @@
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const loginBtn = document.querySelector('.login-btn-form');
 
     if(username && password) {
-      const loginBtn = document.querySelector('.login-btn-form');
+      // Show loading state
       loginBtn.innerHTML = 'Signing In...';
       loginBtn.disabled = true;
 
+      // Submit the form after a brief delay to show loading state
       setTimeout(() => {
-        alert('Login successful! Redirecting...');
-        loginBtn.innerHTML = 'Sign In';
-        loginBtn.disabled = false;
-      }, 1500);
+        this.submit();
+      }, 500);
     } else {
+      // Only show error if fields are empty
       alert('Please fill in all required fields');
     }
   });
@@ -292,5 +293,20 @@
     document.getElementById('username').focus();
   });
 </script>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("error") === "invalid") {
+    alert("Invalid username or password");
+  }
+  if (params.get("login") === "success") {
+    alert("Login successful!");
+  }
+  if (params.get("register") === "success") {
+    alert("Registration Successful! Please login.");
+  }
+</script>
+
 
 <%- include('footer.ejs') %>

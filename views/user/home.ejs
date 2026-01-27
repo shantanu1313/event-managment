@@ -353,5 +353,21 @@ document.addEventListener("DOMContentLoaded", () => {
   
 </script>
 
+<script>
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("error") === "invalid") {
+    alert("Invalid username or password");
+  }
+
+  if (params.get("login") === "success") {
+    alert("Login successful!");
+  }
+
+  if (params.get("register") === "success") {
+    alert("Registration Successful! Please login.");
+  }
+</script>
+
 
   <%- include('footer.ejs') %>

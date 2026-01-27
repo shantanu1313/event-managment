@@ -40,7 +40,12 @@
                             </li>
                             <li><a href="/FAQ">FAQ</a></li>
                             <li><a href="/contact">Contact Us</a></li>
-                            <li><a href="/login">Book an Event</a>
+                            <li>
+                            <% if (typeof data !== "undefined" && data) { %>
+                            <a href="/book_event">Book an Event</a>
+                            <% } else { %>
+                            <a href="/login">Book an Event</a>
+                            <% } %>
                             </li>
                         </ul>
                     </div>
