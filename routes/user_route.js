@@ -1,8 +1,10 @@
 var express = require("express");
+var exe = require("./../connection");
 var router = express.Router();
 
 router.get("/", function (req, res) {
-    res.render('user/home.ejs');
+    var data = req.session.user;
+    res.render('user/home.ejs', { data });
 });
 
 router.get("/about", function (req, res){
@@ -53,9 +55,43 @@ router.get("/user_register", function (req, res){
     res.render("user/register.ejs");
 });
 
-router.get("/book_event",function (req, res){
+router.get("/book_event", function (req, res){
     res.render("user/book_event.ejs");
 });
+
+router.post("/save_user", async function (req, res) {
+  try {
+    var d = req.body;
+    var sql = `INSERT INTO users (name, email, mobile, username, password) VALUES (?, ?, ?, ?, ?)`;
+    await exe(sql, [ d.name, d.email, d.mobile, d.username, d.password]);
+    res.redirect("/login?register=success");
+  } catch (err) {
+    console.log(err);
+    res.send("Server Error");
+  }
+});
+
+
+router.post("/save_login", async function (req, res) {
+  try {
+    var d = req.body;
+    var sql = `SELECT * FROM users WHERE username = ?`;
+    var result = await exe(sql, [d.username]);
+    if (result.length === 0) {
+      return res.redirect("/login?error=invalid");
+    }
+    if (d.password !== result[0].password) {
+      return res.redirect("/login?error=invalid");
+    }
+    req.session.user = result[0];
+    return res.redirect("/?login=success");
+  } catch (err) {
+    console.log(err);
+    res.send("Server Error");
+  }
+});
+
+
 
 
 

@@ -284,9 +284,15 @@
                         <a class="nav-link" href="/contact">Contact Us</a>
                     </li>
                     <li class="nav-item ms-2">
-                        <a class="btn btn-primary" href="/login">
+                        <% if (typeof data !== "undefined" && data) { %>
+                        <a href="/book_event" class="btn btn-primary">
                             <i class="fas fa-calendar-check me-2"></i>Book Event
                         </a>
+                        <% } else { %>
+                        <a href="/login" class="btn btn-primary">
+                            <i class="fas fa-calendar-check me-2"></i>Book Event
+                        </a>
+                        <% } %>
                     </li>
                 </ul>
             </div>
