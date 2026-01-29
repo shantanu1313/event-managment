@@ -1,0 +1,76 @@
+<%- include('navbar.ejs') %>
+
+    <form action="/admin/update_blog/<%= data[0].blog_id %>" method="post" enctype="multipart/form-data"
+        class="card shadow p-4 mt-4">
+
+        <h4 class="mb-4 text-primary">
+            <i class="fas fa-edit me-2"></i>Edit Blog
+        </h4>
+
+        <!-- IMPORTANT hidden fields -->
+        <input type="hidden" name="old_blog_image" value="<%= data[0].blog_image %>">
+
+        <!-- Old Image -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                <i class="fas fa-image me-1"></i>Old Image
+            </label><br>
+            <img src="/upload/blog/<%= data[0].blog_image %>" class="img-thumbnail" style="max-width:200px;">
+        </div>
+
+        <!-- New Image -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                <i class="fas fa-upload me-1"></i>New Image
+            </label>
+            <input type="file" name="blog_image" class="form-control">
+        </div>
+
+        <!-- Blog Date -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                <i class="fas fa-calendar-alt me-1"></i>Blog Date
+            </label>
+            <input type="date" name="blog_date" class="form-control"
+                value="<%= new Date(data[0].blog_date).toISOString().split('T')[0] %>">
+        </div>
+
+        <!-- Blog Title -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                <i class="fas fa-heading me-1"></i>Blog Title
+            </label>
+            <input type="text" name="blog_title" class="form-control" value="<%= data[0].blog_title %>">
+        </div>
+
+        <!-- Blog Para -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                <i class="fas fa-align-left me-1"></i>Blog Para
+            </label>
+            <input type="text" name="blog_para" class="form-control" value="<%= data[0].blog_para %>">
+        </div>
+
+        <!-- Blog Message -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                <i class="fas fa-align-justify me-1"></i>Blog Message
+            </label>
+            <textarea name="blog_message" class="form-control" rows="4"><%= data[0].blog_message %></textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-center gap-3 mt-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-1"></i>Update Blog
+            </button>
+
+            <a href="/admin/blog" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Back
+            </a>
+        </div>
+
+
+    </form>
+
+    <%- include('footer.ejs') %>

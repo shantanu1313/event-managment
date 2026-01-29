@@ -1,0 +1,293 @@
+<%- include("../navbar.ejs") %>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-..." crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .gradient-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .admin-card {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .table-header-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .icon-blue {
+            color: #667eea;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .table-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .table img {
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid #667eea;
+        }
+
+        .action-btn {
+            padding: 5px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .edit-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+        }
+
+        .delete-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table th {
+            vertical-align: middle;
+            font-weight: 600;
+        }
+    </style>
+
+
+
+    <!-- Blog List Section -->
+    <div class="container mt-4">
+
+        <!-- Header + Add Blog Button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0">
+                <i class="fas fa-newspaper me-2"></i> Blog Management
+            </h4>
+
+            <div class="mx-auto">
+                <a href="#addBlogForm" class="btn btn-success">
+                    <i class="fas fa-plus-circle me-2"></i> Add Blog
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Blog List Section -->
+        <% if (data && data.length> 0) { %>
+
+            <div class="table-section mt-3">
+                <div class="card shadow-sm">
+                    <div class="card-header gradient-header  d-flex align-items-center">
+                        <i class="fas fa-list me-2 fs-5"></i>
+                        <h5 class="mb-0">Blog List</h5>
+
+                        <span class="badge bg-primary ms-auto">
+                            <%= data.length %> Blogs
+                        </span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle mb-0">
+                            <thead class="table-dark text-center">
+                                <tr>
+                                    <th>Sr No</th>
+                                    <th>Image</th>
+                                    <th>Date</th>
+                                    <th>Title</th>
+                                    <th>Para</th>
+                                    <th>Message</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <% for (var i=0; i < data.length; i++) { %>
+                                    <tr>
+                                        <td class="text-center">
+                                            <span class="badge bg-secondary">
+                                                <%= i + 1 %>
+                                            </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <% if (data[i].blog_image) { %>
+                                                <img src="/upload/blog/<%= data[i].blog_image %>" width="70" height="70"
+                                                    class="rounded border" alt="Blog Image">
+                                                <% } else { %>
+                                                    <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center mx-auto"
+                                                        style="width:70px;height:70px;">
+                                                        <i class="fas fa-image"></i>
+                                                    </div>
+                                                    <% } %>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <%= new Date(data[i].blog_date).toLocaleDateString('en-US', { month: 'long'
+                                                , day: 'numeric' , year: 'numeric' }) %>
+                                        </td>
+
+                                        <td>
+                                            <strong>
+                                                <%= data[i].blog_title %>
+                                            </strong>
+                                        </td>
+
+                                        <td style="max-width:200px;">
+                                            <small class="text-muted">
+                                                <%= data[i].blog_para %>
+                                            </small>
+                                        </td>
+
+                                        <td style="max-width:250px;">
+                                            <small>
+                                                <%= data[i].blog_message %>
+                                            </small>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <a href="/admin/edit_blog/<%= data[i].blog_id %>"
+                                                class="btn btn-sm btn-outline-primary mb-1">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+
+                                            <a href="/admin/delete_blog/<%= data[i].blog_id %>"
+                                                class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('Are you sure you want to delete this blog?');">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <% } else { %>
+
+                <!-- No Data Found -->
+                <div class="alert alert-info text-center py-4 mt-4">
+                    <i class="fas fa-info-circle fs-3 mb-2"></i>
+                    <h4>No Blogs Found</h4>
+                    <p class="mb-0">Start adding your first blog using the button above!</p>
+                </div>
+
+                <% } %>
+
+    </div>
+
+
+    <div class="card shadow-lg border-0 mb-5" id="addBlogForm">
+
+        <!-- Card Header -->
+        <div class="card-header gradient-header text-white d-flex align-items-cente my-5">
+            <i class="fas fa-blog me-2 fs-4"></i>
+            <h5 class="mb-0">Add New Blog</h5>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+            <form action="/admin/save_blog" method="post" enctype="multipart/form-data">
+
+                <div class="row">
+                    <!-- Blog Image -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-image me-2 icon-blue"></i> Blog Image
+                            </label>
+                            <input type="file" name="blog_image" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Blog Date -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-calendar-alt me-2 icon-blue"></i> Blog Date
+                            </label>
+                            <input type="date" name="blog_date" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blog Title -->
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-heading me-2 icon-blue"></i> Blog Title
+                    </label>
+                    <input type="text" name="blog_title" class="form-control" placeholder="Enter blog title" required>
+                </div>
+
+                <!-- Short Paragraph -->
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-align-left me-2 icon-blue"></i> Short Paragraph
+                    </label>
+                    <input type="text" name="blog_para" class="form-control"
+                        placeholder="Short summary (max 150 characters)">
+                </div>
+
+                <!-- Blog Message -->
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-pen-nib me-2 icon-blue"></i> Brief Description
+                    </label>
+                    <textarea name="blog_message" class="form-control" rows="4"
+                        placeholder="Write brief blog description..."></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-gradient px-5 py-2">
+                        <i class="fas fa-save me-2"></i> Save Blog
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    </div>
+
+
+    <%-include ("../footer.ejs")%>
