@@ -133,36 +133,29 @@
       <!-- Name -->
       <div class="sve-input-group">
         <label>Name *</label>
-        <input type="text" id="sve-name" name="name" required>
+        <input class="user-select-none" type="text" id="sve-name" name="name" required>
         <div class="sve-error-message" id="sve-nameError">Enter valid name</div>
       </div>
 
       <!-- Email -->
       <div class="sve-input-group">
         <label>Email *</label>
-        <input type="email" id="sve-email" name="email" required>
+        <input class="user-select-none" type="email" id="sve-email" name="email" required>
         <div class="sve-error-message" id="sve-emailError">Enter valid email</div>
       </div>
 
       <!-- Phone -->
       <div class="sve-input-group">
         <label>Phone *</label>
-        <input type="tel" id="sve-phone" name="mobile" required>
+        <input class="user-select-none" type="tel" id="sve-phone" name="mobile" required>
         <div class="sve-error-message" id="sve-phoneError">Enter valid phone</div>
-      </div>
-
-      <!-- Username -->
-      <div class="sve-input-group">
-        <label>Username *</label>
-        <input type="text" id="sve-username" name="username" required>
-        <div class="sve-error-message" id="sve-usernameError">4–20 characters</div>
       </div>
 
       <!-- Password -->
       <div class="sve-input-group">
         <label>Password *</label>
         <div class="sve-password-container">
-          <input type="password" id="sve-password" name="password" required>
+          <input class="user-select-none" type="password" id="sve-password" name="password" required>
           <button type="button" class="sve-toggle-password" onclick="togglePassword('sve-password')">👁️</button>
         </div>
         <div class="sve-error-message" id="sve-passwordError">Min 8 characters</div>
@@ -172,7 +165,7 @@
       <div class="sve-input-group">
         <label>Confirm Password *</label>
         <div class="sve-password-container">
-          <input type="password" id="sve-confirmPassword" required>
+          <input class="user-select-none" type="password" id="sve-confirmPassword" required>
           <button type="button" class="sve-toggle-password" onclick="togglePassword('sve-confirmPassword')">👁️</button>
         </div>
         <div class="sve-error-message" id="sve-confirmPasswordError">Passwords do not match</div>
@@ -180,7 +173,7 @@
 
       <!-- Terms -->
       <div class="sve-terms-group">
-        <input type="checkbox" id="sve-terms"> I agree to Terms *
+        <input class="user-select-none" type="checkbox" id="sve-terms"> I agree to Terms *
         <div class="sve-error-message" id="sve-termsError">Accept terms</div>
       </div>
 
@@ -200,7 +193,6 @@ document.getElementById('sve-registerForm').addEventListener('submit', function(
   const name = sveCheck('sve-name', v => v.length >= 2, 'sve-nameError');
   const email = sveCheck('sve-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'sve-emailError');
   const phone = sveCheck('sve-phone', v => v.length >= 10, 'sve-phoneError');
-  const username = sveCheck('sve-username', v => v.length >= 4, 'sve-usernameError');
   const password = sveCheck('sve-password', v => v.length >= 8, 'sve-passwordError');
 
   const cp = document.getElementById('sve-confirmPassword');
@@ -236,6 +228,19 @@ function togglePassword(id) {
 }
 
 document.getElementById('sve-name').focus();
+
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.get("error") === "email_exists") {
+    alert("Email already exists. Please use another email.");
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
+  if (params.get("error") === "server_error") {
+    alert("Something went wrong. Please try again later.");
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
 </script>
 
 <%- include('footer.ejs') %>

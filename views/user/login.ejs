@@ -202,6 +202,7 @@
       display: none;
     }
   }
+  
 </style>
 
 <div class="demo">
@@ -217,8 +218,8 @@
     <form id="loginForm" action="/save_login" method="post">
 
       <div class="input-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required placeholder="Enter your username or email">
+        <label for="email">Enter Registered Email</label>
+        <input type="text" id="email" name="email" required placeholder="Enter your email or email">
       </div>
 
       <div class="input-group">
@@ -241,9 +242,9 @@
     </form>
 
     <div class="links">
-      <a href="/forgot_password">Forgot Password?</a>
+      <a href="/forgot-start">Forgot Password?</a>
       <span class="separator">|</span>
-      <a href="/user_register">Create New Account</a>
+      <a href="/user_registeration">Create New Account</a>
     </div>
 
     <div class="footer-text">
@@ -257,11 +258,11 @@
   document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const loginBtn = document.querySelector('.login-btn-form');
 
-    if(username && password) {
+    if(email && password) {
       // Show loading state
       loginBtn.innerHTML = 'Signing In...';
       loginBtn.disabled = true;
@@ -290,7 +291,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('username').focus();
+    document.getElementById('email').focus();
   });
 </script>
 
@@ -298,14 +299,39 @@
   const params = new URLSearchParams(window.location.search);
 
   if (params.get("error") === "invalid") {
-    alert("Invalid username or password");
+    alert("Invalid email or password");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
   }
   if (params.get("login") === "success") {
     alert("Login successful!");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
   }
   if (params.get("register") === "success") {
     alert("Registration Successful! Please login.");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
   }
+
+  if(params.get("reset") === "success") {
+    alert("Password reset successful ! Please Login");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
+  }
+
 </script>
 
 

@@ -1,5 +1,6 @@
 var express = require("express");
 var exe = require("./../connection");
+var sendMail = require("./send_mail")
 var router = express.Router();
 
 router.get("/", function (req, res) {
@@ -60,7 +61,7 @@ router.get("/login", function (req, res) {
     res.render('user/login.ejs');
 });
 
-router.get("/user_register", function (req, res) {
+router.get("/user_registeration", function (req, res){
     res.render("user/register.ejs");
 });
 
@@ -69,41 +70,149 @@ router.get("/book_event", function (req, res) {
 });
 
 router.post("/save_user", async function (req, res) {
-    try {
-        var d = req.body;
-        var sql = `INSERT INTO users (name, email, mobile, username, password) VALUES (?, ?, ?, ?, ?)`;
-        await exe(sql, [d.name, d.email, d.mobile, d.username, d.password]);
-        res.redirect("/login?register=success");
-    } catch (err) {
-        console.log(err);
-        res.send("Server Error");
-    }
+  try {
+    var d = req.body;
+    var sql = `INSERT INTO users (name, email, mobile, username, password) VALUES (?, ?, ?, ?, ?)`;
+    await exe(sql, [ d.name, d.email, d.mobile, d.username, d.password]);
+    res.redirect("/login?register=success");
+  } catch (err) {
+    console.log(err);
+    res.send("Server Error");
+  }
 });
-
 
 router.post("/save_login", async function (req, res) {
-    try {
-        var d = req.body;
-        var sql = `SELECT * FROM users WHERE username = ?`;
-        var result = await exe(sql, [d.username]);
-        if (result.length === 0) {
-            return res.redirect("/login?error=invalid");
-        }
-        if (d.password !== result[0].password) {
-            return res.redirect("/login?error=invalid");
-        }
-        req.session.user = result[0];
-        return res.redirect("/?login=success");
-    } catch (err) {
-        console.log(err);
-        res.send("Server Error");
+  try {
+    var d = req.body;
+    var sql = `SELECT * FROM users WHERE email = ?`;
+    var result = await exe(sql, [d.email]);
+    if (result.length === 0) {
+      return res.redirect("/login?error=invalid");
     }
+    if (d.password !== result[0].password) {
+      return res.redirect("/login?error=invalid");
+    }
+    req.session.user = result[0];
+    return res.redirect("/?login=success");
+  } catch (err) {
+    console.log(err);
+    res.send("Server Error");
+  }
+});
+
+router.get("/forgot-start", (req, res) => {
+  req.session.forgotStep = true;
+  res.redirect("/forgot_password");
 });
 
 
+router.get("/forgot_password", (req, res) => {
+  if (!req.session.forgotStep) {
+    return res.redirect("/login");
+  }
+  res.set("Cache-Control", "no-store");
+  res.render("user/forgot_password.ejs", { query: req.query });
+});
+
+router.post("/send_otp_mail", async function (req, res) {
+  try {
+    var d = req.body;
+    var sql = `SELECT * FROM users WHERE email = ?`;
+    var result = await exe(sql, [d.email]);
+    if (result.length === 0) {
+      return res.status(404).send("Email not found");
+    }
+    var otp = Math.floor(100000 + Math.random() * 900000);
+    req.session.otp = otp;
+    req.session.email = d.email;
+    req.session.resetStep = false;   // reset not allowed yet
+    req.session.resetTime = Date.now();
+    var email = d.email;
+    var subject = "OTP verification For Reset Password";
+    var message = `<div style="font-family: Arial, sans-serif; line-height:1.6; color:#333;">
+                      <h2 style="color:#6a11cb;">Siddhivinayak Event Management</h2>
+                      <p>Dear User,</p>
+                      <p>
+                          We received a request to reset the password for your 
+                          <strong>Siddhivinayak Event Management</strong> account.
+                      </p>
+                      <p>Please use the following One-Time Password (OTP) to reset your password:</p>
+                      <h1 style="color:#2575fc; letter-spacing:3px;">${otp}</h1>
+                      <p>
+                          This OTP is valid for <strong>10 minutes</strong> and can be used only once.
+                          Please do not share this OTP with anyone.
+                      </p>
+                      <p>
+                          If you did not request a password reset, please ignore this email.
+                          Your account will remain secure.
+                      </p>
+                      <br>
+                      <p>
+                          Regards,<br>
+                          <strong>Siddhivinayak Event Management Team</strong>
+                      </p>
+                  </div>`;
+    await sendMail(email, subject, message);
+    res.send("OTP sent successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+}); 
 
 
+router.post("/forgot_password", async function (req, res) {
+  try {
+    var d = req.body;
+    if (!req.session.otp) {
+      return res.redirect("/forgot_password?error=otp_not_sent");
+    }
+    if (d.otp != req.session.otp) {
+      return res.redirect("/forgot_password?error=invalid_otp");
+    }
+    req.session.resetStep = true;
+    req.session.forgotStep = null;
+    return res.redirect("/reset_password?verification=success");
+  } catch (err) {
+    console.log(err);
+    return res.redirect("/forgot_password?error=server");
+  }
+});
 
 
+function allowResetPassword(req, res, next) {
+  if (!req.session.resetStep) {
+    return res.redirect("/login");
+  }
+
+  if (Date.now() - req.session.resetTime > 5 * 60 * 1000) {
+    req.session.resetStep = null;
+    req.session.resetTime = null;
+    return res.redirect("/login?error=expired");
+  }
+
+  next();
+}
+
+router.get("/reset_password", allowResetPassword, (req, res) => {
+  res.set("Cache-Control", "no-store");
+  res.render("user/reset_password.ejs");
+});
+
+router.post("/reset_password", allowResetPassword, async (req, res) =>{
+    try {
+        var d = req.body;
+        var sql = `UPDATE users SET password = ? WHERE email = ?`;
+        result = await exe(sql, [d.new_password, req.session.email]);
+        req.session.otp = null;
+        req.session.email = null;
+        req.session.resetStep = null;
+        req.session.resetTime = null;
+        res.redirect("/login?reset=success");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    }
+});
 
 module.exports = router

@@ -358,14 +358,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (params.get("error") === "invalid") {
     alert("Invalid username or password");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
   }
 
   if (params.get("login") === "success") {
     alert("Login successful!");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
   }
 
   if (params.get("register") === "success") {
     alert("Registration Successful! Please login.");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
   }
 </script>
 
