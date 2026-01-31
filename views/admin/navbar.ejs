@@ -73,49 +73,48 @@
             }
         }
 
-        /* ===== HOVER DROPDOWN STYLES ===== */
+        /* Dropdown wrapper */
         .custom-dropdown {
             position: relative;
         }
 
-        /* Main link styling */
-        .custom-dropdown>.nav-link {
-            position: relative;
-            padding-right: 30px !important;
+        /* Clickable nav link */
+        .dropdown-toggle-click {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             cursor: pointer;
         }
 
-        /* Dropdown arrow */
-        .custom-dropdown>.nav-link::after {
-            content: '▾';
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+        /* Arrow */
+        .dropdown-arrow i {
+            font-size: 12px;
             transition: transform 0.3s ease;
         }
 
-        .custom-dropdown:hover>.nav-link::after {
-            transform: translateY(-50%) rotate(180deg);
+        /* Rotate arrow when open */
+        .custom-dropdown.open .dropdown-arrow i {
+            transform: rotate(180deg);
         }
 
         /* Dropdown menu */
-        .dropdown-menu-hover {
+        .dropdown-menu-click {
             display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
-            min-width: 220px;
-            z-index: 1000;
-            border: none;
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
             border-radius: 8px;
-            padding: 8px 0;
-            box-shadow: 0 10px 25px rgba(106, 17, 203, 0.3);
-            margin-top: 5px;
-            animation: fadeIn 0.2s ease;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        /* Items */
+        .dropdown-menu-click .dropdown-item {
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        .dropdown-menu-click .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
 
         @keyframes fadeIn {
@@ -130,45 +129,7 @@
             }
         }
 
-        /* Show dropdown on hover */
-        .custom-dropdown:hover .dropdown-menu-hover {
-            display: block !important;
-        }
 
-        /* Dropdown items */
-        .dropdown-menu-hover .dropdown-item {
-            display: block;
-            color: white !important;
-            padding: 10px 20px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            position: relative;
-            font-size: 14px;
-        }
-
-        .dropdown-menu-hover .dropdown-item:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            padding-left: 25px;
-        }
-
-        .dropdown-menu-hover .dropdown-item i {
-            color: rgba(255, 255, 255, 0.9);
-            margin-right: 12px;
-            width: 16px;
-            text-align: center;
-            transition: all 0.2s ease;
-        }
-
-        .dropdown-menu-hover .dropdown-item:hover i {
-            color: white;
-            transform: scale(1.1);
-        }
-
-        /* Optional: Add hover effect to parent link */
-        .custom-dropdown:hover>.nav-link {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left-color: #7c3aed;
-        }
 
         /* Blue Gradient Header */
         .gradient-header {
@@ -201,6 +162,20 @@
         .icon-blue {
             color: #0d6efd;
         }
+
+
+
+        /* Left side (icon + text) */
+        .nav-link .nav-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Arrow alignment */
+        /* .dropdown-arrow {
+            margin-left: auto;
+        } */
     </style>
 </head>
 
@@ -234,13 +209,33 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/service">
-                                <i class="fas fa-concierge-bell me-2"></i>
-                                Services
+                        <!-- Services Management -->
+                        <li class="nav-item custom-dropdown">
+                            <a class="nav-link dropdown-toggle-click" href="javascript:void(0)">
+                                <span class="nav-text">
+                                    <i class="fas fa-concierge-bell"></i>
+                                    Services
+                                </span>
+                                <span class="dropdown-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
                             </a>
+
+                            <div class="dropdown-menu-click">
+                                <a class="dropdown-item" href="/admin/service_slider">
+                                    <i class="fas fa-sliders-h me-2"></i>Add Service Slider
+                                </a>
+                                <a class="dropdown-item" href="/admin/service">
+                                    <i class="fas fa-plus-circle me-2"></i> Add Service
+                                </a>
+                                <a class="dropdown-item" href="/admin/services/add_other_service">
+                                    <i class="fas fa-tags me-2"></i>Add Other Service
+                                </a>
+                            </div>
                         </li>
-                        </li>
+
+
+
 
                         <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="packagesDropdown" role="button"
@@ -294,24 +289,31 @@
                             </div>
                         </li>
 
+
                         <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-hover" href="/admin/blog">
-                                <i class="fas fa-newspaper me-2"></i>
-                                Blog / News
+                            <a class="nav-link dropdown-toggle-click" href="javascript:void(0)">
+                                <span class="nav-text">
+                                    <i class="fas fa-newspaper"></i>
+                                    Blog / News
+                                </span>
+                                <span class="dropdown-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </span>
                             </a>
 
-                            <div class="dropdown-menu-hover">
+                            <!-- ONE dropdown container -->
+                            <div class="dropdown-menu-click">
                                 <a class="dropdown-item" href="/admin/blog_slider">
-                                    <i class="fas fa-list me-2"></i> Blog Slider
+                                    <i class="fas fa-photo-video me-2"></i> Blog Slider
                                 </a>
-                                <!-- <a class="dropdown-item" href="/admin/blog/blog/create">
-                                    <i class="fas fa-plus-circle me-2"></i> Add New Blog
+
+                                <a class="dropdown-item" href="/admin/blog">
+                                    <i class="fas fa-plus-circle me-2"></i> Add Blog
                                 </a>
-                                <a class="dropdown-item" href="/admin/blog/categories">
-                                    <i class="fas fa-tags me-2"></i> Categories
-                                </a> -->
                             </div>
                         </li>
+
+
 
 
 
@@ -374,4 +376,48 @@
                 </div>
             </nav>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+                <script>
+                    const sidebar = document.getElementById('sidebar');
+
+                    document.querySelectorAll('.dropdown-toggle-click').forEach(toggle => {
+                        toggle.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            const parent = this.closest('.custom-dropdown');
+                            const menu = parent.querySelector('.dropdown-menu-click');
+
+                            // Close other dropdowns
+                            document.querySelectorAll('.custom-dropdown').forEach(item => {
+                                if (item !== parent) {
+                                    item.classList.remove('open');
+                                    const m = item.querySelector('.dropdown-menu-click');
+                                    if (m) m.style.display = 'none';
+                                }
+                            });
+
+                            // Toggle current dropdown
+                            parent.classList.toggle('open');
+
+                            menu.style.display = parent.classList.contains('open')
+                                ? 'block'
+                                : 'none';
+                        });
+                    });
+
+                    // ❌ DO NOT close when clicking inside sidebar
+                    sidebar.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                    });
+
+                    // ✅ Close ONLY when clicking outside sidebar
+                    document.addEventListener('click', function () {
+                        document.querySelectorAll('.custom-dropdown').forEach(item => {
+                            item.classList.remove('open');
+                            const menu = item.querySelector('.dropdown-menu-click');
+                            if (menu) menu.style.display = 'none';
+                        });
+                    });
+                </script>

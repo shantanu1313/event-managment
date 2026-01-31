@@ -4,83 +4,79 @@ var sendMail = require("./send_mail")
 var router = express.Router();
 
 router.get("/", function (req, res) {
-    var data = req.session.user;
-    res.render('user/home.ejs', { data });
+  var data = req.session.user;
+  res.render('user/home.ejs', { data });
 });
 
 router.get("/about", function (req, res) {
-    res.render('user/about.ejs');
+  res.render('user/about.ejs');
 });
 
-router.get("/services", function (req, res) {
-    res.render('user/services.ejs');
+router.get("/services", async function (req, res) {
+  var sql = "SELECT * FROM service_slider";
+  var service_slider = await exe(sql);
+
+  var sql2 = "SELECT * FROM other_service";
+  var other_service = await exe(sql2);
+
+  var sql3 = "SELECT * FROM service";
+  var service = await exe(sql3);
+
+  var packet = { service_slider, service, other_service };
+  res.render('user/services.ejs', packet);
 });
 
 router.get("/packages", function (req, res) {
-    res.render('user/packages.ejs');
+  res.render('user/packages.ejs');
 });
 
-router.get("/gallery", async function (req, res) {
-
-    const data = await exe("SELECT * FROM gallery_header LIMIT 1");
-    const galleryData = await exe("SELECT * FROM gallery ORDER BY id DESC");
-
-    const categories = [...new Set(
-        galleryData.map(item => item.category.toLowerCase())
-    )];
-
-    const obj = {
-        gallery_header: data,
-        gallery: galleryData,
-        categories: categories
-    };
-
-    res.render("user/gallery.ejs", obj);
+router.get("/gallery", function (req, res) {
+  res.render('user/gallery.ejs');
 });
 
 router.get("/testmonials", function (req, res) {
-    res.render('user/testmonials.ejs');
+  res.render('user/testmonials.ejs');
 });
 
 router.get("/blog", async function (req, res) {
 
-    var sql = "SELECT * FROM blog_slider";
-    var blog_slider = await exe(sql);
+  var sql = "SELECT * FROM blog_slider";
+  var blog_slider = await exe(sql);
 
-    var sql2 = "SELECT * FROM blog";
-    var blog = await exe(sql2);
+  var sql2 = "SELECT * FROM blog";
+  var blog = await exe(sql2);
 
-    var packet = { blog_slider, blog };
+  var packet = { blog_slider, blog };
 
-    res.render('user/blog.ejs', packet);
+  res.render('user/blog.ejs', packet);
 });
 
 router.get("/contact", function (req, res) {
-    res.render('user/contact.ejs');
+  res.render('user/contact.ejs');
 });
 
 router.get("/privacy", function (req, res) {
-    res.render('user/privacy.ejs');
+  res.render('user/privacy.ejs');
 });
 
 router.get("/terms", function (req, res) {
-    res.render('user/terms.ejs');
+  res.render('user/terms.ejs');
 });
 
 router.get("/FAQ", function (req, res) {
-    res.render('user/FAQ.ejs');
+  res.render('user/FAQ.ejs');
 });
 
 router.get("/login", function (req, res) {
-    res.render('user/login.ejs');
+  res.render('user/login.ejs');
 });
 
-router.get("/user_registeration", function (req, res){
-    res.render("user/register.ejs");
+router.get("/user_registeration", function (req, res) {
+  res.render("user/register.ejs");
 });
 
 router.get("/book_event", function (req, res) {
-    res.render("user/book_event.ejs");
+  res.render("user/book_event.ejs");
 });
 
 router.post("/save_user", async function (req, res) {
@@ -92,7 +88,7 @@ router.post("/save_user", async function (req, res) {
       return res.redirect("/user_registeration?error=email_exists");
     }
     var sql = ` INSERT INTO users (name, email, mobile, password) VALUES (?, ?, ?, ?)`;
-    await exe(sql, [ d.name, d.email, d.mobile, d.password ]);
+    await exe(sql, [d.name, d.email, d.mobile, d.password]);
     res.redirect("/login?register=success");
   } catch (err) {
     if (err.code === "ER_DUP_ENTRY") {
@@ -179,7 +175,7 @@ router.post("/send_otp_mail", async function (req, res) {
     console.log(err);
     res.status(500).send("Server Error");
   }
-}); 
+});
 
 function allowResetPassword(req, res, next) {
   if (!req.session.resetAllowed) {
@@ -211,18 +207,18 @@ router.post("/forgot_password", async function (req, res) {
   }
 });
 
-router.post("/reset_password", allowResetPassword, async (req, res) =>{
-    try {
-        var d = req.body;
-        var sql = `UPDATE users SET password = ? WHERE email = ?`;
-        result = await exe(sql, [d.new_password, req.session.email]);
-        req.session.otp = null;
-        req.session.email = null;
-        res.redirect("/login?reset=success");
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Server Error");
-    }
+router.post("/reset_password", allowResetPassword, async (req, res) => {
+  try {
+    var d = req.body;
+    var sql = `UPDATE users SET password = ? WHERE email = ?`;
+    result = await exe(sql, [d.new_password, req.session.email]);
+    req.session.otp = null;
+    req.session.email = null;
+    res.redirect("/login?reset=success");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
 });
 
 function allowResetPassword(req, res, next) {
@@ -244,20 +240,20 @@ router.get("/reset_password", allowResetPassword, (req, res) => {
   res.render("user/reset_password.ejs");
 });
 
-router.post("/reset_password", allowResetPassword, async (req, res) =>{
-    try {
-        var d = req.body;
-        var sql = `UPDATE users SET password = ? WHERE email = ?`;
-        result = await exe(sql, [d.new_password, req.session.email]);
-        req.session.otp = null;
-        req.session.email = null;
-        req.session.resetStep = null;
-        req.session.resetTime = null;
-        res.redirect("/login?reset=success");
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Server Error");
-    }
+router.post("/reset_password", allowResetPassword, async (req, res) => {
+  try {
+    var d = req.body;
+    var sql = `UPDATE users SET password = ? WHERE email = ?`;
+    result = await exe(sql, [d.new_password, req.session.email]);
+    req.session.otp = null;
+    req.session.email = null;
+    req.session.resetStep = null;
+    req.session.resetTime = null;
+    res.redirect("/login?reset=success");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
 });
 
 module.exports = router

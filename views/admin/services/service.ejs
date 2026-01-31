@@ -1,0 +1,245 @@
+<%- include("../navbar.ejs") %>
+
+
+    <!-- Service List Header -->
+    <div class="d-flex align-items-center justify-content-between my-4" style="background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(11,94,215,0.2);">
+        <div>
+            <h6 class="mb-0 fw-semibold">Service List</h6>
+            <small style="opacity:0.85; font-size: 12px;">Admin Panel → Services → All Services</small>
+        </div>
+
+        <a href="#addServiceForm" class="btn btn-sm btn-light fw-semibold px-3">
+            + Add
+        </a>
+    </div>
+
+    <!-- Scrollable Table Wrapper -->
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle"
+            style="background:#F8FAFF; border-radius:14px; overflow:hidden; min-width:1200px;">
+            <thead style="background: linear-gradient(135deg, #0B5ED7, #3BC9DB); color: white;">
+                <tr class="text-center">
+                    <th>#</th>
+                    <th>Logo</th>
+                    <th>Title</th>
+                    <th>Short Quote</th>
+                    <th>Feature 1</th>
+                    <th>Feature 2</th>
+                    <th>Feature 3</th>
+                    <th>Feature 4</th>
+                    <th>Feature 5</th>
+                    <th>Feature 6</th>
+                    <th>Price</th>
+                    <th>Book Button</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i=0; i < data.length; i++) { %>
+                    <tr class="text-center" style="background:white;">
+                        <td class="fw-bold text-primary">
+                            <%= i + 1 %>
+                        </td>
+
+                        <!-- Logo -->
+                        <td>
+                            <div style="width:46px; height:46px; background:linear-gradient(135deg,#E7F1FF,#F1FCFF);
+                                border-radius:12px; display:flex; align-items:center; justify-content:center;
+                                box-shadow:0 4px 10px rgba(11,94,215,0.15);">
+                                <i class="<%= data[i].logo %>" style="font-size:22px; color:#ff0000;"></i>
+                            </div>
+                        </td>
+
+                        <!-- Title -->
+                        <td class="text-start fw-semibold text-dark">
+                            <%= data[i].title %>
+                        </td>
+
+                        <!-- Short Quote -->
+                        <td class="text-start fw-semibold text-dark">
+                            <%= data[i].short_quote %>
+                        </td>
+
+                        <!-- Features -->
+                        <td class="text-start fw-semibold text-dark">
+                            <%= data[i].feature1 %>
+                        </td>
+                        <td class="text-start fw-semibold text-dark">
+                            <%= data[i].feature2 %>
+                        </td>
+                        <td class="text-start fw-semibold text-dark">
+                            <%= data[i].feature3 %>
+                        </td>
+                        <td class="text-start fw-semibold text-dark">
+                            <%= data[i].feature4 %>
+                        </td>
+                        <td class="text-start fw-semibold text-dark">
+                            <%= data[i].feature5 %>
+                        </td>
+                        <td class="text-start fw-semibold text-dark">
+                            <%= data[i].feature6 %>
+                        </td>
+
+                        <!-- Price in Indian Rupees -->
+                        <td class="text-start fw-semibold text-dark">
+                            <span class="badge bg-success fs-6 px-3 py-2"
+                                style="box-shadow:0 4px 10px rgba(25,135,84,0.3);">
+                                ₹ <%= Number(data[i].price).toLocaleString('en-IN') %>
+                            </span>
+                        </td>
+
+                        <!-- Book Button -->
+                        <td class="text-start fw-semibold text-dark">
+                            <span class="badge bg-warning text-dark px-3 py-2"
+                                style="box-shadow:0 4px 10px rgba(255,193,7,0.3);">
+                                <%= data[i].book_button %>
+                            </span>
+                        </td>
+
+                        <!-- Actions: Up-Down Buttons -->
+                        <td class="text-start fw-semibold text-dark">
+                            <div class="d-flex flex-column align-items-center gap-2">
+                                <a href="/admin/service/edit_service/<%= data[i].service_id %>"
+                                    class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 w-100 justify-content-center">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Edit
+                                </a>
+
+                                <a href="/admin/service/delete_service/<%= data[i].service_id %>"
+                                    class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1 w-100 justify-content-center"
+                                    onclick="return confirm('Delete this service?')">
+                                    <i class="bi bi-trash"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <div class="container mt-5">
+
+        <!-- 🔷 PAGE HEADER -->
+        <div class="page-header mb-4 d-flex align-items-center justify-content-between" style="
+        background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+        color: white;
+        padding: 8px 14px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(11,94,215,0.2);
+     ">
+
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-concierge-bell" style="font-size:18px;"></i>
+                <div>
+                    <h6 class="mb-0 fw-semibold">Add Service</h6>
+                    <small style="opacity:0.85; font-size:12px;">
+                        Admin Panel → Services → Add New
+                    </small>
+                </div>
+            </div>
+
+            <a href="/admin" class="btn btn-sm btn-light fw-semibold px-3">
+                Dashboard
+            </a>
+        </div>
+
+        <!-- 🔷 FORM CARD -->
+        <div class="card shadow service-card p-4" id="addServiceForm" style="border-radius: 16px;">
+            <form action="/admin/service/add" method="post">
+
+                <!-- Logo -->
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-tag me-2"></i>Select Logo</label>
+                    <select name="logo" id="logo" class="form-select" required>
+                        <option value="">Select Logo</option>
+                        <option value="bi bi-heart-fill">Wedding</option>
+                        <option value="bi bi-briefcase-fill">Corporate</option>
+                        <option value="bi bi-gift-fill">Social</option>
+                        <option value="bi bi-display-fill">Virtual</option>
+                        <option value="bi bi-gem">Luxury</option>
+                        <option value="bi bi-music-note-beamed">Music Events</option>
+                        <option value="bi bi-map">Event Destinations</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-heading me-2"></i>Event Title</label>
+                    <input type="text" name="title" id="title" class="form-control" placeholder="Enter a event title"
+                        required>
+                </div>
+
+                <!-- Short Quote -->
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-quote-left me-2"></i>Short Quote</label>
+                    <input type="text" name="short_quote" id="short_quote" class="form-control"
+                        placeholder="Enter a short quote" required>
+                </div>
+
+                <!-- Features -->
+                <div class="mb-3">
+                    <label class="form-label"><i class="fas fa-list me-2"></i>Features</label>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" name="feature1" class="form-control" placeholder="Feature 1" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="feature2" class="form-control" placeholder="Feature 2" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="feature3" class="form-control" placeholder="Feature 3" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="feature4" class="form-control" placeholder="Feature 4" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="feature5" class="form-control" placeholder="Feature 5">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="feature6" class="form-control" placeholder="Feature 6">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label class="form-label"><i class="bi bi-currency-rupee me-2"></i>Price</label>
+                    <input type="number" name="price" id="price" class="form-control"
+                        placeholder="&#8377; Enter price in ruppes" required>
+                </div>
+
+                <!-- Book Button Text -->
+                <div class="mb-4">
+                    <label class="form-label"><i class="fas fa-calendar-check me-2"></i>Book Button Text</label>
+                    <input type="text" name="book_button" id="book_button" class="form-control"
+                        placeholder="Book Now, Reserve, etc." required>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" style="padding: 12px 36px; border-radius: 10px;">
+                        <i class="fas fa-plus-circle me-2"></i> Add Service
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+
+    <%- include("../footer.ejs") %>
+
+        <!-- Optional: Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
