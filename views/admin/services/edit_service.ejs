@@ -1,0 +1,100 @@
+<%- include('../navbar.ejs') %>
+
+    <div class="container-fluid mt-4">
+
+        <!-- 🔷 PAGE HEADER -->
+        <div class="page-header mb-4 d-flex align-items-center justify-content-between" style="
+            background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(11,94,215,0.2);
+         ">
+
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-edit" style="font-size:18px;"></i>
+                <div>
+                    <h6 class="mb-0 fw-semibold">Edit Service</h6>
+                    <small style="opacity:0.85;font-size:12px;">
+                        Admin Panel → Services → Edit
+                    </small>
+                </div>
+            </div>
+
+            <a href="/admin/service" class="btn btn-sm btn-light fw-semibold px-3">
+                Back
+            </a>
+        </div>
+
+        <!-- 🔷 FORM CARD -->
+        <div class="card shadow-sm p-4" style="border-radius:16px;background:#F8FAFF;">
+
+            <form action="/admin/service/update_service/<%= data[0].service_id %>" method="post">
+
+                <!-- Logo -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Select Logo</label>
+                    <select name="logo" class="form-select" required>
+                        <option value="">Select Logo</option>
+                        <option value="bi bi-heart-fill" <%=data[0].logo=="bi bi-heart-fill" ?"selected":"" %>>Wedding
+                        </option>
+                        <option value="bi bi-briefcase-fill" <%=data[0].logo=="bi bi-briefcase-fill" ?"selected":"" %>
+                            >Corporate</option>
+                        <option value="bi bi-gift-fill" <%=data[0].logo=="bi bi-gift-fill" ?"selected":"" %>>Social
+                        </option>
+                        <option value="bi bi-display-fill" <%=data[0].logo=="bi bi-display-fill" ?"selected":"" %>
+                            >Virtual</option>
+                        <option value="bi bi-gem" <%=data[0].logo=="bi bi-gem" ?"selected":"" %>>Luxury</option>
+                        <option value="bi bi-music-note-beamed" <%=data[0].logo=="bi bi-music-note-beamed"
+                            ?"selected":"" %>>Music Events</option>
+                        <option value="bi bi-map" <%=data[0].logo=="bi bi-map" ?"selected":"" %>>Event Destinations
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Title</label>
+                    <input type="text" class="form-control" name="title" value="<%= data[0].title %>">
+                </div>
+
+                <!-- Short Quote -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Short Quote</label>
+                    <input type="text" class="form-control" name="short_quote" value="<%= data[0].short_quote %>">
+                </div>
+
+                <!-- Features -->
+                <% for(let i=1; i<=6; i++){ %>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Feature <%= i %></label>
+                        <input type="text" class="form-control" name="feature<%= i %>"
+                            value="<%= data[0]['feature'+i] %>">
+                    </div>
+                    <% } %>
+
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Price (₹)</label>
+                            <input type="number" class="form-control" name="price" value="<%= data[0].price %>">
+                        </div>
+
+                        <!-- Book Button -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Book Button Text</label>
+                            <input type="text" class="form-control" name="book_button"
+                                value="<%= data[0].book_button %>">
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary px-5" style="border-radius:10px;">
+                                Update Service
+                            </button>
+                        </div>
+
+            </form>
+        </div>
+    </div>
+
+    <%- include('../footer.ejs') %>

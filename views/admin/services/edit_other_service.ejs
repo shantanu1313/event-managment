@@ -1,0 +1,121 @@
+<%- include('../navbar.ejs') %>
+
+    <!-- Bootstrap CSS (if not already included) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
+    <div class="container mt-4">
+
+        <!-- 🔷 PAGE HEADER -->
+        <div class="page-header mb-4" style="background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+        color: white;
+        padding: 12px 18px;
+        border-radius: 14px;
+        box-shadow: 0 4px 12px rgba(11,94,215,0.25);
+        display: flex;
+        align-items: center;
+        gap: 12px;">
+
+            <div class="d-flex align-items-center justify-content-center" style="width:40px;height:40px;border-radius:10px;
+            background:rgba(255,255,255,0.2);">
+                <i class="bi bi-pencil-square fs-5"></i>
+            </div>
+
+            <div>
+                <h5 class="mb-1 fw-semibold">Edit Other Service</h5>
+                <small style="opacity:0.85;">
+                    Admin Panel → Services → Edit Other Service
+                </small>
+            </div>
+        </div>
+
+        <!-- 🔷 EDIT FORM CARD -->
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
+
+                    <div class="card-body p-4">
+                        <form action="/admin/services/update_other_service/<%= data[0].other_service_id %>"
+                            method="POST">
+
+                            <!-- Icon -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="bi bi-stars me-2"></i> Icon
+                                </label>
+                                <select name="icon" class="form-select" required>
+                                    <option value="">Select Service</option>
+                                    <option value="bi bi-cup-hot" <%=data[0].icon==='bi bi-cup-hot' ?'selected':'' %>
+                                        >Catering</option>
+                                    <option value="bi bi-music-note-beamed" <%=data[0].icon==='bi bi-music-note-beamed'
+                                        ?'selected':'' %>>Music</option>
+                                    <option value="bi bi-camera" <%=data[0].icon==='bi bi-camera' ?'selected':'' %>
+                                        >Photography</option>
+                                    <option value="bi bi-truck" <%=data[0].icon==='bi bi-truck' ?'selected':'' %>
+                                        >Transport</option>
+                                    <option value="bi bi-palette" <%=data[0].icon==='bi bi-palette' ?'selected':'' %>
+                                        >Decor</option>
+                                    <option value="bi bi-flower1" <%=data[0].icon==='bi bi-flower1' ?'selected':'' %>
+                                        >Florals</option>
+                                    <option value="bi bi-lightning-charge" <%=data[0].icon==='bi bi-lightning-charge'
+                                        ?'selected':'' %>>Lighting</option>
+                                    <option value="bi bi-glass" <%=data[0].icon==='bi bi-glass' ?'selected':'' %>>Bar /
+                                        Drinks</option>
+                                    <option value="bi bi-balloon" <%=data[0].icon==='bi bi-balloon' ?'selected':'' %>
+                                        >Party Supplies</option>
+                                    <option value="bi bi-people" <%=data[0].icon==='bi bi-people' ?'selected':'' %>
+                                        >Staff / Crew</option>
+                                    <option value="bi bi-geo-alt" <%=data[0].icon==='bi bi-geo-alt' ?'selected':'' %>
+                                        >Venue / Location</option>
+                                    <option value="bi bi-film" <%=data[0].icon==='bi bi-film' ?'selected':'' %>
+                                        >Videography</option>
+                                    <option value="bi bi-gift" <%=data[0].icon==='bi bi-gift' ?'selected':'' %>>Gifts /
+                                        Favors</option>
+                                    <option value="bi bi-book" <%=data[0].icon==='bi bi-book' ?'selected':'' %>>Planning
+                                        / Coordination</option>
+                                    <option value="bi bi-mic" <%=data[0].icon==='bi bi-mic' ?'selected':'' %>>MC /
+                                        Announcements</option>
+                                </select>
+                            </div>
+
+                            <!-- Title -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="bi bi-tag me-2"></i> Title
+                                </label>
+                                <input type="text" name="title" class="form-control" value="<%= data[0].title %>"
+                                    required>
+                            </div>
+
+                            <!-- Short Quote -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">
+                                    <i class="bi bi-chat-quote me-2"></i> Short Quote
+                                </label>
+                                <input type="text" name="short_quote" class="form-control"
+                                    value="<%= data[0].short_quote %>" required>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-flex gap-3 justify-content-center">
+                                <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                    <i class="bi bi-check-circle me-1"></i> Update
+                                </button>
+
+                                <a href="/admin/services/add_other_service"
+                                    class="btn btn-outline-secondary px-4 rounded-pill">
+                                    Cancel
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../footer.ejs') %>

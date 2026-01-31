@@ -1,389 +1,191 @@
-
 <%- include('navbar.ejs') %>
 
-<link rel="stylesheet" href="css/services.css">
+    <link rel="stylesheet" href="css/services.css">
 
-<!-- Hero Section -->
-<section class="services-banner">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h1 class="display-4 fw-bold mb-3">Exceptional Event Services</h1>
-                <p class="lead mb-4">Transform your vision into unforgettable experiences with our professional event management solutions</p>
-            </div>
-        </div>
-    </div>
-</section>
+    <!-- Hero Section -->
+    <% if (service_slider && service_slider.length> 0) { %>
 
-<!-- Main Services -->
-<section id="services" class="py-5">
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold section-title">What We Offer</h2>
-            <p class="text-muted mt-4">Comprehensive event solutions tailored to your needs</p>
-        </div>
+        <section class="services-banner" style="
+    margin-top: 80px;
+    min-height: 60vh;
+    background: linear-gradient(rgba(0,0,0,.70), rgba(0,0,0,.70)),
+            url('/upload/service/<%= service_slider[0].image %>');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+">
+            <div class="container">
+                <h1>
+                    <%= service_slider[0].title %>
+                </h1>
+                <p>
+                    <%= service_slider[0].description %>
+                </p>
+            </div>
+        </section>
 
-        <div class="row g-4">
-            <!-- Wedding Planning -->
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="service-card">
-                    <div class="card-header gradient-1 position-relative">
-                             <div class="service-icon">
-                            <i class="bi bi-heart-fill"></i>
-                        </div>
-                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">Wedding Planning</h5>
-                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">Dream weddings come true</p>
-                    </div>
-                    <div class="card-body">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i>Full event coordination</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Venue selection & booking</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Vendor negotiations</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Timeline management</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Day-of coordination</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Guest management</li>
-                        </ul>
-                        <div class="price-tag">
-                            <div class="price-amount">₹50,000</div>
-                            <div class="price-period">Starting price</div>
-                        </div>
-                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">Book Now</a>
-                    </div>
-                </div>
-            </div>
+        <% } %>
 
-            <!-- Corporate Events -->
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="service-card">
-                    <div class="card-header gradient-1 position-relative">
-                           <div class="service-icon">
-                            <i class="bi bi-briefcase-fill"></i>
-                        </div>
-                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">Corporate Events</h5>
-                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">Professional excellence</p>
+            <!-- Main Services -->
+            <section id="services" class="py-5">
+                <div class="container py-5">
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold section-title">What We Offer</h2>
+                        <p class="text-muted mt-4">Comprehensive event solutions tailored to your needs</p>
                     </div>
-                    <div class="card-body">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i>Conference management</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Product launches</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Team building events</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Award ceremonies</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Trade shows</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Brand activations</li>
-                        </ul>
-                        <div class="price-tag">
-                            <div class="price-amount">₹35,000</div>
-                            <div class="price-period">Starting price</div>
-                        </div>
-                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">Book Now</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Social Events -->
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="service-card">
-                    <div class="card-header gradient-1 position-relative">
-                        <div class="service-icon">
-                            <i class="bi bi-gift-fill"></i>
-                        </div>
-                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">Social Events</h5>
-                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">Celebrate every moment</p>
-                    </div>
-                    <div class="card-body">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i>Birthday celebrations</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Anniversary parties</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Baby showers</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Reunion parties</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Theme parties</li>
-                            <li><i class="bi bi-check-circle-fill"></i>House warming</li>
-                        </ul>
-                        <div class="price-tag">
-                            <div class="price-amount">₹15,000</div>
-                            <div class="price-period">Starting price</div>
-                        </div>
-                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">Book Now</a>
-                    </div>
-                </div>
-            </div>
+                    <div class="row g-4">
+                        <!-- Wedding Planning -->
+                        <% for(var i=0; i < service.length;i++) { %>
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="service-card">
+                                    <div class="card-header gradient-1 position-relative">
+                                        <div class="service-icon">
+                                            <i class="<%= service[i].logo %>"></i>
+                                        </div>
+                                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">
+                                            <%= service[i].title %>
+                                        </h5>
+                                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">
+                                            <%= service[i].short_quote %>
+                                        </p>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="feature-list">
+                                            <li><i class="bi bi-check-circle-fill"></i>
+                                                <%= service[i].feature1 %>
+                                            </li>
+                                            <li><i class="bi bi-check-circle-fill"></i>
+                                                <%= service[i].feature2 %>
+                                            </li>
+                                            <li><i class="bi bi-check-circle-fill"></i>
+                                                <%= service[i].feature3 %>
+                                            </li>
+                                            <li><i class="bi bi-check-circle-fill"></i>
+                                                <%= service[i].feature4 %>
+                                            </li>
+                                            <li><i class="bi bi-check-circle-fill"></i>
+                                                <%= service[i].feature5 %>
+                                            </li>
+                                            <li><i class="bi bi-check-circle-fill"></i>
+                                                <%= service[i].feature6 %>
+                                            </li>
+                                        </ul>
+                                        <div class="price-tag">
+                                            <div class="price-amount">₹<%= service[i].price %>
+                                            </div>
+                                            <div class="price-period">Starting price</div>
+                                        </div>
+                                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">
+                                            <%= service[i].book_button %>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
 
-            <!-- Virtual Events -->
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="service-card">
-                    <div class="card-header gradient-1 position-relative">
-                           <div class="service-icon">
-                            <i class="bi bi-camera-video-fill"></i>
-                        </div>
-                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">Virtual Events</h5>
-                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">Connect digitally</p>
-                    </div>
-                    <div class="card-body">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i>Virtual conferences</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Webinar production</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Live streaming</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Hybrid events</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Online workshops</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Tech support</li>
-                        </ul>
-                        <div class="price-tag">
-                            <div class="price-amount">₹25,000</div>
-                            <div class="price-period">Starting price</div>
-                        </div>
-                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">Book Now</a>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Luxury Events -->
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="service-card">
-                    <div class="card-header gradient-1 position-relative">
-                           <div class="service-icon">
-                            <i class="bi bi-gem"></i>
-                        </div>
-                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">Luxury Events</h5>
-                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">Elite experiences</p>
+            <!-- Add-on Services -->
+            <section class="py-5 bg-light">
+                <div class="container py-5">
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold section-title">Add-on Services</h2>
+                        <p class="text-muted mt-4">Enhance your event with these additional services</p>
                     </div>
-                    <div class="card-body">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i>VIP services</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Exclusive venues</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Celebrity bookings</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Private jets/yachts</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Luxury catering</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Concierge service</li>
-                        </ul>
-                        <div class="price-tag">
-                            <div class="price-amount">₹1,00,000</div>
-                            <div class="price-period">Starting price</div>
-                        </div>
-                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">Book Now</a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Fundraising -->
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="service-card">
-                    <div class="card-header gradient-1 position-relative">
-                        <div class="service-icon">
-                            <i class="bi bi-cash-coin"></i>
+                    <div class="row g-3">
+                        <% for(var i=0; i < other_service.length;i++) { %>
+                            <div class="col-lg-2 col-md-3 col-4">
+                                <div class="addon-card">
+                                    <div class="addon-icon bg-primary bg-opacity-10">
+                                        <i class="bi <%= other_service[i].icon %> text-primary"></i>
+                                    </div>
+                                    <h6>
+                                        <%= other_service[i].title %>
+                                    </h6>
+                                    <p>
+                                        <%= other_service[i].short_quote %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Process Section -->
+            <section class="process-section py-5">
+                <div class="container py-5">
+                    <div class="text-center mb-5">
+                        <span class="badge gradient-1 text-white px-3 py-2 rounded-pill mb-3">Our Process</span>
+                        <h2 class="fw-bold text-dark">How We Work</h2>
+                        <p class="text-dark mt-3">Simple steps to your perfect event</p>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-3 col-6">
+                            <div class="process-card h-100">
+                                <div class="process-number">1</div>
+                                <h5>Consultation</h5>
+                                <p>Share your vision and requirements with our experts</p>
+                            </div>
                         </div>
-                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">Fundraising</h5>
-                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">For noble causes</p>
-                    </div>
-                    <div class="card-body">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i>Charity galas</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Silent auctions</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Donor events</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Marathons/walks</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Golf tournaments</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Online campaigns</li>
-                        </ul>
-                        <div class="price-tag">
-                            <div class="price-amount">₹45,000</div>
-                            <div class="price-period">Starting price</div>
+                        <div class="col-md-3 col-6">
+                            <div class="process-card h-100">
+                                <div class="process-number">2</div>
+                                <h5>Planning</h5>
+                                <p>We create a detailed plan and budget proposal</p>
+                            </div>
                         </div>
-                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">Book Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Concerts & Festivals -->
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="service-card">
-                    <div class="card-header gradient-1 position-relative">
-                            <div class="service-icon">
-                            <i class="bi bi-music-note-list"></i>
+                        <div class="col-md-3 col-6">
+                            <div class="process-card h-100">
+                                <div class="process-number">3</div>
+                                <h5>Coordination</h5>
+                                <p>We handle all vendors, logistics and details</p>
+                            </div>
                         </div>
-                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">Concerts & Festivals</h5>
-                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">Entertainment events</p>
-                    </div>
-                    <div class="card-body">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i>Artist management</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Stage production</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Sound & lighting</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Ticket management</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Security planning</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Crowd management</li>
-                        </ul>
-                        <div class="price-tag">
-                            <div class="price-amount">₹2,00,000</div>
-                            <div class="price-period">Starting price</div>
+                        <div class="col-md-3 col-6">
+                            <div class="process-card h-100">
+                                <div class="process-number">4</div>
+                                <h5>Execution</h5>
+                                <p>Flawless event delivery with on-site management</p>
+                            </div>
                         </div>
-                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">Book Now</a>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Destination Events -->
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="service-card">
-                    <div class="card-header gradient-1 position-relative">
-                        <div class="service-icon">
-                            <i class="bi bi-airplane-fill"></i>
-                        </div>
-                        <h5 class="text-white mb-1 fw-bold" style="font-size: 1rem;">Destination Events</h5>
-                        <p class="text-white-50 mb-0" style="font-size: 0.75rem;">Events worldwide</p>
-                    </div>
-                    <div class="card-body">
-                        <ul class="feature-list">
-                            <li><i class="bi bi-check-circle-fill"></i>Location scouting</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Travel arrangements</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Accommodation booking</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Local vendor network</li>
-                            <li><i class="bi bi-check-circle-fill"></i>Visa assistance</li>
-                            <li><i class="bi bi-check-circle-fill"></i>24/7 support</li>
-                        </ul>
-                        <div class="price-tag">
-                            <div class="price-amount">₹75,000</div>
-                            <div class="price-period">Starting price</div>
-                        </div>
-                        <a href="#" class="btn gradient-1 text-light w-100 mt-3 rounded-pill btn-sm">Book Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Add-on Services -->
-<section class="py-5 bg-light">
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold section-title">Add-on Services</h2>
-            <p class="text-muted mt-4">Enhance your event with these additional services</p>
-        </div>
-
-        <div class="row g-3">
-            <div class="col-lg-2 col-md-3 col-4">
-                <div class="addon-card">
-                    <div class="addon-icon bg-primary bg-opacity-10">
-                        <i class="bi bi-cup-hot text-primary"></i>
-                    </div>
-                    <h6>Catering</h6>
-                    <p>Gourmet food</p>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-4">
-                <div class="addon-card">
-                    <div class="addon-icon bg-success bg-opacity-10">
-                        <i class="bi bi-music-note-beamed text-success"></i>
-                    </div>
-                    <h6>Music & DJ</h6>
-                    <p>Live entertainment</p>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-4">
-                <div class="addon-card">
-                    <div class="addon-icon bg-info bg-opacity-10">
-                        <i class="bi bi-camera text-info"></i>
-                    </div>
-                    <h6>Photography</h6>
-                    <p>Capture moments</p>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-4">
-                <div class="addon-card">
-                    <div class="addon-icon bg-warning bg-opacity-10">
-                        <i class="bi bi-palette text-warning"></i>
-                    </div>
-                    <h6>Decor</h6>
-                    <p>Stunning designs</p>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-4">
-                <div class="addon-card">
-                    <div class="addon-icon bg-danger bg-opacity-10">
-                        <i class="bi bi-flower1 text-danger"></i>
-                    </div>
-                    <h6>Florals</h6>
-                    <p>Fresh flowers</p>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-4">
-                <div class="addon-card">
-                    <div class="addon-icon bg-secondary bg-opacity-10">
-                        <i class="bi bi-truck text-secondary"></i>
-                    </div>
-                    <h6>Transport</h6>
-                    <p>Guest pickup</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Process Section -->
-<section class="process-section py-5">
-    <div class="container py-5">
-        <div class="text-center mb-5">
-            <span class="badge gradient-1 text-white px-3 py-2 rounded-pill mb-3">Our Process</span>
-            <h2 class="fw-bold text-dark">How We Work</h2>
-            <p class="text-dark mt-3">Simple steps to your perfect event</p>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-md-3 col-6">
-                <div class="process-card h-100">
-                    <div class="process-number">1</div>
-                    <h5>Consultation</h5>
-                    <p>Share your vision and requirements with our experts</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="process-card h-100">
-                    <div class="process-number">2</div>
-                    <h5>Planning</h5>
-                    <p>We create a detailed plan and budget proposal</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="process-card h-100">
-                    <div class="process-number">3</div>
-                    <h5>Coordination</h5>
-                    <p>We handle all vendors, logistics and details</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-6">
-                <div class="process-card h-100">
-                    <div class="process-number">4</div>
-                    <h5>Execution</h5>
-                    <p>Flawless event delivery with on-site management</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Smooth Scroll -->
-<script>
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+            <!-- Smooth Scroll -->
+            <script>
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
                 });
-            }
-        });
-    });
 
-    // Navbar scroll effect
-    window.addEventListener('scroll', function () {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('shadow-lg');
-        } else {
-            navbar.classList.remove('shadow-lg');
-        }
-    });
-</script>
+                // Navbar scroll effect
+                window.addEventListener('scroll', function () {
+                    const navbar = document.querySelector('.navbar');
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('shadow-lg');
+                    } else {
+                        navbar.classList.remove('shadow-lg');
+                    }
+                });
+            </script>
 
-<%- include('footer.ejs') %>
+            <%- include('footer.ejs') %>

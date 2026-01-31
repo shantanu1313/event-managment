@@ -1,268 +1,269 @@
- <link type="text/css" rel="stylesheet" href="/css/admin_dashboard.css">
- 
- <%-include("navbar.ejs")%>
-          
-           
-                <!-- Top Bar -->
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2" id="page-title">Dashboard</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group me-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">
-                                <i class="fas fa-calendar me-1"></i>
-                                Today
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">
-                                <i class="fas fa-filter me-1"></i>
-                                Filter
-                            </button>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-primary">
-                            <i class="fas fa-download me-1"></i>
-                            Export
-                        </button>
-                    </div>
-                </div>
+<link type="text/css" rel="stylesheet" href="/css/admin_dashboard.css">
 
-                <!-- Stats Cards -->
-                <div class="row mb-4" id="stats-cards">
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs fw-bold text-primary text-uppercase mb-1">
-                                            Total Events
-                                        </div>
-                                        <div class="h5 mb-0 fw-bold text-gray-800">156</div>
-                                        <div class="mt-2 mb-0 text-muted">
-                                            <span class="text-success me-2">
-                                                <i class="fas fa-arrow-up me-1"></i>12%
-                                            </span>
-                                            <span>Since last month</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-calendar fa-2x text-primary"></i>
-                                    </div>
-                                </div>
+<%-include("navbar.ejs")%>
+
+
+    <!-- Top Bar -->
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2" id="page-title">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-calendar me-1"></i>
+                    Today
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-filter me-1"></i>
+                    Filter
+                </button>
+            </div>
+            <button type="button" class="btn btn-sm btn-primary">
+                <i class="fas fa-download me-1"></i>
+                Export
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4" id="stats-cards">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-primary text-uppercase mb-1">
+                                Total Events
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">156</div>
+                            <div class="mt-2 mb-0 text-muted">
+                                <span class="text-success me-2">
+                                    <i class="fas fa-arrow-up me-1"></i>12%
+                                </span>
+                                <span>Since last month</span>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs fw-bold text-success text-uppercase mb-1">
-                                            Total Bookings
-                                        </div>
-                                        <div class="h5 mb-0 fw-bold text-gray-800">89</div>
-                                        <div class="mt-2 mb-0 text-muted">
-                                            <span class="text-success me-2">
-                                                <i class="fas fa-arrow-up me-1"></i>18%
-                                            </span>
-                                            <span>Since last month</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-bookmark fa-2x text-success"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-info shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs fw-bold text-info text-uppercase mb-1">
-                                            Revenue
-                                        </div>
-                                        <div class="h5 mb-0 fw-bold text-gray-800">42,589</div>
-                                        <div class="mt-2 mb-0 text-muted">
-                                            <span class="text-success me-2">
-                                                <i class="fas fa-arrow-up me-1"></i>23%
-                                            </span>
-                                            <span>Since last month</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-info"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs fw-bold text-warning text-uppercase mb-1">
-                                            Users
-                                        </div>
-                                        <div class="h5 mb-0 fw-bold text-gray-800">342</div>
-                                        <div class="mt-2 mb-0 text-muted">
-                                            <span class="text-success me-2">
-                                                <i class="fas fa-arrow-up me-1"></i>8%
-                                            </span>
-                                            <span>Since last month</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-users fa-2x text-warning"></i>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Charts -->
-                <div class="row mb-4">
-                    <div class="col-xl-8 col-lg-7">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 fw-bold text-primary">Revenue Overview</h6>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-success text-uppercase mb-1">
+                                Total Bookings
                             </div>
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <canvas id="revenueChart"></canvas>
-                                </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">89</div>
+                            <div class="mt-2 mb-0 text-muted">
+                                <span class="text-success me-2">
+                                    <i class="fas fa-arrow-up me-1"></i>18%
+                                </span>
+                                <span>Since last month</span>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 fw-bold text-primary">Booking Sources</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-pie">
-                                    <canvas id="bookingSourceChart"></canvas>
-                                </div>
-                            </div>
+                        <div class="col-auto">
+                            <i class="fas fa-bookmark fa-2x text-success"></i>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Quick Actions -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="card shadow">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 fw-bold text-primary">Quick Actions</h6>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-info text-uppercase mb-1">
+                                Revenue
                             </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3 mb-3">
-                                        <a href="#about-management" class="btn btn-light w-100 py-3 text-start">
-                                            <i class="fas fa-edit text-primary me-2"></i>
-                                            <strong>Edit About Page</strong>
-                                            <small class="d-block text-muted mt-1">Update company information</small>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <a href="#bookings-management" class="btn btn-light w-100 py-3 text-start">
-                                            <i class="fas fa-check-circle text-success me-2"></i>
-                                            <strong>Process Bookings</strong>
-                                            <small class="d-block text-muted mt-1">5 pending approvals</small>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <a href="#events-management" class="btn btn-light w-100 py-3 text-start">
-                                            <i class="fas fa-plus text-info me-2"></i>
-                                            <strong>Add New Event</strong>
-                                            <small class="d-block text-muted mt-1">Create upcoming events</small>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3 mb-3">
-                                        <a href="#blog-management" class="btn btn-light w-100 py-3 text-start">
-                                            <i class="fas fa-newspaper text-warning me-2"></i>
-                                            <strong>Add Blog Post</strong>
-                                            <small class="d-block text-muted mt-1">Share latest news</small>
-                                        </a>
-                                    </div>
-                                </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">42,589</div>
+                            <div class="mt-2 mb-0 text-muted">
+                                <span class="text-success me-2">
+                                    <i class="fas fa-arrow-up me-1"></i>23%
+                                </span>
+                                <span>Since last month</span>
                             </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-info"></i>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Recent Bookings -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card shadow">
-                            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                <h6 class="m-0 fw-bold text-primary">Recent Bookings</h6>
-                                <a href="#bookings-management" class="btn btn-sm btn-primary">View All</a>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">
+                                Users
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Booking ID</th>
-                                                <th>Customer</th>
-                                                <th>Event</th>
-                                                <th>Date</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>#EVT-001</td>
-                                                <td>John Doe</td>
-                                                <td>Wedding Ceremony</td>
-                                                <td>2023-06-15</td>
-                                                <td>$2,499</td>
-                                                <td><span class="badge bg-success">Confirmed</span></td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-outline-primary">View</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#EVT-002</td>
-                                                <td>Sarah Johnson</td>
-                                                <td>Corporate Conference</td>
-                                                <td>2023-06-20</td>
-                                                <td>$5,500</td>
-                                                <td><span class="badge bg-warning">Pending</span></td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-outline-primary">Approve</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#EVT-003</td>
-                                                <td>Michael Chen</td>
-                                                <td>Birthday Party</td>
-                                                <td>2023-06-25</td>
-                                                <td>$999</td>
-                                                <td><span class="badge bg-info">In Progress</span></td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-outline-primary">Update</button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">342</div>
+                            <div class="mt-2 mb-0 text-muted">
+                                <span class="text-success me-2">
+                                    <i class="fas fa-arrow-up me-1"></i>8%
+                                </span>
+                                <span>Since last month</span>
                             </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-warning"></i>
                         </div>
                     </div>
                 </div>
-     
-       
-  
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row mb-4">
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Revenue Overview</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Booking Sources</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie">
+                        <canvas id="bookingSourceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Quick Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="#about-management" class="btn btn-light w-100 py-3 text-start">
+                                <i class="fas fa-edit text-primary me-2"></i>
+                                <strong>Edit About Page</strong>
+                                <small class="d-block text-muted mt-1">Update company information</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#bookings-management" class="btn btn-light w-100 py-3 text-start">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong>Process Bookings</strong>
+                                <small class="d-block text-muted mt-1">5 pending approvals</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#events-management" class="btn btn-light w-100 py-3 text-start">
+                                <i class="fas fa-plus text-info me-2"></i>
+                                <strong>Add New Event</strong>
+                                <small class="d-block text-muted mt-1">Create upcoming events</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#blog-management" class="btn btn-light w-100 py-3 text-start">
+                                <i class="fas fa-newspaper text-warning me-2"></i>
+                                <strong>Add Blog Post</strong>
+                                <small class="d-block text-muted mt-1">Share latest news</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 fw-bold text-primary">Recent Bookings</h6>
+                    <a href="#bookings-management" class="btn btn-sm btn-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Customer</th>
+                                    <th>Event</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#EVT-001</td>
+                                    <td>John Doe</td>
+                                    <td>Wedding Ceremony</td>
+                                    <td>2023-06-15</td>
+                                    <td>$2,499</td>
+                                    <td><span class="badge bg-success">Confirmed</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#EVT-002</td>
+                                    <td>Sarah Johnson</td>
+                                    <td>Corporate Conference</td>
+                                    <td>2023-06-20</td>
+                                    <td>$5,500</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">Approve</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#EVT-003</td>
+                                    <td>Michael Chen</td>
+                                    <td>Birthday Party</td>
+                                    <td>2023-06-25</td>
+                                    <td>$999</td>
+                                    <td><span class="badge bg-info">In Progress</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">Update</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- Admin JS -->
-    
+
     <script>
         // Charts
         const revenueCtx = document.getElementById('revenueChart').getContext('2d');
@@ -308,4 +309,4 @@
             }
         });
     </script>
-<%-include("footer.ejs")%>
+    <%-include("footer.ejs")%>
