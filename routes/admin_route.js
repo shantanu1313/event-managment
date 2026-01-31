@@ -194,9 +194,172 @@ router.get("/services/edit_other_service/:id", async function (req, res) {
 router.get("/package", function (req, res) {
     res.render('admin/package.ejs');
 });
-router.get("/gallery", function (req, res) {
-    res.render('admin/gallery.ejs');
+router.get("/gallery", async function (req, res) {
+   
+        const data = await exe("SELECT * FROM gallery_header LIMIT 1");
+        res.render("admin/gallery.ejs", { gallery_header: data[0] || null });
 });
+router.post("/gallery-header/save", async function(req, res) {
+   
+        const d = req.body;
+        let FileName = "";
+
+        // Get old record if exists
+        const oldRecord = await exe("SELECT * FROM gallery_header LIMIT 1");
+        const fs = require("fs");
+
+        if(req.files && req.files.image){
+            const image = req.files.image;
+            FileName = Date.now() + "_" + image.name.replace(/\s/g, "_");
+            await image.mv("public/upload/gallery/" + FileName);
+
+            // Delete old image file if exists
+            if(oldRecord.length > 0){
+                const oldImage = oldRecord[0].image;
+                if(oldImage && fs.existsSync("public/upload/gallery/" + oldImage)){
+                    fs.unlinkSync("public/upload/gallery/" + oldImage);
+                }
+            }
+        } else if(oldRecord.length > 0){
+            FileName = oldRecord[0].image; // keep old image if new not uploaded
+        }
+
+        if(oldRecord.length > 0){
+            // Update existing record
+            await exe(
+                "UPDATE gallery_header SET title = ?, subtitle = ?, image = ? WHERE id = ?",
+                [d.title, d.subtitle, FileName, oldRecord[0].id]
+            );
+        } else {
+            // Insert new record
+            await exe(
+                "INSERT INTO gallery_header(title, subtitle, image) VALUES (?, ?, ?)",
+                [d.title, d.subtitle, FileName]
+            );
+        }
+
+        res.redirect("/admin/gallery");
+
+   
+    
+});
+ router.post("/gallery/save", async function(req, res){
+
+    var d = req.body;
+    var FileName = "";
+
+    // Image upload
+    if(req.files && req.files.gallery_img){
+        FileName = Date.now() + req.files.gallery_img.name;
+        await req.files.gallery_img.mv("public/upload/gallery/" + FileName);
+    }
+
+    var sql = `
+        INSERT INTO gallery
+        (category, title, gallary_img, event_date)
+        VALUES
+        (?,?,?,?)
+    `;
+
+    await exe(sql, [
+        d.category,
+        d.title,
+        FileName,
+        d.event_date
+    ]);
+
+    res.redirect("/admin/gallery_list");
+});
+
+  router.get("/gallery_list", async function(req, res){
+    var sql = "SELECT * FROM gallery ORDER BY id DESC";
+    var gallery = await exe(sql);
+    res.render("admin/gallery_list.ejs", { gallery });
+});
+
+const fs = require("fs");
+const path = require("path");
+
+router.get("/gallery_delete/:id", async function(req, res){
+
+    const id = req.params.id;
+
+    // 1️⃣ get image name from DB
+    const data = await exe(`SELECT gallary_img FROM gallery WHERE id = '${id}'`);
+
+    if(data.length > 0 && data[0].gallary_img){
+        const imagePath = path.join(
+            __dirname,
+            "../public/upload/gallery/",
+            data[0].gallary_img
+        );
+
+        // 2️⃣ delete image file if exists
+        if(fs.existsSync(imagePath)){
+            fs.unlinkSync(imagePath);
+        }
+    }
+
+    // 3️⃣ delete record from DB
+    await exe(`DELETE FROM gallery WHERE id = '${id}'`);
+
+    res.redirect("/admin/gallery_list");
+});
+
+
+router.get("/gallery_edit/:id",async function(req,res){
+      id = req.params.id;
+      data = await exe(`SELECT * FROM gallery WHERE id = '${id}'`);
+       res.render("admin/gallery_edit.ejs", { gallery: data[0] });
+      })
+      
+     
+
+router.post("/gallery_update/:id", async function(req, res){
+    const id = req.params.id;
+    const d = req.body;
+    let newFileName = "";
+
+    // 1️⃣ Get current record from DB
+    const data = await exe(`SELECT * FROM gallery WHERE id = ?`, [id]);
+    const oldImage = data[0].gallary_img;
+
+    // 2️⃣ Handle new image upload
+    if(req.files && req.files.gallery_img){
+        newFileName = Date.now() + "_" + req.files.gallery_img.name.replace(/\s/g,"_");
+        const uploadPath = path.join(__dirname, "../public/upload/gallery/", newFileName);
+        await req.files.gallery_img.mv(uploadPath);
+
+        // Delete old image if exists
+        if(oldImage){
+            const oldPath = path.join(__dirname, "../public/upload/gallery/", oldImage);
+            if(fs.existsSync(oldPath)){
+                fs.unlinkSync(oldPath);
+            }
+        }
+    } else {
+        // No new image uploaded → keep old image
+        newFileName = oldImage;
+    }
+
+    // 3️⃣ Update record in DB
+    const sql = `
+        UPDATE gallery
+        SET category = ?, title = ?, gallary_img = ?, event_date = ?
+        WHERE id = ?
+    `;
+    await exe(sql, [
+        d.category,
+        d.title,
+        newFileName,
+        d.event_date,
+        id
+    ]);
+
+    // 4️⃣ Redirect to gallery list
+    res.redirect("/admin/gallery_list");
+});
+
 router.get("/blog", async function (req, res) {
     var sql = "SELECT * FROM blog"
     var data = await exe(sql)

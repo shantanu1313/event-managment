@@ -244,11 +244,31 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/gallery">
-                                <i class="fas fa-images me-2"></i>
+                           <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#galleryMenu">
+                                <i class="fas fa-address-book me-2"></i>
                                 Gallery
+                                <i class="fas fa-chevron-down float-end"></i>
                             </a>
+
+                            <div class="collapse" id="galleryMenu">
+                                <ul class="nav flex-column ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/gallery">
+                                            <i class="fas fa-image me-2"></i>
+                                            Add Gallery
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item" id="galleryMenu">
+                                        <a class="nav-link" href="/admin/gallery_list">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            Gallery List
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
 
 

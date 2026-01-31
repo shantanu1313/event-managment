@@ -1,0 +1,60 @@
+<%- include("navbar.ejs") %>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header text-center">
+                <h4 class="mb-0">Edit Gallery Image</h4>
+            </div>
+
+            <div class="card-body">
+                <form action="/admin/gallery_update/<%= gallery.id %>" method="POST" enctype="multipart/form-data">
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <input type="text" name="category" class="form-control" value="<%= gallery.category %>" required>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" value="<%= gallery.title %>" required>
+                    </div>
+
+                    <!-- Current Image -->
+                    <div class="mb-3">
+                        <label class="form-label">Current Image</label><br>
+                        <% if(gallery.gallary_img){ %>
+                            <img src="/upload/gallery/<%= gallery.gallary_img %>" width="150" class="img-thumbnail">
+                        <% } else { %>
+                            <span class="text-muted">No image uploaded</span>
+                        <% } %>
+                    </div>
+
+                    <!-- New Image -->
+                    <div class="mb-3">
+                        <label class="form-label">Replace Image (optional)</label>
+                        <input type="file" name="gallery_img" class="form-control" accept="image/*">
+                    </div>
+
+                    <!-- Event Date -->
+                    <div class="mb-3">
+                        <label class="form-label">Event Date</label>
+                        <input type="date" name="event_date" class="form-control" value="<%= gallery.event_date.toISOString().split('T')[0] %>" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success px-4">
+                            Update Gallery
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include("footer.ejs") %>
