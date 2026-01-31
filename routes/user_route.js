@@ -20,8 +20,22 @@ router.get("/packages", function (req, res) {
     res.render('user/packages.ejs');
 });
 
-router.get("/gallery", function (req, res) {
-    res.render('user/gallery.ejs');
+router.get("/gallery", async function (req, res) {
+
+    const data = await exe("SELECT * FROM gallery_header LIMIT 1");
+    const galleryData = await exe("SELECT * FROM gallery ORDER BY id DESC");
+
+    const categories = [...new Set(
+        galleryData.map(item => item.category.toLowerCase())
+    )];
+
+    const obj = {
+        gallery_header: data,
+        gallery: galleryData,
+        categories: categories
+    };
+
+    res.render("user/gallery.ejs", obj);
 });
 
 router.get("/testmonials", function (req, res) {
