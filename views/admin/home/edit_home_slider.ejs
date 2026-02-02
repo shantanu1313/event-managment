@@ -1,0 +1,95 @@
+<%- include('../navbar.ejs') %>
+
+    <div class="container mt-4">
+
+        <!-- 🔷 SMALL PAGE HEADER -->
+        <div class="page-header mb-3" style="background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+        color: white;
+        padding: 8px 14px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(11,94,215,0.2);
+        display: flex;
+        align-items: center;
+        gap: 10px;">
+
+            <div class="d-flex align-items-center justify-content-center" style="width:34px;height:34px;border-radius:8px;
+            background:rgba(255,255,255,0.2); font-size:16px;">
+                🖼️
+            </div>
+
+            <div>
+                <h6 class="mb-0 fw-semibold">Edit Home Slider</h6>
+                <small style="opacity:0.85; font-size:11px;">
+                    Admin Panel → Home → Edit Slider
+                </small>
+            </div>
+        </div>
+
+        <!-- 🔷 FORM CARD -->
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
+
+                    <div class="card-body p-4">
+
+                        <form action="/admin/home/update_home_slider/<%= data[0].home_slider_id %>" method="post"
+                            enctype="multipart/form-data">
+
+                            <!-- Old Image -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Old Image
+                                </label>
+                                <div>
+                                    <img src="/upload/home/<%= data[0].image %>" class="img-thumbnail rounded"
+                                        style="width:150px;height:90px;object-fit:cover;">
+                                </div>
+                            </div>
+
+                            <!-- New Image -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Upload New Image
+                                </label>
+                                <input type="file" name="image" class="form-control">
+                            </div>
+
+                            <!-- Title -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Title
+                                </label>
+                                <input type="text" name="title" value="<%= data[0].title %>" class="form-control"
+                                    required>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">
+                                    Description
+                                </label>
+                                <input type="text" name="description" value="<%= data[0].description %>"
+                                    class="form-control" required>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-center gap-3">
+                                <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                    Update Slider
+                                </button>
+
+                                <a href="/admin/home/home_slider" class="btn btn-outline-secondary px-4 rounded-pill">
+                                    Cancel
+                                </a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <%- include('../footer.ejs') %>

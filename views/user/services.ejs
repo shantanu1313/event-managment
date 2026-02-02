@@ -130,34 +130,21 @@
                     </div>
 
                     <div class="row g-4">
-                        <div class="col-md-3 col-6">
-                            <div class="process-card h-100">
-                                <div class="process-number">1</div>
-                                <h5>Consultation</h5>
-                                <p>Share your vision and requirements with our experts</p>
+                        <% for(var i=0; i<how_work.length; i++ ) { %>
+                            <div class="col-md-3 col-6">
+                                <div class="process-card h-100">
+                                    <div class="process-number">
+                                        <%= i+1 %>
+                                    </div>
+                                    <h5>
+                                        <%= how_work[i].title %>
+                                    </h5>
+                                    <p>
+                                        <%= how_work[i].quote %>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="process-card h-100">
-                                <div class="process-number">2</div>
-                                <h5>Planning</h5>
-                                <p>We create a detailed plan and budget proposal</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="process-card h-100">
-                                <div class="process-number">3</div>
-                                <h5>Coordination</h5>
-                                <p>We handle all vendors, logistics and details</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="process-card h-100">
-                                <div class="process-number">4</div>
-                                <h5>Execution</h5>
-                                <p>Flawless event delivery with on-site management</p>
-                            </div>
-                        </div>
+                            <% } %>
                     </div>
                 </div>
             </section>
