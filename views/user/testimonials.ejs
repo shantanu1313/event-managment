@@ -39,26 +39,28 @@
         <section class="stats-section">
             <div class="stats-container">
                 <div class="stat-card">
-                    <h2 class="stat-number" data-target="500">0</h2>
+                    <h2 class="stat-number" data-target="500" data-suffix="%">0+</h2>
                     <p class="stat-label">Events Managed</p>
                 </div>
 
                 <div class="stat-card">
-                    <h2 class="stat-number" data-target="98">0</h2>
+                    <h2 class="stat-number" data-target="98" data-suffix="%">0%</h2>
                     <p class="stat-label">Happy Clients</p>
                 </div>
 
                 <div class="stat-card">
-                    <h2 class="stat-number" data-target="50">0</h2>
+                    <h2 class="stat-number" data-target="50" data-suffix="+">0+</h2>
                     <p class="stat-label">Expert Planners</p>
                 </div>
 
                 <div class="stat-card">
-                    <h2 class="stat-number" data-target="15">0</h2>
+                    <h2 class="stat-number" data-target="15" data-suffix="+">0+</h2>
                     <p class="stat-label">Years Experience</p>
                 </div>
             </div>
         </section>
+
+
 
         <!-- Rating Section -->
         <section class="rating-section">
@@ -129,108 +131,124 @@
 
 
 
-<section class="testimonials-header text-center my-5">
-    <h2 class="section-title">Client Testimonials</h2>
-    <div class="underline mx-auto my-2"></div>
-    <p class="section-subtitle text-muted">What our clients say about us</p>
 
-    <div class="container">
-        <div class="row g-4">
-            <% if(data.length===0){ %>
-                <p class="text-center text-muted">No testimonials available</p>
-            <% } else { %>
-                <% data.forEach(function(item){ %>
-                    <% if(item.rating >= 4){ %>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="testimonial-card fade-in p-4 shadow-sm rounded">
-                                <div class="client-header d-flex align-items-center mb-3">
-                                    <% if(item.image){ %>
-                                        <img src="/upload/testimonials/<%= item.image %>" class="rounded-circle me-3" width="60" height="60" style="object-fit:cover;">
-                                    <% } else { %>
-                                        <img src="/upload/testimonials/default-user.png" class="rounded-circle me-3" width="60" height="60">
-                                    <% } %>
-                                    <div>
-                                        <h5 class="mb-0"><%= item.name %></h5>
-                                        <small class="text-muted"><%= item.event_type %></small>
+        <section class="testimonials-header text-center my-5">
+            <!-- Section Header -->
+            <h2 class="section-title">Client Testimonials</h2>
+            <p class="section-subtitle text-muted">What our clients say about us</p>
+
+            <div class="container mt-4">
+                <div class="row g-4 justify-content-center">
+                    <% if(data.length===0){ %>
+                        <p class="text-center text-muted">No testimonials available</p>
+                        <% } else { %>
+                            <% data.forEach(function(item){ %>
+                                <div class="col-lg-4 col-md-6 d-flex">
+                                    <div class="testimonial-card fade-in p-4 shadow-sm rounded w-100 text-center"
+                                        style="background:#F8FAFF;">
+
+                                        <!-- Client Image -->
+                                        <% if(item.image){ %>
+                                            <img src="/upload/testimonials/<%= item.image %>"
+                                                class="rounded-circle mb-3" width="70" height="70"
+                                                style="object-fit:cover;">
+                                            <% } else { %>
+                                                <img src="/upload/testimonials/default-user.png"
+                                                    class="rounded-circle mb-3" width="70" height="70">
+                                                <% } %>
+
+                                                    <!-- Client Name and Event -->
+                                                    <h5 class="mb-0">
+                                                        <%= item.name %>
+                                                    </h5>
+                                                    <small class="text-muted mb-2 d-block">
+                                                        <%= item.event_type %>
+                                                    </small>
+
+                                                    <!-- Rating Stars (Max 5) -->
+                                                    <div class="text-warning mb-2">
+                                                        <% let starsToShow=Math.min(item.rating, 5); %>
+                                                            <% for(let i=1; i <=starsToShow; i++){ %>★<% } %>
+                                                                    <small class="text-muted">(<%= item.rating %>
+                                                                            )</small>
+                                                    </div>
+
+                                                    <!-- Testimonial Message -->
+                                                    <p class="text-muted fst-italic">"<%= item.message %>"</p>
                                     </div>
                                 </div>
+                                <% }) %>
+                                    <% } %>
+                </div>
+            </div>
+        </section>
 
-                                <div class="mb-2 text-warning">
-                                    <% for(let i=1; i<=item.rating; i++){ %>★<% } %>
-                                </div>
 
-                                <p class="text-muted">"<%= item.message %>"</p>
+        <!-- Review Form -->
+        <section class="container" id="reviewSection">
+            <div class="review-form-container fade-in">
+                <div class="text-center mb-5">
+                    <h2>Share Your Experience</h2>
+                    <p class="text-muted">Help others discover the siddhivinayak Event difference</p>
+                </div>
+                <form id="reviewForm" method="POST" action="/add" enctype="multipart/form-data">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <input type="text" name="name" class="form-control form-control-lg"
+                                placeholder="Your Full Name" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <select name="event_type" class="form-select form-select-lg" required>
+                                <option selected disabled>Select Event Type</option>
+                                <option>Wedding</option>
+                                <option>Corporate Event</option>
+                                <option>Birthday Party</option>
+                                <option>Anniversary</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Your Rating</label>
+                            <div class="star-rating" id="ratingStars">
+                                <i class="fas fa-star" data-value="1"></i>
+                                <i class="fas fa-star" data-value="2"></i>
+                                <i class="fas fa-star" data-value="3"></i>
+                                <i class="fas fa-star" data-value="4"></i>
+                                <i class="fas fa-star" data-value="5"></i>
+                            </div>
+                            <input type="hidden" name="rating" id="ratingValue" required>
+                        </div>
+
+                        <div class="col-12">
+                            <textarea name="message" class="form-control" rows="5"
+                                placeholder="Tell us about your experience..." required></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Upload Your Photo (optional)</label>
+                            <input type="file" name="img" class="form-control" accept="image/*">
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="consent" required>
+                                <label class="form-check-label" for="consent">I agree to share this testimonial on the
+                                    website</label>
                             </div>
                         </div>
-                    <% } %>
-                <% }) %>
-            <% } %>
-        </div>
-    </div>
-</section>
 
-<!-- Review Form -->
-<section class="container" id="reviewSection">
-    <div class="review-form-container fade-in">
-        <div class="text-center mb-5">
-            <h2>Share Your Experience</h2>
-            <p class="text-muted">Help others discover the siddhivinayak Event difference</p>
-        </div>
-       <form id="reviewForm" method="POST" action="/add" enctype="multipart/form-data">
-    <div class="row g-4">
-        <div class="col-md-6">
-            <input type="text" name="name" class="form-control form-control-lg" placeholder="Your Full Name" required>
-        </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-gradient px-5 py-3 mt-3">
+                                <i class="fas fa-paper-plane me-2"></i> Submit Review
+                            </button>
+                        </div>
+                    </div>
+                </form>
 
-        <div class="col-md-6">
-            <select name="event_type" class="form-select form-select-lg" required>
-                <option selected disabled>Select Event Type</option>
-                <option>Wedding</option>
-                <option>Corporate Event</option>
-                <option>Birthday Party</option>
-                <option>Anniversary</option>
-                <option>Other</option>
-            </select>
-        </div>
-
-        <div class="col-12">
-            <label class="form-label">Your Rating</label>
-            <div class="star-rating" id="ratingStars">
-                <i class="fas fa-star" data-value="1"></i>
-                <i class="fas fa-star" data-value="2"></i>
-                <i class="fas fa-star" data-value="3"></i>
-                <i class="fas fa-star" data-value="4"></i>
-                <i class="fas fa-star" data-value="5"></i>
             </div>
-            <input type="hidden" name="rating" id="ratingValue" required>
-        </div>
-
-        <div class="col-12">
-            <textarea name="message" class="form-control" rows="5" placeholder="Tell us about your experience..." required></textarea>
-        </div>
-
-        <div class="col-12">
-            <label class="form-label">Upload Your Photo (optional)</label>
-            <input type="file" name="img" class="form-control" accept="image/*">
-        </div>
-
-        <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="consent" required>
-                <label class="form-check-label" for="consent">I agree to share this testimonial on the website</label>
-            </div>
-        </div>
-
-        <div class="col-12 text-center">
-            <button type="submit" class="btn btn-gradient px-5 py-3 mt-3">
-                <i class="fas fa-paper-plane me-2"></i> Submit Review
-            </button>
-        </div>
-    </div>
-</form>
-
-    </div>
-</section>
+        </section>
 
 
 
@@ -376,6 +394,36 @@
                         behavior: "smooth"
                     });
                 });
+
+
+
+                document.addEventListener("DOMContentLoaded", () => {
+                    const counters = document.querySelectorAll(".stat-number");
+
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute("data-target");
+                        const suffix = counter.getAttribute("data-suffix") || "";
+                        let count = 0;
+                        const stepTime = 20; // milliseconds per step
+                        const steps = 100;   // total steps
+                        const increment = target / steps;
+
+                        const updateCount = () => {
+                            count += increment;
+                            if (count < target) {
+                                counter.innerText = Math.ceil(count) + suffix; // suffix fixed
+                                setTimeout(updateCount, stepTime);
+                            } else {
+                                counter.innerText = target + suffix; // ensure exact target
+                            }
+                        };
+
+                        // Start the counter
+                        counter.innerText = "0" + suffix;
+                        updateCount();
+                    });
+                });
+
 
 
             </script>

@@ -18,7 +18,11 @@ router.get("/", async function (req, res) {
   var sql4 = "SELECT * FROM service";
   var service = await exe(sql4);
 
-  res.render('user/home.ejs', { data, home_slider, home_our_story, choose_us, service });
+  var sql5 = `SELECT * FROM testimonials ORDER BY rating DESC, id DESC LIMIT 3;`;
+
+  var testimonials = await exe(sql5);
+
+  res.render('user/home.ejs', { data, home_slider, home_our_story, choose_us, service, testimonials });
 });
 
 router.get("/about", function (req, res) {
@@ -50,47 +54,54 @@ router.get("/gallery", function (req, res) {
   res.render('user/gallery.ejs');
 });
 
-router.get("/testimonials", async function (req, res) {
 
+router.get("/testimonials", async function (req, res) {
+  try {
     const headerData = await exe("SELECT * FROM testimonials_header LIMIT 1");
-    const testimonials = await exe("SELECT * FROM testimonials");
+    const testimonials = await exe("SELECT * FROM testimonials ORDER BY rating DESC LIMIT 3");
 
     res.render("user/testimonials.ejs", {
-        header: headerData[0] || null,
-        data: testimonials || []
+      header: headerData[0] || null,
+      data: testimonials || []
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
 
+
+
 router.post("/add", async (req, res) => {
-    try {
-        const { name, event_type, rating, message } = req.body;
+  try {
+    const { name, event_type, rating, message } = req.body;
 
-        let imageName = "";  // This matches admin column 'image'
-        const fs = require("fs");
+    let imageName = "";  // This matches admin column 'image'
+    const fs = require("fs");
 
-        // Check if file uploaded
-        if (req.files && req.files.img) {
-            const file = req.files.img;
-            // Create unique file name
-            imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
-            // Move file to upload folder
-            await file.mv("public/upload/testimonials/" + imageName);
-        }
+    // Check if file uploaded
+    if (req.files && req.files.img) {
+      const file = req.files.img;
+      // Create unique file name
+      imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
+      // Move file to upload folder
+      await file.mv("public/upload/testimonials/" + imageName);
+    }
 
-        // Insert into database (column 'image')
-        const sql = `
+    // Insert into database (column 'image')
+    const sql = `
             INSERT INTO testimonials (name, event_type, rating, message, image)
             VALUES (?, ?, ?, ?, ?)
         `;
-        await exe(sql, [name, event_type, rating, message, imageName]);
+    await exe(sql, [name, event_type, rating, message, imageName]);
 
-        // Redirect to testimonials page
-        res.redirect("/testimonials");
+    // Redirect to testimonials page
+    res.redirect("/testimonials");
 
-    } catch (err) {
-        console.error("Error adding testimonial:", err);
-        res.send("Error while submitting testimonial");
-    }
+  } catch (err) {
+    console.error("Error adding testimonial:", err);
+    res.send("Error while submitting testimonial");
+  }
 });
 
 
@@ -99,35 +110,35 @@ router.post("/add", async (req, res) => {
 
 /* ================= USER TESTIMONIALS ================= */
 router.get("/testimonials", async (req, res) => {
-    // Fetch testimonials with rating >= 4, newest first
-    const sql = `
+  // Fetch testimonials with rating >= 4, newest first
+  const sql = `
         SELECT * FROM testimonials
         WHERE rating >= 4
         ORDER BY id DESC
     `;
-    const data = await exe(sql);
-    res.render("user/testimonials.ejs", { data });
+  const data = await exe(sql);
+  res.render("user/testimonials.ejs", { data });
 });
 
 /* ================= RATING STATS ================= */
 router.get("/rating-stats", async (req, res) => {
-    // Total number of testimonials
-    const total = await exe("SELECT COUNT(*) total FROM testimonials");
+  // Total number of testimonials
+  const total = await exe("SELECT COUNT(*) total FROM testimonials");
 
-    // Average rating
-    const avg = await exe("SELECT AVG(rating) avgRating FROM testimonials");
+  // Average rating
+  const avg = await exe("SELECT AVG(rating) avgRating FROM testimonials");
 
-    // Number of 5-star ratings
-    const five = await exe("SELECT COUNT(*) five FROM testimonials WHERE rating=5");
+  // Number of 5-star ratings
+  const five = await exe("SELECT COUNT(*) five FROM testimonials WHERE rating=5");
 
-    res.json({
-        totalReviews: total[0].total,
-        avgRating: avg[0].avgRating ? avg[0].avgRating.toFixed(1) : 0,
-        fiveStarPercent: total[0].total
-            ? Math.round((five[0].five / total[0].total) * 100)
-            : 0,
-        repeatClientsPercent: 68 // hardcoded value, can be dynamic later
-    });
+  res.json({
+    totalReviews: total[0].total,
+    avgRating: avg[0].avgRating ? avg[0].avgRating.toFixed(1) : 0,
+    fiveStarPercent: total[0].total
+      ? Math.round((five[0].five / total[0].total) * 100)
+      : 0,
+    repeatClientsPercent: 68 // hardcoded value, can be dynamic later
+  });
 });
 router.get("/blog", async function (req, res) {
 

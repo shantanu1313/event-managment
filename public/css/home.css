@@ -230,21 +230,35 @@
 
 .price-tag {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 8px;
     text-align: center;
+
+    width: 200px;
+    /* fixed width = same for all */
+    height: 45px;
+    /* smaller height */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .price-amount {
-    font-size: 1.3rem;
-    font-weight: 700;
+    font-size: 0.95rem;
+    /* smaller text */
+    font-weight: 600;
     color: var(--primary-color);
+    line-height: 1.1;
 }
 
 .price-period {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
+    /* smaller */
     color: #64748b;
+    margin: 0;
 }
+
 
 .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;

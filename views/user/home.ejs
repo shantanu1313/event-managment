@@ -183,55 +183,34 @@
             <div class="testimonials-wrapper">
 
                 <!-- Card 1 -->
-                <div class="testimonial-card">
-                    <div class="client-header">
-                        <img src="https://i.pravatar.cc/100?img=1">
-                        <div>
-                            <h4>Sushant Jarhad</h4>
-                            <span>Wedding Client</span>
+                <% for( var i=0;i<testimonials.length;i++) { %>
+                    <div class="testimonial-card">
+                        <div class="client-header">
+                            <img src="/upload/testimonials/<%= testimonials[i].image %>">
+                            <div>
+                                <h4>
+                                    <%= testimonials[i].name %>
+                                </h4>
+                                <span>
+                                    <%= testimonials[i].event_type %>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">
-                        "EventPro made our wedding day absolutely perfect!
-                        Their attention to detail and professional approach
-                        took all the stress away. Highly recommended!"
-                    </p>
-                </div>
+                        <div class="stars">
+                            <% for (let j=1; j <=5; j++) { %>
+                                <% if (j <=testimonials[i].rating) { %>
+                                    <i class="fa fa-star"></i>
+                                    <% } else { %>
+                                        <i class="fa fa-star-o"></i>
+                                        <% } %>
+                                            <% } %>
+                        </div>
 
-                <!-- Card 2 -->
-                <div class="testimonial-card">
-                    <div class="client-header">
-                        <img src="https://i.pravatar.cc/100?img=3">
-                        <div>
-                            <h4>Abhishek Darandale</h4>
-                            <span>Corporate Client</span>
-                        </div>
+                        <p class="testimonial-text">
+                            <%= testimonials[i].message %>
+                        </p>
                     </div>
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">
-                        "Our annual conference was executed flawlessly by the
-                        EventPro team. Their professionalism and expertise made
-                        this our most successful event yet."
-                    </p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="testimonial-card">
-                    <div class="client-header">
-                        <img src="https://i.pravatar.cc/100?img=5">
-                        <div>
-                            <h4>Payal Kale</h4>
-                            <span>Birthday Party Client</span>
-                        </div>
-                    </div>
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">
-                        "The surprise birthday party they organized was incredible!
-                        Every detail was perfect and our guests are still talking
-                        about it."
-                    </p>
-                </div>
+                    <% } %>
 
             </div>
         </div>

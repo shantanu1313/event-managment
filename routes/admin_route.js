@@ -835,7 +835,7 @@ router.post("/add", async (req, res) => {
 
 /* ================= ADMIN LIST ================= */
 router.get("/testimonials", async (req, res) => {
-    const sql = "SELECT * FROM testimonials ORDER BY id DESC";
+    const sql = "SELECT * FROM testimonials ORDER BY rating DESC";
     const data = await exe(sql);
     res.render("admin/testimonials.ejs", { data });
 });
