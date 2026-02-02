@@ -1,0 +1,381 @@
+<%- include('navbar.ejs') %>
+
+    <link rel="stylesheet" href="css/testmonials.css">
+
+    <!-- Hero Section -->
+    <% let bgImage=header && header.image ? '/upload/testimonials/' + header.image : '/upload/testimonials/default.jpg'
+        ; %>
+
+        <section class="testimonial-banner" style="background:
+      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+      url('<%= bgImage %>') center/cover no-repeat;">
+
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <%= header ? header.title : "Experience From Our Clients" %>
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        <%= header ? header.subtitle : "Real stories from our happy clients." %>
+                    </p>
+                </div>
+                <div class="hero-buttons">
+                    <div class="hero-buttons">
+                        <button id="reviewBtn" class="btn btn-outline-light">
+                            <i class="fas fa-pen me-2"></i> Share Your Story
+                        </button>
+                    </div>
+
+                </div>
+
+
+        </section>
+
+
+
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h2 class="stat-number" data-target="500">0</h2>
+                    <p class="stat-label">Events Managed</p>
+                </div>
+
+                <div class="stat-card">
+                    <h2 class="stat-number" data-target="98">0</h2>
+                    <p class="stat-label">Happy Clients</p>
+                </div>
+
+                <div class="stat-card">
+                    <h2 class="stat-number" data-target="50">0</h2>
+                    <p class="stat-label">Expert Planners</p>
+                </div>
+
+                <div class="stat-card">
+                    <h2 class="stat-number" data-target="15">0</h2>
+                    <p class="stat-label">Years Experience</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rating Section -->
+        <section class="rating-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <div class="rating-box fade-in">
+                            <div class="rating-score" id="avg-rating">0</div>
+                            <div class="stars" id="stars">☆☆☆☆☆</div>
+                            <p class="text-muted" id="total-reviews">Based on 0 Verified Reviews</p>
+
+                            <div class="mt-4 pt-3 border-top">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="fw-bold text-success fs-4" id="five-star-percent">0%</div>
+                                        <small>5-Star Reviews</small>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="fw-bold text-primary fs-4" id="repeat-clients-percent">0%</div>
+                                        <small>Repeat Clients</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8">
+                        <div class="fade-in" style="animation-delay: 0.2s">
+                            <h2 class="mb-4">Why Clients Love siddhivinayak Event</h2>
+                            <p class="lead mb-4">
+                                Our clients choose us because we make event planning simple, stress-free, and
+                                absolutely memorable. We listen to your vision and bring it to life with
+                                precision and passion.
+                            </p>
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-start">
+                                        <div class="me-3">
+                                            <i class="fas fa-check-circle text-success fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h5>Everything Handled</h5>
+                                            <p class="text-muted mb-0">We manage all details so you can relax and enjoy
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-start">
+                                        <div class="me-3">
+                                            <i class="fas fa-clock text-primary fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h5>Always On Time</h5>
+                                            <p class="text-muted mb-0">Events start and end exactly as planned</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+<section class="testimonials-header text-center my-5">
+    <h2 class="section-title">Client Testimonials</h2>
+    <div class="underline mx-auto my-2"></div>
+    <p class="section-subtitle text-muted">What our clients say about us</p>
+
+    <div class="container">
+        <div class="row g-4">
+            <% if(data.length===0){ %>
+                <p class="text-center text-muted">No testimonials available</p>
+            <% } else { %>
+                <% data.forEach(function(item){ %>
+                    <% if(item.rating >= 4){ %>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="testimonial-card fade-in p-4 shadow-sm rounded">
+                                <div class="client-header d-flex align-items-center mb-3">
+                                    <% if(item.image){ %>
+                                        <img src="/upload/testimonials/<%= item.image %>" class="rounded-circle me-3" width="60" height="60" style="object-fit:cover;">
+                                    <% } else { %>
+                                        <img src="/upload/testimonials/default-user.png" class="rounded-circle me-3" width="60" height="60">
+                                    <% } %>
+                                    <div>
+                                        <h5 class="mb-0"><%= item.name %></h5>
+                                        <small class="text-muted"><%= item.event_type %></small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 text-warning">
+                                    <% for(let i=1; i<=item.rating; i++){ %>★<% } %>
+                                </div>
+
+                                <p class="text-muted">"<%= item.message %>"</p>
+                            </div>
+                        </div>
+                    <% } %>
+                <% }) %>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- Review Form -->
+<section class="container" id="reviewSection">
+    <div class="review-form-container fade-in">
+        <div class="text-center mb-5">
+            <h2>Share Your Experience</h2>
+            <p class="text-muted">Help others discover the siddhivinayak Event difference</p>
+        </div>
+       <form id="reviewForm" method="POST" action="/add" enctype="multipart/form-data">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <input type="text" name="name" class="form-control form-control-lg" placeholder="Your Full Name" required>
+        </div>
+
+        <div class="col-md-6">
+            <select name="event_type" class="form-select form-select-lg" required>
+                <option selected disabled>Select Event Type</option>
+                <option>Wedding</option>
+                <option>Corporate Event</option>
+                <option>Birthday Party</option>
+                <option>Anniversary</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Your Rating</label>
+            <div class="star-rating" id="ratingStars">
+                <i class="fas fa-star" data-value="1"></i>
+                <i class="fas fa-star" data-value="2"></i>
+                <i class="fas fa-star" data-value="3"></i>
+                <i class="fas fa-star" data-value="4"></i>
+                <i class="fas fa-star" data-value="5"></i>
+            </div>
+            <input type="hidden" name="rating" id="ratingValue" required>
+        </div>
+
+        <div class="col-12">
+            <textarea name="message" class="form-control" rows="5" placeholder="Tell us about your experience..." required></textarea>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Upload Your Photo (optional)</label>
+            <input type="file" name="img" class="form-control" accept="image/*">
+        </div>
+
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="consent" required>
+                <label class="form-check-label" for="consent">I agree to share this testimonial on the website</label>
+            </div>
+        </div>
+
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-gradient px-5 py-3 mt-3">
+                <i class="fas fa-paper-plane me-2"></i> Submit Review
+            </button>
+        </div>
+    </div>
+</form>
+
+    </div>
+</section>
+
+
+
+
+
+
+        <%- include('footer.ejs') %>
+
+            <!-- JS -->
+            <script>
+
+                document.getElementById("reviewBtn").addEventListener("click", function () {
+                    document.getElementById("reviewSection").scrollIntoView({
+                        behavior: "smooth"
+                    });
+                });
+
+
+                //from submit alert//
+                document.getElementById("reviewForm").addEventListener("submit", function (e) {
+                    // Show alert when form is submitted
+                    alert("Thank you! Your review has been submitted.");
+
+                    // After alert, allow the form to submit normally
+                    // Then redirect user to testimonials page after a short delay
+                    setTimeout(() => {
+                        window.location.href = "/testimonials";
+                    }, 100); // 100ms delay to ensure form submits
+                });
+
+
+                document.addEventListener("DOMContentLoaded", () => {
+
+                    // Stats animation
+                    const counters = document.querySelectorAll(".stat-number");
+                    counters.forEach(counter => {
+                        const updateCount = () => {
+                            const target = +counter.getAttribute("data-target");
+                            const current = +counter.innerText.replace("+", "").replace("%", "");
+                            const increment = Math.ceil(target / 200);
+
+                            if (current < target) {
+                                counter.innerText = current + increment;
+                                setTimeout(updateCount, 15);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        updateCount();
+                    });
+
+                    // Scroll fade-in for stats
+                    const cards = document.querySelectorAll(".stat-card");
+                    window.addEventListener("scroll", () => {
+                        cards.forEach(card => {
+                            const cardTop = card.getBoundingClientRect().top;
+                            const screenHeight = window.innerHeight;
+                            if (cardTop < screenHeight - 100) {
+                                card.classList.add("show");
+                            }
+                        });
+                    });
+
+                    // Star Rating for Review Form
+                    const stars = document.querySelectorAll("#ratingStars i");
+                    const ratingInput = document.getElementById("ratingValue");
+
+                    stars.forEach(star => {
+                        star.addEventListener("mouseover", () => highlightStars(parseInt(star.dataset.value)));
+                        star.addEventListener("mouseout", () => highlightStars(ratingInput.value || 0));
+                        star.addEventListener("click", () => {
+                            ratingInput.value = star.dataset.value;
+                            highlightStars(parseInt(star.dataset.value));
+                        });
+                    });
+
+                    function highlightStars(val) {
+                        stars.forEach(star => {
+                            const starVal = parseInt(star.dataset.value);
+                            if (starVal <= val) {
+                                star.classList.add("selected");
+                            } else {
+                                star.classList.remove("selected");
+                            }
+                        });
+                    }
+
+                    // Dynamic rating stats
+                    const ratingBox = document.querySelector(".rating-box");
+                    fetch("/rating-stats")
+                        .then(res => res.json())
+                        .then(data => {
+                            const { avgRating, totalReviews, fiveStarPercent, repeatClientsPercent } = data;
+
+                            const observer = new IntersectionObserver(entries => {
+                                entries.forEach(entry => {
+                                    if (entry.isIntersecting) {
+                                        ratingBox.classList.add("show");
+
+                                        // Animate rating
+                                        const ratingEl = document.getElementById("avg-rating");
+                                        let current = 0;
+                                        const step = 0.05;
+                                        const ratingInterval = setInterval(() => {
+                                            current += step;
+                                            if (current < avgRating) {
+                                                ratingEl.innerText = current.toFixed(1);
+                                            } else {
+                                                ratingEl.innerText = avgRating.toFixed(1);
+                                                clearInterval(ratingInterval);
+                                            }
+
+                                            const starsEl = document.getElementById("stars");
+                                            let fullStars = Math.floor(current);
+                                            let starStr = "★★★★★".slice(0, fullStars) + "☆☆☆☆☆".slice(fullStars, 5);
+                                            starsEl.innerText = starStr;
+                                        }, 30);
+
+                                        // Animate percentages
+                                        const fiveStarEl = document.getElementById("five-star-percent");
+                                        let val1 = 0;
+                                        const int1 = setInterval(() => { val1++; if (val1 <= fiveStarPercent) fiveStarEl.innerText = val1 + "%"; else clearInterval(int1); }, 15);
+
+                                        const repeatEl = document.getElementById("repeat-clients-percent");
+                                        let val2 = 0;
+                                        const int2 = setInterval(() => { val2++; if (val2 <= repeatClientsPercent) repeatEl.innerText = val2 + "%"; else clearInterval(int2); }, 15);
+
+                                        document.getElementById("total-reviews").innerText = `Based on ${totalReviews}+ Verified Reviews`;
+
+                                        observer.unobserve(ratingBox);
+                                    }
+                                });
+                            }, { threshold: 0.2 });
+
+                            observer.observe(ratingBox);
+                        }).catch(err => console.log(err));
+                });
+
+
+
+                document.getElementById("reviewBtn").addEventListener("click", function () {
+                    document.getElementById("reviewSection").scrollIntoView({
+                        behavior: "smooth"
+                    });
+                });
+
+
+            </script>

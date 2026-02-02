@@ -1,0 +1,67 @@
+<%- include("navbar.ejs") %>
+
+<div class="container mt-4">
+    <h3 class="mb-4">Edit Testimonial</h3>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form action="/admin/testimonial-update/<%= data.id %>" method="POST" enctype="multipart/form-data">
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label class="form-label">Client Name</label>
+                    <input type="text" name="name" class="form-control" value="<%= data.name %>" required>
+                </div>
+
+                <!-- Event Type -->
+                <div class="mb-3">
+                    <label class="form-label">Event Type</label>
+                    <select name="event_type" class="form-control" required>
+                        <option value="Wedding" <%= data.event_type==='Wedding' ? 'selected' : '' %>>Wedding</option>
+                        <option value="Birthday Party" <%= data.event_type==='Birthday Party' ? 'selected' : '' %>>Birthday Party</option>
+                        <option value="Corporate Event" <%= data.event_type==='Corporate Event' ? 'selected' : '' %>>Corporate Event</option>
+                        <option value="Other" <%= data.event_type==='Other' ? 'selected' : '' %>>Other</option>
+                    </select>
+                </div>
+
+                <!-- Rating -->
+                <div class="mb-3">
+                    <label class="form-label">Rating (1–5)</label>
+                    <input type="number" name="rating" min="1" max="5" class="form-control" value="<%= data.rating %>" required>
+                </div>
+
+               <!-- Current Image -->
+<div class="mb-3">
+    <label class="form-label">Current Image</label><br>
+    <% if(data.image){ %>
+        <img src="/upload/testimonials/<%= data.image %>" width="80" height="80" class="rounded-circle mb-2" style="object-fit:cover;">
+    <% } else { %>
+        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=person1" width="80" height="80" class="rounded-circle mb-2" style="object-fit:cover;">
+        <p class="text-muted">No image uploaded by client</p>
+    <% } %>
+</div>
+
+<!-- Change Image -->
+<div class="mb-3">
+    <label class="form-label">Change Image</label>
+    <input type="file" name="img" class="form-control" accept="image/*">
+    <small class="text-muted">Optional: upload a new image to replace the current one</small>
+</div>
+
+
+                <!-- Message -->
+                <div class="mb-3">
+                    <label class="form-label">Message</label>
+                    <textarea name="message" class="form-control" rows="4" required><%= data.message %></textarea>
+                </div>
+
+                <!-- Buttons -->
+                <button type="submit" class="btn btn-success">Update Testimonial</button>
+                <a href="/admin/testimonials" class="btn btn-secondary ms-2">Cancel</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include("footer.ejs") %>
