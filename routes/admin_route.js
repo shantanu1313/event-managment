@@ -753,8 +753,143 @@ router.get("/blog_slider_status/:id", async function (req, res) {
 router.get("/booking", function (req, res) {
     res.render('admin/booking.ejs');
 });
-router.get("/testimonials", function (req, res) {
-    res.render('admin/testimonials.ejs');
+
+// GET testimonials header
+router.get("/testimonials-header", async function (req, res) {
+    const data = await exe("SELECT * FROM testimonials_header LIMIT 1");
+    res.render("admin/testimonials_header.ejs", {
+        header: data[0] || null
+    });
+});
+
+// SAVE testimonials header
+router.post("/testimonials-header/save", async function (req, res) {
+    const d = req.body;
+    let FileName = "";
+
+    const old = await exe("SELECT * FROM testimonials_header LIMIT 1");
+    const fs = require("fs");
+
+    if (req.files && req.files.image) {
+        const image = req.files.image;
+        FileName = Date.now() + "_" + image.name.replace(/\s/g, "_");
+        await image.mv("public/upload/testimonials/" + FileName);
+
+        if (old.length && old[0].image) {
+            const oldPath = "public/upload/testimonials/" + old[0].image;
+            if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+        }
+    } else if (old.length) {
+        FileName = old[0].image;
+    }
+
+    if (old.length) {
+        await exe(
+            "UPDATE testimonials_header SET title=?, subtitle=?, image=? WHERE id=?",
+            [d.title, d.subtitle, FileName, old[0].id]
+        );
+    } else {
+        await exe(
+            "INSERT INTO testimonials_header (title, subtitle, image) VALUES (?,?,?)",
+            [d.title, d.subtitle, FileName]
+        );
+    }
+
+    res.redirect("/admin/testimonials-header");
+});
+
+/* ================= ADD TESTIMONIAL (FROM USER FORM) ================= */
+router.post("/add", async (req, res) => {
+    try {
+        const { name, event_type, rating, message } = req.body;
+
+        let imageName = "";  // variable name match karo table column ke sath
+        const fs = require("fs");
+
+        if (req.files && req.files.img) {  // form input ka name "img"
+            const file = req.files.img;
+            imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
+            await file.mv("public/upload/testimonials/" + imageName);
+        }
+
+        const sql = `
+            INSERT INTO testimonials (name, event_type, rating, message, image)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+
+        await exe(sql, [name, event_type, rating, message, imageName]);
+
+        res.redirect("/admin/testimonials"); // admin testimonials page
+
+    } catch (err) {
+        console.log(err);
+        res.send("Error while submitting testimonial");
+    }
+});
+
+
+
+
+
+
+
+/* ================= ADMIN LIST ================= */
+router.get("/testimonials", async (req, res) => {
+    const sql = "SELECT * FROM testimonials ORDER BY id DESC";
+    const data = await exe(sql);
+    res.render("admin/testimonials.ejs", { data });
+});
+
+/* ================= ADD TESTIMONIAL ================= */
+router.post("/testimonial-update/:id", async (req, res) => {   // <-- async yahan
+    const { name, event_type, rating, message } = req.body;
+    const id = req.params.id;
+
+    const old = await exe("SELECT image FROM testimonials WHERE id=?", [id]);
+    let imageName = old[0].image;
+    const fs = require("fs");
+
+    if (req.files && req.files.img) {
+        const file = req.files.img;
+        imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
+        await file.mv("public/upload/testimonials/" + imageName);
+
+        if (old[0].image) {
+            const oldPath = "public/upload/testimonials/" + old[0].image;
+            if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+        }
+    }
+
+    const sql = `
+        UPDATE testimonials
+        SET name=?, event_type=?, rating=?, message=?, image=?
+        WHERE id=?
+    `;
+    await exe(sql, [name, event_type, rating, message, imageName, id]);
+
+    res.redirect("/admin/testimonials");
+});
+
+
+
+
+/* ================= EDIT PAGE ================= */
+router.get("/testimonial-edit/:id", async (req, res) => {
+    const id = req.params.id;
+    const result = await exe("SELECT * FROM testimonials WHERE id = ?", [id]);
+
+    res.render("admin/testimonial_edit.ejs", {
+        data: result[0]
+    });
+});
+
+/* ================= UPDATE ================= */
+
+
+/* ================= DELETE ================= */
+router.get("/testimonial-delete/:id", async (req, res) => {
+    await exe("DELETE FROM testimonials WHERE id=?", [req.params.id]);
+    res.redirect("/admin/testimonials");
 });
 router.get("/contact", function (req, res) {
     res.render('admin/contact.ejs');
