@@ -1,7 +1,6 @@
 var express = require("express");
 var exe = require("../connection");
 var router = express.Router();
-const fs = require('fs');
 
 router.get("/", function (req, res) {
     res.render('admin/dashboard.ejs');
@@ -148,10 +147,10 @@ router.get("/services/add_other_service", async function (req, res) {
     res.render('admin/services/add_other_service.ejs', packet);
 });
 
+
 router.post("/services/add_other_service", async function (req, res) {
     try {
-
-        const d = req.body;
+  const d = req.body;
         const sql = `
             INSERT INTO other_service (icon, title, short_quote)
             VALUES (?,?,?)
@@ -277,8 +276,6 @@ router.get("/gallery_list", async function (req, res) {
     var gallery = await exe(sql);
     res.render("admin/gallery_list.ejs", { gallery });
 });
-
-const fs = require("fs");
 const path = require("path");
 
 router.get("/gallery_delete/:id", async function (req, res) {
