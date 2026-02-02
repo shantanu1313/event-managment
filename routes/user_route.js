@@ -161,8 +161,10 @@ router.get("/privacy", function (req, res) {
   res.render('user/privacy.ejs');
 });
 
-router.get("/terms", function (req, res) {
-  res.render('user/terms.ejs');
+router.get("/terms", async function (req, res) {
+    var sql = `SELECT * FROM terms_conditions`;
+    var terms = await exe(sql);
+    res.render('user/terms.ejs', { terms });
 });
 
 router.get("/FAQ", function (req, res) {
@@ -357,5 +359,114 @@ router.post("/reset_password", allowResetPassword, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+router.get("/profile", async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
+    var userSession = req.session.user;
+    var sql = "SELECT * FROM users WHERE id = ?";
+    var result = await exe(sql, [userSession.id]);
+    res.render("user/profile.ejs", {data: result[0] || {}});
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+});
+
+router.post("/profile/update", async function (req, res) {
+  try {
+    if (!req.session.user) {
+      return res.redirect("/login");
+    }
+
+    var userId   = req.session.user.id;
+    var name     = req.body.name;
+    var mobile   = req.body.mobile;
+    var password = req.body.password;
+
+    var oldData = await exe(
+      "SELECT profile_photo FROM users WHERE id=?",
+      [userId]
+    );
+
+    var oldPhoto = oldData.length > 0 ? oldData[0].profile_photo : null;
+    var newPhotoName = null;
+
+    if (req.files && req.files.profile_photo) {
+      var photo = req.files.profile_photo;
+
+      if (photo.size > 2 * 1024 * 1024) {
+        return res.send("Image size must be less than 2MB");
+      }
+
+      if (
+        photo.mimetype !== "image/jpeg" &&
+        photo.mimetype !== "image/jpg"
+      ) {
+        return res.send("Only JPG / JPEG images allowed");
+      }
+
+      if (oldPhoto) {
+        var oldPath = path.join(
+          __dirname,
+          "../public/upload/profile",
+          oldPhoto
+        );
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
+      }
+
+      var ext = path.extname(photo.name);
+      newPhotoName = Date.now() + "_" + Math.floor(Math.random() * 100000) + ext;
+
+      var uploadPath = path.join(
+        __dirname,
+        "../public/upload/profile",
+        newPhotoName
+      );
+
+      await photo.mv(uploadPath);
+      req.session.user.profile_photo = newPhotoName;
+    }
+
+    if (newPhotoName && password) {
+      await exe(
+        "UPDATE users SET name=?, mobile=?, password=?, profile_photo=? WHERE id=?",
+        [name, mobile, password, newPhotoName, userId]
+      );
+    }
+    else if (newPhotoName) {
+      await exe(
+        "UPDATE users SET name=?, mobile=?, profile_photo=? WHERE id=?",
+        [name, mobile, newPhotoName, userId]
+      );
+    }
+    else if (password) {
+      await exe(
+        "UPDATE users SET name=?, mobile=?, password=? WHERE id=?",
+        [name, mobile, password, userId]
+      );
+    }
+    else {
+      await exe(
+        "UPDATE users SET name=?, mobile=? WHERE id=?",
+        [name, mobile, userId]
+      );
+    }
+
+    req.session.user.name   = name;
+    req.session.user.mobile = mobile;
+
+    res.redirect("/profile?status=updated");
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).redirect("/profile?status=error");
+  }
+});
+
 
 module.exports = router

@@ -900,9 +900,56 @@ router.get("/faq", function (req, res) {
 router.get("/policy", function (req, res) {
     res.render('admin/policy.ejs');
 });
-router.get("/condition", function (req, res) {
-    res.render('admin/condition.ejs');
+
+
+router.get("/condition", async function (req, res) {
+    var sql = `SELECT * FROM terms_conditions`;
+    var terms = await exe(sql);
+    var packet = { terms };
+    res.render('admin/condition.ejs', packet);
 });
+
+router.post("/terms/add", async function (req, res) {
+    try {
+        var d = req.body;
+        var sql = ` INSERT INTO terms_conditions (term_title, term_content) VALUES (?,?) `;
+        var result = await exe(sql, [d.term_title, d.term_content]);    
+        res.redirect("/admin/condition");
+    } catch (err) {
+        console.error("Error adding terms:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.get("/terms/edit/:id", async function (req, res) {
+    var id = req.params.id;
+    var sql = `SELECT * FROM terms_conditions WHERE id = ?`;
+    var data = await exe(sql, [id]);
+    var packet = { data };
+    res.render('admin/edit_terms.ejs', packet);
+});
+
+router.post("/terms/update/:id", async function (req, res) {
+    try {
+        var d = req.body;
+        var id = req.params.id;
+        var sql = `UPDATE terms_conditions SET term_title=?, term_content=? WHERE id=?`;
+        var result = await exe(sql, [d.term_title, d.term_content, id]);
+        res.redirect("/admin/condition");
+    } catch (err) {
+        console.error("Error updating terms:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.get("/terms/delete/:id", async function (req, res) {
+    var id = req.params.id;
+    var sql = `DELETE FROM terms_conditions WHERE id = ?`;
+    var result = await exe(sql, [id]);
+    res.redirect("/admin/condition");
+});
+
+
 router.get("/logout", function (req, res) {
     res.render('admin/logout.ejs');
 });
