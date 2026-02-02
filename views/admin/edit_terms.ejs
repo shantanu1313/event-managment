@@ -1,0 +1,81 @@
+<%- include('navbar.ejs') %>
+
+<style>
+  .terms-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+  .terms-card h4 { color: #6a11cb; font-weight: 600; }
+  .form-label { font-weight: 600; }
+  .btn-gradient {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    border: none;
+  }
+</style>
+
+<div class="container mt-4">
+  <div class="card terms-card p-4">
+
+    <h4 class="mb-4">
+      <i class="fas fa-file-contract me-2"></i>
+      Edit Terms & Conditions
+    </h4>
+
+    <form action="/admin/terms/update/<%= data[0].id %>" method="POST">
+
+      <!-- ✅ TERM TITLE (textarea compulsory) -->
+      <div class="mb-3">
+        <label class="form-label">Term Title</label>
+        <textarea
+          name="term_title"
+          id="term_title"
+          class="form-control"
+          rows="2"
+          required
+        ><%- data[0].term_title %></textarea>
+      </div>
+
+      <!-- ✅ TERM DESCRIPTION -->
+      <div class="mb-4">
+        <label class="form-label">Term Description</label>
+        <textarea
+          name="term_content"
+          id="term_content"
+          class="form-control"
+          rows="6"
+        ><%- data[0].term_content %></textarea>
+      </div>
+
+      <div class="text-end">
+        <a href="/admin/condition" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-gradient">
+          Update Term
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- ✅ CKEDITOR CDN (ONLY ONE) -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
+
+<!-- ✅ CKEDITOR INIT -->
+<script>
+  const config = {
+    toolbar: [
+      'heading','|',
+      'bold','italic','underline','|',
+      'bulletedList','numberedList','|',
+      'link','|',
+      'undo','redo'
+    ]
+  };
+
+  ClassicEditor.create(document.querySelector('#term_title'), config);
+  ClassicEditor.create(document.querySelector('#term_content'), config);
+</script>
+
+<%- include('footer.ejs') %>
