@@ -179,6 +179,15 @@ const params = new URLSearchParams(window.location.search);
   );
   }
 
+  if (params.get("status") === "error") {
+    alert("Error updating profile!");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+  );
+  }
+
 </script>
 
 
