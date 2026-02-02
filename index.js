@@ -23,6 +23,10 @@ app.use(session({
     resave:true,
     saveUninitialized:true
 }));
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 app.use("/admin",admin_route);
 app.use("/",user_route);
