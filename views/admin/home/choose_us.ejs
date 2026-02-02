@@ -1,0 +1,185 @@
+<%- include('../navbar.ejs') %>
+
+    <div class="container mt-4">
+
+        <!-- 🔷 PAGE HEADER -->
+        <div class="page-header mb-4" style="
+        background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(11,94,215,0.25);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    ">
+            <div style="
+            width:36px;height:36px;
+            background:rgba(255,255,255,0.2);
+            border-radius:8px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:18px;">
+                ⭐
+            </div>
+
+            <div>
+                <h6 class="mb-0 fw-semibold">Why Choose Us</h6>
+                <small style="font-size:11px;opacity:0.85;">
+                    Admin Panel → Home → Why Choose Us
+                </small>
+            </div>
+        </div>
+
+        <!-- 🔷 FORM CARD -->
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
+
+                    <div class="card-body p-4">
+
+                        <form action="/admin/home/save_choose_us" method="post">
+
+                            <!-- Icon -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-icons me-2 text-primary"></i>Select Icon
+                                </label>
+                                <select name="icon" id="icon" class="form-select" required>
+                                    <option value="">Choose an icon</option>
+                                    <option value="fas fa-award">Experience</option>
+                                    <option value="fas fa-users-cog">Expert Team</option>
+                                    <option value="fas fa-heart">Client Satisfaction</option>
+                                    <option value="fas fa-headset">24/7 Support</option>
+                                    <option value="fas fa-check-circle">Quality Service</option>
+                                    <option value="fas fa-lightbulb">Innovation</option>
+                                    <option value="fas fa-shield-alt">Security & Trust</option>
+                                    <option value="fas fa-globe">Global Reach</option>
+                                    <option value="fas fa-shipping-fast">Fast Delivery</option>
+                                    <option value="fas fa-tags">Affordable Pricing</option>
+                                    <option value="fas fa-tools">Technical Expertise</option>
+                                    <option value="fas fa-chart-line">Business Growth</option>
+                                    <option value="fas fa-handshake">Trusted Partnership</option>
+                                </select>
+                            </div>
+
+                            <!-- Title -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-heading me-2 text-primary"></i>Title
+                                </label>
+                                <input type="text" name="title" id="title" class="form-control"
+                                    placeholder="Enter feature title" required>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">
+                                    <i class="fas fa-align-left me-2 text-primary"></i>Description
+                                </label>
+                                <textarea name="description" id="description" class="form-control" rows="3"
+                                    placeholder="Enter short description" required></textarea>
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                    <i class="fas fa-save me-1"></i> Save Feature
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 🔷 PAGE HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 p-3 my-5" style="
+        background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+        color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(11,94,215,0.25);
+    ">
+
+        <div class="d-flex align-items-center gap-3">
+            <div style="
+            width:40px;
+            height:40px;
+            background:rgba(255,255,255,0.2);
+            border-radius:10px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        ">
+                <i class="fas fa-tags fs-5"></i>
+            </div>
+
+            <div>
+                <h6 class="mb-0 fw-semibold">Why Choose Us</h6>
+                <small style="font-size:11px;opacity:0.85;">
+                    Admin Panel → Home → Why Choose Us
+                </small>
+            </div>
+        </div>
+
+        <a href="/admin/home/choose_us" class="btn btn-light btn-sm rounded-pill">
+            <i class="bi bi-plus-circle me-1"></i> Add New
+        </a>
+    </div>
+
+    <!-- 🔷 TABLE -->
+    <table class="table table-hover table-bordered align-middle shadow-sm">
+        <thead class="table-primary text-center">
+            <tr>
+                <th style="width:60px;">#</th>
+                <th style="width:80px;">Icon</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th style="width:150px;">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% for(var i=0; i < data.length; i++){ %>
+                <tr>
+                    <td class="text-center fw-semibold">
+                        <%= i + 1 %>
+                    </td>
+
+                    <td class="text-center">
+                        <span class="badge bg-light text-dark p-3 rounded-circle shadow-sm">
+                            <i class="<%= data[i].icon %> fs-5 text-primary"></i>
+                        </span>
+                    </td>
+
+                    <td class="fw-semibold">
+                        <%= data[i].title %>
+                    </td>
+
+                    <td class="text-muted">
+                        <%= data[i].description %>
+                    </td>
+
+                    <td class="text-center">
+                        <a href="/admin/home/edit_choose_us/<%= data[i].choose_us_id %>"
+                            class="btn btn-sm btn-outline-primary me-1">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <a href="/admin/home/delete_choose_us/<%= data[i].choose_us_id %>"
+                            class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this item?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+
+
+    <%- include('../footer.ejs') %>

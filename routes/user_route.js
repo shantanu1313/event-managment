@@ -3,9 +3,22 @@ var exe = require("./../connection");
 var sendMail = require("./send_mail")
 var router = express.Router();
 
-router.get("/", function (req, res) {
+router.get("/", async function (req, res) {
   var data = req.session.user;
-  res.render('user/home.ejs', { data });
+
+  var sql = "SELECT * FROM home_slider";
+  var home_slider = await exe(sql);
+
+  var sql2 = "SELECT * FROM home_our_story";
+  var home_our_story = await exe(sql2);
+
+  var sql3 = "SELECT * FROM choose_us";
+  var choose_us = await exe(sql3);
+
+  var sql4 = "SELECT * FROM service";
+  var service = await exe(sql4);
+
+  res.render('user/home.ejs', { data, home_slider, home_our_story, choose_us, service });
 });
 
 router.get("/about", function (req, res) {
@@ -22,7 +35,10 @@ router.get("/services", async function (req, res) {
   var sql3 = "SELECT * FROM service";
   var service = await exe(sql3);
 
-  var packet = { service_slider, service, other_service };
+  var sql4 = "SELECT * FROM how_work";
+  var how_work = await exe(sql4);
+
+  var packet = { service_slider, service, other_service, how_work };
   res.render('user/services.ejs', packet);
 });
 

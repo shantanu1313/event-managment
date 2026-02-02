@@ -5,9 +5,197 @@ var router = express.Router();
 router.get("/", function (req, res) {
     res.render('admin/dashboard.ejs');
 });
+
+router.get("/home/home_slider", async function (req, res) {
+    var sql = "SELECT * FROM home_slider";
+    var data = await exe(sql);
+    var packet = { data };
+    res.render("admin/home/home_slider.ejs", packet);
+});
+
+router.post("/home/save_home_slider", async function (req, res) {
+    try {
+        var d = req.body;
+        var filename = "";
+        if (req.files && req.files.image) {
+            filename = Date.now() + "_" + req.files.image.name;
+            await req.files.image.mv("public/upload/home/" + filename);
+        }
+        var sql = "INSERT INTO home_slider (image,title,description) VALUES (?,?,?)";
+        await exe(sql, [filename, d.title, d.description]);
+        res.redirect("/admin/home/home_slider");
+    }
+    catch (err) {
+        console.error("Error saving home slider:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.get("/home/edit_home_slider/:id", async function (req, res) {
+    try {
+        var id = req.params.id;
+        var sql = "SELECT * FROM home_slider WHERE home_slider_id=?";
+        var data = await exe(sql, [id]);
+        var packet = { data };
+        res.render("admin/home/edit_home_slider.ejs", packet);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.post("/home/update_home_slider/:id", async function (req, res) {
+    try {
+        var d = req.body;
+        var filename = d.old_image;
+        if (req.files && req.files.image) {
+            filename = Date.now() + "_" + req.files.image.name;
+            await req.files.image.mv("public/upload/home/" + filename);
+        }
+        var sql = "UPDATE home_slider SET title=?,description=?, image=? WHERE home_slider_id=?";
+        await exe(sql, [d.title, d.description, filename, req.params.id]);
+        res.redirect("/admin/home/home_slider");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    };
+});
+
+router.get("/home/delete_home_slider/:id", async function (req, res) {
+    try {
+        var id = req.params.id;
+        var sql = "DELETE FROM home_slider WHERE home_slider_id=?";
+        var result = await exe(sql, [id]);
+        res.redirect("/admin/home/home_slider");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    };
+});
+
+router.get("/home/home_our_story", async function (req, res) {
+    try {
+        const sql = "SELECT * FROM home_our_story LIMIT 1";
+        const data = await exe(sql);
+
+        res.render("admin/home/home_our_story.ejs", {
+            data: data.length ? data[0] : null
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+router.post("/home/save_home_our_story", async function (req, res) {
+    try {
+        const d = req.body;
+        let filename = d.old_image || "";
+
+        if (req.files && req.files.image) {
+            filename = Date.now() + "_" + req.files.image.name;
+            await req.files.image.mv("public/upload/home/" + filename);
+        }
+
+        // check existing record
+        const checkSql = "SELECT home_our_story_id FROM home_our_story LIMIT 1";
+        const check = await exe(checkSql);
+
+        if (check.length > 0) {
+            // UPDATE
+            const sql = `
+                UPDATE home_our_story 
+                SET title=?, description=?, point1=?, point2=?, point3=?, point4=?, image=?
+                WHERE home_our_story_id=?
+            `;
+            await exe(sql, [
+                d.title, d.description,
+                d.point1, d.point2, d.point3, d.point4,
+                filename, check[0].home_our_story_id
+            ]);
+        } else {
+            // INSERT
+            const sql = `
+                INSERT INTO home_our_story 
+                (title,description,point1,point2,point3,point4,image)
+                VALUES (?,?,?,?,?,?,?)
+            `;
+            await exe(sql, [
+                d.title, d.description,
+                d.point1, d.point2, d.point3, d.point4,
+                filename
+            ]);
+        }
+
+        res.redirect("/admin/home/home_our_story");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.get("/home/choose_us", async function (req, res) {
+    var sql = "SELECT * FROM choose_us";
+    var data = await exe(sql);
+    var packet = { data };
+    res.render("admin/home/choose_us.ejs", packet);
+});
+
+router.post("/home/save_choose_us", async function (req, res) {
+    try {
+        var d = req.body;
+        var sql = "INSERT INTO choose_us (icon,title,description) VALUES (?,?,?)";
+        var result = await exe(sql, [d.icon, d.title, d.description]);
+        res.redirect("/admin/home/choose_us");
+    } catch {
+        console.log(err);
+        res.status(500).send("Server Error");
+    };
+});
+
+router.get("/home/edit_choose_us/:id", async function (req, res) {
+    try {
+        var id = req.params.id;
+        var sql = "SELECT * FROM choose_us WHERE choose_us_id=?";
+        var data = await exe(sql, [id]);
+        var packet = { data };
+        res.render("admin/home/edit_choose_us.ejs", packet);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    };
+});
+
+router.post("/home/update_choose_us/:id", async function (req, res) {
+    try {
+        var d = req.body;
+        var sql = "UPDATE choose_us SET icon=?,title=?,description=? WHERE choose_us_id=?";
+        var result = await exe(sql, [d.icon, d.title, d.description, req.params.id]);
+        res.redirect("/admin/home/choose_us");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    };
+});
+
+router.get("/home/delete_choose_us/:id", async function (req, res) {
+    try {
+        var id = req.params.id;
+        var sql = "DELETE FROM choose_us WHERE choose_us_id=?";
+        var result = await exe(sql, [id]);
+        res.redirect("/admin/home/choose_us");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Server Error");
+    };
+});
+
 router.get("/about", function (req, res) {
     res.render('admin/about.ejs');
 });
+
+
 router.get("/service", async function (req, res) {
     var sql = "SELECT * FROM service";
     var data = await exe(sql);
@@ -189,6 +377,44 @@ router.get("/services/edit_other_service/:id", async function (req, res) {
     var data = await exe(sql, [id]);
     var packet = { data };
     res.render('admin/services/edit_other_service.ejs', packet);
+});
+
+router.get("/services/how_work", async function (req, res) {
+    var sql = "SELECT * FROM how_work";
+    var data = await exe(sql);
+    var packet = { data };
+    res.render("admin/services/how_work.ejs", packet);
+});
+
+router.get("/services/edit_how_work/:id", async function (req, res) {
+    var id = req.params.id;
+    var d = req.body;
+    var sql = "SELECT * FROM how_work WHERE how_work_id=?";
+    var data = await exe(sql, [id]);
+    var packet = { data };
+    res.render("admin/services/edit_how_work.ejs", packet);
+});
+
+router.post("/services/update_how_work/:id", async function (req, res) {
+    var id = req.params.id;
+    var d = req.body;
+    var sql = "UPDATE how_work SET title=?, quote=? WHERE how_work_id=?";
+    var result = await exe(sql, [d.title, d.quote, id]);
+    res.redirect("/admin/services/how_work");
+});
+
+router.get("/services/delete_how_work/:id", async function (req, res) {
+    var id = req.params.id;
+    var sql = "DELETE FROM how_work WHERE how_work_id=?";
+    var result = await exe(sql, [id]);
+    res.redirect("/admin/services/how_work");
+});
+
+router.post("/services/how_work_save", async function (req, res) {
+    var d = req.body;
+    var sql = "INSERT INTO how_work (title, quote) VALUES (?,?)";
+    var result = await exe(sql, [d.title, d.quote]);
+    res.redirect("/admin/services/how_work");
 });
 
 router.get("/package", function (req, res) {
