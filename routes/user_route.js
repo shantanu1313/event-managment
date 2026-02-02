@@ -1,6 +1,8 @@
 var express = require("express");
 var exe = require("./../connection");
 var sendMail = require("./send_mail")
+var fs = require("fs");
+var path = require("path");
 var router = express.Router();
 
 router.get("/", async function (req, res) {
