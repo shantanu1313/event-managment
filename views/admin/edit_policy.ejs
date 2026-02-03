@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Privacy Policy</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-4">
+
+    <!-- PAGE TITLE -->
+    <div class="mb-4">
+        <h3>
+            <i class="fas fa-user-shield"></i>
+            Edit Privacy Policy
+        </h3>
+    </div>
+
+    <!-- EDIT FORM -->
+    <div class="card">
+        <div class="card-header bg-primary text-dark">
+            Update Policy
+        </div>
+
+        <div class="card-body">
+
+            <form action="/admin/update_policy/<%= policy.privacy_id %>"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <!-- TITLE -->
+                <div class="mb-3">
+                    <label class="form-label">Policy Title</label>
+                    <input type="text"
+                           name="privacy_title"
+                           value="<%= policy.privacy_title %>"
+                           class="form-control"
+                           required>
+                </div>
+
+                <!-- ICON -->
+                <div class="mb-3">
+                    <label class="form-label">Icon Class</label>
+                    <input type="text"
+                           name="privacy_icon"
+                           value="<%= policy.privacy_icon %>"
+                           class="form-control"
+                           placeholder="bi bi-shield-lock">
+
+                    <% if (policy.privacy_icon) { %>
+                        <small class="text-muted mt-1 d-block">
+                            Preview:
+                            <i class="<%= policy.privacy_icon %>"></i>
+                        </small>
+                    <% } %>
+                </div>
+
+                <!-- OLD IMAGE (HIDDEN) -->
+                <input type="hidden"
+                       name="old_image"
+                       value="<%= policy.privacy_image %>">
+
+                <!-- IMAGE -->
+                <div class="mb-3">
+                    <label class="form-label">Policy Image</label>
+                    <input type="file"
+                           name="privacy_image"
+                           class="form-control">
+
+                    <% if (policy.privacy_image) { %>
+                        <div class="mt-2">
+                            <img src="/upload/policy/<%= policy.privacy_image %>"
+                                 width="150"
+                                 class="img-thumbnail">
+                        </div>
+                    <% } %>
+                </div>
+
+                <!-- CONTENT -->
+                <div class="mb-3">
+                    <label class="form-label">Policy Content</label>
+                    <textarea name="privacy_content"
+                              rows="6"
+                              class="form-control"
+                              required><%= policy.privacy_content %></textarea>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Update Policy
+                    </button>
+
+                    <a href="/admin/policy" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

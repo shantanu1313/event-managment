@@ -1,0 +1,41 @@
+<%- include('navbar.ejs') %>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Edit Contact Header</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <form action="/admin/update_contact/<%= contact.id %>" method="post" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control"
+                           value="<%= contact.title %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subtitle</label>
+                    <input type="text" name="subtitle" class="form-control"
+                           value="<%= contact.subtitle %>" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input type="file" name="contact_filename" class="form-control">
+                </div>
+
+                <% if(contact.image){ %>
+                    <div class="mb-3">
+                        <img src="/upload/contact/<%= contact.image %>" width="150">
+                        <input type="hidden" name="old_image" value="<%= contact.image %>">
+                    </div>
+                <% } %>
+
+                <button class="btn btn-success">Update</button>
+                <a href="/admin/contact" class="btn btn-secondary">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('footer.ejs') %>
