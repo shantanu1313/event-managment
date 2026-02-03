@@ -164,9 +164,9 @@ router.get("/privacy", function (req, res) {
 });
 
 router.get("/terms", async function (req, res) {
-    var sql = `SELECT * FROM terms_conditions`;
-    var terms = await exe(sql);
-    res.render('user/terms.ejs', { terms });
+  var sql = `SELECT * FROM terms_conditions`;
+  var terms = await exe(sql);
+  res.render('user/terms.ejs', { terms });
 });
 
 router.get("/FAQ", function (req, res) {
@@ -370,7 +370,7 @@ router.get("/profile", async (req, res) => {
     var userSession = req.session.user;
     var sql = "SELECT * FROM users WHERE id = ?";
     var result = await exe(sql, [userSession.id]);
-    res.render("user/profile.ejs", {data: result[0] || {}});
+    res.render("user/profile.ejs", { data: result[0] || {} });
   } catch (err) {
     console.log(err);
     res.status(500).send("Server Error");
@@ -383,9 +383,9 @@ router.post("/profile/update", async function (req, res) {
       return res.redirect("/login");
     }
 
-    var userId   = req.session.user.id;
-    var name     = req.body.name;
-    var mobile   = req.body.mobile;
+    var userId = req.session.user.id;
+    var name = req.body.name;
+    var mobile = req.body.mobile;
     var password = req.body.password;
 
     var oldData = await exe(
@@ -459,7 +459,7 @@ router.post("/profile/update", async function (req, res) {
       );
     }
 
-    req.session.user.name   = name;
+    req.session.user.name = name;
     req.session.user.mobile = mobile;
 
     res.redirect("/profile?status=updated");
@@ -469,6 +469,12 @@ router.post("/profile/update", async function (req, res) {
     res.status(500).redirect("/profile?status=error");
   }
 });
+
+
+router.get("/footer", async (req, res) => {
+  res.render("user/footer.ejs");
+});
+
 
 
 module.exports = router

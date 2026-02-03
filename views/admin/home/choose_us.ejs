@@ -2,8 +2,8 @@
 
     <div class="container mt-4">
 
-        <!-- 🔷 PAGE HEADER -->
-        <div class="page-header mb-4" style="
+        <!-- 🔷 PAGE HEADER (FORM HEADER) -->
+        <div class="page-header mb-4 no-print" style="
         background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
         color: white;
         padding: 10px 16px;
@@ -33,12 +33,10 @@
         </div>
 
         <!-- 🔷 FORM CARD -->
-        <div class="row">
+        <div class="row no-print">
             <div class="col-lg-8 mx-auto">
                 <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
-
                     <div class="card-body p-4">
-
                         <form action="/admin/home/save_choose_us" method="post">
 
                             <!-- Icon -->
@@ -90,96 +88,107 @@
                             </div>
 
                         </form>
-
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
-
-    <!-- 🔷 PAGE HEADER -->
-    <div class="d-flex justify-content-between align-items-center mb-4 p-3 my-5" style="
-        background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
-        color: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(11,94,215,0.25);
-    ">
-
-        <div class="d-flex align-items-center gap-3">
-            <div style="
-            width:40px;
-            height:40px;
-            background:rgba(255,255,255,0.2);
-            border-radius:10px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        ">
-                <i class="fas fa-tags fs-5"></i>
-            </div>
-
-            <div>
-                <h6 class="mb-0 fw-semibold">Why Choose Us</h6>
-                <small style="font-size:11px;opacity:0.85;">
-                    Admin Panel → Home → Why Choose Us
-                </small>
-            </div>
+        <!-- 🔷 TABLE HEADER + PRINT BUTTON -->
+        <div class="d-flex justify-content-between align-items-center mb-3 no-print mt-5">
+            <h6 class="fw-semibold mb-0">Features List</h6>
+            <button onclick="window.print()" class="btn btn-sm btn-primary">
+                <i class="fas fa-print me-1"></i> Print Table
+            </button>
         </div>
 
-        <a href="/admin/home/choose_us" class="btn btn-light btn-sm rounded-pill">
-            <i class="bi bi-plus-circle me-1"></i> Add New
-        </a>
+        <!-- 🔷 TABLE -->
+        <div class="table-responsive print-area">
+            <table class="table table-hover table-bordered align-middle shadow-sm text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th style="width:60px;">#</th>
+                        <th style="width:80px;">Icon</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th class="no-print" style="width:150px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i < data.length; i++){ %>
+                        <tr>
+                            <td class="fw-semibold">
+                                <%= i + 1 %>
+                            </td>
+
+                            <td>
+                                <span class="badge bg-light text-dark p-3 rounded-circle shadow-sm">
+                                    <i class="<%= data[i].icon %> fs-5 text-primary"></i>
+                                </span>
+                            </td>
+
+                            <td class="fw-semibold">
+                                <%= data[i].title %>
+                            </td>
+
+                            <td class="text-muted text-start">
+                                <%= data[i].description %>
+                            </td>
+
+                            <td class="no-print">
+                                <a href="/admin/home/edit_choose_us/<%= data[i].choose_us_id %>"
+                                    class="btn btn-sm btn-outline-primary me-1" title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="/admin/home/delete_choose_us/<%= data[i].choose_us_id %>"
+                                    class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this item?')"
+                                    title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
-    <!-- 🔷 TABLE -->
-    <table class="table table-hover table-bordered align-middle shadow-sm">
-        <thead class="table-primary text-center">
-            <tr>
-                <th style="width:60px;">#</th>
-                <th style="width:80px;">Icon</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th style="width:150px;">Action</th>
-            </tr>
-        </thead>
+    <!-- ================= PRINT STYLES ================= -->
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
 
-        <tbody>
-            <% for(var i=0; i < data.length; i++){ %>
-                <tr>
-                    <td class="text-center fw-semibold">
-                        <%= i + 1 %>
-                    </td>
+            .print-area,
+            .print-area * {
+                visibility: visible;
+            }
 
-                    <td class="text-center">
-                        <span class="badge bg-light text-dark p-3 rounded-circle shadow-sm">
-                            <i class="<%= data[i].icon %> fs-5 text-primary"></i>
-                        </span>
-                    </td>
+            .print-area {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+            }
 
-                    <td class="fw-semibold">
-                        <%= data[i].title %>
-                    </td>
+            .no-print,
+            .no-print * {
+                display: none !important;
+            }
 
-                    <td class="text-muted">
-                        <%= data[i].description %>
-                    </td>
+            table,
+            th,
+            td {
+                border: 1px solid #000 !important;
+            }
 
-                    <td class="text-center">
-                        <a href="/admin/home/edit_choose_us/<%= data[i].choose_us_id %>"
-                            class="btn btn-sm btn-outline-primary me-1">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-
-                        <a href="/admin/home/delete_choose_us/<%= data[i].choose_us_id %>"
-                            class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this item?')">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </td>
-                </tr>
-                <% } %>
-        </tbody>
-    </table>
-
+            table th,
+            table td {
+                padding: 6px;
+                font-size: 12px;
+            }
+        }
+    </style>
 
     <%- include('../footer.ejs') %>

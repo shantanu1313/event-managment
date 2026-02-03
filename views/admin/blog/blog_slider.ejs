@@ -10,153 +10,155 @@
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Bootstrap Icons -->
+        <!-- Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
         <style>
             .page-header {
                 background: linear-gradient(135deg, #0d6efd, #0a58ca);
                 color: #fff;
-                padding: 22px 30px;
+                padding: 10px 10px;
                 border-radius: 14px;
-                margin: 30px auto;
+                margin: 20px auto;
                 box-shadow: 0 8px 20px rgba(13, 110, 253, 0.35);
             }
 
-            .page-header h3 {
-                margin: 0;
-                font-weight: 600;
-            }
+            /* PRINT SETTINGS */
+            @media print {
+                body * {
+                    visibility: hidden;
+                }
 
-            .page-header p {
-                margin: 4px 0 0;
-                opacity: 0.9;
-                font-size: 14px;
+                .print-only,
+                .print-only * {
+                    visibility: visible;
+                }
+
+                .print-only {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                }
+
+                table {
+                    border-collapse: collapse !important;
+                }
+
+                th,
+                td {
+                    border: 1px solid #000 !important;
+                    padding: 6px !important;
+                }
+
+                .no-print {
+                    display: none !important;
+                }
             }
         </style>
     </head>
 
     <body class="bg-light">
 
-        <!-- 🔷 PAGE HEADER -->
-        <div class="container">
+        <!-- 🔷 PAGE HEADER (NOT PRINTED) -->
+        <div class="container no-print">
             <div class="page-header">
                 <h3>📝 Blog Slider Management</h3>
                 <p>Admin Panel → Blog Section → Slider Control</p>
             </div>
         </div>
 
-        <!-- 🔷 ADD BLOG SLIDER -->
-        <div class="container mb-5">
+        <!-- 🔷 FORM (NOT PRINTED) -->
+        <div class="container mb-5 no-print">
             <div class="card shadow border-0">
-                <div class="card-header text-white" style="background: linear-gradient(135deg, #0d6efd, #0a58ca);">
+                <div class="card-header bg-primary text-white">
                     <h5 class="mb-0">➕ Add Blog Slider</h5>
                 </div>
 
                 <div class="card-body">
                     <form action="/admin/blog_slider_save" method="post" enctype="multipart/form-data">
-
                         <div class="mb-3">
-                            <label class="form-label">📷 Blog Slider Image</label>
+                            <label class="form-label">Blog Image</label>
                             <input type="file" name="blog_image" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">📰 Blog Title</label>
-                            <input type="text" name="blog_title" class="form-control" placeholder="Enter blog title"
-                                required>
+                            <label class="form-label">Title</label>
+                            <input type="text" name="blog_title" class="form-control" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">📝 Blog Description</label>
-                            <textarea name="blog_description" class="form-control" rows="4"
-                                placeholder="Write blog description here..." required></textarea>
+                            <label class="form-label">Description</label>
+                            <textarea name="blog_description" class="form-control" rows="3" required></textarea>
                         </div>
-
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary px-4">
-                                💾 Save Blog Slider
-                            </button>
+                            <button class="btn btn-primary">Save</button>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- 🔷 BLOG SLIDER LIST -->
-        <div class="container-fluid mb-5">
-            <div class="card shadow-lg border-0">
-                <div class="card-header text-white d-flex justify-content-between align-items-center"
-                    style="background: linear-gradient(135deg, #0d6efd, #0a58ca);">
+
+
+        <!-- 🔷 TABLE (PRINT ONLY) -->
+        <div class="container-fluid mb-5 print-only">
+            <div class="card shadow border-0">
+                <div class="card-header bg-dark text-white">
                     <h5 class="mb-0">📋 Blog Slider List</h5>
-                    <a href="/admin/blog_slider" class="btn btn-light btn-sm fw-semibold">
-                        ➕ Add New
-                    </a>
                 </div>
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle text-nowrap">
+                        <table class="table table-bordered table-hover align-middle text-center">
                             <thead class="table-light">
-                                <tr class="text-center">
+                                <tr>
                                     <th>#</th>
                                     <th>Image</th>
                                     <th>Title</th>
                                     <th>Description</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <% if (data.length> 0) { %>
-                                    <% for (var i=0; i < data.length; i++) { %>
+                                <% if(data.length> 0){ %>
+                                    <% data.forEach((row, i)=> { %>
                                         <tr>
-                                            <td class="text-center fw-semibold">
+                                            <td>
                                                 <%= i + 1 %>
                                             </td>
-
-                                            <td class="text-center">
-                                                <img src="/upload/blog/<%= data[i].blog_image %>"
-                                                    class="img-thumbnail rounded-3" width="70">
+                                            <td>
+                                                <img src="/upload/blog/<%= row.blog_image %>" width="70">
                                             </td>
-
-                                            <td class="fw-semibold">
-                                                <%= data[i].blog_title %>
+                                            <td>
+                                                <%= row.blog_title %>
                                             </td>
-
-                                            <td class="text-muted">
-                                                <%= data[i].blog_description %>
-                                            </td>
-
-                                            <td class="text-center">
-                                                <a href="/admin/blog/blog_slider_edit/<%= data[i].id %>"
-                                                    class="btn btn-sm btn-outline-primary me-1">
-                                                    ✏️ Edit
-                                                </a>
-                                                <a href="/admin/blog_slider_status/<%= data[i].id %>"
-                                                    class="btn btn-sm btn-outline-danger">
-                                                    🗑 Delete
-                                                </a>
+                                            <td>
+                                                <%= row.blog_description %>
                                             </td>
                                         </tr>
-                                        <% } %>
+                                        <% }) %>
                                             <% } else { %>
                                                 <tr>
-                                                    <td colspan="5" class="text-center text-muted py-4">
-                                                        No blog slider data found
-                                                    </td>
+                                                    <td colspan="4" class="text-muted">No Data Found</td>
                                                 </tr>
                                                 <% } %>
                             </tbody>
-
                         </table>
+                        <!-- 🔷 PRINT BUTTON -->
+                        <div class="container text-end mb-3 no-print text-center">
+                            <button onclick="window.print()" class="btn btn-primary">
+                                🖨 Print Table
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <%- include('../footer.ejs') %>
+        <div class="no-print">
+            <%- include('../footer.ejs') %>
+        </div>
 
     </body>
 

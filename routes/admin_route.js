@@ -913,7 +913,7 @@ router.post("/terms/add", async function (req, res) {
     try {
         var d = req.body;
         var sql = ` INSERT INTO terms_conditions (term_title, term_content) VALUES (?,?) `;
-        var result = await exe(sql, [d.term_title, d.term_content]);    
+        var result = await exe(sql, [d.term_title, d.term_content]);
         res.redirect("/admin/condition");
     } catch (err) {
         console.error("Error adding terms:", err);
@@ -953,6 +953,7 @@ router.get("/terms/delete/:id", async function (req, res) {
 router.get("/logout", function (req, res) {
     res.render('admin/logout.ejs');
 });
+
 
 
 
