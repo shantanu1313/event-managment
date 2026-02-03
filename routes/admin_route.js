@@ -1146,7 +1146,10 @@ router.get("/testimonial-delete/:id", async (req, res) => {
 });
 
 router.get("/contact", function (req, res) {
-    res.render('admin/contact.ejs');
+    var sql = `select * from contact_info`;
+    exe(sql).then(contacts => {
+        res.render('admin/contact.ejs', { contacts });
+    });
 });
 
 router.get("/faq", function (req, res) {
