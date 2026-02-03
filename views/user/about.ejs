@@ -1,237 +1,252 @@
-<%- include('navbar.ejs') %>   
+<%- include('navbar.ejs') %>
 
-<link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="css/about.css">
 
-<section class="about-banner">
-    <div>
-        <h1>About Siddhivnayak Event</h1>
-        <p class="lead">Creating unforgettable experiences since 2008</p>
-    </div>
-</section>
+    
 
-<!-- Our Story -->
-<section class="story-section">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">Our Story</h2>
-        </div>
-        
-        <div class="story-content">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="story-image-wrapper fade-in delay-1">
-                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                            alt="Our Team" class="story-image">
-                        <div class="story-image-overlay">
-                            <div class="overlay-content">
-                                <h5 class="fw-bold">Siddhivnayak Team 2023</h5>
-                                <p class="mb-0">50+ dedicated professionals</p>
-                            </div>
-                        </div>
-                        <div class="experience-badge">
-                            <span>15+ Years Experience</span>
+
+        <!-- about Header -->
+        <% [about_header].map(function(index, i){ %>
+            <section class="about-header" style="background: linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
+    url('/upload/about/<%= index.image %>');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <h1 class="display-4 fw-bold mb-3">
+                                <%= index.title %>
+                            </h1>
+                            <p class="lead mb-0">
+                                <%= index.subtitle %>
+                            </p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="col-lg-6 fade-in delay-2">
-                    <div class="story-text">
-                        <div class="story-intro">
-                            <p class="lead-text text-dark">
-                                Founded in 2008, Siddhivnayak has grown from a small boutique service to a leading event
-                                management company.
-                            </p>
-                            <p>
-                                We specialize in creating personalized, memorable events that tell unique stories. With over 15
-                                years of experience and 2000+ events managed, we bring passion and professionalism to every
-                                occasion.
-                            </p>
-                        </div>
-                        
-                        <div class="story-highlights">
-                            <div class="highlight-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>15+ Years Experience</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>2000+ Events</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>500+ Vendor Partners</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>98% Satisfaction</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+            </section>
+            <% }) %>
 
-<!-- Vision & Mission -->
-<section class="vision-mission-section">
-    <div class="container">
-        <div class="vm-header">
-            <h2 class="vm-title">Vision & Mission</h2>
-            <div class="vm-title-divider"></div>
-            <p class="vm-intro">Driving excellence in every event we create</p>
-        </div>
-        
-        <div class="vm-content-wrapper">
-            <div class="row">
-                <!-- Mission Section -->
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <div class="vm-card mission-card fade-in delay-1">
-                        <div class="vm-card-header">
-                            <div class="vm-icon-wrapper">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
-                            <h3 class="vm-card-title">Our Mission</h3>
+
+
+
+
+                <!-- Our Story -->
+                <section class="story-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <%= story.section_title %>
+                            </h2>
                         </div>
-                        
-                        <div class="vm-card-body">
-                            <p class="vm-description">
-                                To create exceptional event experiences through innovative planning,
-                                flawless execution, and personalized service that exceeds client
-                                expectations and creates lasting memories.
-                            </p>
-                            
-                            <div class="vm-features">
-                                <h4 class="features-title">What Drives Us:</h4>
-                                <div class="features-grid">
-                                    <div class="feature-item">
-                                        <i class="fas fa-check"></i>
-                                        <span>Creative Planning</span>
+
+                        <div class="story-content">
+                            <% [story].map(function(item){ %>
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6">
+                                        <div class="story-image-wrapper fade-in delay-1">
+                                            <img src="/upload/about/<%= item.image_url %>" alt="Our Team"
+                                                class="story-image">
+
+                                            <div class="story-image-overlay">
+                                                <div class="overlay-content">
+                                                    <h5 class="fw-bold">
+                                                        <%= item.team_name %>
+                                                    </h5>
+                                                    <p class="mb-0">
+                                                        <%= item.team_members %> dedicated professionals
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="experience-badge">
+                                                <span>
+                                                    <%= item.experience_years %> Years Experience
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-check"></i>
-                                        <span>Flawless Execution</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-check"></i>
-                                        <span>Client Focus</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-check"></i>
-                                        <span>Innovation</span>
+
+                                    <div class="col-lg-6 fade-in delay-2">
+                                        <div class="story-text">
+                                            <div class="story-intro">
+                                                <p class="lead-text text-dark">
+                                                    <%= item.intro_text %>
+                                                </p>
+                                                <p>
+                                                    <%= item.intro_desc %>
+                                                </p>
+                                            </div>
+
+                                            <div class="story-highlights">
+                                                <% const highlights=[ { icon: "fas fa-check-circle" , text:
+                                                    item.experience_years + " Years Experience" }, {
+                                                    icon: "fas fa-check-circle" , text: item.total_events + " Events" },
+                                                    { icon: "fas fa-check-circle" , text: item.vendor_partners
+                                                    + " Vendor Partners" }, { icon: "fas fa-check-circle" , text:
+                                                    item.satisfaction_percentage + "% Satisfaction" } ];
+                                                    highlights.map(function(h){ %>
+                                                    <div class="highlight-item">
+                                                        <i class="<%= h.icon %>"></i>
+                                                        <span>
+                                                            <%= h.text %>
+                                                        </span>
+                                                    </div>
+                                                    <% }) %>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                        <div class="vm-card-footer">
-                            <span class="mission-tag">Making Every Moment Count</span>
+                                <% }) %>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Vision Section -->
-                <div class="col-lg-6">
-                    <div class="vm-card vision-card fade-in delay-2">
-                        <div class="vm-card-header">
-                            <div class="vm-icon-wrapper">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <h3 class="vm-card-title">Our Vision</h3>
+                </section>
+
+
+
+
+
+                <!-- Vision & Mission -->
+                <section class="vision-mission-section">
+                    <div class="container">
+                        <div class="vm-header">
+                            <h2 class="vm-title">Vision & Mission</h2>
+                            <div class="vm-title-divider"></div>
+                            <p class="vm-intro">Driving excellence in every event we create</p>
                         </div>
-                        
-                        <div class="vm-card-body">
-                            <p class="vm-description">
-                                To be India's most trusted and innovative event management partner,
-                                setting new standards of excellence in the industry while expanding 
-                                our reach to serve clients nationwide.
-                            </p>
-                            
-                            <div class="vm-features">
-                                <h4 class="features-title">Our Future Goals:</h4>
-                                <div class="features-grid">
-                                    <div class="feature-item">
-                                        <i class="fas fa-star"></i>
-                                        <span>Industry Leader</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-star"></i>
-                                        <span>National Presence</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-star"></i>
-                                        <span>Sustainable Growth</span>
-                                    </div>
-                                    <div class="feature-item">
-                                        <i class="fas fa-star"></i>
-                                        <span>Innovation Focus</span>
+
+                        <div class="vm-content-wrapper">
+                            <div class="row">
+                                <!-- Mission Section -->
+                                <div class="col-lg-6 mb-5 mb-lg-0">
+                                    <div class="vm-card mission-card fade-in delay-1">
+                                        <div class="vm-card-header">
+                                            <div class="vm-icon-wrapper">
+                                                <i class="<%= mission ? mission.icon_class : 'fas fa-bullseye' %>"></i>
+                                            </div>
+                                            <h3 class="vm-card-title">
+                                                <%= mission ? mission.title : 'Our Mission' %>
+                                            </h3>
+                                        </div>
+
+                                        <div class="vm-card-body">
+                                            <p class="vm-description">
+                                                <%= mission ? mission.description : '' %>
+                                            </p>
+
+                                            <% if(mission && mission.features){ %>
+                                                <div class="vm-features">
+                                                    <h4 class="features-title">What Drives Us:</h4>
+                                                    <div class="features-grid">
+                                                        <% mission.features.split(',').forEach(function(f){ %>
+                                                            <div class="feature-item">
+                                                                <i class="fas fa-check"></i>
+                                                                <span>
+                                                                    <%= f.trim() %>
+                                                                </span>
+                                                            </div>
+                                                            <% }) %>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                        </div>
+
+                                        <div class="vm-card-footer">
+                                            <span class="mission-tag">
+                                                <%= mission ? mission.tag_line : '' %>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
+
+
+                                <!-- Vision Section -->
+                                <div class="col-lg-6">
+                                    <div class="vm-card vision-card fade-in delay-2">
+                                        <div class="vm-card-header">
+                                            <div class="vm-icon-wrapper">
+                                                <i class="<%= vision ? vision.icon_class : 'fas fa-eye' %>"></i>
+                                            </div>
+                                            <h3 class="vm-card-title">
+                                                <%= vision ? vision.title : 'Our Vision' %>
+                                            </h3>
+                                        </div>
+
+                                        <div class="vm-card-body">
+                                            <p class="vm-description">
+                                                <%= vision ? vision.description : '' %>
+                                            </p>
+
+                                            <% if(vision && vision.features){ %>
+                                                <div class="vm-features">
+                                                    <h4 class="features-title">Our Future Goals:</h4>
+                                                    <div class="features-grid">
+                                                        <% vision.features.split(',').forEach(function(f){ %>
+                                                            <div class="feature-item">
+                                                                <i class="fas fa-star"></i>
+                                                                <span>
+                                                                    <%= f.trim() %>
+                                                                </span>
+                                                            </div>
+                                                            <% }) %>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                        </div>
+
+                                        <div class="vm-card-footer">
+                                            <span class="vision-tag">
+                                                <%= vision ? vision.tag_line : '' %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                        
-                        <div class="vm-card-footer">
-                            <span class="vision-tag">Building Tomorrow's Legacy</span>
-                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+                </section>
 <!-- Values -->
 <section class="values-section pt-0 py-5 bg-light">
     <div class="container py-5">
         <div class="section-header">
             <h2 class="section-title">Our Core Values</h2>
         </div>
-        
+
         <div class="row g-4">
-            <div class="col-md-4">
-                <div class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-1">
-                    <div class="text-center mb-4">
-                        <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
-                            style="width: 70px; height: 70px;">
-                            <i class="fas fa-heart fa-2x text-white"></i>
+
+            <% if (core_values && core_values.length > 0) { %>
+                <% core_values.forEach(function(item, index){ %>
+
+                    <div class="col-md-4">
+                        <div class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-<%= index + 1 %>">
+                            
+                            <div class="text-center mb-4">
+                                <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
+                                     style="width:70px;height:70px;">
+                                    <i class="fas <%= item.icon %> fa-2x text-white"></i>
+                                </div>
+                            </div>
+
+                            <h4 class="text-center mb-3">
+                                <%= item.title %>
+                            </h4>
+
+                            <p class="text-center mb-0">
+                                <%= item.description %>
+                            </p>
+
                         </div>
                     </div>
-                    <h4 class="text-center mb-3">Passion</h4>
-                    <p class="text-center mb-0">We approach every event with genuine enthusiasm and dedication to
-                        create memorable experiences.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-2">
-                    <div class="text-center mb-4">
-                        <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
-                            style="width: 70px; height: 70px;">
-                            <i class="fas fa-lightbulb fa-2x text-white"></i>
-                        </div>
-                    </div>
-                    <h4 class="text-center mb-3">Innovation</h4>
-                    <p class="text-center mb-0">We constantly seek new ideas and approaches to keep events fresh,
-                        engaging, and memorable.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-3">
-                    <div class="text-center mb-4">
-                        <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
-                            style="width: 70px; height: 70px;">
-                            <i class="fas fa-handshake fa-2x text-white"></i>
-                        </div>
-                    </div>
-                    <h4 class="text-center mb-3">Integrity</h4>
-                    <p class="text-center mb-0">We build relationships based on trust, transparency, and open
-                        communication with all partners.</p>
-                </div>
-            </div>
+
+                <% }) %>
+            <% } %>
+
         </div>
     </div>
 </section>
 
-<!-- Timeline -->
+             <!-- Timeline -->
 <section id="journey" class="timeline-section pt-0 py-5 bg-light">
     <div class="container py-5">
         <div class="section-header">
@@ -242,241 +257,197 @@
         </div>
 
         <div class="timeline-container">
-            <!-- 2008 -->
-            <div class="timeline-item">
-                <div class="card border-0 timeline-card timeline-left shadow-medium">
-                    <div class="card-body p-4">
-                        <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2008</span>
-                        <h4 class="card-title fw-bold mb-3">Founding & Vision</h4>
-                        <p class="card-text">Sarah Johnson founded Siddhivnayak with a revolutionary approach to event
-                            management, introducing data-driven planning methodologies.</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- 2012 -->
-            <div class="timeline-item">
-                <div class="card border-0 timeline-card timeline-right shadow-medium">
-                    <div class="card-body p-4">
-                        <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2012</span>
-                        <h4 class="card-title fw-bold mb-3">Digital Transformation</h4>
-                        <p class="card-text">Launched proprietary event management software, becoming early adopters
-                            of cloud-based planning solutions.</p>
-                    </div>
-                </div>
-            </div>
+            <% if (journey && journey.length > 0) { %>
+                <% journey.forEach(function(item, index){ %>
 
-            <!-- 2016 -->
-            <div class="timeline-item">
-                <div class="card border-0 timeline-card timeline-left shadow-medium">
-                    <div class="card-body p-4">
-                        <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2016</span>
-                        <h4 class="card-title fw-bold mb-3">Global Expansion</h4>
-                        <p class="card-text">Established offices in London, Dubai, and Singapore, managing
-                            international events across 30+ countries.</p>
-                    </div>
-                </div>
-            </div>
+                    <div class="timeline-item">
+                        <div class="card border-0 timeline-card 
+                            <%= index % 2 === 0 ? 'timeline-left' : 'timeline-right' %> 
+                            shadow-medium">
 
-            <!-- 2020 -->
-            <div class="timeline-item">
-                <div class="card border-0 timeline-card timeline-right shadow-medium">
-                    <div class="card-body p-4">
-                        <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2020</span>
-                        <h4 class="card-title fw-bold mb-3">Pandemic Innovation</h4>
-                        <p class="card-text">Pioneered hybrid event solutions, developing proprietary virtual event
-                            platform that served 500K+ attendees.</p>
-                    </div>
-                </div>
-            </div>
+                            <div class="card-body p-4">
+                                <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">
+                                    <%= item.year %>
+                                </span>
 
-            <!-- 2023 -->
-            <div class="timeline-item">
-                <div class="card border-0 timeline-card timeline-left shadow-medium">
-                    <div class="card-body p-4">
-                        <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">2023</span>
-                        <h4 class="card-title fw-bold mb-3">Sustainability Leadership</h4>
-                        <p class="card-text">Awarded 'Most Sustainable Event Company' for achieving carbon-neutral
-                            status across all operations.</p>
+                                <h4 class="card-title fw-bold mb-3">
+                                    <%= item.title %>
+                                </h4>
+
+                                <p class="card-text">
+                                    <%= item.description %>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+
+                <% }) %>
+            <% } else { %>
+                <p class="text-center">No journey data available</p>
+            <% } %>
+
         </div>
     </div>
 </section>
 
-<!-- Team -->
+
+             <!-- Team -->
 <section class="team-section py-5">
     <div class="container py-5">
         <div class="section-header">
             <h2 class="section-title">Our Leadership</h2>
         </div>
-        
+
         <div class="row g-4">
-            <div class="col-md-4">
-                <div
-                    class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column delay-1 border">
-                    <div class="overflow-hidden rounded-circle mx-auto mb-3" style="width: 150px; height: 150px;">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                            alt="Sarah Johnson" class="team-img w-100 h-100">
+
+            <% if(leadership && leadership.length > 0){ %>
+                <% leadership.forEach(function(item, index){ %>
+
+                    <div class="col-md-4">
+                        <div
+                            class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column border">
+
+                            <div class="overflow-hidden rounded-circle mx-auto mb-3"
+                                style="width: 150px; height: 150px;">
+                                <img src="/upload/about/<%= item.image %>"
+                                     alt="<%= item.name %>"
+                                     class="team-img w-100 h-100">
+                            </div>
+
+                            <h5 class="mb-2"><%= item.name %></h5>
+                            <p class="text-primary mb-3"><%= item.designation %></p>
+
+                            <p class="mb-0 flex-grow-1">
+                                <%= item.description %>
+                            </p>
+
+                            <div class="mt-3">
+                                <% if(item.linkedin){ %>
+                                    <a href="<%= item.linkedin %>" target="_blank"
+                                       class="btn btn-outline-primary btn-sm me-2">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                <% } %>
+
+                                <% if(item.twitter){ %>
+                                    <a href="<%= item.twitter %>" target="_blank"
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                <% } %>
+                            </div>
+
+                        </div>
                     </div>
-                    <h5 class="mb-2">Sarah Johnson</h5>
-                    <p class="text-primary mb-3">Founder & CEO</p>
-                    <p class="mb-0 flex-grow-1">With over 20 years in event management, Sarah founded Siddhivnayak to
-                        create personalized experiences.</p>
-                    <div class="mt-3">
-                        <a href="#" class="btn btn-outline-primary btn-sm me-2">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-primary btn-sm">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div
-                    class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column delay-2 border">
-                    <div class="overflow-hidden rounded-circle mx-auto mb-3" style="width: 150px; height: 150px;">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                            alt="Michael Chen" class="team-img w-100 h-100">
-                    </div>
-                    <h5 class="mb-2">Michael Chen</h5>
-                    <p class="text-primary mb-3">Creative Director</p>
-                    <p class="mb-0 flex-grow-1">15 years of design experience ensuring every event has a unique
-                        visual identity and atmosphere.</p>
-                    <div class="mt-3">
-                        <a href="#" class="btn btn-outline-primary btn-sm me-2">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-primary btn-sm">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div
-                    class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column delay-3 border">
-                    <div class="overflow-hidden rounded-circle mx-auto mb-3" style="width: 150px; height: 150px;">
-                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                            alt="Jessica Williams" class="team-img w-100 h-100">
-                    </div>
-                    <h5 class="mb-2">Jessica Williams</h5>
-                    <p class="text-primary mb-3">Operations Director</p>
-                    <p class="mb-0 flex-grow-1">Oversees all event logistics with precision for seamless execution
-                        from planning to implementation.</p>
-                    <div class="mt-3">
-                        <a href="#" class="btn btn-outline-primary btn-sm me-2">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-primary btn-sm">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+
+                <% }) %>
+            <% } else { %>
+                <p class="text-center">Leadership team coming soon.</p>
+            <% } %>
+
         </div>
     </div>
 </section>
 
-<%- include('footer.ejs') %>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Scroll animations
-        function animateOnScroll() {
-            const elements = document.querySelectorAll(
-                '.fade-in, .stat-card, .value-card, .team-card, .timeline-item'
-            );
+                <%- include('footer.ejs') %>
 
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            // Scroll animations
+                            function animateOnScroll() {
+                                const elements = document.querySelectorAll(
+                                    '.fade-in, .stat-card, .value-card, .team-card, .timeline-item'
+                                );
 
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.classList.add('show');
-                }
-            });
-        }
+                                elements.forEach(element => {
+                                    const elementTop = element.getBoundingClientRect().top;
+                                    const elementVisible = 150;
 
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
+                                    if (elementTop < window.innerHeight - elementVisible) {
+                                        element.classList.add('show');
+                                    }
+                                });
+                            }
 
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+                            // Smooth scroll for anchor links
+                            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                                anchor.addEventListener('click', function (e) {
+                                    e.preventDefault();
+                                    const targetId = this.getAttribute('href');
+                                    if (targetId === '#') return;
 
-        // Add scroll event listener
-        window.addEventListener('scroll', function () {
-            animateOnScroll();
-        });
+                                    const targetElement = document.querySelector(targetId);
+                                    if (targetElement) {
+                                        window.scrollTo({
+                                            top: targetElement.offsetTop,
+                                            behavior: 'smooth'
+                                        });
+                                    }
+                                });
+                            });
 
-        // Initial animation check
-        animateOnScroll();
+                            // Add scroll event listener
+                            window.addEventListener('scroll', function () {
+                                animateOnScroll();
+                            });
 
-        // Add click animation to timeline cards
-        document.querySelectorAll('.timeline-card').forEach(card => {
-            card.addEventListener('click', function () {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
-            });
-        });
+                            // Initial animation check
+                            animateOnScroll();
 
-        // Enhanced hover effect for timeline cards
-        document.querySelectorAll('.timeline-card').forEach(card => {
-            card.addEventListener('mouseenter', function () {
-                const isLeft = this.classList.contains('timeline-left');
-                this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
-                this.style.borderRightWidth = isLeft ? '6px' : '4px';
-                this.style.borderLeftWidth = !isLeft ? '6px' : '4px';
-            });
+                            // Add click animation to timeline cards
+                            document.querySelectorAll('.timeline-card').forEach(card => {
+                                card.addEventListener('click', function () {
+                                    this.style.transform = 'scale(0.98)';
+                                    setTimeout(() => {
+                                        this.style.transform = '';
+                                    }, 200);
+                                });
+                            });
 
-            card.addEventListener('mouseleave', function () {
-                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.08)';
-                this.style.borderRightWidth = '';
-                this.style.borderLeftWidth = '';
-            });
-        });
-        
-        // Hover effects for value cards
-        document.querySelectorAll('.value-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px)';
-                this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = '';
-                this.style.boxShadow = '';
-            });
-        });
-        
-        // Hover effects for VM cards
-        document.querySelectorAll('.vm-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-15px)';
-                this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                if (!this.classList.contains('clicked')) {
-                    this.style.transform = '';
-                    this.style.boxShadow = '';
-                }
-            });
-        });
-    });
-</script>
+                            // Enhanced hover effect for timeline cards
+                            document.querySelectorAll('.timeline-card').forEach(card => {
+                                card.addEventListener('mouseenter', function () {
+                                    const isLeft = this.classList.contains('timeline-left');
+                                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
+                                    this.style.borderRightWidth = isLeft ? '6px' : '4px';
+                                    this.style.borderLeftWidth = !isLeft ? '6px' : '4px';
+                                });
+
+                                card.addEventListener('mouseleave', function () {
+                                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.08)';
+                                    this.style.borderRightWidth = '';
+                                    this.style.borderLeftWidth = '';
+                                });
+                            });
+
+                            // Hover effects for value cards
+                            document.querySelectorAll('.value-card').forEach(card => {
+                                card.addEventListener('mouseenter', function () {
+                                    this.style.transform = 'translateY(-10px)';
+                                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
+                                });
+
+                                card.addEventListener('mouseleave', function () {
+                                    this.style.transform = '';
+                                    this.style.boxShadow = '';
+                                });
+                            });
+
+                            // Hover effects for VM cards
+                            document.querySelectorAll('.vm-card').forEach(card => {
+                                card.addEventListener('mouseenter', function () {
+                                    this.style.transform = 'translateY(-15px)';
+                                    this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
+                                });
+
+                                card.addEventListener('mouseleave', function () {
+                                    if (!this.classList.contains('clicked')) {
+                                        this.style.transform = '';
+                                        this.style.boxShadow = '';
+                                    }
+                                });
+                            });
+                        });
+                    </script>

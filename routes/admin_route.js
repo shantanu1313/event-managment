@@ -191,10 +191,481 @@ router.get("/home/delete_choose_us/:id", async function (req, res) {
     };
 });
 
-router.get("/about", function (req, res) {
-    res.render('admin/about.ejs');
+router.get("/about/slider",async function(req,res){
+     const data = await exe("SELECT * FROM about_header LIMIT 1");
+     res.render("admin/about/about_slider.ejs", { about_header: data[0] || null});
+})
+
+router.post("/about-header/save", async function(req, res) {
+   
+        const d = req.body;
+        let FileName = "";
+
+        // Get old record if exists
+        const oldRecord = await exe("SELECT * FROM about_header LIMIT 1");
+        const fs = require("fs");
+
+        if(req.files && req.files.image){
+            const image = req.files.image;
+            FileName = Date.now() + "_" + image.name.replace(/\s/g, "_");
+            await image.mv("public/upload/about/" + FileName);
+
+            // Delete old image file if exists
+            if(oldRecord.length > 0){
+                const oldImage = oldRecord[0].image;
+                if(oldImage && fs.existsSync("public/upload/about/" + oldImage)){
+                    fs.unlinkSync("public/upload/about/" + oldImage);
+                }
+            }
+        } else if(oldRecord.length > 0){
+            FileName = oldRecord[0].image; // keep old image if new not uploaded
+        }
+
+        if(oldRecord.length > 0){
+            // Update existing record
+            await exe(
+                "UPDATE about_header SET title = ?, subtitle = ?, image = ? WHERE id = ?",
+                [d.title, d.subtitle, FileName, oldRecord[0].id]
+            );
+        } else {
+            // Insert new record
+            await exe(
+                "INSERT INTO about_header(title, subtitle, image) VALUES (?, ?, ?)",
+                [d.title, d.subtitle, FileName]
+            );
+        }
+
+        res.redirect("/admin/about/slider");
+
+   
+    
 });
 
+router.get("/about/our_story",async function(req,res){
+    const data1 = await exe("SELECT * FROM our_story LIMIT 1");
+    res.render("admin/about/our_story.ejs",{story: data1[0] || null});
+})
+
+router.post("/our-story/save", async function (req, res) {
+
+    const d = req.body;
+    let FileName = "";
+    const fs = require("fs");
+
+    // get old record
+    const oldRecord = await exe("SELECT * FROM our_story LIMIT 1");
+
+    // ===== Image Upload =====
+    if (req.files && req.files.image_url) {
+
+        const image = req.files.image_url;
+        FileName = Date.now() + "_" + image.name.replace(/\s/g, "_");
+        await image.mv("public/upload/about/" + FileName);
+
+        // delete old image
+        if (oldRecord.length > 0) {
+            const oldImage = oldRecord[0].image_url;
+            if (oldImage && fs.existsSync("public/upload/about/" + oldImage)) {
+                fs.unlinkSync("public/upload/about/" + oldImage);
+            }
+        }
+
+    } else if (oldRecord.length > 0) {
+        // keep old image
+        FileName = oldRecord[0].image_url;
+    }
+
+    if (oldRecord.length > 0) {
+
+        // ===== UPDATE =====
+        await exe(
+            `UPDATE our_story SET
+                section_title = ?,
+                image_url = ?,
+                team_name = ?,
+                team_members = ?,
+                experience_years = ?,
+                intro_text = ?,
+                intro_desc = ?,
+                total_events = ?,
+                vendor_partners = ?,
+                satisfaction_percentage = ?
+             WHERE id = ?`,
+            [
+                d.section_title,
+                FileName,
+                d.team_name,
+                d.team_members,
+                d.experience_years,
+                d.intro_text,
+                d.intro_desc,
+                d.total_events,
+                d.vendor_partners,
+                d.satisfaction_percentage,
+                oldRecord[0].id
+            ]
+        );
+
+    } else {
+
+        // ===== INSERT =====
+        await exe(
+            `INSERT INTO our_story
+            (
+                section_title,
+                image_url,
+                team_name,
+                team_members,
+                experience_years,
+                intro_text,
+                intro_desc,
+                total_events,
+                vendor_partners,
+                satisfaction_percentage
+            )
+            VALUES (?,?,?,?,?,?,?,?,?,?)`,
+            [
+                d.section_title,
+                FileName,
+                d.team_name,
+                d.team_members,
+                d.experience_years,
+                d.intro_text,
+                d.intro_desc,
+                d.total_events,
+                d.vendor_partners,
+                d.satisfaction_percentage
+            ]
+        );
+    }
+
+    res.redirect("/admin/about/our_story");
+});
+
+router.get("/about/vision_mission", async function (req, res) {
+  const vm = await exe(
+    "SELECT * FROM vision_mission WHERE status = 1 ORDER BY FIELD(type,'mission','vision')"
+  );
+
+  res.render("admin/about/missio_vision.ejs", { vision_mission: vm });
+});
+
+router.get("/about/core-values", async function (req, res) {
+
+    let value = await exe(
+        "SELECT * FROM core_values ORDER BY id ASC LIMIT 3"
+    );
+
+    // if less than 3 records, push empty objects
+    while (value.length < 3) {
+        value.push({
+            id: "",
+            title: "",
+            description: "",
+            icon: "fa-heart"
+        });
+    }
+
+    const icons = [
+        'fa-heart',
+        'fa-lightbulb',
+        'fa-handshake',
+        'fa-star',
+        'fa-users',
+        'fa-bullseye',
+        'fa-award'
+    ];
+
+    res.render("admin/about/core_values.ejs", {
+        value,
+        icons
+    });
+});
+
+router.post("/core-values/save", async function (req, res) {
+
+    const d = req.body;
+
+    // UPDATE (when id exists)
+    if (d.id && d.id !== "") {
+
+        await exe(
+            `UPDATE core_values 
+             SET title = ?, description = ?, icon = ?, status = ?
+             WHERE id = ?`,
+            [
+                d.title,
+                d.description,
+                d.icon,
+                d.status || 1,
+                d.id
+            ]
+        );
+
+    } else {
+
+        // COUNT CHECK – only 3 values allowed
+        const count = await exe(
+            "SELECT COUNT(*) AS total FROM core_values"
+        );
+
+        if (count[0].total >= 3) {
+            // silently block extra insert
+            return res.redirect("/admin/about/core-values");
+        }
+
+        // INSERT
+        await exe(
+            `INSERT INTO core_values 
+             (title, description, icon, status)
+             VALUES (?,?,?,?)`,
+            [
+                d.title,
+                d.description,
+                d.icon,
+                d.status || 1
+            ]
+        );
+    }
+
+    res.redirect("/admin/about/core-values");
+});
+
+router.get("/about/our_evolution",function(req,res){
+    res.render("admin/about/our_evolution.ejs")
+})
+
+router.post("/about/save_evolution", async (req, res) => {
+    
+        const { year, title, description, status } = req.body;
+
+        // Insert into journey_timeline table
+        const sql = `
+            INSERT INTO journey_timeline (year, title, description, status)
+            VALUES (?, ?, ?, ?)
+        `;
+        await exe(sql, [year, title, description, status]);
+
+        // Redirect to list page after insert
+        res.redirect("/admin/about/our_evolution-list");
+    
+});
+
+
+router.get("/about/our_evolution-list",  async function (req, res){
+
+    const timeline = await exe(
+        "SELECT * FROM journey_timeline ORDER BY year ASC"
+    );
+
+    res.render("admin/about/our_evolution-list.ejs", {
+        timeline
+    });
+});
+
+router.get("/about/our_evolution/edit/:id", async (req, res) => {
+   
+        const id = req.params.id;
+        const sql = "SELECT * FROM journey_timeline WHERE id = ?";
+        const timeline = await exe(sql, [id]);
+
+        if (!timeline || timeline.length === 0) {
+            return res.status(404).send("Timeline not found");
+        }
+
+        res.render("admin/about/our_evolution-edit.ejs", {
+            timeline: timeline[0]});
+        });
+    
+router.post("/update/our_evolution/update/:id", async (req, res) => {
+  
+        const id = req.params.id;
+        const { year, title, description, status } = req.body;
+
+        const sql = `
+            UPDATE journey_timeline
+            SET year = ?, title = ?, description = ?, status = ?
+            WHERE id = ?
+        `;
+        await exe(sql, [year, title, description, status, id]);
+
+        res.redirect("/admin/about/our_evolution-list");
+    
+});
+
+
+// HARD DELETE journey timeline
+router.get("/about/our_evolution/delete/:id", async (req, res) => {
+   
+        const id = req.params.id;
+
+        const sql = "DELETE FROM journey_timeline WHERE id = ?";
+        await exe(sql, [id]);
+
+        res.redirect("/admin/about/our_evolution-list");
+   
+});
+
+router.get("/about/add_team",function(req,res){
+    res.render("admin/about/add_team.ejs")
+})
+
+router.post("/about/leadership-team/add", async function(req, res){
+
+    var d = req.body;
+    var FileName = "";
+
+    
+    if(req.files && req.files.image){
+        FileName = Date.now() + "_" + req.files.image.name;
+        await req.files.image.mv("public/upload/about/" + FileName);
+    }
+
+    var sql = `
+        INSERT INTO leadership_team
+        (name, designation, description, image, linkedin, twitter, status)
+        VALUES
+        (?,?,?,?,?,?,?)
+    `;
+
+    await exe(sql, [
+        d.name,
+        d.designation,
+        d.description,
+        FileName,
+        d.linkedin,
+        d.twitter,
+        d.status
+    ]);
+
+    res.redirect("/admin/about/team_list");
+});
+
+router.get("/about/team_list", async (req, res) => {
+
+    const leadership = await exe(
+        "SELECT * FROM leadership_team ORDER BY id DESC"
+    );
+
+    res.render("admin/about/team_list.ejs", {
+        leadership});
+});
+
+
+router.get("/about/team/edit/:id", async function(req, res){
+
+    const id = req.params.id;
+
+    const data = await exe(
+        "SELECT * FROM leadership_team WHERE id = ?",
+        [id]
+    );
+
+    res.render("admin/about/team_edit.ejs", {
+        team: data[0]
+    });
+});
+
+
+router.post("/about/team/update/:id", async function(req, res){
+
+    const id = req.params.id;
+    const d = req.body;
+    let newFileName = "";
+
+    // 1️⃣ Get old record
+    const data = await exe(
+        "SELECT image FROM leadership_team WHERE id = ?",
+        [id]
+    );
+    const oldImage = data[0].image;
+
+    // 2️⃣ New image upload
+    if(req.files && req.files.image){
+        newFileName = Date.now() + "_" + req.files.image.name.replace(/\s/g,"_");
+
+        const uploadPath = path.join(
+            __dirname,
+            "../public/upload/about/",
+            newFileName
+        );
+
+        await req.files.image.mv(uploadPath);
+
+        // delete old image
+        if(oldImage){
+            const oldPath = path.join(
+                __dirname,
+                "../public/upload/about/",
+                oldImage
+            );
+            if(fs.existsSync(oldPath)){
+                fs.unlinkSync(oldPath);
+            }
+        }
+
+    } else {
+        // ❗ image change नाही → old image ठेव
+        newFileName = oldImage;
+    }
+
+    // 3️⃣ Update DB
+    await exe(`
+        UPDATE leadership_team SET
+        name = ?,
+        designation = ?,
+        description = ?,
+        image = ?,
+        linkedin = ?,
+        twitter = ?,
+        status = ?
+        WHERE id = ?
+    `, [
+        d.name,
+        d.designation,
+        d.description,
+        newFileName,
+        d.linkedin,
+        d.twitter,
+        d.status,
+        id
+    ]);
+
+    res.redirect("/admin/about/team_list");
+});
+
+router.get("/about/team/delete/:id", async function(req, res){
+
+    const id = req.params.id;
+
+   
+    const data = await exe(
+        "SELECT image FROM leadership_team WHERE id = ?",
+        [id]
+    );
+
+    
+    if(data.length > 0 && data[0].image){
+        const imagePath = path.join(
+            __dirname,
+            "../public/upload/about/",
+            data[0].image
+        );
+
+        if(fs.existsSync(imagePath)){
+            fs.unlinkSync(imagePath);
+        }
+    }
+
+  
+    await exe(
+        "DELETE FROM leadership_team WHERE id = ?",
+        [id]
+    );
+
+   
+     res.redirect("/admin/about/team_list");
+});
 
 router.get("/service", async function (req, res) {
     var sql = "SELECT * FROM service";
@@ -335,10 +806,10 @@ router.get("/services/add_other_service", async function (req, res) {
     res.render('admin/services/add_other_service.ejs', packet);
 });
 
+
 router.post("/services/add_other_service", async function (req, res) {
     try {
-
-        const d = req.body;
+  const d = req.body;
         const sql = `
             INSERT INTO other_service (icon, title, short_quote)
             VALUES (?,?,?)
@@ -421,9 +892,9 @@ router.get("/package", function (req, res) {
     res.render('admin/package.ejs');
 });
 router.get("/gallery", async function (req, res) {
-
-    const data = await exe("SELECT * FROM gallery_header LIMIT 1");
-    res.render("admin/gallery.ejs", { gallery_header: data[0] || null });
+   
+        const data = await exe("SELECT * FROM gallery_header LIMIT 1");
+        res.render("admin/gallery.ejs", { gallery_header: data[0] || null });
 });
 router.post("/gallery-header/save", async function (req, res) {
 
@@ -502,8 +973,6 @@ router.get("/gallery_list", async function (req, res) {
     var gallery = await exe(sql);
     res.render("admin/gallery_list.ejs", { gallery });
 });
-
-const fs = require("fs");
 const path = require("path");
 
 router.get("/gallery_delete/:id", async function (req, res) {

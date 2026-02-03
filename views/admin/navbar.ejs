@@ -233,11 +233,71 @@
                         </li>
 
                         <!-- Content Management -->
+                         <!-- Content Management -->
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/about">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#aboutMenu"
+                                aria-expanded="false">
                                 <i class="fas fa-info-circle me-2"></i>
                                 About Page
+                                <i class="fas fa-chevron-down float-end"></i>
                             </a>
+
+                            <div class="collapse" id="aboutMenu">
+                                <ul class="nav flex-column ms-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/about/slider">
+                                            <i class="fas fa-image me-2"></i>
+                                            About Slider
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/about/our_story">
+                                            <i class="fas fa-book me-2"></i>
+                                            Add Our Story
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/about/vision_mission">
+                                            <i class="fas fa-bullseye me-2"></i>
+                                            Vision & Mission
+                                        </a>
+                                    </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link" href="/admin/about/core-values">
+                                            <i class="fas fa-gem me-2"></i>
+                                            Core Values
+                                        </a>
+                                    </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link" href="/admin/about/our_evolution">
+                                            <i class="fas fa-stream me-2"></i>
+                                            Our Evolution
+                                        </a>
+                                    </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/admin/about/our_evolution-list">
+                                            <i class="fas fa-stream me-2"></i>
+                                            Our Evolution-List
+                                        </a>
+                                    </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link" href="/admin/about/add_team">
+                                            <i class="fas fa-stream me-2"></i>
+                                            Add Team Memebers
+                                        </a>
+                                    </li>
+                                     <li class="nav-item">
+                                        <a class="nav-link" href="/admin/about/team_list">
+                                            <i class="fas fa-stream me-2"></i>
+                                         Team Memebers
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class=""></div>
                         </li>
 
                         <!-- Services Management -->
@@ -272,12 +332,30 @@
 
 
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/package">
-                                <i class="fas fa-box me-2"></i>
-                                Packages
-                            </a>
-                        </li>
+                        <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="packagesDropdown" role="button"
+        data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-box me-2"></i>
+        Packages
+    </a>
+
+    <ul class="dropdown-menu" aria-labelledby="packagesDropdown">
+        <li>
+            <a class="dropdown-item" href="admin/header_packages">
+                <i class="fas fa-list me-2"></i>Header Of Packages
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/admin/add_packages">
+                <i class="fas fa-plus me-2"></i>packages
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/admin/add_features">
+                <i class="fas fa-tags me-2"></i> Features Of Packages
+        </li>
+    </ul>
+</li>
 
                         <li class="nav-item">
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

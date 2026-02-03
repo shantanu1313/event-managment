@@ -1,0 +1,61 @@
+<%-include ("../navbar.ejs")%>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2" id="page-title">Edit Journey Timeline</h1>
+</div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-header text-center">
+                    <h4 class="mb-0">Edit Timeline</h4>
+                </div>
+
+                <div class="card-body">
+                    <form action="/admin/update/our_evolution/update/<%= timeline.id %>" method="POST">
+
+                        <!-- Year -->
+                        <div class="mb-3">
+                            <label class="form-label">Year</label>
+                            <input type="text" name="year" class="form-control"
+                                   value="<%= timeline.year %>" required>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" name="title" class="form-control"
+                                   value="<%= timeline.title %>" required>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" rows="4" class="form-control" required><%= timeline.description %></textarea>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select">
+                                <option value="1" <%= timeline.status == 1 ? "selected" : "" %>>Active</option>
+                                <option value="0" <%= timeline.status == 0 ? "selected" : "" %>>Inactive</option>
+                            </select>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary px-4">
+                                Update Timeline
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%-include ("../footer.ejs")%>
