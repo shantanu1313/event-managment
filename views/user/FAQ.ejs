@@ -1,12 +1,38 @@
 <%- include('navbar.ejs') %>
 
+<style>
+  
+/* FAQ / CONTACT BANNER */
+.contact-banner {
+  background: linear-gradient(
+  rgba(0, 0, 0, 0.6),
+  rgba(0, 0, 0, 0.6)
+),
+url('/upload/faq/<%= header_faq[0].bg_image %>');
+   background-size: cover;
+  background-position: center;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ffffff;
+}
+
+.contact-banner h1 {
+  font-weight: 800;
+  font-size: 3rem;
+}
+</style>
+
+
 <link rel="stylesheet" href="/css/FAQ.css">
 
 <!-- ===== FAQ BANNER ===== -->
 <section class="contact-banner">
     <div class="container text-center">
-        <h1>Frequently Asked Questions</h1>
-        <p class="lead">Everything you need to know about our services ✨</p>
+        <h1><%= header_faq[0].title %></h1>
+        <p class="lead"><%= header_faq[0].description %></p>
     </div>
 </section>
 
@@ -16,76 +42,15 @@
 
     <!-- FAQ LIST -->
     <div class="faq-list">
+<% faqs.forEach(function(faq){ %>
+  <div class="faq-item">
+    <details>
+      <summary><%= faq.question %></summary>
+      <p><%= faq.answer %></p>
+    </details>
+  </div>
+<% }) %>
 
-      <div class="faq-item">
-        <details>
-          <summary>What services do you provide?</summary>
-          <p>We provide complete event planning and execution services.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>How can I book an event?</summary>
-          <p>You can book an event through our website booking form.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Do you organize wedding events?</summary>
-          <p>Yes, we specialize in wedding and reception events.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Is advance payment required?</summary>
-          <p>Yes, advance payment is required to confirm booking.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Can I customize my event package?</summary>
-          <p>Yes, all event packages are fully customizable.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Do you handle corporate events?</summary>
-          <p>Yes, we manage corporate meetings and seminars.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Do you provide catering services?</summary>
-          <p>Yes, catering services are available on request.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Do you provide decoration services?</summary>
-          <p>Yes, we offer customized decoration themes.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>How early should I book?</summary>
-          <p>We recommend booking at least 2–3 months in advance.</p>
-        </details>
-      </div>
-
-      <div class="faq-item">
-        <details>
-          <summary>Do you work outside the city?</summary>
-          <p>Yes, destination events are available.</p>
-        </details>
-      </div>
 
     </div>
 

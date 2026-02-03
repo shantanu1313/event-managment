@@ -80,9 +80,24 @@ router.get("/services", async function (req, res) {
   res.render('user/services.ejs', packet);
 });
 
-router.get("/packages", function (req, res) {
-  res.render('user/packages.ejs');
+
+router.get("/packages", async function (req, res) {
+  try {
+    const package_header = await exe("SELECT * FROM header_packages LIMIT 1");
+    const packages = await exe("SELECT * FROM packages");
+    const features = await exe("SELECT * FROM features");
+
+    res.render("user/packages.ejs", {
+      package_header: package_header[0] || null,
+      packages,
+      features
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
 });
+
 
 router.get("/gallery", async function (req, res) {
 
@@ -263,9 +278,16 @@ router.get("/terms", async function (req, res) {
   res.render('user/terms.ejs', { terms });
 });
 
-router.get("/FAQ", function (req, res) {
-  res.render('user/FAQ.ejs');
+
+router.get("/FAQ",async function (req, res) {
+  var sql1 = "SELECT * FROM header_faq";
+  var header_faq= await exe(sql1);
+   var sql2 = "SELECT * FROM faqs";
+  var faqs= await exe(sql2);
+  var packet = {header_faq,faqs };
+  res.render('user/faq.ejs', packet);
 });
+
 
 router.get("/login", function (req, res) {
   res.render('user/login.ejs');
