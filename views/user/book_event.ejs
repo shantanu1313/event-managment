@@ -79,49 +79,72 @@
 <%- include('./footer.ejs') %>
 
 <script>
-document.getElementById("submitBtn").addEventListener("click", function () {
+document.getElementById("bookEventForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
     const startDate = document.getElementById("startDate").value;
-    const endDate = document.getElementById("endDate").value;
+    const endDate   = document.getElementById("endDate").value;
 
     if (!startDate || !endDate) {
-        Swal.fire("Missing Date", "Please select start & end date", "warning");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Date',
+            text: 'Please select both start and end date'
+        });
         return;
     }
 
-    if (new Date(endDate) < new Date(startDate)) {
-        Swal.fire("Invalid Date", "End date must be after start date", "error");
+    const start = new Date(startDate);
+    const end   = new Date(endDate);
+
+    if (end < start) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid Date',
+            text: 'End Date must be equal to or after Start Date'
+        });
         return;
     }
 
-    const whatsappText = `📌 New Event Booking
+    // Existing fields
+    const name = document.getElementById("name").value;
+    const mobile = document.getElementById("mobile").value;
+    const eventType = document.getElementById("eventType").value;
+    const budget = document.getElementById("budget").value;
+    const payment = document.getElementById("paymentMode").value;
+    const message = document.getElementById("message").value;
 
-👤 Name: ${name.value}
-📞 Mobile: ${mobile.value}
-🎉 Event: ${eventType.value}
-📅 ${startDate.value} to ${endDate.value}
-💰 Budget: ${budget.value}
+    const whatsappNumber = "917020399653";
 
-📝 ${message.value}`;
+    const whatsappMessage = 
+`📌 *New Event Booking* 🎉
+
+👤 Name: ${name}
+📞 Mobile: ${mobile}
+🎊 Event: ${eventType}
+
+📅 Start Date: ${startDate}
+📅 End Date: ${endDate}
+
+💰 Budget: ${budget}
+💳 Payment: ${payment}
+
+📝 Message:
+${message}`;
+
+    const whatsappURL =
+`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
     Swal.fire({
-        title: "How do you want to submit?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Send WhatsApp + Submit",
-        cancelButtonText: "Only Submit",
-        confirmButtonColor: "#25D366"
-    }).then(result => {
-
-        // ✅ ALWAYS submit form
-        document.getElementById("bookEventForm").submit();
-
-        // ✅ WhatsApp only if confirmed
+        icon: 'success',
+        title: 'Booking Successful!',
+        text: 'Click OK to send details on WhatsApp',
+        confirmButtonText: 'Send on WhatsApp',
+        confirmButtonColor: '#25D366'
+    }).then((result) => {
         if (result.isConfirmed) {
-            window.open(
-                "https://wa.me/917823867123?text=" + encodeURIComponent(whatsappText),
-                "_blank"
-            );
+            window.open(whatsappURL, "_blank");
+            document.getElementById("bookEventForm").reset();
         }
     });
 });

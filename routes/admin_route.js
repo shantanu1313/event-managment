@@ -1769,6 +1769,859 @@ router.get("/delete_contact_form/:id", async (req, res) => {
 });
 
 
+
+router.get("/header_packages", async function(req, res) {
+    try {
+        var sql = `SELECT * FROM header_packages ORDER BY created_at DESC`;
+        const header = await exe(sql);
+        
+        res.render('admin/packages/header.ejs', {
+            header: header || [], 
+            title: 'Header Packages',
+            success: req.query.success || "",
+            error: req.query.error || ""
+        });   
+    } catch (error) {
+        console.error("Error fetching header packages:", error);
+        res.render('admin/packages/header.ejs', {
+            header: [], 
+            title: 'Header Packages - Error',
+            success: "",
+            error: 'Failed to load header packages: ' + error.message
+        });
+    }
+});
+
+router.post("/save_header_package", async function (req, res) {
+    try {
+        var d = req.body;
+        var filename = "";
+
+        if (req.files && req.files.bg_image) {
+            filename = Date.now() + "_" + req.files.bg_image.name;
+            await req.files.bg_image.mv("public/upload/packages/" + filename);
+        }
+
+        var sql = `
+            INSERT INTO  header_packages (bg_image, title,description)
+            VALUES (?,?,?)
+        `;
+
+        await exe(sql, [
+            filename,
+            d.title,
+            d.description 
+        ]);
+    
+
+        res.redirect("/admin/header_packages")
+    } catch (err) {
+        console.error("Error saving blog slider:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+router.get("/delete_header_package/:id", async function(req, res) {
+    try {
+        const { id } = req.params;
+        var sql = `DELETE FROM header_packages WHERE id = ?`;
+         result = await exe(sql, [id]);
+        
+        if (result> 0) {
+            res.redirect("/admin/header_packages")
+        } else {
+            res.status(404).json({
+                success: false,
+                message: "Header package not found"
+            });
+        }
+    } catch (error) {
+        console.error("Error deleting header package:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error while deleting header package"
+        });
+    }
+});
+
+router.get("/edit_header/:id", async function(req, res) {
+    try {
+        const { id } = req.params;
+        var sql = `SELECT * FROM header_packages WHERE id = ?`;
+        const result = await exe(sql, [id]);
+        
+        if (result && result.length > 0) {
+            res.render('admin/packages/edit_header.ejs', {
+                headerPackage: result[0],
+                title: 'Edit Header Package'
+            });
+        } else {
+            res.redirect('/admin/header_packages?error=Header package not found');
+        }
+    } catch (error) {
+        console.error("Error fetching header package for edit:", error);
+        res.redirect('/admin/header_packages?error=Failed to load header package');
+    }
+});
+
+
+
+router.post("/update_header_package/:id", async function (req, res) {
+    try {
+        const d = req.body;
+        const id = req.params.id;
+       let filename = d.old_bg_image;
+
+        // if new image uploaded
+        if (req.files && req.files.bg_image) {
+            filename = Date.now() + "_" + req.files.bg_image;
+            await req.files.bg_image.mv("public/upload/packages/" + filename);
+        }
+
+        const sql = `
+            UPDATE header_packages
+            SET 
+                bg_image = ?,
+                title = ?,
+                description = ?
+            WHERE id = ?
+        `;
+
+        await exe(sql, [
+            filename,
+            d.title,
+            d.description,
+            id
+        ]);
+
+        res.redirect("/admin/header_packages");
+
+    } catch (err) {
+        console.error("Error updating header:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+router.get("/add_packages", async function (req, res) {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 10;
+        const offset = (page - 1) * limit;
+
+        const search = req.query.search || "";
+        const type = req.query.type || "";
+        const minPrice = req.query.minPrice || "";
+        const maxPrice = req.query.maxPrice || "";
+
+        let where = "WHERE 1=1";
+        let params = [];
+
+        if (search) {
+            where += " AND package_name LIKE ?";
+            params.push(`%${search}%`);
+        }
+
+        if (type) {
+            where += " AND type = ?";
+            params.push(type);
+        }
+
+        if (minPrice) {
+            where += " AND start_price >= ?";
+            params.push(minPrice);
+        }
+
+        if (maxPrice) {
+            where += " AND start_price <= ?";
+            params.push(maxPrice);
+        }
+
+        // count
+        const countSql = `SELECT COUNT(*) as total FROM packages ${where}`;
+        const countResult = await exe(countSql, params);
+        const totalItems = countResult[0].total;
+        const totalPages = Math.ceil(totalItems / limit);
+
+        // data
+        const sql = `
+            SELECT 
+                id,
+                type,
+                package_name,
+                bg_image,
+                start_price,
+                max_guests,
+                description,
+                feature_included,
+                support,
+                service,
+                created_at
+            FROM packages
+            ${where}
+            ORDER BY created_at DESC
+            LIMIT ${limit} OFFSET ${offset}
+        `;
+
+        let packages = await exe(sql, params);
+
+        packages = packages.map(p => {
+            return {
+                ...p,
+                feature_included: p.feature_included ? JSON.parse(p.feature_included) : [],
+                support: p.support ? JSON.parse(p.support) : [],
+                formatted_price: "₹" + Number(p.start_price).toFixed(2),
+                formatted_date: new Date(p.created_at).toLocaleDateString()
+            };
+        });
+
+        res.render("admin/packages/add_packages.ejs", {
+            packages,
+            packageTypes: ["Basic", "Standard", "Premium", "VIP", "Custom"],
+            query: req.query,
+            pagination: {
+                totalItems,
+                totalPages,
+                currentPage: page,
+                hasPrevPage: page > 1,
+                hasNextPage: page < totalPages,
+                prevPage: page - 1,
+                nextPage: page + 1
+            },
+            success: req.query.success || null,
+            error: req.query.error || null
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.redirect("/admin/add_packages?error=Failed to load packages");
+    }
+});
+
+      
+
+router.post("/save_packages", async function (req, res) {
+    try {
+        var d = req.body;
+        var filename = "";
+
+        // Handle file upload
+        if (req.files && req.files.bg_image) {
+            var file = req.files.bg_image;
+            var fileExt = file.name.split('.').pop();
+            filename = Date.now() + "_" + Math.random().toString(36).substring(7) + "." + fileExt;
+            
+            // Create directory if it doesn't exist
+            var uploadDir = "public/upload/packages/";
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
+            }
+            
+            await file.mv(uploadDir + filename);
+        }
+
+        // Process support checkboxes
+        var supportArray = d.support || [];
+        if (!Array.isArray(supportArray)) {
+            supportArray = [supportArray];
+        }
+
+        // Process features
+        var featuresArray = [];
+        if (d.feature_included) {
+            try {
+                featuresArray = typeof d.feature_included === 'string' 
+                    ? JSON.parse(d.feature_included) 
+                    : d.feature_included;
+            } catch (error) {
+                featuresArray = [];
+            }
+        }
+
+        var sql = `
+            INSERT INTO packages (
+                type, 
+                package_name, 
+                bg_image, 
+                start_price, 
+                max_guests, 
+                description, 
+                feature_included, 
+                support, 
+                service,
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+        `;
+
+        await exe(sql, [
+            d.type,
+            d.package_name,
+            filename || null,
+            parseFloat(d.start_price) || 0,
+            parseInt(d.max_guests) || 1,
+            d.description,
+            JSON.stringify(featuresArray),
+            JSON.stringify(supportArray),
+            d.service
+        ]);
+
+        res.redirect("/admin/add_packages");
+    } catch (err) {
+        console.error("Error saving package:", err);
+        res.status(500).send("Server Error: " + err.message);
+    }
+});
+
+
+router.get("/edit_package/:id", async function (req, res) {
+    try {
+        const packageId = req.params.id;
+        
+        // Fetch package data
+        const sql = "SELECT * FROM packages WHERE id = ?";
+        const result = await exe(sql, [packageId]);
+        
+        if (result.length === 0) {
+            return res.status(404).send("Package not found");
+        }
+        
+        let package = result[0];
+        
+        // DEBUG: Log what we get from database
+        console.log("Database result:", package);
+        
+        // Parse feature_included
+        if (package.feature_included) {
+            try {
+                // If it's a string, parse it as JSON
+                if (typeof package.feature_included === 'string') {
+                    package.feature_included = JSON.parse(package.feature_included);
+                }
+                // If it's already an array, keep it
+                else if (Array.isArray(package.feature_included)) {
+                    // Already an array, do nothing
+                }
+                // If it's null or undefined, set to empty array
+                else {
+                    package.feature_included = [];
+                }
+            } catch (error) {
+                console.error("Error parsing feature_included:", error);
+                package.feature_included = [];
+            }
+        } else {
+            package.feature_included = [];
+        }
+        
+        // Parse support
+        if (package.support) {
+            try {
+                if (typeof package.support === 'string') {
+                    package.support = JSON.parse(package.support);
+                }
+            } catch (error) {
+                console.error("Error parsing support:", error);
+                package.support = [];
+            }
+        } else {
+            package.support = [];
+        }
+        
+        // DEBUG: Log parsed data
+        console.log("Parsed feature_included:", package.feature_included);
+        console.log("Type of feature_included:", typeof package.feature_included);
+        
+        // Render the edit page
+        res.render("admin/packages/edit_package.ejs", {
+            package: package,
+            title: "Edit Package"
+        });
+        
+    } catch (err) {
+        console.error("Error in edit_packages route:", err);
+        res.status(500).send("Server Error: " + err.message);
+    }
+});
+
+router.post("/update_packages/:id", async function (req, res) {
+    try {
+        var packageId = req.params.id;
+        var d = req.body;
+        
+        // Validate package ID
+        if (!packageId || isNaN(packageId)) {
+            return res.status(400).send("Invalid package ID");
+        }
+
+        // Fetch existing package data
+        var getSql = "SELECT * FROM packages WHERE id = ?";
+        var existingPackage = await exe(getSql, [packageId]);
+        
+        if (existingPackage.length === 0) {
+            return res.status(404).send("Package not found");
+        }
+
+        var currentData = existingPackage[0];
+        var filename = currentData.bg_image;
+
+        // Handle file upload
+        if (req.files && req.files.bg_image) {
+            var file = req.files.bg_image;
+            
+            // Validate file type (optional)
+            var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            var fileExt = file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedExtensions.includes(fileExt)) {
+                return res.status(400).send("Invalid file type. Allowed: " + allowedExtensions.join(', '));
+            }
+            
+            // Generate unique filename
+            filename = Date.now() + "_" + Math.random().toString(36).substring(7) + "." + fileExt;
+            
+            // Create directory if it doesn't exist
+            var uploadDir = "public/upload/packages/";
+            if (!fs.existsSync(uploadDir)) {
+                fs.mkdirSync(uploadDir, { recursive: true });
+            }
+            
+            // Delete old image if it exists and is not default
+            if (currentData.bg_image && currentData.bg_image !== 'default.jpg') {
+                var oldImagePath = uploadDir + currentData.bg_image;
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlinkSync(oldImagePath);
+                }
+            }
+            
+            await file.mv(uploadDir + filename);
+        }
+
+        // Process support checkboxes
+        var supportArray = [];
+        if (d.support) {
+            supportArray = Array.isArray(d.support) ? d.support : [d.support];
+        }
+
+        // Process features
+        var featuresArray = [];
+        if (d.feature_included) {
+            try {
+                featuresArray = typeof d.feature_included === 'string' 
+                    ? JSON.parse(d.feature_included) 
+                    : d.feature_included;
+            } catch (error) {
+                console.error("Error parsing features:", error);
+                featuresArray = [];
+            }
+        }
+
+        // Update query with all fields
+        var sql = `
+            UPDATE packages SET 
+                type = ?, 
+                package_name = ?, 
+                bg_image = ?, 
+                start_price = ?, 
+                max_guests = ?, 
+                description = ?, 
+                feature_included = ?, 
+                support = ?, 
+                service = ?,
+                updated_at = NOW()
+            WHERE id = ?
+        `;
+
+        var result = await exe(sql, [
+            d.type || currentData.type,
+            d.package_name || currentData.package_name,
+            filename,
+            parseFloat(d.start_price) || currentData.start_price || 0,
+            parseInt(d.max_guests) || currentData.max_guests || 1,
+            d.description || currentData.description,
+            JSON.stringify(featuresArray),
+            JSON.stringify(supportArray),
+            d.service || currentData.service,
+            packageId
+        ]);
+
+        // Check if update was successful
+        if (result.affectedRows === 0) {
+            return res.status(404).send("Package not found or no changes made");
+        }
+
+        // Redirect based on your application flow
+        res.redirect("/admin/add_packages"); // Or show success message
+    } catch (err) {
+        console.error("Error updating package:", err);
+        res.status(500).send("Server Error: " + err.message);
+    }
+});
+
+
+router.get("/delete_package/:id", async function (req, res) {
+    try {
+        var id = req.params.id;
+        var checkSql = "SELECT bg_image FROM packages WHERE id = ?";
+        var existing = await exe(checkSql, [id]);
+        
+        if (existing.length > 0 && existing[0].bg_image) {
+            // Delete image file
+            var imagePath = "public/upload/packages/" + existing[0].bg_image;
+            if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath);
+            }
+        }
+        
+        // Delete from database
+        var deleteSql = "DELETE FROM packages WHERE id = ?";
+        await exe(deleteSql, [id]);
+        
+        res.redirect("/admin/add_packages");
+    } catch (err) {
+        console.error("Error deleting package:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+router.get("/add_features", async function (req, res) {
+    try {
+        const sql = `SELECT * FROM features ORDER BY id DESC`;
+        const features = await exe(sql);
+
+        res.render("admin/packages/features.ejs", {
+            features: features || [],
+            title: "Features",
+            success: req.query.success || "",
+            error: req.query.error || ""
+        });
+
+    } catch (error) {
+        console.error("Error fetching features:", error);
+
+        res.render("admin/packages/features.ejs", {
+            features: [],
+            title: "Features - Error",
+            success: "",
+            error: "Failed to load features: " + error.message
+        });
+    }
+});
+
+router.post("/save_feature", async (req, res) => {
+    let { feature, basic, premium, luxury } = req.body;
+
+    basic = basic || 0;
+    premium = premium || 0;
+    luxury = luxury || 0;
+
+    await exe(
+        `INSERT INTO features (feature, basic, premium, luxury) VALUES (?, ?, ?, ?)`,
+        [feature, basic, premium, luxury]
+    );
+
+    res.redirect("/admin/add_features");
+});
+
+router.get("/delete_feature/:id", async function (req, res) {
+    try {
+        const { id } = req.params;
+
+        await exe(
+            "DELETE FROM features WHERE id = ?",
+            [id]
+        );
+
+        res.redirect("/admin/add_features");
+    } catch (err) {
+        console.log(err);
+        res.send("error");
+    }
+});
+
+router.get("/edit_feature/:id", async function(req, res) {
+    try {
+        const { id } = req.params;
+        var sql = `SELECT * FROM features WHERE id = ?`;
+        const result = await exe(sql, [id]);
+        
+        if (result && result.length > 0) {
+            res.render('admin/packages/edit_features.ejs', {
+                feature: result[0],
+                title: 'Edit Header Package'
+            });
+        } else {
+            res.redirect('/admin/features_packages?error=Header package not found');
+        }
+    } catch (error) {
+        console.error("Error fetching header package for edit:", error);
+        res.redirect('/admin/header_packages?error=Failed to load header package');
+    }
+});
+
+router.post("/update_features_package/:id", async function (req, res) {
+    const { id } = req.params;
+    const { feature, basic, premium, luxury } = req.body;
+
+    console.log("ID:", id);
+    console.log("BODY:", req.body);
+
+    try {
+        await exe(
+            `UPDATE features 
+             SET feature = ?, basic = ?, premium = ?, luxury = ?
+             WHERE id = ?`,
+            [feature, basic, premium, luxury, id]
+        );
+
+        res.redirect("/admin/add_features");
+    } catch (err) {
+        console.log("UPDATE ERROR 👉", err);
+        res.redirect(`/admin/edit_features/${id}?error=Update failed`);
+    }
+});
+
+
+router.get("/header_faq", async function(req, res) {
+    try {
+        var sql = `SELECT * FROM header_faq ORDER BY created_at DESC`;
+        const faq = await exe(sql);
+        
+        res.render('admin/faq/add_header_faq.ejs', {
+            headers: faq || [], 
+            title: 'Header Packages',
+            success: req.query.success || "",
+            error: req.query.error || ""
+        });   
+    } catch (error) {
+        console.error("Error fetching header faq:", error);
+        res.render('admin/packages/add_header.ejs', {
+            faq: [], 
+            title: 'Header faq - Error',
+            success: "",
+            error: 'Failed to load header faq : ' + error.message
+        });
+    }
+});
+
+router.post("/save_faq_header", async function (req, res) {
+    try {
+        var d = req.body;
+        var filename = "";
+
+        if (req.files && req.files.bg_image) {
+            filename = Date.now() + "_" + req.files.bg_image.name;
+            await req.files.bg_image.mv("public/upload/faq/" + filename);
+        }
+
+        var sql = `
+            INSERT INTO  header_faq (bg_image, title,description)
+            VALUES (?,?,?)
+        `;
+
+        await exe(sql, [
+            filename,
+            d.title,
+            d.description 
+        ]);
+        res.redirect("/admin/header_faq")
+    } catch (err) {
+        console.error("Error saving faq header:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+router.get("/delete_header_faq/:id", async function(req, res) {
+    try {
+        const { id } = req.params;
+        var sql = `DELETE FROM  header_faq WHERE id = ?`;
+        result = await exe(sql, [id]);
+        if (result.affectedRows > 0) {
+            res.redirect("/admin/header_faq")
+        } else {
+            res.status(404).json({
+                success: false,
+                message: "Header faq not found"
+            });
+        }
+    } catch (error) {
+        console.error("Error deleting header faq:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error while deleting header faq"
+        });
+    }
+});
+
+
+router.get("/edit_faq_header/:id", async function(req, res) {
+    try {
+        const { id } = req.params;
+        var sql = `SELECT * FROM header_faq WHERE id = ?`;
+        const result = await exe(sql, [id]);
+        
+        if (result && result.length > 0) {
+            res.render('admin/faq/edit_header_faq.ejs', {
+                headerPackage: result[0],
+                title: 'Edit Header faq'
+            });
+        } else {
+            res.redirect('/admin/header_faq?error=Header package not found');
+        }
+    } catch (error) {
+        console.error("Error fetching header package for edit:", error);
+        res.redirect('/admin/header_packages?error=Failed to load header package');
+    }
+});
+
+router.post("/update_header_faq/:id", async function (req, res) {
+    try {
+        const d = req.body;
+        const id = req.params.id;
+       let filename = d.old_bg_image;
+
+        // if new image uploaded
+        if (req.files && req.files.bg_image) {
+            filename = Date.now() + "_" + req.files.bg_image;
+            await req.files.bg_image.mv("public/upload/faq/" + filename);
+        }
+
+        const sql = `
+            UPDATE header_faq
+            SET 
+                bg_image = ?,
+                title = ?,
+                description = ?
+            WHERE id = ?
+        `;
+
+        await exe(sql, [
+            filename,
+            d.title,
+            d.description,
+            id
+        ]);
+
+        res.redirect("/admin/header_faq");
+
+    } catch (err) {
+        console.error("Error updating header:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+router.get("/add_faq", async function(req, res) {
+    try {
+        var sql = `SELECT * FROM faqs ORDER BY created_at DESC`;
+        const faqs = await exe(sql);
+        
+        res.render('admin/faq/add_faq.ejs', {
+            faqs: faqs || [], 
+            title: 'Header Packages',
+            success: req.query.success || "",
+            error: req.query.error || ""
+        });   
+    } catch (error) {
+        console.error("Error fetching  faq:", error);
+        res.render('admin/faq/add_faq.ejs', {
+            faqs: [], 
+            title: 'Header faq - Error',
+            success: "",
+            error: 'Failed to load  faq : ' + error.message
+        });
+    }
+});
+
+
+router.post("/save_faq", async function (req, res) {
+    try {
+        var d = req.body;
+        var sql = `
+            INSERT INTO faqs (question,answer)
+            VALUES (?,?)
+        `;
+
+        await exe(sql, [
+            d.answer,
+            d.question 
+        ]);
+        res.redirect("/admin/add_faq")
+    } catch (err) {
+        console.error("Error saving faq header:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+router.get("/delete_faq/:id", async function (req, res) {
+    try {
+        const { id } = req.params;
+        var sql = `DELETE FROM faqs WHERE id = ?`;
+        const result = await exe(sql, [id]);
+
+        if (result.affectedRows > 0) {
+            res.redirect("/admin/add_faq");
+        } else {
+            res.status(404).json({
+                success: false,
+                message: "FAQ not found"
+            });
+        }
+    } catch (error) {
+        console.error("Error deleting faq:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error while deleting faq"
+        });
+    }
+});
+
+
+router.get("/edit_faq/:id", async function(req, res) {
+    try {
+        const { id } = req.params;
+        var sql = `SELECT * FROM faqs WHERE id = ?`;
+        const result = await exe(sql, [id]);
+        
+        if (result && result.length > 0) {
+            res.render('admin/faq/edit_faq.ejs', {
+                faq: result[0],
+                title: 'Edit  faq'
+            });
+        } else {
+            res.redirect('/admin/add_faq?error=Header package not found');
+        }
+    } catch (error) {
+        console.error("Error fetching header package for edit:", error);
+        res.redirect('/admin/header_packages?error=Failed to load header package');
+    }
+});
+
+
+router.post("/update_faq/:id", async function (req, res) {
+    try {
+        console.log(req.body, req.params.id);
+
+        const { question, answer } = req.body;
+        const id = req.params.id;
+
+        const sql = `
+            UPDATE faqs
+            SET question = ?, answer = ?
+            WHERE id = ?
+        `;
+
+        const result = await exe(sql, [question, answer, id]);
+
+        res.redirect("/admin/add_faq");
+    } catch (err) {
+        console.error("FULL ERROR 👉", err);
+        res.status(500).send(err.message);
+    }
+});
+
 router.get("/logout", function (req, res) {
     res.render('admin/logout.ejs');
 });
