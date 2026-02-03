@@ -1,0 +1,76 @@
+<%-include ("../navbar.ejs")%>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2" id="page-title">About– Core Values</h1>
+</div>
+
+<% value.forEach(function(item, index){ %>
+
+<div class="row justify-content-center mt-4">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-header text-center">
+        <h4 class="mb-0">Core Value <%= index + 1 %></h4>
+      </div>
+
+      <div class="card-body">
+        <form action="/admin/core-values/save" method="POST">
+
+          <!-- Hidden ID -->
+          <input type="hidden" name="id" value="<%= item.id || '' %>">
+
+          <!-- Title -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Title</label>
+            <input type="text" name="title" class="form-control"
+              value="<%= item.title || '' %>" required>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Description</label>
+            <textarea name="description" rows="4"
+              class="form-control" required><%= item.description || '' %></textarea>
+          </div>
+
+          <!-- Icon -->
+          <div class="mb-3">
+            <label class="form-label fw-bold">Icon Class</label>
+            <select name="icon" class="form-select" required>
+              <% icons.forEach(function(ic){ %>
+                <option value="<%= ic %>"
+                  <%= item.icon === ic ? 'selected' : '' %>>
+                  <%= ic %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <!-- Preview -->
+          <div class="mb-3 text-center">
+            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center"
+                 style="width:70px;height:70px;">
+              <i class="fas <%= item.icon || 'fa-heart' %> fa-2x text-white"></i>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <input type="hidden" name="status" value="1">
+
+          <!-- Submit -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary px-5">
+              Save Core Value
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<% }) %>
+
+<%-include ("../footer.ejs")%>

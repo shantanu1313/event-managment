@@ -1,0 +1,84 @@
+<%- include("../navbar.ejs") %>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">About – Leadership Team</h1>
+</div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+
+            <div class="card shadow-sm">
+                <div class="card-header text-center">
+                    <h4 class="mb-0">Add Leadership Member</h4>
+                </div>
+
+                <div class="card-body">
+                    <form action="/admin/about/leadership-team/save" method="POST" enctype="multipart/form-data">
+
+                        <!-- Name -->
+                        <div class="mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" name="name" class="form-control"
+                                   placeholder="Enter member name" required>
+                        </div>
+
+                        <!-- Designation -->
+                        <div class="mb-3">
+                            <label class="form-label">Designation</label>
+                            <input type="text" name="designation" class="form-control"
+                                   placeholder="Ex: CEO, Director" required>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" rows="4" class="form-control"
+                                      placeholder="Enter short description"></textarea>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="mb-3">
+                            <label class="form-label">Profile Image</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+
+                        <!-- LinkedIn -->
+                        <div class="mb-3">
+                            <label class="form-label">LinkedIn URL</label>
+                            <input type="url" name="linkedin" class="form-control"
+                                   placeholder="https://linkedin.com/in/username">
+                        </div>
+
+                        <!-- Twitter -->
+                        <div class="mb-3">
+                            <label class="form-label">Twitter URL</label>
+                            <input type="url" name="twitter" class="form-control"
+                                   placeholder="https://twitter.com/username">
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select">
+                                <option value="1" selected>Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary px-4">
+                                Save Member
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<%- include("../footer.ejs") %>

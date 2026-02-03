@@ -1,0 +1,104 @@
+  <%-include("../navbar.ejs")%>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2" id="page-title">About- Our Story</h1>
+                    </div>
+                    
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header text-center">
+                <h4 class="mb-0">Our Story Section</h4>
+            </div>
+            <div class="card-body">
+                <form action="/admin/our-story/save" method="POST"  enctype="multipart/form-data">
+
+                    <!-- Section Title -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Section Title</label>
+                        <input type="text" name="section_title" class="form-control"
+                               value="<%= story ? story.section_title : '' %>" required>
+                    </div>
+
+                    <!-- Current Image -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Current Image</label><br>
+                        <% if (story && story.image_url) { %>
+                            <img src="/upload/about/<%= story.image_url %>" width="150" class="img-thumbnail mb-2">
+                        <% } else { %>
+                            <span class="text-muted">No image uploaded yet</span>
+                        <% } %>
+                    </div>
+
+                    <!-- New Image -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Upload New Image</label>
+                        <input type="file" name="image_url" class="form-control" accept="image/*">
+                    </div>
+
+                    <!-- Team Name -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Team Name</label>
+                        <input type="text" name="team_name" class="form-control"
+                               value="<%= story ? story.team_name : '' %>">
+                    </div>
+
+                    <!-- Team Members -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Team Members</label>
+                        <input type="number" name="team_members" class="form-control"
+                               value="<%= story ? story.team_members : '' %>">
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Experience (Years)</label>
+                        <input type="number" name="experience_years" class="form-control"
+                               value="<%= story ? story.experience_years : '' %>">
+                    </div>
+
+                    <!-- Intro Text -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Intro Text</label>
+                        <textarea name="intro_text" class="form-control" rows="3" required><%= story ? story.intro_text : '' %></textarea>
+                    </div>
+
+                    <!-- Intro Description -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Intro Description</label>
+                        <textarea name="intro_desc" class="form-control" rows="4" required><%= story ? story.intro_desc : '' %></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Total Events</label>
+                            <input type="number" name="total_events" class="form-control"
+                                   value="<%= story ? story.total_events : '' %>" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Vendor Partners</label>
+                            <input type="number" name="vendor_partners" class="form-control"
+                                   value="<%= story ? story.vendor_partners : '' %>" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Satisfaction (%)</label>
+                            <input type="number" name="satisfaction_percentage" class="form-control"
+                                   value="<%= story ? story.satisfaction_percentage : '' %>" required>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary px-5">
+                            Save Our Story
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%-include("../footer.ejs")%>
