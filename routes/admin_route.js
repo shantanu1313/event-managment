@@ -1,5 +1,7 @@
 var express = require("express");
 var exe = require("../connection");
+var fs = require("fs");
+var path = require("path");
 var router = express.Router();
 
 router.get("/", function (req, res) {
@@ -77,7 +79,6 @@ router.get("/home/home_our_story", async function (req, res) {
     try {
         const sql = "SELECT * FROM home_our_story LIMIT 1";
         const data = await exe(sql);
-
         res.render("admin/home/home_our_story.ejs", {
             data: data.length ? data[0] : null
         });
@@ -87,47 +88,23 @@ router.get("/home/home_our_story", async function (req, res) {
     }
 });
 
-
 router.post("/home/save_home_our_story", async function (req, res) {
     try {
         const d = req.body;
         let filename = d.old_image || "";
-
         if (req.files && req.files.image) {
             filename = Date.now() + "_" + req.files.image.name;
             await req.files.image.mv("public/upload/home/" + filename);
         }
-
-        // check existing record
         const checkSql = "SELECT home_our_story_id FROM home_our_story LIMIT 1";
         const check = await exe(checkSql);
-
         if (check.length > 0) {
-            // UPDATE
-            const sql = `
-                UPDATE home_our_story 
-                SET title=?, description=?, point1=?, point2=?, point3=?, point4=?, image=?
-                WHERE home_our_story_id=?
-            `;
-            await exe(sql, [
-                d.title, d.description,
-                d.point1, d.point2, d.point3, d.point4,
-                filename, check[0].home_our_story_id
-            ]);
+            const sql = `UPDATE home_our_story SET title=?, description=?, point1=?, point2=?, point3=?, point4=?, image=? WHERE home_our_story_id=? `;
+            await exe(sql, [d.title, d.description, d.point1, d.point2, d.point3, d.point4, filename, check[0].home_our_story_id ]);
         } else {
-            // INSERT
-            const sql = `
-                INSERT INTO home_our_story 
-                (title,description,point1,point2,point3,point4,image)
-                VALUES (?,?,?,?,?,?,?)
-            `;
-            await exe(sql, [
-                d.title, d.description,
-                d.point1, d.point2, d.point3, d.point4,
-                filename
-            ]);
+            const sql = `INSERT INTO home_our_story (title,description,point1,point2,point3,point4,image) VALUES (?,?,?,?,?,?,?)`;
+            await exe(sql, [d.title, d.description,d.point1, d.point2, d.point3, d.point4,filename]);
         }
-
         res.redirect("/admin/home/home_our_story");
     } catch (err) {
         console.log(err);
@@ -431,6 +408,7 @@ router.post("/core-values/save", async function (req, res) {
     res.redirect("/admin/about/core-values");
 });
 
+
 router.get("/about/our_evolution",function(req,res){
     res.render("admin/about/our_evolution.ejs")
 })
@@ -667,6 +645,7 @@ router.get("/about/team/delete/:id", async function(req, res){
      res.redirect("/admin/about/team_list");
 });
 
+
 router.get("/service", async function (req, res) {
     var sql = "SELECT * FROM service";
     var data = await exe(sql);
@@ -677,34 +656,14 @@ router.get("/service", async function (req, res) {
 router.post("/service/add", async function (req, res) {
     try {
         const d = req.body;
-
-        const sql = `
-            INSERT INTO service 
-            (logo, title, short_quote, feature1, feature2, feature3, feature4, feature5, feature6, price, book_button) 
-            VALUES (?,?,?,?,?,?,?,?,?,?,?)
-        `;
-
-        await exe(sql, [
-            d.logo,
-            d.title,
-            d.short_quote,
-            d.feature1,
-            d.feature2,
-            d.feature3,
-            d.feature4,
-            d.feature5,
-            d.feature6,
-            d.price,
-            d.book_button
-        ]);
-
+        const sql = `INSERT INTO service (logo, title, short_quote, feature1, feature2, feature3, feature4, feature5, feature6, price, book_button) VALUES (?,?,?,?,?,?,?,?,?,?,?)`;
+        await exe(sql, [d.logo,d.title,d.short_quote,d.feature1,d.feature2,d.feature3,d.feature4,d.feature5,d.feature6,d.price,d.book_button]);
         res.redirect("/admin/service");
     } catch (err) {
         console.error("Error adding service:", err);
         res.status(500).send("Server Error");
     }
 });
-
 
 router.get("/service/edit_service/:id", async function (req, res) {
     var id = req.params.id;
@@ -749,15 +708,12 @@ router.post("/services/update_service_slider/:id", async function (req, res) {
         const d = req.body;
         const id = req.params.id;
         let filename = d.old_image;
-
         if (req.files && req.files.image) {
             filename = Date.now() + "_" + req.files.image.name;
             await req.files.image.mv("public/upload/service/" + filename);
         }
-
         const sql = "UPDATE service_slider SET image = ?, title = ?, description = ? WHERE slider_id = ?";
         await exe(sql, [filename, d.title, d.description, id]);
-
         res.redirect("/admin/service_slider");
     } catch (err) {
         console.error("Error updating service slider:", err);
@@ -769,21 +725,13 @@ router.post("/service/save_service_slider", async function (req, res) {
     try {
         const d = req.body;
         let filename = "";
-
-        // check image upload
         if (req.files && req.files.image) {
             filename = Date.now() + "_" + req.files.image.name;
-
-            // ✅ FIXED PATH
             await req.files.image.mv("public/upload/service/" + filename);
         }
-
         const sql = "INSERT INTO service_slider (image, title, description) VALUES (?,?,?)";
         await exe(sql, [filename, d.title, d.description]);
-
-        // ✅ FIXED REDIRECT
         res.redirect("/admin/service_slider");
-
     } catch (err) {
         console.error("Error saving service slider:", err);
         res.status(500).send("Server Error");
@@ -797,8 +745,6 @@ router.get("/service/delete_service_slider/:id", async function (req, res) {
     res.redirect("/admin/service_slider");
 });
 
-
-
 router.get("/services/add_other_service", async function (req, res) {
     var sql = "SELECT * FROM other_service"
     var data = await exe(sql)
@@ -806,18 +752,12 @@ router.get("/services/add_other_service", async function (req, res) {
     res.render('admin/services/add_other_service.ejs', packet);
 });
 
-
 router.post("/services/add_other_service", async function (req, res) {
     try {
-  const d = req.body;
-        const sql = `
-            INSERT INTO other_service (icon, title, short_quote)
-            VALUES (?,?,?)
-        `;
-
+        const d = req.body;
+        const sql = ` INSERT INTO other_service (icon, title, short_quote) VALUES (?,?,?)`;
         await exe(sql, [d.icon, d.title, d.short_quote]);
         res.redirect("/admin/services/add_other_service");
-
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -891,26 +831,21 @@ router.post("/services/how_work_save", async function (req, res) {
 router.get("/package", function (req, res) {
     res.render('admin/package.ejs');
 });
-router.get("/gallery", async function (req, res) {
-   
-        const data = await exe("SELECT * FROM gallery_header LIMIT 1");
-        res.render("admin/gallery.ejs", { gallery_header: data[0] || null });
-});
-router.post("/gallery-header/save", async function (req, res) {
 
+router.get("/gallery", async function (req, res) {
+    const data = await exe("SELECT * FROM gallery_header LIMIT 1");
+    res.render("admin/gallery.ejs", { gallery_header: data[0] || null });
+});
+
+router.post("/gallery-header/save", async function (req, res) {
     const d = req.body;
     let FileName = "";
-
-    // Get old record if exists
     const oldRecord = await exe("SELECT * FROM gallery_header LIMIT 1");
     const fs = require("fs");
-
     if (req.files && req.files.image) {
         const image = req.files.image;
         FileName = Date.now() + "_" + image.name.replace(/\s/g, "_");
         await image.mv("public/upload/gallery/" + FileName);
-
-        // Delete old image file if exists
         if (oldRecord.length > 0) {
             const oldImage = oldRecord[0].image;
             if (oldImage && fs.existsSync("public/upload/gallery/" + oldImage)) {
@@ -918,53 +853,32 @@ router.post("/gallery-header/save", async function (req, res) {
             }
         }
     } else if (oldRecord.length > 0) {
-        FileName = oldRecord[0].image; // keep old image if new not uploaded
+        FileName = oldRecord[0].image; 
     }
-
     if (oldRecord.length > 0) {
-        // Update existing record
         await exe(
             "UPDATE gallery_header SET title = ?, subtitle = ?, image = ? WHERE id = ?",
             [d.title, d.subtitle, FileName, oldRecord[0].id]
         );
     } else {
-        // Insert new record
         await exe(
             "INSERT INTO gallery_header(title, subtitle, image) VALUES (?, ?, ?)",
             [d.title, d.subtitle, FileName]
         );
     }
-
     res.redirect("/admin/gallery");
 
-
-
 });
-router.post("/gallery/save", async function (req, res) {
 
+router.post("/gallery/save", async function (req, res) {
     var d = req.body;
     var FileName = "";
-
-    // Image upload
     if (req.files && req.files.gallery_img) {
         FileName = Date.now() + req.files.gallery_img.name;
         await req.files.gallery_img.mv("public/upload/gallery/" + FileName);
     }
-
-    var sql = `
-        INSERT INTO gallery
-        (category, title, gallary_img, event_date)
-        VALUES
-        (?,?,?,?)
-    `;
-
-    await exe(sql, [
-        d.category,
-        d.title,
-        FileName,
-        d.event_date
-    ]);
-
+    var sql = `INSERT INTO gallery (category, title, gallary_img, event_date) VALUES (?,?,?,?)`;
+    await exe(sql, [d.category,d.title,FileName,d.event_date]);
     res.redirect("/admin/gallery_list");
 });
 
@@ -973,31 +887,21 @@ router.get("/gallery_list", async function (req, res) {
     var gallery = await exe(sql);
     res.render("admin/gallery_list.ejs", { gallery });
 });
-const path = require("path");
 
 router.get("/gallery_delete/:id", async function (req, res) {
-
     const id = req.params.id;
-
-    // 1️⃣ get image name from DB
     const data = await exe(`SELECT gallary_img FROM gallery WHERE id = '${id}'`);
-
     if (data.length > 0 && data[0].gallary_img) {
         const imagePath = path.join(
             __dirname,
             "../public/upload/gallery/",
             data[0].gallary_img
         );
-
-        // 2️⃣ delete image file if exists
         if (fs.existsSync(imagePath)) {
             fs.unlinkSync(imagePath);
         }
     }
-
-    // 3️⃣ delete record from DB
     await exe(`DELETE FROM gallery WHERE id = '${id}'`);
-
     res.redirect("/admin/gallery_list");
 });
 
@@ -1006,26 +910,18 @@ router.get("/gallery_edit/:id", async function (req, res) {
     id = req.params.id;
     data = await exe(`SELECT * FROM gallery WHERE id = '${id}'`);
     res.render("admin/gallery_edit.ejs", { gallery: data[0] });
-})
-
-
+});
 
 router.post("/gallery_update/:id", async function (req, res) {
     const id = req.params.id;
     const d = req.body;
     let newFileName = "";
-
-    // 1️⃣ Get current record from DB
     const data = await exe(`SELECT * FROM gallery WHERE id = ?`, [id]);
     const oldImage = data[0].gallary_img;
-
-    // 2️⃣ Handle new image upload
     if (req.files && req.files.gallery_img) {
         newFileName = Date.now() + "_" + req.files.gallery_img.name.replace(/\s/g, "_");
         const uploadPath = path.join(__dirname, "../public/upload/gallery/", newFileName);
         await req.files.gallery_img.mv(uploadPath);
-
-        // Delete old image if exists
         if (oldImage) {
             const oldPath = path.join(__dirname, "../public/upload/gallery/", oldImage);
             if (fs.existsSync(oldPath)) {
@@ -1033,25 +929,10 @@ router.post("/gallery_update/:id", async function (req, res) {
             }
         }
     } else {
-        // No new image uploaded → keep old image
         newFileName = oldImage;
     }
-
-    // 3️⃣ Update record in DB
-    const sql = `
-        UPDATE gallery
-        SET category = ?, title = ?, gallary_img = ?, event_date = ?
-        WHERE id = ?
-    `;
-    await exe(sql, [
-        d.category,
-        d.title,
-        newFileName,
-        d.event_date,
-        id
-    ]);
-
-    // 4️⃣ Redirect to gallery list
+    const sql = `UPDATE gallery SET category = ?, title = ?, gallary_img = ?, event_date = ? WHERE id = ?`;
+    await exe(sql, [d.category,d.title,newFileName,d.event_date,id]);
     res.redirect("/admin/gallery_list");
 });
 
@@ -1066,16 +947,12 @@ router.post("/save_blog", async function (req, res) {
     try {
         var d = req.body;
         var filename = "";
-
-        // Image upload
         if (req.files && req.files.blog_image) {
             filename = Date.now() + "_" + req.files.blog_image.name;
             await req.files.blog_image.mv("public/upload/blog/" + filename);
         }
-
         var sql = "INSERT INTO blog (blog_image,blog_date,blog_title,blog_para,blog_message) VALUES (?,?,?,?,?)";
         var result = await exe(sql, [filename, d.blog_date, d.blog_title, d.blog_para, d.blog_message]);
-        // res.send(d);
         res.redirect("/admin/blog")
     } catch (err) {
         console.error("Error saving blog:", err);
@@ -1095,35 +972,13 @@ router.post("/update_blog/:id", async function (req, res) {
     try {
         const d = req.body;
         const id = req.params.id;
-
-        // keep old image by default
         let filename = d.old_blog_image;
-
-        // if new image uploaded
         if (req.files && req.files.blog_image) {
             filename = Date.now() + "_" + req.files.blog_image.name;
             await req.files.blog_image.mv("public/upload/blog/" + filename);
         }
-
-        const sql = `
-            UPDATE blog
-            SET blog_image = ?,
-                blog_date = ?,
-                blog_title = ?,
-                blog_para = ?,
-                blog_message = ?
-            WHERE blog_id = ?
-        `;
-
-        await exe(sql, [
-            filename,
-            d.blog_date,
-            d.blog_title,
-            d.blog_para,
-            d.blog_message,
-            id
-        ]);
-
+        const sql = `UPDATE blog SET blog_image = ?, blog_date = ?, blog_title = ?, blog_para = ?, blog_message = ? WHERE blog_id = ? `;
+        await exe(sql, [filename,d.blog_date,d.blog_title,d.blog_para,d.blog_message,id]);
         res.redirect("/admin/blog");
     } catch (err) {
         console.error("Error updating blog:", err);
@@ -1150,26 +1005,13 @@ router.post("/blog_slider_save", async function (req, res) {
     try {
         var d = req.body;
         var filename = "";
-
-        // Image upload
         if (req.files && req.files.blog_image) {
             filename = Date.now() + "_" + req.files.blog_image.name;
             await req.files.blog_image.mv("public/upload/blog/" + filename);
         }
-
-        var sql = `
-            INSERT INTO blog_slider (blog_image, blog_title, blog_description)
-            VALUES (?,?,?)
-        `;
-
-        await exe(sql, [
-            filename,
-            d.blog_title,
-            d.blog_description   // <-- FIXED
-        ]);
-
+        var sql = `INSERT INTO blog_slider (blog_image, blog_title, blog_description) VALUES (?,?,?)`;
+        await exe(sql, [filename,d.blog_title, d.blog_description]);
         res.redirect("/admin/blog_slider");
-
     } catch (err) {
         console.error("Error saving blog slider:", err);
         res.status(500).send("Server Error");
@@ -1189,22 +1031,12 @@ router.post("/update_blog_slider/:id", async function (req, res) {
         var d = req.body;
         var id = req.params.id;
         var filename = d.old_blog_image;
-        // Image upload
         if (req.files && req.files.blog_image) {
             filename = Date.now() + "_" + req.files.blog_image.name;
             await req.files.blog_image.mv("public/upload/blog/" + filename);
         }
-        var sql = `
-            UPDATE blog_slider
-            SET blog_image = ?, blog_title = ?, blog_description = ?    
-            WHERE id = ?
-        `;
-        await exe(sql, [
-            filename,
-            d.blog_title,
-            d.blog_description,
-            id
-        ]);
+        var sql = ` UPDATE blog_slider SET blog_image = ?, blog_title = ?, blog_description = ? WHERE id = ? `;
+        await exe(sql, [filename,d.blog_title,d.blog_description,id]);
         res.redirect("/admin/blog_slider");
     } catch (err) {
         console.error("Error updating blog slider:", err);
@@ -1223,7 +1055,6 @@ router.get("/booking", function (req, res) {
     res.render('admin/booking.ejs');
 });
 
-// GET testimonials header
 router.get("/testimonials-header", async function (req, res) {
     const data = await exe("SELECT * FROM testimonials_header LIMIT 1");
     res.render("admin/testimonials_header.ejs", {
@@ -1231,19 +1062,15 @@ router.get("/testimonials-header", async function (req, res) {
     });
 });
 
-// SAVE testimonials header
 router.post("/testimonials-header/save", async function (req, res) {
     const d = req.body;
     let FileName = "";
-
     const old = await exe("SELECT * FROM testimonials_header LIMIT 1");
     const fs = require("fs");
-
     if (req.files && req.files.image) {
         const image = req.files.image;
         FileName = Date.now() + "_" + image.name.replace(/\s/g, "_");
         await image.mv("public/upload/testimonials/" + FileName);
-
         if (old.length && old[0].image) {
             const oldPath = "public/upload/testimonials/" + old[0].image;
             if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
@@ -1251,120 +1078,87 @@ router.post("/testimonials-header/save", async function (req, res) {
     } else if (old.length) {
         FileName = old[0].image;
     }
-
     if (old.length) {
-        await exe(
-            "UPDATE testimonials_header SET title=?, subtitle=?, image=? WHERE id=?",
-            [d.title, d.subtitle, FileName, old[0].id]
-        );
+        await exe( "UPDATE testimonials_header SET title=?, subtitle=?, image=? WHERE id=?",[d.title, d.subtitle, FileName, old[0].id] );
     } else {
-        await exe(
-            "INSERT INTO testimonials_header (title, subtitle, image) VALUES (?,?,?)",
-            [d.title, d.subtitle, FileName]
+        await exe("INSERT INTO testimonials_header (title, subtitle, image) VALUES (?,?,?)",[d.title, d.subtitle, FileName]
         );
     }
-
     res.redirect("/admin/testimonials-header");
 });
 
-/* ================= ADD TESTIMONIAL (FROM USER FORM) ================= */
 router.post("/add", async (req, res) => {
     try {
         const { name, event_type, rating, message } = req.body;
-
-        let imageName = "";  // variable name match karo table column ke sath
+        let imageName = ""; 
         const fs = require("fs");
-
-        if (req.files && req.files.img) {  // form input ka name "img"
+        if (req.files && req.files.img) { 
             const file = req.files.img;
             imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
             await file.mv("public/upload/testimonials/" + imageName);
         }
-
-        const sql = `
-            INSERT INTO testimonials (name, event_type, rating, message, image)
-            VALUES (?, ?, ?, ?, ?)
-        `;
-
+        const sql = `INSERT INTO testimonials (name, event_type, rating, message, image) VALUES (?, ?, ?, ?, ?)`;
         await exe(sql, [name, event_type, rating, message, imageName]);
-
-        res.redirect("/admin/testimonials"); // admin testimonials page
-
+        res.redirect("/admin/testimonials"); 
     } catch (err) {
         console.log(err);
         res.send("Error while submitting testimonial");
     }
 });
 
-
-
-
-
-
-
-/* ================= ADMIN LIST ================= */
 router.get("/testimonials", async (req, res) => {
     const sql = "SELECT * FROM testimonials ORDER BY id DESC";
     const data = await exe(sql);
     res.render("admin/testimonials.ejs", { data });
 });
 
-/* ================= ADD TESTIMONIAL ================= */
-router.post("/testimonial-update/:id", async (req, res) => {   // <-- async yahan
+router.post("/testimonial-update/:id", async (req, res) => {  
     const { name, event_type, rating, message } = req.body;
     const id = req.params.id;
-
     const old = await exe("SELECT image FROM testimonials WHERE id=?", [id]);
     let imageName = old[0].image;
     const fs = require("fs");
-
     if (req.files && req.files.img) {
         const file = req.files.img;
         imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
         await file.mv("public/upload/testimonials/" + imageName);
-
         if (old[0].image) {
             const oldPath = "public/upload/testimonials/" + old[0].image;
             if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
         }
     }
-
-    const sql = `
-        UPDATE testimonials
-        SET name=?, event_type=?, rating=?, message=?, image=?
-        WHERE id=?
-    `;
+    const sql = ` UPDATE testimonials SET name=?, event_type=?, rating=?, message=?, image=? WHERE id=?`;
     await exe(sql, [name, event_type, rating, message, imageName, id]);
-
     res.redirect("/admin/testimonials");
 });
 
-
-
-
-/* ================= EDIT PAGE ================= */
 router.get("/testimonial-edit/:id", async (req, res) => {
     const id = req.params.id;
     const result = await exe("SELECT * FROM testimonials WHERE id = ?", [id]);
-
     res.render("admin/testimonial_edit.ejs", {
         data: result[0]
     });
 });
 
-/* ================= UPDATE ================= */
-
-
-/* ================= DELETE ================= */
 router.get("/testimonial-delete/:id", async (req, res) => {
     await exe("DELETE FROM testimonials WHERE id=?", [req.params.id]);
     res.redirect("/admin/testimonials");
+});
+
+router.get("/contact", function (req, res) {
+    res.render('admin/contact.ejs');
 });
 
 router.get("/faq", function (req, res) {
     res.render('admin/faq.ejs');
 });
 
+router.get("/policy", function (req, res) {
+    res.render('admin/policy.ejs');
+});
+router.get("/faq", function (req, res) {
+    res.render('admin/faq.ejs');
+});
 
 router.get("/condition", async function (req, res) {
     var sql = `SELECT * FROM terms_conditions`;
@@ -2623,9 +2417,9 @@ router.post("/update_faq/:id", async function (req, res) {
 });
 
 router.get("/logout", function (req, res) {
-    res.render('admin/logout.ejs');
+    req.session.destroy(() => {
+        res.redirect("/admin/login");
+    });
 });
-
-
 
 module.exports = router;

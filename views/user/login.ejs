@@ -332,6 +332,15 @@
     );
   }
 
+    if(params.get("logout") === "success") {
+    alert("You have been logged out successfully.");
+    window.history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
+  }
+
 </script>
 
 
