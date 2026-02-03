@@ -1,0 +1,65 @@
+<%-include ("../navbar.ejs")%>
+
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2" id="page-title">Slider</h1>
+                    </div>
+                    
+                       <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-center">
+                    <h4 class="mb-0">About Header Form</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/admin/about-header/save" method="POST" enctype="multipart/form-data">
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label  class="form-label fw-bold">Title</label>
+                            <input type="text" name="title" class="form-control" placeholder="Enter about title"
+                                value="<%= about_header ? about_header.title : '' %>" required>
+                        </div>
+
+                        <!-- Subtitle -->
+                        <div class="mb-3">
+                            <label  class="form-label fw-bold">Subtitle</label>
+                            <textarea name="subtitle" class="form-control" rows="3" placeholder="Enter about subtitle"
+                                required>
+<%= about_header ? about_header.subtitle : '' %>
+                        </textarea>
+                        </div>
+
+
+                        <!-- Current Image -->
+                        <div class="mb-3">
+                            <label  class="form-label fw-bold">Current Image</label><br>
+                            <% if (about_header && about_header.image) { %>
+                                <img src="/upload/about/<%= about_header.image %>" width="150"
+                                    class="img-thumbnail">
+                                <% } else { %>
+                                    <span class="text-muted">No image uploaded yet</span>
+                                    <% } %>
+                        </div>
+
+
+                        <!-- New Image -->
+                        <div class="mb-3">
+                            <label  class="form-label fw-bold">Image</label>
+                            <input type="file" name="image" class="form-control" accept="image/*">
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary px-4">
+                                Save Header
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <%-include("../footer.ejs")%>

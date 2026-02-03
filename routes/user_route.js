@@ -18,9 +18,47 @@ router.get("/", async function (req, res) {
   res.render('user/home.ejs', { data, home_slider, home_our_story, choose_us, service });
 });
 
-router.get("/about", function (req, res) {
-  res.render('user/about.ejs');
+router.get("/about", async function (req, res) {
+
+  const about_header = await exe("SELECT * FROM about_header LIMIT 1");
+  const story_data   = await exe("SELECT * FROM our_story LIMIT 1");
+
+  const vm = await exe(
+    "SELECT * FROM vision_mission WHERE status = 1"
+  );
+
+  let mission = null;
+  let vision  = null;
+
+  vm.forEach(item => {
+    if (item.type === 'mission') mission = item;
+    if (item.type === 'vision')  vision  = item;
+  });
+
+  const core_values = await exe(
+    "SELECT title, description, icon FROM core_values WHERE status = 1 ORDER BY id ASC LIMIT 3"
+  );
+
+  const journey = await exe(
+    "SELECT * FROM journey_timeline WHERE status = 1 ORDER BY year ASC"
+  );
+
+  // ✅ Leadership Team (NEW)
+  const leadership = await exe(
+    "SELECT * FROM leadership_team WHERE status = 1 ORDER BY id ASC"
+  );
+
+  res.render("user/about.ejs", {
+    about_header: about_header[0] || {},
+    story: story_data[0] || {},
+    mission,
+    vision,
+    core_values,
+    journey,
+    leadership   // 👈 pass to ejs
+  });
 });
+
 
 router.get("/services", async function (req, res) {
   var sql = "SELECT * FROM service_slider";
@@ -39,10 +77,23 @@ router.get("/packages", function (req, res) {
   res.render('user/packages.ejs');
 });
 
-router.get("/gallery", function (req, res) {
-  res.render('user/gallery.ejs');
-});
+router.get("/gallery", async function (req, res) {
 
+    const data = await exe("SELECT * FROM gallery_header LIMIT 1");
+    const galleryData = await exe("SELECT * FROM gallery ORDER BY id DESC");
+
+    const categories = [...new Set(
+        galleryData.map(item => item.category.toLowerCase())
+    )];
+
+    const obj = {
+        gallery_header: data,
+        gallery: galleryData,
+        categories: categories
+    };
+
+    res.render("user/gallery.ejs", obj);
+});
 router.get("/testimonials", async function (req, res) {
     const headerData = await exe("SELECT * FROM testimonials_header LIMIT 1");
     const testimonials = await exe("SELECT * FROM testimonials");

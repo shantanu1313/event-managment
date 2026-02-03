@@ -731,6 +731,7 @@ router.get("/terms/delete/:id", async function (req, res) {
     res.redirect("/admin/condition");
 });
 
+
 router.get("/logout", function (req, res) {
     res.render('admin/logout.ejs');
 });
