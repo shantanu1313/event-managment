@@ -1,0 +1,176 @@
+<%- include('navbar.ejs') %>
+
+    <div class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                <!-- 🔷 PAGE HEADER -->
+                <div class="mb-4 p-4 d-flex align-items-center gap-3" style="
+                background:linear-gradient(135deg,#0d6efd,#20c997);
+                color:#fff;
+                border-radius:18px;
+                box-shadow:0 8px 24px rgba(13,110,253,0.35);
+            ">
+                    <div style="
+                    width:50px;
+                    height:50px;
+                    background:rgba(255,255,255,0.25);
+                    border-radius:14px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:22px;
+                ">
+                        🌐
+                    </div>
+                    <div>
+                        <h4 class="mb-1 fw-semibold">Social Links Settings</h4>
+                        <small style="opacity:0.9;">
+                            Admin Panel → Settings → Social Media
+                        </small>
+                    </div>
+                </div>
+
+                <!-- 🔷 FORM CARD -->
+                <div class="card border-0 shadow-lg" style="border-radius:18px;">
+                    <div class="card-body p-4 p-lg-5">
+
+                        <form action="/admin/save_social_links" method="post">
+
+                            <!-- BASIC INFO -->
+                            <h6 class="fw-bold mb-3 text-primary">
+                                <i class="fas fa-info-circle me-2"></i>Website Information
+                            </h6>
+
+                            <!-- Title -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Website Title</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="fas fa-heading text-primary"></i>
+                                    </span>
+                                    <input type="text" name="title" class="form-control"
+                                        value="<%= data ? data.title : '' %>" placeholder="Enter website title">
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Description</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="fas fa-align-left text-primary"></i>
+                                    </span>
+                                    <textarea name="description" class="form-control" rows="3"
+                                        placeholder="Short website description"><%= data ? data.description : '' %></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Copyright -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Copyright</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">
+                                        <i class="fas fa-copyright text-primary"></i>
+                                    </span>
+                                    <input type="text" name="copywrite" class="form-control"
+                                        value="<%= data ? data.copywrite : '' %>" placeholder="© 2026 Your Company">
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <!-- SOCIAL LINKS -->
+                            <h6 class="fw-bold mb-3 text-primary">
+                                <i class="fas fa-share-alt me-2"></i>Social Media Links
+                            </h6>
+
+                            <!-- Facebook -->
+                            <div class="mb-3">
+                                <label class="form-label">Facebook</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </span>
+                                    <input type="text" name="facebook" class="form-control"
+                                        value="<%= data ? data.facebook : '' %>"
+                                        placeholder="https://facebook.com/username">
+                                </div>
+                            </div>
+
+                            <!-- Twitter -->
+                            <div class="mb-3">
+                                <label class="form-label">Twitter</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-info text-white">
+                                        <i class="fab fa-twitter"></i>
+                                    </span>
+                                    <input type="text" name="twitter" class="form-control"
+                                        value="<%= data ? data.twitter : '' %>"
+                                        placeholder="https://twitter.com/username">
+                                </div>
+                            </div>
+
+                            <!-- Instagram -->
+                            <div class="mb-3">
+                                <label class="form-label">Instagram</label>
+                                <div class="input-group">
+                                    <span class="input-group-text text-white"
+                                        style="background:linear-gradient(135deg,#fd5949,#d6249f,#285AEB);">
+                                        <i class="fab fa-instagram"></i>
+                                    </span>
+                                    <input type="text" name="instagram" class="form-control"
+                                        value="<%= data ? data.instagram : '' %>"
+                                        placeholder="https://instagram.com/username">
+                                </div>
+                            </div>
+
+                            <!-- LinkedIn -->
+                            <div class="mb-3">
+                                <label class="form-label">LinkedIn</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </span>
+                                    <input type="text" name="linkedin" class="form-control"
+                                        value="<%= data ? data.linkedin : '' %>"
+                                        placeholder="https://linkedin.com/in/username">
+                                </div>
+                            </div>
+
+                            <!-- YouTube -->
+                            <div class="mb-4">
+                                <label class="form-label">YouTube</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-danger text-white">
+                                        <i class="fab fa-youtube"></i>
+                                    </span>
+                                    <input type="text" name="youtube" class="form-control"
+                                        value="<%= data ? data.youtube : '' %>"
+                                        placeholder="https://youtube.com/@channel">
+                                </div>
+                            </div>
+
+                            <!-- SUBMIT -->
+                            <div class="text-center pt-3">
+                                <button type="submit" class="btn px-5 py-2 text-white fw-semibold" style="
+                                background:linear-gradient(135deg,#0d6efd,#20c997);
+                                border:none;
+                                border-radius:30px;
+                                box-shadow:0 6px 16px rgba(13,110,253,0.45);
+                            ">
+                                    <i class="fas fa-save me-2"></i>
+                                    <%= data ? 'Update Settings' : 'Save Settings' %>
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%- include('footer.ejs') %>

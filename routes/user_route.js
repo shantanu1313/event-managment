@@ -15,12 +15,14 @@ router.get("/", async function (req, res) {
   var choose_us = await exe(sql3);
   var sql4 = "SELECT * FROM service";
   var service = await exe(sql4);
-
   var sql5 = `SELECT * FROM testimonials ORDER BY rating DESC, id DESC LIMIT 3;`;
-
   var testimonials = await exe(sql5);
+  var sql6 = "SELECT * FROM social_links";
+  var social_links = await exe(sql6);
 
-  res.render('user/home.ejs', { data, home_slider, home_our_story, choose_us, service, testimonials });
+
+
+  res.render('user/home.ejs', { data, home_slider, home_our_story, choose_us, service, testimonials, social_links });
 });
 
 router.get("/about", async function (req, res) {
@@ -217,13 +219,13 @@ router.get("/user_registeration", function (req, res) {
 });
 
 router.get("/book_event", (req, res) => {
-    if (req.session && req.session.user) {
-        res.render("book_event.ejs", {
-            user: req.session.user
-        });
-    } else {
-        res.redirect("/login");
-    }
+  if (req.session && req.session.user) {
+    res.render("book_event.ejs", {
+      user: req.session.user
+    });
+  } else {
+    res.redirect("/login");
+  }
 });
 
 router.post("/save_user", async function (req, res) {
@@ -288,7 +290,7 @@ router.post("/send_otp_mail", async function (req, res) {
     var otp = Math.floor(100000 + Math.random() * 900000);
     req.session.otp = otp;
     req.session.email = d.email;
-    req.session.resetStep = false;   
+    req.session.resetStep = false;
     req.session.resetTime = Date.now();
     var email = d.email;
     var subject = "OTP verification For Reset Password";
@@ -427,7 +429,7 @@ router.post("/profile/update", async function (req, res) {
     var name = req.body.name;
     var mobile = req.body.mobile;
     var password = req.body.password;
-    var oldData = await exe( "SELECT profile_photo FROM users WHERE id=?", [userId] );
+    var oldData = await exe("SELECT profile_photo FROM users WHERE id=?", [userId]);
     var oldPhoto = oldData.length > 0 ? oldData[0].profile_photo : null;
     var newPhotoName = null;
     if (req.files && req.files.profile_photo) {
@@ -439,14 +441,14 @@ router.post("/profile/update", async function (req, res) {
         return res.send("Only JPG / JPEG images allowed");
       }
       if (oldPhoto) {
-        var oldPath = path.join(__dirname,"../public/upload/profile",oldPhoto);
+        var oldPath = path.join(__dirname, "../public/upload/profile", oldPhoto);
         if (fs.existsSync(oldPath)) {
           fs.unlinkSync(oldPath);
         }
       }
       var ext = path.extname(photo.name);
       newPhotoName = Date.now() + "_" + Math.floor(Math.random() * 100000) + ext;
-      var uploadPath = path.join(__dirname,"../public/upload/profile", newPhotoName);
+      var uploadPath = path.join(__dirname, "../public/upload/profile", newPhotoName);
       await photo.mv(uploadPath);
       req.session.user.profile_photo = newPhotoName;
     }
@@ -454,20 +456,21 @@ router.post("/profile/update", async function (req, res) {
       await exe("UPDATE users SET name=?, mobile=?, password=?, profile_photo=? WHERE id=?", [name, mobile, password, newPhotoName, userId]);
     }
     else if (newPhotoName) {
-      await exe( "UPDATE users SET name=?, mobile=?, profile_photo=? WHERE id=?",[name, mobile, newPhotoName, userId]);
+      await exe("UPDATE users SET name=?, mobile=?, profile_photo=? WHERE id=?", [name, mobile, newPhotoName, userId]);
     }
     else if (password) {
       await exe("UPDATE users SET name=?, mobile=?, password=? WHERE id=?", [name, mobile, password, userId]);
     }
     else {
       await exe(
-        "UPDATE users SET name=?, mobile=? WHERE id=?", [name, mobile, userId] );
+        "UPDATE users SET name=?, mobile=? WHERE id=?", [name, mobile, userId]);
     }
 
     req.session.user.name = name;
     req.session.user.mobile = mobile;
     res.redirect("/profile?status=updated");
-z  } catch (err) {
+    z
+  } catch (err) {
     console.log(err);
     res.status(500).redirect("/profile?status=error");
   }

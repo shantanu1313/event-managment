@@ -737,6 +737,76 @@ router.get("/logout", function (req, res) {
     });
 });
 
+router.get("/social_links", async (req, res) => {
+    const sql = `SELECT * FROM social_links LIMIT 1`;
+    const result = await exe(sql);
+
+    res.render("admin/social_links.ejs", {
+        data: result.length > 0 ? result[0] : null
+    });
+});
+
+router.post("/save_social_links", async (req, res) => {
+    try {
+        const d = req.body;
+
+        const check = await exe(`SELECT social_links_id FROM social_links LIMIT 1`);
+
+        if (check.length > 0) {
+            // UPDATE
+            const sql = `
+                UPDATE social_links SET
+                    title=?,
+                    description=?,
+                    copywrite=?,
+                    facebook=?,
+                    twitter=?,
+                    instagram=?,
+                    linkedin=?,
+                    youtube=?
+                WHERE social_links_id=?
+            `;
+
+            await exe(sql, [
+                d.title,
+                d.description,
+                d.copywrite,
+                d.facebook,
+                d.twitter,
+                d.instagram,
+                d.linkedin,
+                d.youtube,
+                check[0].social_links_id
+            ]);
+
+        } else {
+            // INSERT (only once)
+            const sql = `
+                INSERT INTO social_links
+                (title,description,copywrite,facebook,twitter,instagram,linkedin,youtube)
+                VALUES (?,?,?,?,?,?,?,?)
+            `;
+
+            await exe(sql, [
+                d.title,
+                d.description,
+                d.copywrite,
+                d.facebook,
+                d.twitter,
+                d.instagram,
+                d.linkedin,
+                d.youtube
+            ]);
+        }
+
+        res.redirect("/admin/social_links");
+
+    } catch (err) {
+        console.log(err);
+        res.send("Server Error");
+    }
+});
+
 
 
 
