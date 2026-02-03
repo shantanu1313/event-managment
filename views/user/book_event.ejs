@@ -1,128 +1,128 @@
-<%- include('./navbar.ejs') %>
+    <%- include('./navbar.ejs') %>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="css/book_event.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="css/book_event.css">
 
-<section class="demo_section"> 
-<div class="booking-card">
+    <section class="demo_section"> 
+    <div class="booking-card">
 
-    <div class="booking-title">
-        <h2><i class="fas fa-calendar-check me-2"></i>Book Your Event</h2>
-        <p>Fill the details & submit your booking</p>
-    </div>
-
-    <form id="bookEventForm" action="/book_event" method="POST">
-
-        <div class="row g-3">
-
-            <div class="col-md-6">
-                <label class="form-label">Full Name</label>
-                <input type="text" id="name" name="name" class="form-control" required>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Mobile Number</label>
-                <input type="tel" id="mobile" name="mobile" class="form-control" required>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Start Date</label>
-                <input type="date" id="startDate" name="start_date" class="form-control" required>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">End Date</label>
-                <input type="date" id="endDate" name="end_date" class="form-control" required>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Event Type</label>
-                <select id="eventType" name="event_type" class="form-select" required>
-                    <option value="">Select Event</option>
-                    <option>Wedding</option>
-                    <option>Birthday Party</option>
-                    <option>Corporate Event</option>
-                    <option>Engagement</option>
-                    <option>Reception</option>
-                </select>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Budget (₹)</label>
-                <select id="budget" name="budget" class="form-select">
-                    <option value="">Select Budget</option>
-                    <option>Below ₹50,000</option>
-                    <option>₹50,000 – ₹1,00,000</option>
-                    <option>₹1,00,000 – ₹3,00,000</option>
-                    <option>Above ₹3,00,000</option>
-                </select>
-            </div>
-
-            <div class="col-md-12">
-                <label class="form-label">Additional Message</label>
-                <textarea id="message" name="message" class="form-control" rows="4"></textarea>
-            </div>
-
-            <!-- 🔘 BUTTON -->
-            <div class="col-md-12 mt-4 text-end">
-                <button type="button" id="submitBtn" class="btn btn-book">
-                    <i class="fas fa-paper-plane me-2"></i>Submit Booking
-                </button>
-            </div>
-
+        <div class="booking-title">
+            <h2><i class="fas fa-calendar-check me-2"></i>Book Your Event</h2>
+            <p>Fill the details & submit your booking</p>
         </div>
-    </form>
 
-</div>
-</section>
+        <form id="bookEventForm" action="/book_event" method="POST">
 
-<%- include('./footer.ejs') %>
+            <div class="row g-3">
 
-<script>
-document.getElementById("submitBtn").addEventListener("click", function () {
+                <div class="col-md-6">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
 
-    const startDate = document.getElementById("startDate").value;
-    const endDate = document.getElementById("endDate").value;
+                <div class="col-md-6">
+                    <label class="form-label">Mobile Number</label>
+                    <input type="tel" id="mobile" name="mobile" class="form-control" required>
+                </div>
 
-    if (!startDate || !endDate) {
-        Swal.fire("Missing Date", "Please select start & end date", "warning");
-        return;
-    }
+                <div class="col-md-6">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" id="startDate" name="start_date" class="form-control" required>
+                </div>
 
-    if (new Date(endDate) < new Date(startDate)) {
-        Swal.fire("Invalid Date", "End date must be after start date", "error");
-        return;
-    }
+                <div class="col-md-6">
+                    <label class="form-label">End Date</label>
+                    <input type="date" id="endDate" name="end_date" class="form-control" required>
+                </div>
 
-    const whatsappText = `📌 New Event Booking
+                <div class="col-md-6">
+                    <label class="form-label">Event Type</label>
+                    <select id="eventType" name="event_type" class="form-select" required>
+                        <option value="">Select Event</option>
+                        <option>Wedding</option>
+                        <option>Birthday Party</option>
+                        <option>Corporate Event</option>
+                        <option>Engagement</option>
+                        <option>Reception</option>
+                    </select>
+                </div>
 
-👤 Name: ${name.value}
-📞 Mobile: ${mobile.value}
-🎉 Event: ${eventType.value}
-📅 ${startDate.value} to ${endDate.value}
-💰 Budget: ${budget.value}
+                <div class="col-md-6">
+                    <label class="form-label">Budget (₹)</label>
+                    <select id="budget" name="budget" class="form-select">
+                        <option value="">Select Budget</option>
+                        <option>Below ₹50,000</option>
+                        <option>₹50,000 – ₹1,00,000</option>
+                        <option>₹1,00,000 – ₹3,00,000</option>
+                        <option>Above ₹3,00,000</option>
+                    </select>
+                </div>
 
-📝 ${message.value}`;
+                <div class="col-md-12">
+                    <label class="form-label">Additional Message</label>
+                    <textarea id="message" name="message" class="form-control" rows="4"></textarea>
+                </div>
 
-    Swal.fire({
-        title: "How do you want to submit?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Send WhatsApp + Submit",
-        cancelButtonText: "Only Submit",
-        confirmButtonColor: "#25D366"
-    }).then(result => {
+                <!-- 🔘 BUTTON -->
+                <div class="col-md-12 mt-4 text-end">
+                    <button type="button" id="submitBtn" class="btn btn-book">
+                        <i class="fas fa-paper-plane me-2"></i>Submit Booking
+                    </button>
+                </div>
 
-        // ✅ ALWAYS submit form
-        document.getElementById("bookEventForm").submit();
+            </div>
+        </form>
 
-        // ✅ WhatsApp only if confirmed
-        if (result.isConfirmed) {
-            window.open(
-                "https://wa.me/917823867123?text=" + encodeURIComponent(whatsappText),
-                "_blank"
-            );
+    </div>
+    </section>
+
+    <%- include('./footer.ejs') %>
+
+    <script>
+    document.getElementById("submitBtn").addEventListener("click", function () {
+
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+
+        if (!startDate || !endDate) {
+            Swal.fire("Missing Date", "Please select start & end date", "warning");
+            return;
         }
+
+        if (new Date(endDate) < new Date(startDate)) {
+            Swal.fire("Invalid Date", "End date must be after start date", "error");
+            return;
+        }
+
+        const whatsappText = `📌 New Event Booking
+
+    👤 Name: ${name.value}
+    📞 Mobile: ${mobile.value}
+    🎉 Event: ${eventType.value}
+    📅 ${startDate.value} to ${endDate.value}
+    💰 Budget: ${budget.value}
+
+    📝 ${message.value}`;
+
+        Swal.fire({
+            title: "How do you want to submit?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Send WhatsApp + Submit",
+            cancelButtonText: "Only Submit",
+            confirmButtonColor: "#25D366"
+        }).then(result => {
+
+            // ✅ ALWAYS submit form
+            document.getElementById("bookEventForm").submit();
+
+            // ✅ WhatsApp only if confirmed
+            if (result.isConfirmed) {
+                window.open(
+                    "https://wa.me/917823867123?text=" + encodeURIComponent(whatsappText),
+                    "_blank"
+                );
+            }
+        });
     });
-});
-</script>
+    </script>

@@ -7,19 +7,14 @@ var router = express.Router();
 
 router.get("/", async function (req, res) {
   var data = req.session.user;
-
   var sql = "SELECT * FROM home_slider";
   var home_slider = await exe(sql);
-
   var sql2 = "SELECT * FROM home_our_story";
   var home_our_story = await exe(sql2);
-
   var sql3 = "SELECT * FROM choose_us";
   var choose_us = await exe(sql3);
-
   var sql4 = "SELECT * FROM service";
   var service = await exe(sql4);
-
   res.render('user/home.ejs', { data, home_slider, home_our_story, choose_us, service });
 });
 
@@ -30,16 +25,12 @@ router.get("/about", function (req, res) {
 router.get("/services", async function (req, res) {
   var sql = "SELECT * FROM service_slider";
   var service_slider = await exe(sql);
-
   var sql2 = "SELECT * FROM other_service";
   var other_service = await exe(sql2);
-
   var sql3 = "SELECT * FROM service";
   var service = await exe(sql3);
-
   var sql4 = "SELECT * FROM how_work";
   var how_work = await exe(sql4);
-
   var packet = { service_slider, service, other_service, how_work };
   res.render('user/services.ejs', packet);
 });
@@ -53,10 +44,8 @@ router.get("/gallery", function (req, res) {
 });
 
 router.get("/testimonials", async function (req, res) {
-
     const headerData = await exe("SELECT * FROM testimonials_header LIMIT 1");
     const testimonials = await exe("SELECT * FROM testimonials");
-
     res.render("user/testimonials.ejs", {
         header: headerData[0] || null,
         data: testimonials || []
@@ -66,81 +55,46 @@ router.get("/testimonials", async function (req, res) {
 router.post("/add", async (req, res) => {
     try {
         const { name, event_type, rating, message } = req.body;
-
-        let imageName = "";  // This matches admin column 'image'
+        let imageName = "";  //
         const fs = require("fs");
-
-        // Check if file uploaded
         if (req.files && req.files.img) {
             const file = req.files.img;
-            // Create unique file name
             imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
-            // Move file to upload folder
             await file.mv("public/upload/testimonials/" + imageName);
         }
-
-        // Insert into database (column 'image')
-        const sql = `
-            INSERT INTO testimonials (name, event_type, rating, message, image)
-            VALUES (?, ?, ?, ?, ?)
-        `;
+        const sql = `INSERT INTO testimonials (name, event_type, rating, message, image) VALUES (?, ?, ?, ?, ?)`;
         await exe(sql, [name, event_type, rating, message, imageName]);
-
-        // Redirect to testimonials page
         res.redirect("/testimonials");
-
     } catch (err) {
         console.error("Error adding testimonial:", err);
         res.send("Error while submitting testimonial");
     }
 });
 
-
-
-
-
-/* ================= USER TESTIMONIALS ================= */
 router.get("/testimonials", async (req, res) => {
-    // Fetch testimonials with rating >= 4, newest first
-    const sql = `
-        SELECT * FROM testimonials
-        WHERE rating >= 4
-        ORDER BY id DESC
-    `;
+    const sql = `SELECT * FROM testimonials WHERE rating >= 4 ORDER BY id DESC`;
     const data = await exe(sql);
     res.render("user/testimonials.ejs", { data });
 });
 
-/* ================= RATING STATS ================= */
 router.get("/rating-stats", async (req, res) => {
-    // Total number of testimonials
     const total = await exe("SELECT COUNT(*) total FROM testimonials");
-
-    // Average rating
     const avg = await exe("SELECT AVG(rating) avgRating FROM testimonials");
-
-    // Number of 5-star ratings
     const five = await exe("SELECT COUNT(*) five FROM testimonials WHERE rating=5");
-
     res.json({
         totalReviews: total[0].total,
         avgRating: avg[0].avgRating ? avg[0].avgRating.toFixed(1) : 0,
-        fiveStarPercent: total[0].total
-            ? Math.round((five[0].five / total[0].total) * 100)
-            : 0,
-        repeatClientsPercent: 68 // hardcoded value, can be dynamic later
+        fiveStarPercent: total[0].total ? Math.round((five[0].five / total[0].total) * 100) : 0,
+        repeatClientsPercent: 68 
     });
 });
-router.get("/blog", async function (req, res) {
 
+router.get("/blog", async function (req, res) {
   var sql = "SELECT * FROM blog_slider";
   var blog_slider = await exe(sql);
-
   var sql2 = "SELECT * FROM blog";
   var blog = await exe(sql2);
-
   var packet = { blog_slider, blog };
-
   res.render('user/blog.ejs', packet);
 });
 
@@ -170,8 +124,14 @@ router.get("/user_registeration", function (req, res) {
   res.render("user/register.ejs");
 });
 
-router.get("/book_event", function (req, res) {
-  res.render("user/book_event.ejs");
+router.get("/book_event", (req, res) => {
+    if (req.session && req.session.user) {
+        res.render("book_event.ejs", {
+            user: req.session.user
+        });
+    } else {
+        res.redirect("/login");
+    }
 });
 
 router.post("/save_user", async function (req, res) {
@@ -217,7 +177,6 @@ router.get("/forgot-start", (req, res) => {
   res.redirect("/forgot_password");
 });
 
-
 router.get("/forgot_password", (req, res) => {
   if (!req.session.forgotStep) {
     return res.redirect("/login");
@@ -237,7 +196,7 @@ router.post("/send_otp_mail", async function (req, res) {
     var otp = Math.floor(100000 + Math.random() * 900000);
     req.session.otp = otp;
     req.session.email = d.email;
-    req.session.resetStep = false;   // reset not allowed yet
+    req.session.resetStep = false;   
     req.session.resetTime = Date.now();
     var email = d.email;
     var subject = "OTP verification For Reset Password";
@@ -371,93 +330,63 @@ router.post("/profile/update", async function (req, res) {
     if (!req.session.user) {
       return res.redirect("/login");
     }
-
     var userId   = req.session.user.id;
     var name     = req.body.name;
     var mobile   = req.body.mobile;
     var password = req.body.password;
-
-    var oldData = await exe(
-      "SELECT profile_photo FROM users WHERE id=?",
-      [userId]
-    );
-
+    var oldData = await exe( "SELECT profile_photo FROM users WHERE id=?", [userId] );
     var oldPhoto = oldData.length > 0 ? oldData[0].profile_photo : null;
     var newPhotoName = null;
-
     if (req.files && req.files.profile_photo) {
       var photo = req.files.profile_photo;
-
       if (photo.size > 2 * 1024 * 1024) {
         return res.send("Image size must be less than 2MB");
       }
-
-      if (
-        photo.mimetype !== "image/jpeg" &&
-        photo.mimetype !== "image/jpg"
-      ) {
+      if (photo.mimetype !== "image/jpeg" && photo.mimetype !== "image/jpg") {
         return res.send("Only JPG / JPEG images allowed");
       }
-
       if (oldPhoto) {
-        var oldPath = path.join(
-          __dirname,
-          "../public/upload/profile",
-          oldPhoto
-        );
+        var oldPath = path.join(__dirname,"../public/upload/profile",oldPhoto);
         if (fs.existsSync(oldPath)) {
           fs.unlinkSync(oldPath);
         }
       }
-
       var ext = path.extname(photo.name);
       newPhotoName = Date.now() + "_" + Math.floor(Math.random() * 100000) + ext;
-
-      var uploadPath = path.join(
-        __dirname,
-        "../public/upload/profile",
-        newPhotoName
-      );
-
+      var uploadPath = path.join(__dirname,"../public/upload/profile", newPhotoName);
       await photo.mv(uploadPath);
       req.session.user.profile_photo = newPhotoName;
     }
-
     if (newPhotoName && password) {
-      await exe(
-        "UPDATE users SET name=?, mobile=?, password=?, profile_photo=? WHERE id=?",
-        [name, mobile, password, newPhotoName, userId]
-      );
+      await exe("UPDATE users SET name=?, mobile=?, password=?, profile_photo=? WHERE id=?", [name, mobile, password, newPhotoName, userId]);
     }
     else if (newPhotoName) {
-      await exe(
-        "UPDATE users SET name=?, mobile=?, profile_photo=? WHERE id=?",
-        [name, mobile, newPhotoName, userId]
-      );
+      await exe( "UPDATE users SET name=?, mobile=?, profile_photo=? WHERE id=?",[name, mobile, newPhotoName, userId]);
     }
     else if (password) {
-      await exe(
-        "UPDATE users SET name=?, mobile=?, password=? WHERE id=?",
-        [name, mobile, password, userId]
-      );
+      await exe("UPDATE users SET name=?, mobile=?, password=? WHERE id=?", [name, mobile, password, userId]);
     }
     else {
       await exe(
-        "UPDATE users SET name=?, mobile=? WHERE id=?",
-        [name, mobile, userId]
-      );
+        "UPDATE users SET name=?, mobile=? WHERE id=?", [name, mobile, userId] );
     }
-
     req.session.user.name   = name;
     req.session.user.mobile = mobile;
-
     res.redirect("/profile?status=updated");
-
-  } catch (err) {
+z  } catch (err) {
     console.log(err);
     res.status(500).redirect("/profile?status=error");
   }
 });
 
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("Server Error");
+    }
+    res.redirect("/login?logout=success");
+  });
+}); 
 
 module.exports = router
