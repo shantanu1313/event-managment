@@ -232,6 +232,17 @@
     margin-bottom: 15px;
 }
 
+
+.star-rating i {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.star-rating i.selected {
+    color: #ffc107;
+}
+
 /* ===============================
    Testimonial Cards
 =============================== */

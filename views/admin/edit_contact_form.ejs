@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Contact Enquiry</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+
+<body style="background:#f4f6f9">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <i class="fa fa-edit me-2"></i> Edit Contact Enquiry
+                </div>
+
+                <div class="card-body">
+
+                    <!-- ✅ IMPORTANT : ID in URL -->
+                    <form action="/admin/edit_contact_form/<%= enquiry.id %>" method="post">
+
+                        <!-- hidden id -->
+                        <!-- <input type="hidden" name="id" value="<%= enquiry.id %>"> -->
+
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="full_name" class="form-control"
+                                   value="<%= enquiry.full_name %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control"
+                                   value="<%= enquiry.email %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control"
+                                   value="<%= enquiry.phone %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Event Type</label>
+                            <input type="text" name="event_type" class="form-control"
+                                   value="<%= enquiry.event_type %>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <input type="text" name="subject" class="form-control"
+                                   value="<%= enquiry.subject %>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea name="message" class="form-control" rows="4"><%= enquiry.message %></textarea>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-save me-1"></i> Update
+                            </button>
+
+                            <a href="/admin/contact-form" class="btn btn-secondary">
+                                Cancel
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

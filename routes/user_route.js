@@ -192,12 +192,69 @@ router.get("/blog", async function (req, res) {
   res.render('user/blog.ejs', packet);
 });
 
-router.get("/contact", function (req, res) {
-  res.render('user/contact.ejs');
+router.get("/contact", async (req, res) => {
+    try {
+        const headers = await exe("SELECT * FROM contact_header ORDER BY id DESC LIMIT 1");
+        const header = headers.length > 0 ? headers[0] : null;
+
+        const contacts = await exe("SELECT * FROM contact_info ORDER BY id ASC");
+
+
+        const success = req.query.success ? true : false;
+
+        res.render("user/contact.ejs", { header, contacts, success });
+    } catch (err) {
+        console.error("Error loading contact page:", err);
+        res.status(500).send("Error loading contact page");
+    }
 });
 
-router.get("/privacy", function (req, res) {
-  res.render('user/privacy.ejs');
+router.post("/save_contact_form", async (req, res) => {
+    try {
+        console.log("FORM DATA => ", req.body); 
+
+        const { full_name, email, phone, event_type, subject, message } = req.body;
+
+        const sql = `
+            INSERT INTO contact_form
+            (full_name, email, phone, event_type, subject, message)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+
+        await exe(sql, [full_name, email, phone, event_type, subject, message]);
+
+        res.redirect("/contact?success=1");
+    } catch (err) {
+        console.log("DB ERROR => ", err);
+        res.status(500).send("Error saving contact form");
+    }
+});
+
+
+router.get("/privacy", async function (req, res) {
+
+    var policies = await exe(
+        "SELECT * FROM privacy_policy ORDER BY privacy_id ASC"
+    );
+
+    var reports = await exe(
+        "SELECT * FROM privacy_policy_report ORDER BY section_no ASC"
+    );
+
+    var last = await exe(
+        "SELECT privacy_last_updated FROM privacy_policy ORDER BY privacy_id DESC LIMIT 1"
+    );
+
+    var contact = await exe(
+        "SELECT * FROM contact_us ORDER BY contact_id DESC LIMIT 1"
+    );
+
+    res.render("user/privacy.ejs", {
+        policies: policies,
+        reports: reports,
+        lastUpdated: last.length > 0 ? last[0].privacy_last_updated : "",
+        contact: contact.length > 0 ? contact[0] : null
+    });
 });
 
 router.get("/terms", async function (req, res) {

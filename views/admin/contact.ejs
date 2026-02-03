@@ -1,6 +1,168 @@
-<%-include ("navbar.ejs")%>
-    <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2" id="page-title">Contact</h1>
+<%- include('navbar.ejs') %>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Contact Header Management</h1>
+
+    <!-- ====== ADD / SAVE CONTACT HEADER FORM ====== -->
+    <div class="card mb-5">
+        <div class="card-header bg-primary text-white">
+            Add New Contact Header
+        </div>
+        <div class="card-body">
+            <form action="/admin/save_contact" method="post" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-control" name="title" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Subtitle</label>
+                    <input type="text" class="form-control" name="subtitle" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input type="file" class="form-control" name="contact_filename" accept="image/*">
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    Save Contact Header
+                </button>
+            </form>
+        </div>
     </div>
-    <%-include ("footer.ejs")%>
+
+    <!-- ====== HEADER + BUTTONS ====== -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Existing Contact Headers</h2>
+
+        <div>
+            <button class="btn btn-success me-2" onclick="exportTableToCSV('contact_headers.csv')">
+                Export CSV
+            </button>
+
+            <button class="btn btn-primary" onclick="printTable()">
+                Print
+            </button>
+        </div>
+    </div>
+
+    <!-- ====== DISPLAY TABLE ====== -->
+    <% if (contacts && contacts.length > 0) { %>
+
+        <table class="table table-bordered table-striped" id="contactTable">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Subtitle</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% contacts.forEach(function(c, index){ %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= c.title %></td>
+                        <td><%= c.subtitle %></td>
+                        <td>
+                            <% if(c.image){ %>
+                                <img src="/upload/contact/<%= c.image %>" width="80">
+                            <% } else { %>
+                                No Image
+                            <% } %>
+                        </td>
+                        <td>
+                            <a href="/admin/edit_contact/<%= c.id %>" class="btn btn-sm btn-primary">
+                                Edit
+                            </a>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+    <% } else { %>
+        <p>No contact headers found.</p>
+    <% } %>
+</div>
+
+<!-- ====== CSV EXPORT SCRIPT ====== -->
+<script>
+function exportTableToCSV(filename) {
+    let csv = [];
+    let rows = document.querySelectorAll("#contactTable tr");
+
+    for (let i = 0; i < rows.length; i++) {
+        let row = [];
+        let cols = rows[i].querySelectorAll("th, td");
+
+        for (let j = 0; j < cols.length; j++) {
+            // Skip Image & Action columns
+            if (j === 3 || j === 4) continue;
+
+            let text = cols[j].innerText.replace(/,/g, "");
+            row.push('"' + text + '"');
+        }
+        csv.push(row.join(","));
+    }
+
+    let csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+    let downloadLink = document.createElement("a");
+
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = "none";
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+}
+</script>
+
+<!-- ====== PRINT SCRIPT ====== -->
+<script>
+function printTable() {
+    let table = document.getElementById("contactTable").outerHTML;
+
+    let printWindow = window.open("", "", "width=900,height=650");
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Print Contact Headers</title>
+            <style>
+                body { font-family: Arial; }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    border: 1px solid #000;
+                    padding: 8px;
+                    text-align: left;
+                }
+                img {
+                    max-width: 80px;
+                }
+                a, button {
+                    display: none;
+                }
+            </style>
+        </head>
+        <body>
+            <h2>Contact Headers</h2>
+            ${table}
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+}
+</script>
+
+<%- include('footer.ejs') %>

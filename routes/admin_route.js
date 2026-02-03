@@ -683,6 +683,9 @@ router.get("/faq", function (req, res) {
 router.get("/policy", function (req, res) {
     res.render('admin/policy.ejs');
 });
+router.get("/faq", function (req, res) {
+    res.render('admin/faq.ejs');
+});
 
 router.get("/condition", async function (req, res) {
     var sql = `SELECT * FROM terms_conditions`;
@@ -730,6 +733,362 @@ router.get("/terms/delete/:id", async function (req, res) {
     var result = await exe(sql, [id]);
     res.redirect("/admin/condition");
 });
+
+
+router.get("/policy", async function (req, res) {
+    var sql = "SELECT * FROM privacy_policy";
+    var result = await exe(sql);
+    var packet = { policies: result };
+    res.render("admin/policy.ejs", packet);
+});
+router.post("/save_policy", async function (req, res) {
+
+    var d = req.body;
+    var privacy_image = "";
+
+    if (req.files && req.files.privacy_image) {
+        var file = req.files.privacy_image;
+        privacy_image = Date.now() + "_" + file.name;
+        await file.mv("public/upload/policy/" + privacy_image);
+    }
+
+    var today = new Date().toISOString().split("T")[0];
+
+    await exe(
+        `INSERT INTO privacy_policy
+        (privacy_title, privacy_image, privacy_icon, privacy_content, privacy_last_updated)
+        VALUES (?,?,?,?,?)`,
+        [
+            d.privacy_title,
+            privacy_image,
+            d.privacy_icon,
+            d.privacy_content,
+            today
+        ]
+    );
+
+    res.redirect("/admin/policy");
+});
+
+router.get("/edit_policy/:id", async function (req, res) {
+    const id = req.params.id;
+    const policy = await exe(
+        "SELECT * FROM privacy_policy WHERE privacy_id = ?",
+        [id]
+    );
+    res.render("admin/edit_policy", { policy: policy[0] });
+});
+
+router.post("/update_policy/:id", async function (req, res) {
+    const id = req.params.id;
+    const d = req.body;
+    let privacy_image = d.old_image;
+    if (req.files && req.files.privacy_image) {
+        const file = req.files.privacy_image;
+        privacy_image = Date.now() + "_" + file.name;
+        await file.mv("public/upload/policy/" + privacy_image);
+    }
+    const today = new Date().toISOString().split("T")[0];
+    await exe(
+        `UPDATE privacy_policy SET
+            privacy_title = ?,
+            privacy_image = ?,
+            privacy_icon = ?,   
+            privacy_content = ?,
+            privacy_last_updated = ?
+         WHERE privacy_id = ?`,
+        [
+            d.privacy_title,
+            privacy_image,
+            d.privacy_icon,
+            d.privacy_content,
+            today,
+            id
+        ]
+    );
+    res.redirect("/admin/policy");
+});
+
+
+
+
+
+
+router.get("/reports", async function (req, res) {
+    var sql = "SELECT * FROM privacy_policy_report";
+    var result = await exe(sql);
+    var packet = { reports: result };
+    res.render('admin/reports.ejs', packet);
+});
+
+
+
+router.post("/save_report", async (req, res) => {
+    const { section_no, section_title, section_content } = req.body;
+
+    await exe(
+        "INSERT INTO privacy_policy_report (section_no, section_title, section_content) VALUES (?, ?, ?)",
+        [section_no, section_title, section_content]
+    );
+
+    res.redirect("/admin/reports");
+});
+
+
+
+router.get("/edit_report/:policy_id", async (req, res) => {
+    const report = await exe(
+        "SELECT * FROM privacy_policy_report WHERE policy_id = ?",
+        [req.params.policy_id]
+    );
+
+    res.render("admin/edit_report.ejs", { report: report[0] });
+});
+
+router.post("/update_report/:policy_id", async (req, res) => {
+    const { section_no, section_title, section_content } = req.body;
+
+    await exe(
+        "UPDATE privacy_policy_report SET section_no=?, section_title=?, section_content=? WHERE policy_id=?",
+        [section_no, section_title, section_content, req.params.policy_id]
+    );
+
+    res.redirect("/admin/reports");
+});
+
+
+router.get("/delete_report/:policy_id", async (req, res) => {
+    await exe(
+        "DELETE FROM privacy_policy_report WHERE policy_id = ?",
+        [req.params.policy_id]
+    );
+
+    res.redirect("/admin/reports");
+});
+
+
+router.get("/privacy-logs", async function (req, res) {
+    var sql = "SELECT * FROM contact_us";
+    var result = await exe(sql);
+    var packet = { logs: result };
+    res.render('admin/privacy-logs.ejs', packet);
+});
+
+router.post("/save_logs", async function (req, res) {
+    var d = req.body;
+    await exe(
+        "INSERT INTO contact_us(contact_phone, contact_email, contact_address, contact_availability, contact_response_time) VALUES(?,?,?,?,?)",
+        [d.contact_phone, d.contact_email, d.contact_address, d.contact_availability, d.contact_response_time]
+    );
+    res.redirect("/admin/privacy-logs");
+});
+
+router.get("/edit-contact/:id", async function (req, res) {
+    const id = req.params.id;
+    const sql = "SELECT * FROM contact_us WHERE contact_id=?";
+    const result = await exe(sql, [id]);
+
+    res.render("admin/edit-contact_us.ejs", { contact: result[0] });
+});
+
+router.post("/update-contact/:id", async function (req, res) {
+    const id = req.params.id;
+    const d = req.body;
+
+    await exe(
+        `UPDATE contact_us SET 
+        contact_phone=?,
+        contact_email=?,
+        contact_address=?,
+        contact_availability=?,
+        contact_response_time=?
+        WHERE contact_id=?`,
+        [
+            d.contact_phone,
+            d.contact_email,
+            d.contact_address,
+            d.contact_availability,
+            d.contact_response_time,
+            id
+        ]
+    );
+
+    res.redirect("/admin/privacy-logs");
+});
+
+router.get("/delete-contact/:id", async function (req, res) {
+    const id = req.params.id;
+    await exe("DELETE FROM contact_us WHERE contact_id=?", [id]);
+    res.redirect("/admin/privacy-logs");
+});
+
+
+router.get("/contact", async function (req, res) {
+    var result = await exe("SELECT * FROM contact_header");
+    res.render('admin/contact.ejs', { contacts: result });
+});
+
+router.post("/save_contact", async function (req, res) {
+    var d = req.body;
+    var contact_filename = "";
+
+    if (req.files && req.files.contact_filename) {
+        var file = req.files.contact_filename;
+        contact_filename = Date.now() + "_" + file.name;
+        await file.mv("public/upload/contact/" + contact_filename);
+    }
+
+    await exe(
+        "INSERT INTO contact_header(title, subtitle, image) VALUES(?,?,?)",
+        [d.title, d.subtitle, contact_filename]
+    );
+
+    res.redirect("/admin/contact");
+});
+
+
+router.get("/edit_contact/:id", async function (req, res) {
+    const id = req.params.id;
+
+    const contact = await exe(
+        "SELECT * FROM contact_header WHERE id = ?",
+        [id]
+    );
+
+    res.render("admin/edit_contact", {
+        contact: contact[0]
+    });
+});
+
+
+// ===== UPDATE CONTACT HEADER =====
+router.post("/update_contact/:id", async function (req, res) {
+    const id = req.params.id;
+    const d = req.body;
+
+    let image = d.old_image;
+
+    if (req.files && req.files.contact_filename) {
+        const file = req.files.contact_filename;
+        image = Date.now() + "_" + file.name;
+        await file.mv("public/upload/contact/" + image);
+    }
+
+    await exe(
+        "UPDATE contact_header SET title=?, subtitle=?, image=? WHERE id=?",
+        [d.title, d.subtitle, image, id]
+    );
+    res.redirect("/admin/contact");
+});
+router.get("/contact-info", async (req, res) => {
+    const contacts = await exe("SELECT * FROM contact_info");
+    res.render("admin/contact-info", { contacts });
+});
+
+router.post("/save_contact_info", async (req, res) => {
+    console.log("save_contact_info route hit");
+
+    const { address, phone, email, whatsapp, map_url } = req.body;
+
+    await exe(
+        "INSERT INTO contact_info (address, phone, email, whatsapp, map_url) VALUES (?, ?, ?, ?, ?)",
+        [address, phone, email, whatsapp, map_url]
+    );
+
+    res.redirect("/admin/contact-info");
+});
+
+router.get("/edit-contact-info/:id", async (req, res) => {
+    try {
+        var id = req.params.id;
+
+        var sql = "SELECT * FROM contact_info WHERE id = ?";
+        var result = await exe(sql, [id]);
+
+        if (result.length === 0) {
+            return res.redirect("/admin/contact-info");
+        }
+
+        res.render("admin/edit-contact-info", {
+            contact: result[0]
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+router.post("/update_contact_info/:id", async (req, res) => {
+    try {
+        var id = req.params.id;
+        var { address, phone, email, whatsapp, map_url } = req.body;
+        var sql = "UPDATE contact_info SET address=?, phone=?, email=?, whatsapp=?, map_url=? WHERE id=?";
+        await exe(sql, [address, phone, email, whatsapp, map_url, id]);
+        res.redirect("/admin/contact-info");
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+// SHOW CONTACT FORM ENQUIRIES
+router.get("/contact-form", async (req, res) => {
+    try {
+        const forms = await exe(
+            "SELECT * FROM contact_form ORDER BY created_at DESC"
+        );
+
+        res.render("admin/contact_form", { forms });
+    } catch (err) {
+        console.log(err);
+        res.send("Error loading contact enquiries");
+    }
+});
+
+router.get("/edit_contact_form/:id", async (req, res) => {
+    const id = req.params.id;
+
+    const enquiry = await exe(
+        "SELECT * FROM contact_form WHERE id = ?",
+        [id]
+    );
+
+    if (enquiry.length === 0) {
+        return res.send("Enquiry not found");
+    }
+
+    res.render("admin/edit_contact_form", {
+        enquiry: enquiry[0]
+    });
+});
+
+
+router.post("/edit_contact_form/:id", async (req, res) => {
+    const id = req.params.id;
+
+    const {
+        full_name,
+        email,
+        phone,
+        event_type,
+        subject,
+        message
+    } = req.body;
+
+    await exe(
+        "UPDATE contact_form SET full_name=?, email=?, phone=?, event_type=?, subject=?, message=? WHERE id=?",
+        [full_name, email, phone, event_type, subject, message, id]
+    );
+
+    res.redirect("/admin/contact-form");
+});
+
+
+router.get("/delete_contact_form/:id", async (req, res) => {
+    const id = req.params.id;
+    await exe("DELETE FROM contact_form WHERE id = ?", [id]);
+    res.redirect("/admin/contact-form");
+});
+
 
 router.get("/logout", function (req, res) {
     req.session.destroy(() => {
