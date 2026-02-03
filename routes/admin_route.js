@@ -806,10 +806,10 @@ router.get("/services/add_other_service", async function (req, res) {
     res.render('admin/services/add_other_service.ejs', packet);
 });
 
+
 router.post("/services/add_other_service", async function (req, res) {
     try {
-
-        const d = req.body;
+  const d = req.body;
         const sql = `
             INSERT INTO other_service (icon, title, short_quote)
             VALUES (?,?,?)
@@ -892,9 +892,9 @@ router.get("/package", function (req, res) {
     res.render('admin/package.ejs');
 });
 router.get("/gallery", async function (req, res) {
-
-    const data = await exe("SELECT * FROM gallery_header LIMIT 1");
-    res.render("admin/gallery.ejs", { gallery_header: data[0] || null });
+   
+        const data = await exe("SELECT * FROM gallery_header LIMIT 1");
+        res.render("admin/gallery.ejs", { gallery_header: data[0] || null });
 });
 router.post("/gallery-header/save", async function (req, res) {
 
@@ -973,8 +973,6 @@ router.get("/gallery_list", async function (req, res) {
     var gallery = await exe(sql);
     res.render("admin/gallery_list.ejs", { gallery });
 });
-
-const fs = require("fs");
 const path = require("path");
 
 router.get("/gallery_delete/:id", async function (req, res) {

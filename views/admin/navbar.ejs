@@ -332,12 +332,30 @@
 
 
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/package">
-                                <i class="fas fa-box me-2"></i>
-                                Packages
-                            </a>
-                        </li>
+                        <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="packagesDropdown" role="button"
+        data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-box me-2"></i>
+        Packages
+    </a>
+
+    <ul class="dropdown-menu" aria-labelledby="packagesDropdown">
+        <li>
+            <a class="dropdown-item" href="admin/header_packages">
+                <i class="fas fa-list me-2"></i>Header Of Packages
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/admin/add_packages">
+                <i class="fas fa-plus me-2"></i>packages
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="/admin/add_features">
+                <i class="fas fa-tags me-2"></i> Features Of Packages
+        </li>
+    </ul>
+</li>
 
                         <li class="nav-item">
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
