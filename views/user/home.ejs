@@ -216,96 +216,96 @@
         </div>
     </section>
 
-  <!-- STATS SECTION -->
-<section class="stats-section" id="stats">
-    <div class="stats-wrapper">
+    <!-- STATS SECTION -->
+    <section class="stats-section" id="stats">
+        <div class="stats-wrapper">
 
-        <div class="stat-box">
-            <span class="stat-number" data-count="500">0</span>
-            <div class="stat-label">Events Managed</div>
+            <div class="stat-box">
+                <span class="stat-number" data-count="500">0</span>
+                <div class="stat-label">Events Managed</div>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-number" data-count="98">0</span>
+                <div class="stat-label">Satisfaction Rate</div>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-number" data-count="50">0</span>
+                <div class="stat-label">Expert Planners</div>
+            </div>
+
+            <div class="stat-box">
+                <span class="stat-number" data-count="15">0</span>
+                <div class="stat-label">Years Experience</div>
+            </div>
+
         </div>
-
-        <div class="stat-box">
-            <span class="stat-number" data-count="98">0</span>
-            <div class="stat-label">Satisfaction Rate</div>
-        </div>
-
-        <div class="stat-box">
-            <span class="stat-number" data-count="50">0</span>
-            <div class="stat-label">Expert Planners</div>
-        </div>
-
-        <div class="stat-box">
-            <span class="stat-number" data-count="15">0</span>
-            <div class="stat-label">Years Experience</div>
-        </div>
-
-    </div>
-</section>
+    </section>
 
 
-<!-- ALL JS -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+    <!-- ALL JS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
 
-    /* ===== STAT COUNT ON EVERY SCROLL INTO VIEW ===== */
-    const counters = document.querySelectorAll(".stat-number");
+            /* ===== STAT COUNT ON EVERY SCROLL INTO VIEW ===== */
+            const counters = document.querySelectorAll(".stat-number");
 
-    function startCount() {
-        counters.forEach(counter => {
-            const target = Number(counter.dataset.count);
-            let current = 0;
-            const speed = 120;
+            function startCount() {
+                counters.forEach(counter => {
+                    const target = Number(counter.dataset.count);
+                    let current = 0;
+                    const speed = 120;
 
-            counter.innerText = "0"; // reset every time
+                    counter.innerText = "0"; // reset every time
 
-            const update = () => {
-                current += target / speed;
-                if (current < target) {
-                    counter.innerText = Math.ceil(current) + "+";
-                    requestAnimationFrame(update);
-                } else {
-                    counter.innerText = target + "+";
-                }
-            };
-            update();
-        });
-    }
-
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                startCount();   
+                    const update = () => {
+                        current += target / speed;
+                        if (current < target) {
+                            counter.innerText = Math.ceil(current) + "+";
+                            requestAnimationFrame(update);
+                        } else {
+                            counter.innerText = target + "+";
+                        }
+                    };
+                    update();
+                });
             }
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startCount();
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(document.querySelector("#stats"));
+
+
+            /* ===== BOOTSTRAP CAROUSEL ===== */
+            new bootstrap.Carousel('#heroCarousel', {
+                interval: 1500,
+                ride: 'carousel',
+                pause: false
+            });
+
+
+            /* ===== URL ALERTS ===== */
+            const params = new URLSearchParams(window.location.search);
+
+            if (params.get("error") === "invalid") {
+                alert("Invalid username or password");
+            }
+            if (params.get("login") === "success") {
+                alert("Login successful!");
+            }
+            if (params.get("register") === "success") {
+                alert("Registration Successful! Please login.");
+            }
+
         });
-    }, { threshold: 0.5 });
-
-    observer.observe(document.querySelector("#stats"));
-
-
-    /* ===== BOOTSTRAP CAROUSEL ===== */
-    new bootstrap.Carousel('#heroCarousel', {
-        interval: 1500,
-        ride: 'carousel',
-        pause: false
-    });
-
-
-    /* ===== URL ALERTS ===== */
-    const params = new URLSearchParams(window.location.search);
-
-    if (params.get("error") === "invalid") {
-        alert("Invalid username or password");
-    }
-    if (params.get("login") === "success") {
-        alert("Login successful!");
-    }
-    if (params.get("register") === "success") {
-        alert("Registration Successful! Please login.");
-    }
-
-});
-</script>
+    </script>
 
 
 
