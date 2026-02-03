@@ -13,18 +13,13 @@ h1, h2, h3, h4, h5 {
 }
 
 /* Banner */
-.about-banner {
-    margin-top: 80px;
-    min-height: 60vh;
-    background: linear-gradient(rgba(0,0,0,.70), rgba(0,0,0,.70)), url('../images/all_page_bg.jpg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    text-align: center;
-    position: relative;
+.about-header {
+     background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0 60px;
+            margin-top: 80px;
+            text-align: center;
 }
 
 .about-banner h1 {

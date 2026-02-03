@@ -2,149 +2,159 @@
 
 <link rel="stylesheet" href="css/privacy.css">
 
-<!-- HEADER -->
-<header class="privacy-top">
-    <h1><i class="bi bi-shield-lock"></i> Privacy Policy</h1>
-    <p>
-        Your privacy is important to us. This Privacy Policy explains how
-        EventSync Pro collects, uses, and protects your personal information.
-    </p>
 
-    <div class="update-badge">
-        Last Updated: November 15, 2025
-    </div>
-</header>
+<div class="container-fluid mt-5">
 
-<!-- Content -->
+    <% if (policies && policies.length > 0) { %>
+        <% policies.forEach(function(p){ %>
+
+            <div class="privacy-card mb-5 shadow rounded overflow-hidden">
+
+                <% if (p.privacy_image) { %>
+                <div class="privacy-img-wrapper">
+
+                    <img src="/upload/policy/<%= p.privacy_image %>" class="privacy-img">
+
+                    <!-- FULL OVERLAY CONTENT -->
+                    <div class="privacy-overlay-full">
+                        <div class="overlay-content">
+
+                            <% if (p.privacy_icon) { %>
+                                <i class="<%= p.privacy_icon %> overlay-icon"></i>
+                            <% } %>
+
+                            <h2 class="overlay-title"><%= p.privacy_title %></h2>
+
+                            <p class="overlay-text">
+                                <%= p.privacy_content %>
+                            </p>
+
+                        </div>
+                    </div>
+
+                </div>
+                <% } %>
+
+            </div>
+
+        <% }) %>
+    <% } else { %>
+
+        <p class="text-center text-muted">Privacy policy not available.</p>
+
+    <% } %>
+
+</div>
+
+
+
 <div class="container">
     <div class="privacy-content">
-        
-        <!-- Introduction -->
-        <div class="section">
-            <h3><i class="fas fa-info-circle"></i> 1. Introduction</h3>
-            <p>SIDDHIVINAYAK EVENT respects your privacy and is committed to protecting your personal information. This Privacy Policy outlines the types of information we collect, how it is used, and the measures we take to ensure it remains secure.</p>
-            <p>We collect only the information necessary to provide our services effectively and to improve your overall experience. Your trust is important to us, and we are transparent about how your data is handled.</p>
-            <p>By using our website and services, you acknowledge that you have read, understood, and agree to the practices described in this Privacy Policy.</p>
-        </div>
 
-        <!-- Information Collection -->
-        <div class="section">
-            <h3><i class="fas fa-database"></i> 2. Information We Collect</h3>
-            <ul>
-                <li><i class="fas fa-user"></i> Name, email address, phone number</li>
-                <li><i class="fas fa-calendar-alt"></i> Event details and preferences</li>
-                <li><i class="fas fa-credit-card"></i> Payment information (processed securely)</li>
-                <li><i class="fas fa-comments"></i> Communication records</li>
-                <li><i class="fas fa-map-marker-alt"></i> Event location details</li>
-            </ul>
-        </div>
+        <% 
+        // 🔹 Title → Icon Mapping
+        const iconMap = {
+            "Information We Collect": "fa-database",
+            "How We Use Information": "fa-cogs",
+            "Data Security": "fa-lock",
+            "Cookies Policy": "fa-cookie-bite",
+            "Third Party Sharing": "fa-users",
+            "User Rights": "fa-user-shield",
+            "Contact Us": "fa-envelope"
+        };
+        %>
 
-        <!-- How We Use Information -->
-        <div class="section">
-            <h3><i class="fas fa-cogs"></i> 3. How We Use Your Information</h3>
-            <ul>
-                <li><i class="fas fa-tasks"></i> To provide event planning services</li>
-                <li><i class="fas fa-comment-dots"></i> To communicate about your events</li>
-                <li><i class="fas fa-money-bill-wave"></i> To process payments</li>
-                <li><i class="fas fa-chart-line"></i> To improve our services</li>
-                <li><i class="fas fa-shield-alt"></i> To prevent fraud</li>
-            </ul>
-        </div>
+        <% if (reports && reports.length > 0) { %>
 
-        <!-- Data Security -->
-        <div class="section">
-            <h3><i class="fas fa-lock"></i> 4. Data Security</h3>
-            <p>We use industry-standard security measures to protect your data:</p>
-            <ul>
-                <li><i class="fas fa-key"></i> Secure data transmission (SSL encryption)</li>
-                <li><i class="fas fa-user-lock"></i> Limited access to personal information</li>
-                <li><i class="fas fa-search"></i> Regular security audits</li>
-                <li><i class="fas fa-shield-check"></i> Secure payment processing</li>
-                <li><i class="fas fa-database"></i> Encrypted data storage</li>
-            </ul>
-        </div>
+            <% reports.forEach(report => { %>
+                <div class="section mb-4">
 
-        <!-- Third Party Sharing -->
-        <div class="section">
-            <h3><i class="fas fa-share-alt"></i> 5. Third Party Sharing</h3>
-            <p>We do not sell your personal information. We only share information with:</p>
-            <ul>
-                <li><i class="fas fa-handshake"></i> Service providers essential for your event</li>
-                <li><i class="fas fa-gavel"></i> When required by law</li>
-                <li><i class="fas fa-check-circle"></i> With your consent</li>
-                <li><i class="fas fa-exchange-alt"></i> Business transfer situations</li>
-            </ul>
-        </div>
+                    <!-- 🔹 Section Title with Dynamic Icon (white color) -->
+                    <h3>
+                        <i class="fas <%= iconMap[report.section_title] || 'fa-shield-alt' %> me-2 text-white"></i>
+                        <%= report.section_no %>. <%= report.section_title %>
+                    </h3>
 
-        <!-- Your Rights -->
-        <div class="section">
-            <h3><i class="fas fa-user-check"></i> 6. Your Rights</h3>
-            <p>You have the right to:</p>
-            <ul>
-                <li><i class="fas fa-eye"></i> Access your personal information</li>
-                <li><i class="fas fa-edit"></i> Correct inaccurate information</li>
-                <li><i class="fas fa-trash-alt"></i> Delete your information</li>
-                <li><i class="fas fa-ban"></i> Object to processing</li>
-                <li><i class="fas fa-download"></i> Data portability</li>
-                <li><i class="fas fa-times-circle"></i> Withdraw consent</li>
-            </ul>
-        </div>
+                    <!-- 🔹 Section Content -->
+                    <p>
+                        <% 
+                            const lines = report.section_content.split(/\r?\n/);
+                            lines.forEach(line => { 
+                        %>
+                            <span style="display:inline-block; width:100%;">
+                                <i class="fas fa-check-circle me-2 text-secondary"></i>
+                                <%= line %>
+                            </span><br>
+                        <% }) %>
+                    </p>
 
-        <!-- Cookies -->
-        <div class="section">
-            <h3><i class="fas fa-cookie-bite"></i> 7. Cookies Policy</h3>
-            <p>We use cookies to improve your browsing experience:</p>
-            <ul>
-                <li><i class="fas fa-check"></i> Essential cookies for website functionality</li>
-                <li><i class="fas fa-chart-bar"></i> Analytics cookies to understand usage</li>
-                <li><i class="fas fa-bell"></i> Preference cookies to remember settings</li>
-            </ul>
-            <p>You can control cookies through your browser settings.</p>
-        </div>
-
-        <!-- Contact -->
-        <div class="section">
-            <h3><i class="fas fa-envelope-open-text"></i> 8. Contact Us</h3>
-            <p>For privacy-related questions or concerns:</p>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-phone-alt"></i>
-                    <div>
-                        <strong>Phone</strong><br>
-                        <a href="tel:+919876543210">+91 98765 43210</a>
-                        <small class="text-muted d-block">Available: 9 AM - 8 PM</small>
-                    </div>
                 </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <strong>Email</strong><br>
-                        <a href="mailto:siddhivinayakevents@gmail.com">siddhivinayakevents@gmail.com</a>
-                        <small class="text-muted d-block">Response within 24 hours</small>
-                    </div>
-                </div>
-            <div class="contact-item">
-                <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <strong>Address</strong><br>
-                        <a href="https://www.google.com/maps?q=A2Z%20IT%20Hub%20Ahilyanagar" target="_blank">
-                            Ahilaynagar, Maharashtra, India
-                        </a>
-                        <small class="text-muted d-block">Click to view on map</small>
-                    </div>
+            <% }) %>
+
+        <% } else { %>
+            <p>No privacy policy content available.</p>
+        <% } %>
+
+               <!-- Contact -->
+<div class="section">
+    <h3><i class="fas fa-envelope-open-text"></i> 8. Contact Us</h3>
+    <p>For privacy-related questions or concerns:</p>
+
+    <% if (contact) { %>
+    <div class="contact-info">
+
+        <div class="contact-item">
+            <i class="fas fa-phone-alt"></i>
+            <div>
+                <strong>Phone</strong><br>
+                <a href="tel:<%= contact.contact_phone %>">
+                    <%= contact.contact_phone %>
+                </a>
+                <small class="text-muted d-block">
+                    Available: <%= contact.contact_availability %>
+                </small>
             </div>
         </div>
+
+        <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+                <strong>Email</strong><br>
+                <a href="mailto:<%= contact.contact_email %>">
+                    <%= contact.contact_email %>
+                </a>
+                <small class="text-muted d-block">
+                    Response: <%= contact.contact_response_time %>
+                </small>
+            </div>
+        </div>
+
+        <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+                <strong>Address</strong><br>
+                <span><%= contact.contact_address %></span>
+            </div>
+        </div>
+
+    </div>
+    <% } %>
+</div>
     </div>
 </div>
 
-        <!-- Back to Home -->
-        <div class="text-center mt-5 mb-5">
-            <a href="/" class="btn btn-primary btn-lg">
-                <i class="fas fa-home me-2"></i> Back to Home
-            </a>
-        </div>
+
+  
 
     </div>
+
+    
+</div>
+
+
+
+
+
 </div>
 
 <%- include('footer.ejs') %>
