@@ -3,18 +3,19 @@
         <div class="row">
             <div class="col-lg-4 mb-5 mb-lg-0">
                 <a href="/" class="footer-logo">
-                    SIDDHININAYAK <span> EVENTS </span>
+                    <%= social_links[0].title %> <span> EVENTS </span>
                 </a>
                 <div class="footer-about">
-                    <p>Creating memorable experiences through professional event management. Let us help you bring
-                        your vision to life with our expert planning and coordination services.</p>
+                    <p>
+                        <%= social_links[0].description %>
+                    </p>
                 </div>
                 <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="<%= social_links[0].facebook %>" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="<%= social_links[0].twitter %>" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="<%= social_links[0].instagram %>" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="<%= social_links[0].linkedin %>" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="<%= social_links[0].youtube %>" class="social-link"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
 
@@ -61,21 +62,19 @@
                         <li>
                             <i class="fas fa-map-marker-alt"></i>
                             <span>
-                                Siddhivinayak Event Management,<br>
-                                BalikAshram Road, Near A2Z IT HUB,<br>
-                                Ahilyanagar, Maharashtra – 414601
+                                <%= contact_info[0].address %>
                             </span>
                         </li>
 
                         <li>
                             <i class="bi bi-telephone-fill"></i>
-                            <a href="tel:+919876543210">+91 98765 43210</a>
+                            <a href="tel:+91<%= contact_info[0].phone %>">+91 <%= contact_info[0].phone %></a>
                         </li>
 
                         <li>
                             <i class="fas fa-envelope"></i>
-                            <a href="mailto:siddhivinayakevents@gmail.com">
-                                siddhivinayak@gmail.com
+                            <a href="mailto:<%= contact_info[0].email %>">
+                                <%= contact_info[0].email %>
                             </a>
                         </li>
                     </ul>
@@ -88,9 +87,8 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2026 Siddhivinayak Events. All rights reserved. | Designed with <i
-                    class="fas fa-heart text-danger"></i>
-                for event management</p>
+            <p>&copy; <%= social_links[0].copywrite %>
+            </p>
         </div>
     </div>
 </footer>
