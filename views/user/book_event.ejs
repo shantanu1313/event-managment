@@ -121,12 +121,7 @@ document.getElementById("submitBtn").addEventListener("click", function () {
     document.getElementById("bookEventForm").submit();
   });
 });
-</script>
 
-<%- include('./footer.ejs') %>
-
-<<<<<<< HEAD
-=======
         if (!startDate || !endDate) {
             Swal.fire("Missing Date", "Please select start & end date", "warning");
             return;
@@ -177,6 +172,7 @@ ${message.value}`;
                 );
             }
         });
-    });
-    </script>
->>>>>>> b033974fe16c1581d59951bf46bbcf215f578799
+  
+</script>
+
+<%- include('./footer.ejs') %>
