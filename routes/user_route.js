@@ -334,17 +334,25 @@ router.get("/user_registeration", async function (req, res) {
   res.render("user/register.ejs", { social_links, contact_info });
 });
 
-router.get("/book_event", async function (req, res) {
-  var social_links = await exe("SELECT * FROM social_links");
-  const contact_info = await exe("SELECT * FROM contact_info");
+router.get("/book_event", async (req, res) => {
   if (req.session && req.session.user) {
-    res.render("book_event.ejs", {
-      user: req.session.user,
-      social_links,
-      contact_info
-    });
-  } else {
-    res.redirect("/login");
+    try {
+      const mobile = await exe(
+        "SELECT mobile_no FROM book_event_mobile WHERE id = 1"
+
+      );
+      var social_links = await exe("SELECT * FROM social_links");
+      const contact_info = await exe("SELECT * FROM contact_info");
+      res.render("user/book_event.ejs", {
+        mobile: mobile,
+        social_links: social_links,
+        contact_info: contact_info
+      });
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Server Error");
+    }
   }
 });
 
@@ -626,6 +634,44 @@ router.post("/profile/update", async function (req, res) {
     res.status(500).redirect("/profile?status=error");
   }
 });
+
+router.post("/book_event", async (req, res) => {
+  try {
+    const {
+      name,
+      mobile,
+      start_date,
+      end_date,
+      event_type,
+      budget,
+      message
+    } = req.body;
+
+    const sql = `
+            INSERT INTO book_event
+            (name, mobile, start_date, end_date, event_type, budget, message)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+
+    await exe(sql, [
+      name,
+      mobile,
+      start_date,
+      end_date,
+      event_type,
+      budget,
+      message
+    ]);
+
+    // ✅ after successful save
+    res.redirect("/");
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+});
+
 
 
 
