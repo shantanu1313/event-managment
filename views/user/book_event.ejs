@@ -94,15 +94,25 @@
             return;
         }
 
-        const whatsappText = `📌 New Event Booking
+        
 
-    👤 Name: ${name.value}
-    📞 Mobile: ${mobile.value}
-    🎉 Event: ${eventType.value}
-    📅 ${startDate.value} to ${endDate.value}
-    💰 Budget: ${budget.value}
+const name = document.getElementById("name");
+const mobile = document.getElementById("mobile");
+const eventType = document.getElementById("eventType");
+const budget = document.getElementById("budget");
+const message = document.getElementById("message");
 
-    📝 ${message.value}`;
+const whatsappText = `📌 *New Event Booking BY  ${name.value} 🎉
+
+👤 Name: ${name.value}
+📞 Mobile: ${mobile.value}
+🎉 Event: ${eventType.value}
+
+📅 ${startDate} to ${endDate}
+💰 Budget: ${budget.value}
+
+📝 Message:
+${message.value}`;
 
         Swal.fire({
             title: "How do you want to submit?",
@@ -119,7 +129,7 @@
             // ✅ WhatsApp only if confirmed
             if (result.isConfirmed) {
                 window.open(
-                    "https://wa.me/917823867123?text=" + encodeURIComponent(whatsappText),
+                    "https://wa.me/91<%= mobile && mobile.length > 0 ? mobile[0].mobile_no : 'Not Set' %>?text=" + encodeURIComponent(whatsappText),
                     "_blank"
                 );
             }

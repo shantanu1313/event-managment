@@ -20,8 +20,6 @@ router.get("/", async function (req, res) {
   var sql6 = "SELECT * FROM social_links";
   var social_links = await exe(sql6);
 
-
-
   res.render('user/home.ejs', { data, home_slider, home_our_story, choose_us, service, testimonials, social_links });
 });
 
@@ -297,13 +295,21 @@ router.get("/user_registeration", function (req, res) {
   res.render("user/register.ejs");
 });
 
-router.get("/book_event", (req, res) => {
+router.get("/book_event",async (req, res) => {
   if (req.session && req.session.user) {
-    res.render("book_event.ejs", {
-      user: req.session.user
-    });
-  } else {
-    res.redirect("/login");
+     try {
+        const mobile = await exe(
+            "SELECT mobile_no FROM book_event_mobile WHERE id = 1"
+        );
+
+        res.render("user/book_event.ejs", {
+            mobile: mobile   
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server Error");
+    }
   }
 });
 
@@ -554,6 +560,44 @@ router.post("/profile/update", async function (req, res) {
     res.status(500).redirect("/profile?status=error");
   }
 });
+
+router.post("/book_event", async (req, res) => {
+    try {
+        const {
+            name,
+            mobile,
+            start_date,
+            end_date,
+            event_type,
+            budget,
+            message
+        } = req.body;
+
+        const sql = `
+            INSERT INTO book_event
+            (name, mobile, start_date, end_date, event_type, budget, message)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        await exe(sql, [
+            name,
+            mobile,
+            start_date,
+            end_date,
+            event_type,
+            budget,
+            message
+        ]);
+
+        // ✅ after successful save
+        res.redirect("/");
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 
 router.get("/footer", async (req, res) => {
