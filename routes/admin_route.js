@@ -1156,8 +1156,10 @@ router.get("/faq", function (req, res) {
     res.render('admin/faq.ejs');
 });
 
-router.get("/policy", function (req, res) {
-    res.render('admin/policy.ejs');
+router.get("/policy", async function (req, res) {
+    var sql = `SELECT * FROM privacy_policy`;
+    var policies = await exe(sql);
+    res.render('admin/policy.ejs', { policies });
 });
 router.get("/faq", function (req, res) {
     res.render('admin/faq.ejs');

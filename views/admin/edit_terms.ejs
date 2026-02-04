@@ -6,16 +6,56 @@
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   }
-  .terms-card h4 { color: #6a11cb; font-weight: 600; }
-  .form-label { font-weight: 600; }
+  .terms-card h4 {
+    color: #6a11cb;
+    font-weight: 600;
+  }
+  .form-label {
+    font-weight: 600;
+  }
   .btn-gradient {
     background: linear-gradient(135deg, #6a11cb, #2575fc);
     color: #fff;
     border: none;
   }
+  .btn-gradient:hover {
+    opacity: 0.9;
+  }
 </style>
+    
+<main class="main-content">
 
-<div class="container mt-4">
+        <header class="top-navbar">
+            <div class="page-title">
+                <h1>Dashboard Overview</h1>
+                <p>Welcome back! Here's what's happening with your events today.</p>
+            </div>
+            
+            <div class="navbar-right">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search events, clients, payments...">
+                </div>
+                
+                <div class="navbar-icons">
+                    <div class="nav-icon">
+                        <i class="far fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="far fa-envelope"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+
+        <div class="container mt-4">
   <div class="card terms-card p-4">
 
     <h4 class="mb-4">
@@ -59,10 +99,6 @@
   </div>
 </div>
 
-<!-- ✅ CKEDITOR CDN (ONLY ONE) -->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
-
-<!-- ✅ CKEDITOR INIT -->
 <script>
   const config = {
     toolbar: [
