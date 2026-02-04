@@ -295,18 +295,8 @@ router.get("/user_registeration", function (req, res) {
   res.render("user/register.ejs");
 });
 
-<<<<<<< HEAD
-router.get("/book_event", (req, res) => {
-    if (req.session && req.session.user) {
-        res.render("user/book_event.ejs", {
-            user: req.session.user,
-            event: req.query.event || "",
-            price: req.query.price || ""
-        });
-    } else {
-        res.redirect("/login");
-    }
-=======
+
+
 router.get("/book_event",async (req, res) => {
   if (req.session && req.session.user) {
      try {
@@ -315,7 +305,9 @@ router.get("/book_event",async (req, res) => {
         );
 
         res.render("user/book_event.ejs", {
-            mobile: mobile   
+            mobile: mobile, user: req.session.user,
+            event: req.query.event || "",
+            price: req.query.price || ""
         });
 
     } catch (err) {
@@ -323,7 +315,7 @@ router.get("/book_event",async (req, res) => {
         res.status(500).send("Server Error");
     }
   }
->>>>>>> b033974fe16c1581d59951bf46bbcf215f578799
+
 });
 
 router.post("/save_user", async function (req, res) {
