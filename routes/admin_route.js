@@ -4,9 +4,23 @@ var fs = require("fs");
 var path = require("path");
 var router = express.Router();
 
-router.get("/", function (req, res) {
-    res.render('admin/dashboard.ejs');
+router.get("/", async (req, res) => {
+    try {
+        const mobile = await exe(
+            "SELECT mobile_no FROM book_event_mobile WHERE id = 1"
+        );
+
+        res.render("admin/dashboard", {
+            mobile: mobile
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server Error");
+    }
 });
+
+
 
 router.get("/home/home_slider", async function (req, res) {
     var sql = "SELECT * FROM home_slider";
@@ -168,59 +182,59 @@ router.get("/home/delete_choose_us/:id", async function (req, res) {
     };
 });
 
-router.get("/about/slider",async function(req,res){
-     const data = await exe("SELECT * FROM about_header LIMIT 1");
-     res.render("admin/about/about_slider.ejs", { about_header: data[0] || null});
+router.get("/about/slider", async function (req, res) {
+    const data = await exe("SELECT * FROM about_header LIMIT 1");
+    res.render("admin/about/about_slider.ejs", { about_header: data[0] || null });
 })
 
-router.post("/about-header/save", async function(req, res) {
-   
-        const d = req.body;
-        let FileName = "";
+router.post("/about-header/save", async function (req, res) {
 
-        // Get old record if exists
-        const oldRecord = await exe("SELECT * FROM about_header LIMIT 1");
-        const fs = require("fs");
+    const d = req.body;
+    let FileName = "";
 
-        if(req.files && req.files.image){
-            const image = req.files.image;
-            FileName = Date.now() + "_" + image.name.replace(/\s/g, "_");
-            await image.mv("public/upload/about/" + FileName);
+    // Get old record if exists
+    const oldRecord = await exe("SELECT * FROM about_header LIMIT 1");
+    const fs = require("fs");
 
-            // Delete old image file if exists
-            if(oldRecord.length > 0){
-                const oldImage = oldRecord[0].image;
-                if(oldImage && fs.existsSync("public/upload/about/" + oldImage)){
-                    fs.unlinkSync("public/upload/about/" + oldImage);
-                }
+    if (req.files && req.files.image) {
+        const image = req.files.image;
+        FileName = Date.now() + "_" + image.name.replace(/\s/g, "_");
+        await image.mv("public/upload/about/" + FileName);
+
+        // Delete old image file if exists
+        if (oldRecord.length > 0) {
+            const oldImage = oldRecord[0].image;
+            if (oldImage && fs.existsSync("public/upload/about/" + oldImage)) {
+                fs.unlinkSync("public/upload/about/" + oldImage);
             }
-        } else if(oldRecord.length > 0){
-            FileName = oldRecord[0].image; // keep old image if new not uploaded
         }
+    } else if (oldRecord.length > 0) {
+        FileName = oldRecord[0].image; // keep old image if new not uploaded
+    }
 
-        if(oldRecord.length > 0){
-            // Update existing record
-            await exe(
-                "UPDATE about_header SET title = ?, subtitle = ?, image = ? WHERE id = ?",
-                [d.title, d.subtitle, FileName, oldRecord[0].id]
-            );
-        } else {
-            // Insert new record
-            await exe(
-                "INSERT INTO about_header(title, subtitle, image) VALUES (?, ?, ?)",
-                [d.title, d.subtitle, FileName]
-            );
-        }
+    if (oldRecord.length > 0) {
+        // Update existing record
+        await exe(
+            "UPDATE about_header SET title = ?, subtitle = ?, image = ? WHERE id = ?",
+            [d.title, d.subtitle, FileName, oldRecord[0].id]
+        );
+    } else {
+        // Insert new record
+        await exe(
+            "INSERT INTO about_header(title, subtitle, image) VALUES (?, ?, ?)",
+            [d.title, d.subtitle, FileName]
+        );
+    }
 
-        res.redirect("/admin/about/slider");
+    res.redirect("/admin/about/slider");
 
-   
-    
+
+
 });
 
-router.get("/about/our_story",async function(req,res){
+router.get("/about/our_story", async function (req, res) {
     const data1 = await exe("SELECT * FROM our_story LIMIT 1");
-    res.render("admin/about/our_story.ejs",{story: data1[0] || null});
+    res.render("admin/about/our_story.ejs", { story: data1[0] || null });
 })
 
 router.post("/our-story/save", async function (req, res) {
@@ -320,11 +334,11 @@ router.post("/our-story/save", async function (req, res) {
 });
 
 router.get("/about/vision_mission", async function (req, res) {
-  const vm = await exe(
-    "SELECT * FROM vision_mission WHERE status = 1 ORDER BY FIELD(type,'mission','vision')"
-  );
+    const vm = await exe(
+        "SELECT * FROM vision_mission WHERE status = 1 ORDER BY FIELD(type,'mission','vision')"
+    );
 
-  res.render("admin/about/missio_vision.ejs", { vision_mission: vm });
+    res.render("admin/about/missio_vision.ejs", { vision_mission: vm });
 });
 
 router.get("/about/core-values", async function (req, res) {
@@ -409,28 +423,28 @@ router.post("/core-values/save", async function (req, res) {
 });
 
 
-router.get("/about/our_evolution",function(req,res){
+router.get("/about/our_evolution", function (req, res) {
     res.render("admin/about/our_evolution.ejs")
 })
 
 router.post("/about/save_evolution", async (req, res) => {
-    
-        const { year, title, description, status } = req.body;
 
-        // Insert into journey_timeline table
-        const sql = `
+    const { year, title, description, status } = req.body;
+
+    // Insert into journey_timeline table
+    const sql = `
             INSERT INTO journey_timeline (year, title, description, status)
             VALUES (?, ?, ?, ?)
         `;
-        await exe(sql, [year, title, description, status]);
+    await exe(sql, [year, title, description, status]);
 
-        // Redirect to list page after insert
-        res.redirect("/admin/about/our_evolution-list");
-    
+    // Redirect to list page after insert
+    res.redirect("/admin/about/our_evolution-list");
+
 });
 
 
-router.get("/about/our_evolution-list",  async function (req, res){
+router.get("/about/our_evolution-list", async function (req, res) {
 
     const timeline = await exe(
         "SELECT * FROM journey_timeline ORDER BY year ASC"
@@ -442,59 +456,60 @@ router.get("/about/our_evolution-list",  async function (req, res){
 });
 
 router.get("/about/our_evolution/edit/:id", async (req, res) => {
-   
-        const id = req.params.id;
-        const sql = "SELECT * FROM journey_timeline WHERE id = ?";
-        const timeline = await exe(sql, [id]);
 
-        if (!timeline || timeline.length === 0) {
-            return res.status(404).send("Timeline not found");
-        }
+    const id = req.params.id;
+    const sql = "SELECT * FROM journey_timeline WHERE id = ?";
+    const timeline = await exe(sql, [id]);
 
-        res.render("admin/about/our_evolution-edit.ejs", {
-            timeline: timeline[0]});
-        });
-    
+    if (!timeline || timeline.length === 0) {
+        return res.status(404).send("Timeline not found");
+    }
+
+    res.render("admin/about/our_evolution-edit.ejs", {
+        timeline: timeline[0]
+    });
+});
+
 router.post("/update/our_evolution/update/:id", async (req, res) => {
-  
-        const id = req.params.id;
-        const { year, title, description, status } = req.body;
 
-        const sql = `
+    const id = req.params.id;
+    const { year, title, description, status } = req.body;
+
+    const sql = `
             UPDATE journey_timeline
             SET year = ?, title = ?, description = ?, status = ?
             WHERE id = ?
         `;
-        await exe(sql, [year, title, description, status, id]);
+    await exe(sql, [year, title, description, status, id]);
 
-        res.redirect("/admin/about/our_evolution-list");
-    
+    res.redirect("/admin/about/our_evolution-list");
+
 });
 
 
 // HARD DELETE journey timeline
 router.get("/about/our_evolution/delete/:id", async (req, res) => {
-   
-        const id = req.params.id;
 
-        const sql = "DELETE FROM journey_timeline WHERE id = ?";
-        await exe(sql, [id]);
+    const id = req.params.id;
 
-        res.redirect("/admin/about/our_evolution-list");
-   
+    const sql = "DELETE FROM journey_timeline WHERE id = ?";
+    await exe(sql, [id]);
+
+    res.redirect("/admin/about/our_evolution-list");
+
 });
 
-router.get("/about/add_team",function(req,res){
+router.get("/about/add_team", function (req, res) {
     res.render("admin/about/add_team.ejs")
 })
 
-router.post("/about/leadership-team/add", async function(req, res){
+router.post("/about/leadership-team/add", async function (req, res) {
 
     var d = req.body;
     var FileName = "";
 
-    
-    if(req.files && req.files.image){
+
+    if (req.files && req.files.image) {
         FileName = Date.now() + "_" + req.files.image.name;
         await req.files.image.mv("public/upload/about/" + FileName);
     }
@@ -526,11 +541,12 @@ router.get("/about/team_list", async (req, res) => {
     );
 
     res.render("admin/about/team_list.ejs", {
-        leadership});
+        leadership
+    });
 });
 
 
-router.get("/about/team/edit/:id", async function(req, res){
+router.get("/about/team/edit/:id", async function (req, res) {
 
     const id = req.params.id;
 
@@ -545,7 +561,7 @@ router.get("/about/team/edit/:id", async function(req, res){
 });
 
 
-router.post("/about/team/update/:id", async function(req, res){
+router.post("/about/team/update/:id", async function (req, res) {
 
     const id = req.params.id;
     const d = req.body;
@@ -559,8 +575,8 @@ router.post("/about/team/update/:id", async function(req, res){
     const oldImage = data[0].image;
 
     // 2️⃣ New image upload
-    if(req.files && req.files.image){
-        newFileName = Date.now() + "_" + req.files.image.name.replace(/\s/g,"_");
+    if (req.files && req.files.image) {
+        newFileName = Date.now() + "_" + req.files.image.name.replace(/\s/g, "_");
 
         const uploadPath = path.join(
             __dirname,
@@ -571,13 +587,13 @@ router.post("/about/team/update/:id", async function(req, res){
         await req.files.image.mv(uploadPath);
 
         // delete old image
-        if(oldImage){
+        if (oldImage) {
             const oldPath = path.join(
                 __dirname,
                 "../public/upload/about/",
                 oldImage
             );
-            if(fs.existsSync(oldPath)){
+            if (fs.existsSync(oldPath)) {
                 fs.unlinkSync(oldPath);
             }
         }
@@ -612,37 +628,37 @@ router.post("/about/team/update/:id", async function(req, res){
     res.redirect("/admin/about/team_list");
 });
 
-router.get("/about/team/delete/:id", async function(req, res){
+router.get("/about/team/delete/:id", async function (req, res) {
 
     const id = req.params.id;
 
-   
+
     const data = await exe(
         "SELECT image FROM leadership_team WHERE id = ?",
         [id]
     );
 
-    
-    if(data.length > 0 && data[0].image){
+
+    if (data.length > 0 && data[0].image) {
         const imagePath = path.join(
             __dirname,
             "../public/upload/about/",
             data[0].image
         );
 
-        if(fs.existsSync(imagePath)){
+        if (fs.existsSync(imagePath)) {
             fs.unlinkSync(imagePath);
         }
     }
 
-  
+
     await exe(
         "DELETE FROM leadership_team WHERE id = ?",
         [id]
     );
 
-   
-     res.redirect("/admin/about/team_list");
+
+    res.redirect("/admin/about/team_list");
 });
 
 
@@ -1569,21 +1585,21 @@ router.get("/delete_contact_form/:id", async (req, res) => {
 
 
 
-router.get("/header_packages", async function(req, res) {
+router.get("/header_packages", async function (req, res) {
     try {
         var sql = `SELECT * FROM header_packages ORDER BY created_at DESC`;
         const header = await exe(sql);
-        
+
         res.render('admin/packages/header.ejs', {
-            header: header || [], 
+            header: header || [],
             title: 'Header Packages',
             success: req.query.success || "",
             error: req.query.error || ""
-        });   
+        });
     } catch (error) {
         console.error("Error fetching header packages:", error);
         res.render('admin/packages/header.ejs', {
-            header: [], 
+            header: [],
             title: 'Header Packages - Error',
             success: "",
             error: 'Failed to load header packages: ' + error.message
@@ -1609,9 +1625,9 @@ router.post("/save_header_package", async function (req, res) {
         await exe(sql, [
             filename,
             d.title,
-            d.description 
+            d.description
         ]);
-    
+
 
         res.redirect("/admin/header_packages")
     } catch (err) {
@@ -1621,13 +1637,13 @@ router.post("/save_header_package", async function (req, res) {
 });
 
 
-router.get("/delete_header_package/:id", async function(req, res) {
+router.get("/delete_header_package/:id", async function (req, res) {
     try {
         const { id } = req.params;
         var sql = `DELETE FROM header_packages WHERE id = ?`;
-         result = await exe(sql, [id]);
-        
-        if (result> 0) {
+        result = await exe(sql, [id]);
+
+        if (result > 0) {
             res.redirect("/admin/header_packages")
         } else {
             res.status(404).json({
@@ -1644,12 +1660,12 @@ router.get("/delete_header_package/:id", async function(req, res) {
     }
 });
 
-router.get("/edit_header/:id", async function(req, res) {
+router.get("/edit_header/:id", async function (req, res) {
     try {
         const { id } = req.params;
         var sql = `SELECT * FROM header_packages WHERE id = ?`;
         const result = await exe(sql, [id]);
-        
+
         if (result && result.length > 0) {
             res.render('admin/packages/edit_header.ejs', {
                 headerPackage: result[0],
@@ -1670,7 +1686,7 @@ router.post("/update_header_package/:id", async function (req, res) {
     try {
         const d = req.body;
         const id = req.params.id;
-       let filename = d.old_bg_image;
+        let filename = d.old_bg_image;
 
         // if new image uploaded
         if (req.files && req.files.bg_image) {
@@ -1797,7 +1813,7 @@ router.get("/add_packages", async function (req, res) {
     }
 });
 
-      
+
 
 router.post("/save_packages", async function (req, res) {
     try {
@@ -1809,13 +1825,13 @@ router.post("/save_packages", async function (req, res) {
             var file = req.files.bg_image;
             var fileExt = file.name.split('.').pop();
             filename = Date.now() + "_" + Math.random().toString(36).substring(7) + "." + fileExt;
-            
+
             // Create directory if it doesn't exist
             var uploadDir = "public/upload/packages/";
             if (!fs.existsSync(uploadDir)) {
                 fs.mkdirSync(uploadDir, { recursive: true });
             }
-            
+
             await file.mv(uploadDir + filename);
         }
 
@@ -1829,8 +1845,8 @@ router.post("/save_packages", async function (req, res) {
         var featuresArray = [];
         if (d.feature_included) {
             try {
-                featuresArray = typeof d.feature_included === 'string' 
-                    ? JSON.parse(d.feature_included) 
+                featuresArray = typeof d.feature_included === 'string'
+                    ? JSON.parse(d.feature_included)
                     : d.feature_included;
             } catch (error) {
                 featuresArray = [];
@@ -1875,20 +1891,20 @@ router.post("/save_packages", async function (req, res) {
 router.get("/edit_package/:id", async function (req, res) {
     try {
         const packageId = req.params.id;
-        
+
         // Fetch package data
         const sql = "SELECT * FROM packages WHERE id = ?";
         const result = await exe(sql, [packageId]);
-        
+
         if (result.length === 0) {
             return res.status(404).send("Package not found");
         }
-        
+
         let package = result[0];
-        
+
         // DEBUG: Log what we get from database
         console.log("Database result:", package);
-        
+
         // Parse feature_included
         if (package.feature_included) {
             try {
@@ -1911,7 +1927,7 @@ router.get("/edit_package/:id", async function (req, res) {
         } else {
             package.feature_included = [];
         }
-        
+
         // Parse support
         if (package.support) {
             try {
@@ -1925,17 +1941,17 @@ router.get("/edit_package/:id", async function (req, res) {
         } else {
             package.support = [];
         }
-        
+
         // DEBUG: Log parsed data
         console.log("Parsed feature_included:", package.feature_included);
         console.log("Type of feature_included:", typeof package.feature_included);
-        
+
         // Render the edit page
         res.render("admin/packages/edit_package.ejs", {
             package: package,
             title: "Edit Package"
         });
-        
+
     } catch (err) {
         console.error("Error in edit_packages route:", err);
         res.status(500).send("Server Error: " + err.message);
@@ -1946,7 +1962,7 @@ router.post("/update_packages/:id", async function (req, res) {
     try {
         var packageId = req.params.id;
         var d = req.body;
-        
+
         // Validate package ID
         if (!packageId || isNaN(packageId)) {
             return res.status(400).send("Invalid package ID");
@@ -1955,7 +1971,7 @@ router.post("/update_packages/:id", async function (req, res) {
         // Fetch existing package data
         var getSql = "SELECT * FROM packages WHERE id = ?";
         var existingPackage = await exe(getSql, [packageId]);
-        
+
         if (existingPackage.length === 0) {
             return res.status(404).send("Package not found");
         }
@@ -1966,24 +1982,24 @@ router.post("/update_packages/:id", async function (req, res) {
         // Handle file upload
         if (req.files && req.files.bg_image) {
             var file = req.files.bg_image;
-            
+
             // Validate file type (optional)
             var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
             var fileExt = file.name.split('.').pop().toLowerCase();
-            
+
             if (!allowedExtensions.includes(fileExt)) {
                 return res.status(400).send("Invalid file type. Allowed: " + allowedExtensions.join(', '));
             }
-            
+
             // Generate unique filename
             filename = Date.now() + "_" + Math.random().toString(36).substring(7) + "." + fileExt;
-            
+
             // Create directory if it doesn't exist
             var uploadDir = "public/upload/packages/";
             if (!fs.existsSync(uploadDir)) {
                 fs.mkdirSync(uploadDir, { recursive: true });
             }
-            
+
             // Delete old image if it exists and is not default
             if (currentData.bg_image && currentData.bg_image !== 'default.jpg') {
                 var oldImagePath = uploadDir + currentData.bg_image;
@@ -1991,7 +2007,7 @@ router.post("/update_packages/:id", async function (req, res) {
                     fs.unlinkSync(oldImagePath);
                 }
             }
-            
+
             await file.mv(uploadDir + filename);
         }
 
@@ -2005,8 +2021,8 @@ router.post("/update_packages/:id", async function (req, res) {
         var featuresArray = [];
         if (d.feature_included) {
             try {
-                featuresArray = typeof d.feature_included === 'string' 
-                    ? JSON.parse(d.feature_included) 
+                featuresArray = typeof d.feature_included === 'string'
+                    ? JSON.parse(d.feature_included)
                     : d.feature_included;
             } catch (error) {
                 console.error("Error parsing features:", error);
@@ -2062,7 +2078,7 @@ router.get("/delete_package/:id", async function (req, res) {
         var id = req.params.id;
         var checkSql = "SELECT bg_image FROM packages WHERE id = ?";
         var existing = await exe(checkSql, [id]);
-        
+
         if (existing.length > 0 && existing[0].bg_image) {
             // Delete image file
             var imagePath = "public/upload/packages/" + existing[0].bg_image;
@@ -2070,11 +2086,11 @@ router.get("/delete_package/:id", async function (req, res) {
                 fs.unlinkSync(imagePath);
             }
         }
-        
+
         // Delete from database
         var deleteSql = "DELETE FROM packages WHERE id = ?";
         await exe(deleteSql, [id]);
-        
+
         res.redirect("/admin/add_packages");
     } catch (err) {
         console.error("Error deleting package:", err);
@@ -2138,12 +2154,12 @@ router.get("/delete_feature/:id", async function (req, res) {
     }
 });
 
-router.get("/edit_feature/:id", async function(req, res) {
+router.get("/edit_feature/:id", async function (req, res) {
     try {
         const { id } = req.params;
         var sql = `SELECT * FROM features WHERE id = ?`;
         const result = await exe(sql, [id]);
-        
+
         if (result && result.length > 0) {
             res.render('admin/packages/edit_features.ejs', {
                 feature: result[0],
@@ -2181,21 +2197,21 @@ router.post("/update_features_package/:id", async function (req, res) {
 });
 
 
-router.get("/header_faq", async function(req, res) {
+router.get("/header_faq", async function (req, res) {
     try {
         var sql = `SELECT * FROM header_faq ORDER BY created_at DESC`;
         const faq = await exe(sql);
-        
+
         res.render('admin/faq/add_header_faq.ejs', {
-            headers: faq || [], 
+            headers: faq || [],
             title: 'Header Packages',
             success: req.query.success || "",
             error: req.query.error || ""
-        });   
+        });
     } catch (error) {
         console.error("Error fetching header faq:", error);
         res.render('admin/packages/add_header.ejs', {
-            faq: [], 
+            faq: [],
             title: 'Header faq - Error',
             success: "",
             error: 'Failed to load header faq : ' + error.message
@@ -2221,7 +2237,7 @@ router.post("/save_faq_header", async function (req, res) {
         await exe(sql, [
             filename,
             d.title,
-            d.description 
+            d.description
         ]);
         res.redirect("/admin/header_faq")
     } catch (err) {
@@ -2231,7 +2247,7 @@ router.post("/save_faq_header", async function (req, res) {
 });
 
 
-router.get("/delete_header_faq/:id", async function(req, res) {
+router.get("/delete_header_faq/:id", async function (req, res) {
     try {
         const { id } = req.params;
         var sql = `DELETE FROM  header_faq WHERE id = ?`;
@@ -2254,12 +2270,12 @@ router.get("/delete_header_faq/:id", async function(req, res) {
 });
 
 
-router.get("/edit_faq_header/:id", async function(req, res) {
+router.get("/edit_faq_header/:id", async function (req, res) {
     try {
         const { id } = req.params;
         var sql = `SELECT * FROM header_faq WHERE id = ?`;
         const result = await exe(sql, [id]);
-        
+
         if (result && result.length > 0) {
             res.render('admin/faq/edit_header_faq.ejs', {
                 headerPackage: result[0],
@@ -2278,7 +2294,7 @@ router.post("/update_header_faq/:id", async function (req, res) {
     try {
         const d = req.body;
         const id = req.params.id;
-       let filename = d.old_bg_image;
+        let filename = d.old_bg_image;
 
         // if new image uploaded
         if (req.files && req.files.bg_image) {
@@ -2311,21 +2327,21 @@ router.post("/update_header_faq/:id", async function (req, res) {
 });
 
 
-router.get("/add_faq", async function(req, res) {
+router.get("/add_faq", async function (req, res) {
     try {
         var sql = `SELECT * FROM faqs ORDER BY created_at DESC`;
         const faqs = await exe(sql);
-        
+
         res.render('admin/faq/add_faq.ejs', {
-            faqs: faqs || [], 
+            faqs: faqs || [],
             title: 'Header Packages',
             success: req.query.success || "",
             error: req.query.error || ""
-        });   
+        });
     } catch (error) {
         console.error("Error fetching  faq:", error);
         res.render('admin/faq/add_faq.ejs', {
-            faqs: [], 
+            faqs: [],
             title: 'Header faq - Error',
             success: "",
             error: 'Failed to load  faq : ' + error.message
@@ -2344,7 +2360,7 @@ router.post("/save_faq", async function (req, res) {
 
         await exe(sql, [
             d.answer,
-            d.question 
+            d.question
         ]);
         res.redirect("/admin/add_faq")
     } catch (err) {
@@ -2378,12 +2394,12 @@ router.get("/delete_faq/:id", async function (req, res) {
 });
 
 
-router.get("/edit_faq/:id", async function(req, res) {
+router.get("/edit_faq/:id", async function (req, res) {
     try {
         const { id } = req.params;
         var sql = `SELECT * FROM faqs WHERE id = ?`;
         const result = await exe(sql, [id]);
-        
+
         if (result && result.length > 0) {
             res.render('admin/faq/edit_faq.ejs', {
                 faq: result[0],
@@ -2496,6 +2512,33 @@ router.post("/save_social_links", async (req, res) => {
         res.send("Server Error");
     }
 });
+
+
+router.post("/edit_mobile_no", async (req, res) => {
+    try {
+        const { mobile_no } = req.body;
+
+        if (!mobile_no || mobile_no.length !== 10) {
+            return res.status(400).send("Invalid mobile number");
+        }
+
+        const sql = `
+            UPDATE book_event_mobile
+            SET mobile_no = ?
+            WHERE id = 1
+        `;
+
+        await exe(sql, [mobile_no]);
+
+        res.redirect("/admin");
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
 
 
 

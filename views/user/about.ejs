@@ -2,452 +2,457 @@
 
     <link rel="stylesheet" href="css/about.css">
 
-    
 
 
-        <!-- about Header -->
-        <% [about_header].map(function(index, i){ %>
-            <section class="about-header" style="background: linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
+
+    <!-- about Header -->
+    <% [about_header].map(function(index, i){ %>
+        <section class="about-header" style="background: linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
     url('/upload/about/<%= index.image %>');
     background-size: cover;
+    height: 415px;
     background-position: center;
     background-repeat: no-repeat;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 mx-auto">
+                        <h1 class="display-4 fw-bold mb-3">
+                            <%= index.title %>
+                        </h1>
+                        <p class="lead mb-0">
+                            <%= index.subtitle %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <% }) %>
+
+
+
+
+
+            <!-- Our Story -->
+            <section class="story-section">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 mx-auto">
-                            <h1 class="display-4 fw-bold mb-3">
-                                <%= index.title %>
-                            </h1>
-                            <p class="lead mb-0">
-                                <%= index.subtitle %>
-                            </p>
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <%= story.section_title %>
+                        </h2>
+                    </div>
+
+                    <div class="story-content">
+                        <% [story].map(function(item){ %>
+                            <div class="row align-items-center">
+                                <div class="col-lg-6">
+                                    <div class="story-image-wrapper fade-in delay-1">
+                                        <img src="/upload/about/<%= item.image_url %>" alt="Our Team"
+                                            class="story-image">
+
+                                        <div class="story-image-overlay">
+                                            <div class="overlay-content">
+                                                <h5 class="fw-bold">
+                                                    <%= item.team_name %>
+                                                </h5>
+                                                <p class="mb-0">
+                                                    <%= item.team_members %> dedicated professionals
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="experience-badge">
+                                            <span>
+                                                <%= item.experience_years %> Years Experience
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 fade-in delay-2">
+                                    <div class="story-text">
+                                        <div class="story-intro">
+                                            <p class="lead-text text-dark">
+                                                <%= item.intro_text %>
+                                            </p>
+                                            <p>
+                                                <%= item.intro_desc %>
+                                            </p>
+                                        </div>
+
+                                        <div class="story-highlights">
+                                            <% const highlights=[ { icon: "fas fa-check-circle" , text:
+                                                item.experience_years + " Years Experience" }, {
+                                                icon: "fas fa-check-circle" , text: item.total_events + " Events" }, {
+                                                icon: "fas fa-check-circle" , text: item.vendor_partners
+                                                + " Vendor Partners" }, { icon: "fas fa-check-circle" , text:
+                                                item.satisfaction_percentage + "% Satisfaction" } ];
+                                                highlights.map(function(h){ %>
+                                                <div class="highlight-item">
+                                                    <i class="<%= h.icon %>"></i>
+                                                    <span>
+                                                        <%= h.text %>
+                                                    </span>
+                                                </div>
+                                                <% }) %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
+            <!-- Vision & Mission -->
+            <section class="vision-mission-section">
+                <div class="container">
+                    <div class="vm-header">
+                        <h2 class="vm-title">Vision & Mission</h2>
+                        <div class="vm-title-divider"></div>
+                        <p class="vm-intro">Driving excellence in every event we create</p>
+                    </div>
+
+                    <div class="vm-content-wrapper">
+                        <div class="row">
+                            <!-- Mission Section -->
+                            <div class="col-lg-6 mb-5 mb-lg-0">
+                                <div class="vm-card mission-card fade-in delay-1">
+                                    <div class="vm-card-header">
+                                        <div class="vm-icon-wrapper">
+                                            <i class="<%= mission ? mission.icon_class : 'fas fa-bullseye' %>"></i>
+                                        </div>
+                                        <h3 class="vm-card-title">
+                                            <%= mission ? mission.title : 'Our Mission' %>
+                                        </h3>
+                                    </div>
+
+                                    <div class="vm-card-body">
+                                        <p class="vm-description">
+                                            <%= mission ? mission.description : '' %>
+                                        </p>
+
+                                        <% if(mission && mission.features){ %>
+                                            <div class="vm-features">
+                                                <h4 class="features-title">What Drives Us:</h4>
+                                                <div class="features-grid">
+                                                    <% mission.features.split(',').forEach(function(f){ %>
+                                                        <div class="feature-item">
+                                                            <i class="fas fa-check"></i>
+                                                            <span>
+                                                                <%= f.trim() %>
+                                                            </span>
+                                                        </div>
+                                                        <% }) %>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                    </div>
+
+                                    <div class="vm-card-footer">
+                                        <span class="mission-tag">
+                                            <%= mission ? mission.tag_line : '' %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Vision Section -->
+                            <div class="col-lg-6">
+                                <div class="vm-card vision-card fade-in delay-2">
+                                    <div class="vm-card-header">
+                                        <div class="vm-icon-wrapper">
+                                            <i class="<%= vision ? vision.icon_class : 'fas fa-eye' %>"></i>
+                                        </div>
+                                        <h3 class="vm-card-title">
+                                            <%= vision ? vision.title : 'Our Vision' %>
+                                        </h3>
+                                    </div>
+
+                                    <div class="vm-card-body">
+                                        <p class="vm-description">
+                                            <%= vision ? vision.description : '' %>
+                                        </p>
+
+                                        <% if(vision && vision.features){ %>
+                                            <div class="vm-features">
+                                                <h4 class="features-title">Our Future Goals:</h4>
+                                                <div class="features-grid">
+                                                    <% vision.features.split(',').forEach(function(f){ %>
+                                                        <div class="feature-item">
+                                                            <i class="fas fa-star"></i>
+                                                            <span>
+                                                                <%= f.trim() %>
+                                                            </span>
+                                                        </div>
+                                                        <% }) %>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                    </div>
+
+                                    <div class="vm-card-footer">
+                                        <span class="vision-tag">
+                                            <%= vision ? vision.tag_line : '' %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </section>
-            <% }) %>
+            <!-- Values -->
+            <section class="values-section pt-0 py-5 bg-light">
+                <div class="container py-5">
+                    <div class="section-header">
+                        <h2 class="section-title">Our Core Values</h2>
+                    </div>
 
+                    <div class="row g-4">
 
+                        <% if (core_values && core_values.length> 0) { %>
+                            <% core_values.forEach(function(item, index){ %>
 
+                                <div class="col-md-4">
+                                    <div
+                                        class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-<%= index + 1 %>">
 
-
-                <!-- Our Story -->
-                <section class="story-section">
-                    <div class="container">
-                        <div class="section-header">
-                            <h2 class="section-title">
-                                <%= story.section_title %>
-                            </h2>
-                        </div>
-
-                        <div class="story-content">
-                            <% [story].map(function(item){ %>
-                                <div class="row align-items-center">
-                                    <div class="col-lg-6">
-                                        <div class="story-image-wrapper fade-in delay-1">
-                                            <img src="/upload/about/<%= item.image_url %>" alt="Our Team"
-                                                class="story-image">
-
-                                            <div class="story-image-overlay">
-                                                <div class="overlay-content">
-                                                    <h5 class="fw-bold">
-                                                        <%= item.team_name %>
-                                                    </h5>
-                                                    <p class="mb-0">
-                                                        <%= item.team_members %> dedicated professionals
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div class="experience-badge">
-                                                <span>
-                                                    <%= item.experience_years %> Years Experience
-                                                </span>
+                                        <div class="text-center mb-4">
+                                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
+                                                style="width:70px;height:70px;">
+                                                <i class="fas <%= item.icon %> fa-2x text-white"></i>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-lg-6 fade-in delay-2">
-                                        <div class="story-text">
-                                            <div class="story-intro">
-                                                <p class="lead-text text-dark">
-                                                    <%= item.intro_text %>
-                                                </p>
-                                                <p>
-                                                    <%= item.intro_desc %>
-                                                </p>
-                                            </div>
+                                        <h4 class="text-center mb-3">
+                                            <%= item.title %>
+                                        </h4>
 
-                                            <div class="story-highlights">
-                                                <% const highlights=[ { icon: "fas fa-check-circle" , text:
-                                                    item.experience_years + " Years Experience" }, {
-                                                    icon: "fas fa-check-circle" , text: item.total_events + " Events" },
-                                                    { icon: "fas fa-check-circle" , text: item.vendor_partners
-                                                    + " Vendor Partners" }, { icon: "fas fa-check-circle" , text:
-                                                    item.satisfaction_percentage + "% Satisfaction" } ];
-                                                    highlights.map(function(h){ %>
-                                                    <div class="highlight-item">
-                                                        <i class="<%= h.icon %>"></i>
-                                                        <span>
-                                                            <%= h.text %>
-                                                        </span>
-                                                    </div>
-                                                    <% }) %>
-                                            </div>
-                                        </div>
+                                        <p class="text-center mb-0">
+                                            <%= item.description %>
+                                        </p>
+
                                     </div>
                                 </div>
+
                                 <% }) %>
-                        </div>
+                                    <% } %>
+
                     </div>
-                </section>
+                </div>
+            </section>
 
-
-
-
-
-                <!-- Vision & Mission -->
-                <section class="vision-mission-section">
-                    <div class="container">
-                        <div class="vm-header">
-                            <h2 class="vm-title">Vision & Mission</h2>
-                            <div class="vm-title-divider"></div>
-                            <p class="vm-intro">Driving excellence in every event we create</p>
-                        </div>
-
-                        <div class="vm-content-wrapper">
-                            <div class="row">
-                                <!-- Mission Section -->
-                                <div class="col-lg-6 mb-5 mb-lg-0">
-                                    <div class="vm-card mission-card fade-in delay-1">
-                                        <div class="vm-card-header">
-                                            <div class="vm-icon-wrapper">
-                                                <i class="<%= mission ? mission.icon_class : 'fas fa-bullseye' %>"></i>
-                                            </div>
-                                            <h3 class="vm-card-title">
-                                                <%= mission ? mission.title : 'Our Mission' %>
-                                            </h3>
-                                        </div>
-
-                                        <div class="vm-card-body">
-                                            <p class="vm-description">
-                                                <%= mission ? mission.description : '' %>
-                                            </p>
-
-                                            <% if(mission && mission.features){ %>
-                                                <div class="vm-features">
-                                                    <h4 class="features-title">What Drives Us:</h4>
-                                                    <div class="features-grid">
-                                                        <% mission.features.split(',').forEach(function(f){ %>
-                                                            <div class="feature-item">
-                                                                <i class="fas fa-check"></i>
-                                                                <span>
-                                                                    <%= f.trim() %>
-                                                                </span>
-                                                            </div>
-                                                            <% }) %>
-                                                    </div>
-                                                </div>
-                                                <% } %>
-                                        </div>
-
-                                        <div class="vm-card-footer">
-                                            <span class="mission-tag">
-                                                <%= mission ? mission.tag_line : '' %>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- Vision Section -->
-                                <div class="col-lg-6">
-                                    <div class="vm-card vision-card fade-in delay-2">
-                                        <div class="vm-card-header">
-                                            <div class="vm-icon-wrapper">
-                                                <i class="<%= vision ? vision.icon_class : 'fas fa-eye' %>"></i>
-                                            </div>
-                                            <h3 class="vm-card-title">
-                                                <%= vision ? vision.title : 'Our Vision' %>
-                                            </h3>
-                                        </div>
-
-                                        <div class="vm-card-body">
-                                            <p class="vm-description">
-                                                <%= vision ? vision.description : '' %>
-                                            </p>
-
-                                            <% if(vision && vision.features){ %>
-                                                <div class="vm-features">
-                                                    <h4 class="features-title">Our Future Goals:</h4>
-                                                    <div class="features-grid">
-                                                        <% vision.features.split(',').forEach(function(f){ %>
-                                                            <div class="feature-item">
-                                                                <i class="fas fa-star"></i>
-                                                                <span>
-                                                                    <%= f.trim() %>
-                                                                </span>
-                                                            </div>
-                                                            <% }) %>
-                                                    </div>
-                                                </div>
-                                                <% } %>
-                                        </div>
-
-                                        <div class="vm-card-footer">
-                                            <span class="vision-tag">
-                                                <%= vision ? vision.tag_line : '' %>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </section>
-<!-- Values -->
-<section class="values-section pt-0 py-5 bg-light">
-    <div class="container py-5">
-        <div class="section-header">
-            <h2 class="section-title">Our Core Values</h2>
-        </div>
-
-        <div class="row g-4">
-
-            <% if (core_values && core_values.length > 0) { %>
-                <% core_values.forEach(function(item, index){ %>
-
-                    <div class="col-md-4">
-                        <div class="value-card p-4 bg-white rounded-3 shadow-sm h-100 delay-<%= index + 1 %>">
-                            
-                            <div class="text-center mb-4">
-                                <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center value-icon"
-                                     style="width:70px;height:70px;">
-                                    <i class="fas <%= item.icon %> fa-2x text-white"></i>
-                                </div>
-                            </div>
-
-                            <h4 class="text-center mb-3">
-                                <%= item.title %>
-                            </h4>
-
-                            <p class="text-center mb-0">
-                                <%= item.description %>
-                            </p>
-
-                        </div>
+            <!-- Timeline -->
+            <section id="journey" class="timeline-section pt-0 py-5 bg-light">
+                <div class="container py-5">
+                    <div class="section-header">
+                        <h2 class="section-title">Our Evolution</h2>
+                        <p class="section-description">
+                            A journey of innovation, growth, and industry leadership spanning over 15 years.
+                        </p>
                     </div>
 
-                <% }) %>
-            <% } %>
+                    <div class="timeline-container">
 
-        </div>
-    </div>
-</section>
+                        <% if (journey && journey.length> 0) { %>
+                            <% journey.forEach(function(item, index){ %>
 
-             <!-- Timeline -->
-<section id="journey" class="timeline-section pt-0 py-5 bg-light">
-    <div class="container py-5">
-        <div class="section-header">
-            <h2 class="section-title">Our Evolution</h2>
-            <p class="section-description">
-                A journey of innovation, growth, and industry leadership spanning over 15 years.
-            </p>
-        </div>
-
-        <div class="timeline-container">
-
-            <% if (journey && journey.length > 0) { %>
-                <% journey.forEach(function(item, index){ %>
-
-                    <div class="timeline-item">
-                        <div class="card border-0 timeline-card 
+                                <div class="timeline-item">
+                                    <div class="card border-0 timeline-card 
                             <%= index % 2 === 0 ? 'timeline-left' : 'timeline-right' %> 
                             shadow-medium">
 
-                            <div class="card-body p-4">
-                                <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">
-                                    <%= item.year %>
-                                </span>
+                                        <div class="card-body p-4">
+                                            <span class="badge gradient-bg px-3 py-2 mb-3 badge-hover">
+                                                <%= item.year %>
+                                            </span>
 
-                                <h4 class="card-title fw-bold mb-3">
-                                    <%= item.title %>
-                                </h4>
+                                            <h4 class="card-title fw-bold mb-3">
+                                                <%= item.title %>
+                                            </h4>
 
-                                <p class="card-text">
-                                    <%= item.description %>
-                                </p>
-                            </div>
-                        </div>
+                                            <p class="card-text">
+                                                <%= item.description %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <% }) %>
+                                    <% } else { %>
+                                        <p class="text-center">No journey data available</p>
+                                        <% } %>
+
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Team -->
+            <section class="team-section py-5">
+                <div class="container py-5">
+                    <div class="section-header">
+                        <h2 class="section-title">Our Leadership</h2>
                     </div>
 
-                <% }) %>
-            <% } else { %>
-                <p class="text-center">No journey data available</p>
-            <% } %>
+                    <div class="row g-4">
 
-        </div>
-    </div>
-</section>
+                        <% if(leadership && leadership.length> 0){ %>
+                            <% leadership.forEach(function(item, index){ %>
 
+                                <div class="col-md-4">
+                                    <div
+                                        class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column border">
 
-             <!-- Team -->
-<section class="team-section py-5">
-    <div class="container py-5">
-        <div class="section-header">
-            <h2 class="section-title">Our Leadership</h2>
-        </div>
+                                        <div class="overflow-hidden rounded-circle mx-auto mb-3"
+                                            style="width: 150px; height: 150px;">
+                                            <img src="/upload/about/<%= item.image %>" alt="<%= item.name %>"
+                                                class="team-img w-100 h-100">
+                                        </div>
 
-        <div class="row g-4">
+                                        <h5 class="mb-2">
+                                            <%= item.name %>
+                                        </h5>
+                                        <p class="text-primary mb-3">
+                                            <%= item.designation %>
+                                        </p>
 
-            <% if(leadership && leadership.length > 0){ %>
-                <% leadership.forEach(function(item, index){ %>
+                                        <p class="mb-0 flex-grow-1">
+                                            <%= item.description %>
+                                        </p>
 
-                    <div class="col-md-4">
-                        <div
-                            class="team-card p-4 bg-white rounded-3 shadow text-center h-100 d-flex flex-column border">
+                                        <div class="mt-3">
+                                            <% if(item.linkedin){ %>
+                                                <a href="<%= item.linkedin %>" target="_blank"
+                                                    class="btn btn-outline-primary btn-sm me-2">
+                                                    <i class="fab fa-linkedin"></i>
+                                                </a>
+                                                <% } %>
 
-                            <div class="overflow-hidden rounded-circle mx-auto mb-3"
-                                style="width: 150px; height: 150px;">
-                                <img src="/upload/about/<%= item.image %>"
-                                     alt="<%= item.name %>"
-                                     class="team-img w-100 h-100">
-                            </div>
+                                                    <% if(item.twitter){ %>
+                                                        <a href="<%= item.twitter %>" target="_blank"
+                                                            class="btn btn-outline-primary btn-sm">
+                                                            <i class="fab fa-twitter"></i>
+                                                        </a>
+                                                        <% } %>
+                                        </div>
 
-                            <h5 class="mb-2"><%= item.name %></h5>
-                            <p class="text-primary mb-3"><%= item.designation %></p>
+                                    </div>
+                                </div>
 
-                            <p class="mb-0 flex-grow-1">
-                                <%= item.description %>
-                            </p>
+                                <% }) %>
+                                    <% } else { %>
+                                        <p class="text-center">Leadership team coming soon.</p>
+                                        <% } %>
 
-                            <div class="mt-3">
-                                <% if(item.linkedin){ %>
-                                    <a href="<%= item.linkedin %>" target="_blank"
-                                       class="btn btn-outline-primary btn-sm me-2">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                <% } %>
-
-                                <% if(item.twitter){ %>
-                                    <a href="<%= item.twitter %>" target="_blank"
-                                       class="btn btn-outline-primary btn-sm">
-                                        <i class="fab fa-twitter"></i>
-                                    </a>
-                                <% } %>
-                            </div>
-
-                        </div>
                     </div>
-
-                <% }) %>
-            <% } else { %>
-                <p class="text-center">Leadership team coming soon.</p>
-            <% } %>
-
-        </div>
-    </div>
-</section>
+                </div>
+            </section>
 
 
-                <%- include('footer.ejs') %>
+            <%- include('footer.ejs') %>
 
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            // Scroll animations
-                            function animateOnScroll() {
-                                const elements = document.querySelectorAll(
-                                    '.fade-in, .stat-card, .value-card, .team-card, .timeline-item'
-                                );
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // Scroll animations
+                        function animateOnScroll() {
+                            const elements = document.querySelectorAll(
+                                '.fade-in, .stat-card, .value-card, .team-card, .timeline-item'
+                            );
 
-                                elements.forEach(element => {
-                                    const elementTop = element.getBoundingClientRect().top;
-                                    const elementVisible = 150;
+                            elements.forEach(element => {
+                                const elementTop = element.getBoundingClientRect().top;
+                                const elementVisible = 150;
 
-                                    if (elementTop < window.innerHeight - elementVisible) {
-                                        element.classList.add('show');
-                                    }
-                                });
-                            }
-
-                            // Smooth scroll for anchor links
-                            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                                anchor.addEventListener('click', function (e) {
-                                    e.preventDefault();
-                                    const targetId = this.getAttribute('href');
-                                    if (targetId === '#') return;
-
-                                    const targetElement = document.querySelector(targetId);
-                                    if (targetElement) {
-                                        window.scrollTo({
-                                            top: targetElement.offsetTop,
-                                            behavior: 'smooth'
-                                        });
-                                    }
-                                });
+                                if (elementTop < window.innerHeight - elementVisible) {
+                                    element.classList.add('show');
+                                }
                             });
+                        }
 
-                            // Add scroll event listener
-                            window.addEventListener('scroll', function () {
-                                animateOnScroll();
-                            });
+                        // Smooth scroll for anchor links
+                        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                            anchor.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                const targetId = this.getAttribute('href');
+                                if (targetId === '#') return;
 
-                            // Initial animation check
-                            animateOnScroll();
-
-                            // Add click animation to timeline cards
-                            document.querySelectorAll('.timeline-card').forEach(card => {
-                                card.addEventListener('click', function () {
-                                    this.style.transform = 'scale(0.98)';
-                                    setTimeout(() => {
-                                        this.style.transform = '';
-                                    }, 200);
-                                });
-                            });
-
-                            // Enhanced hover effect for timeline cards
-                            document.querySelectorAll('.timeline-card').forEach(card => {
-                                card.addEventListener('mouseenter', function () {
-                                    const isLeft = this.classList.contains('timeline-left');
-                                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
-                                    this.style.borderRightWidth = isLeft ? '6px' : '4px';
-                                    this.style.borderLeftWidth = !isLeft ? '6px' : '4px';
-                                });
-
-                                card.addEventListener('mouseleave', function () {
-                                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.08)';
-                                    this.style.borderRightWidth = '';
-                                    this.style.borderLeftWidth = '';
-                                });
-                            });
-
-                            // Hover effects for value cards
-                            document.querySelectorAll('.value-card').forEach(card => {
-                                card.addEventListener('mouseenter', function () {
-                                    this.style.transform = 'translateY(-10px)';
-                                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
-                                });
-
-                                card.addEventListener('mouseleave', function () {
-                                    this.style.transform = '';
-                                    this.style.boxShadow = '';
-                                });
-                            });
-
-                            // Hover effects for VM cards
-                            document.querySelectorAll('.vm-card').forEach(card => {
-                                card.addEventListener('mouseenter', function () {
-                                    this.style.transform = 'translateY(-15px)';
-                                    this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
-                                });
-
-                                card.addEventListener('mouseleave', function () {
-                                    if (!this.classList.contains('clicked')) {
-                                        this.style.transform = '';
-                                        this.style.boxShadow = '';
-                                    }
-                                });
+                                const targetElement = document.querySelector(targetId);
+                                if (targetElement) {
+                                    window.scrollTo({
+                                        top: targetElement.offsetTop,
+                                        behavior: 'smooth'
+                                    });
+                                }
                             });
                         });
-                    </script>
+
+                        // Add scroll event listener
+                        window.addEventListener('scroll', function () {
+                            animateOnScroll();
+                        });
+
+                        // Initial animation check
+                        animateOnScroll();
+
+                        // Add click animation to timeline cards
+                        document.querySelectorAll('.timeline-card').forEach(card => {
+                            card.addEventListener('click', function () {
+                                this.style.transform = 'scale(0.98)';
+                                setTimeout(() => {
+                                    this.style.transform = '';
+                                }, 200);
+                            });
+                        });
+
+                        // Enhanced hover effect for timeline cards
+                        document.querySelectorAll('.timeline-card').forEach(card => {
+                            card.addEventListener('mouseenter', function () {
+                                const isLeft = this.classList.contains('timeline-left');
+                                this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2)';
+                                this.style.borderRightWidth = isLeft ? '6px' : '4px';
+                                this.style.borderLeftWidth = !isLeft ? '6px' : '4px';
+                            });
+
+                            card.addEventListener('mouseleave', function () {
+                                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.08)';
+                                this.style.borderRightWidth = '';
+                                this.style.borderLeftWidth = '';
+                            });
+                        });
+
+                        // Hover effects for value cards
+                        document.querySelectorAll('.value-card').forEach(card => {
+                            card.addEventListener('mouseenter', function () {
+                                this.style.transform = 'translateY(-10px)';
+                                this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.15)';
+                            });
+
+                            card.addEventListener('mouseleave', function () {
+                                this.style.transform = '';
+                                this.style.boxShadow = '';
+                            });
+                        });
+
+                        // Hover effects for VM cards
+                        document.querySelectorAll('.vm-card').forEach(card => {
+                            card.addEventListener('mouseenter', function () {
+                                this.style.transform = 'translateY(-15px)';
+                                this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
+                            });
+
+                            card.addEventListener('mouseleave', function () {
+                                if (!this.classList.contains('clicked')) {
+                                    this.style.transform = '';
+                                    this.style.boxShadow = '';
+                                }
+                            });
+                        });
+                    });
+                </script>

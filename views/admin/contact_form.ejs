@@ -34,122 +34,179 @@
 
         <div class="container-fluid mt-4">
 
-    <!-- PAGE TITLE -->
-    <h4 class="page-title mb-3">
-        <i class="fas fa-envelope-open-text me-2"></i>
-        Contact Form Enquiries
-    </h4>
+        <!-- PAGE TITLE -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="page-title mb-0">
+                <i class="fas fa-envelope-open-text me-2"></i>
+                Contact Form Enquiries
+            </h4>
 
-    <!-- CARD -->
-    <div class="card shadow-sm">
+            <div>
+                <button class="btn btn-sm btn-success me-2" onclick="exportTableToCSV()">
+                    <i class="fas fa-file-csv me-1"></i> Export CSV
+                </button>
 
-        <!-- CARD HEADER -->
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <span>
-                <i class="fas fa-list me-2"></i> Enquiry List
-            </span>
-            <span class="badge bg-success">
-                Total : <%= forms.length %>
-            </span>
+                <button class="btn btn-sm btn-secondary" onclick="printTable()">
+                    <i class="fas fa-print me-1"></i> Print
+                </button>
+            </div>
         </div>
 
-        <!-- CARD BODY -->
-        <div class="card-body p-0">
+        <!-- CARD -->
+        <div class="card shadow-sm">
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped align-middle">
-
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Event</th>
-                            <th>Subject</th>
-                            <th>Message</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        <% if(forms.length === 0){ %>
-                        <tr>
-                            <td colspan="9" class="text-center text-muted py-4">
-                                No enquiries found
-                            </td>
-                        </tr>
-                        <% } %>
-
-                        <% forms.forEach((f, i) => { %>
-                        <tr>
-
-                            <td class="text-center fw-bold"><%= i + 1 %></td>
-
-                            <td>
-                                <i class="fas fa-user text-primary me-1"></i>
-                                <%= f.full_name %>
-                            </td>
-
-                            <td>
-                                <i class="fas fa-envelope text-danger me-1"></i>
-                                <%= f.email %>
-                            </td>
-
-                            <td>
-                                <i class="fas fa-phone text-success me-1"></i>
-                                <%= f.phone %>
-                            </td>
-
-                            <td class="text-center">
-                                <span class="badge bg-info text-dark">
-                                    <%= f.event_type %>
-                                </span>
-                            </td>
-
-                            <td><%= f.subject %></td>
-
-                            <td>
-                                <div class="text-truncate" title="<%= f.message %>">
-                                    <%= f.message %>
-                                </div>
-                            </td>
-                          
-
-                            <td class="text-center">
-                                <small class="text-muted">
-                                    <i class="fas fa-clock me-1"></i>
-                                    <%= new Date(f.created_at).toLocaleString() %>
-                                </small>
-                            </td>
-
-
-                            <td class="text-center">
-                                <a href="/admin/edit_contact_form/<%= f.id %>" 
-                                   class="btn btn-sm btn-primary mb-1">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-
-                                <a href="/admin/delete_contact_form/<%= f.id %>" 
-                                   class="btn btn-sm btn-danger"
-                                   onclick="return confirm('Are you sure?');">
-                                    <i class="fas fa-trash"></i> Delete
-                                </a>
-                            </td>
-
-                        </tr>
-                        <% }) %>
-
-                    </tbody>
-
-                </table>
+            <!-- CARD HEADER -->
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>
+                    <i class="fas fa-list me-2"></i> Enquiry List
+                </span>
+                <span class="badge bg-success">
+                    Total : <%= forms.length %>
+                </span>
             </div>
 
+            <!-- CARD BODY -->
+            <div class="card-body p-0">
+
+                <div class="table-responsive" id="printArea">
+                    <table class="table table-bordered table-hover table-striped align-middle" id="enquiryTable">
+
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Event</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <% if(forms.length===0){ %>
+                                <tr>
+                                    <td colspan="9" class="text-center text-muted py-4">
+                                        No enquiries found
+                                    </td>
+                                </tr>
+                                <% } %>
+
+                                    <% forms.forEach((f, i)=> { %>
+                                        <tr>
+
+                                            <td class="text-center fw-bold">
+                                                <%= i + 1 %>
+                                            </td>
+
+                                            <td>
+                                                <i class="fas fa-user text-primary me-1"></i>
+                                                <%= f.full_name %>
+                                            </td>
+
+                                            <td>
+                                                <i class="fas fa-envelope text-danger me-1"></i>
+                                                <%= f.email %>
+                                            </td>
+
+                                            <td>
+                                                <i class="fas fa-phone text-success me-1"></i>
+                                                <%= f.phone %>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <span class="badge bg-info text-dark">
+                                                    <%= f.event_type %>
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <%= f.subject %>
+                                            </td>
+
+                                            <td>
+                                                <div class="text-truncate" title="<%= f.message %>">
+                                                    <%= f.message %>
+                                                </div>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    <%= new Date(f.created_at).toLocaleString() %>
+                                                </small>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <a href="/admin/edit_contact_form/<%= f.id %>"
+                                                    class="btn btn-sm btn-primary mb-1">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+
+                                                <a href="/admin/delete_contact_form/<%= f.id %>"
+                                                    class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Are you sure?');">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                        <% }) %>
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
         </div>
+
     </div>
 
-</div>
+    <!-- CSV EXPORT SCRIPT -->
+    <script>
+        function exportTableToCSV() {
+            let csv = [];
+            const rows = document.querySelectorAll("#enquiryTable tr");
 
-<%- include('footer.ejs') %>
+            rows.forEach(row => {
+                let cols = row.querySelectorAll("th, td");
+                let rowData = [];
+                cols.forEach(col => {
+                    rowData.push('"' + col.innerText.replace(/"/g, '""') + '"');
+                });
+                csv.push(rowData.join(","));
+            });
+
+            const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+            const downloadLink = document.createElement("a");
+            downloadLink.download = "contact_enquiries.csv";
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = "none";
+
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+        }
+    </script>
+
+    <!-- PRINT SCRIPT -->
+    <script>
+        function printTable() {
+            const printContent = document.getElementById("printArea").innerHTML;
+            const originalContent = document.body.innerHTML;
+
+            document.body.innerHTML = `
+        <h3 style="text-align:center; margin-bottom:20px;">Contact Form Enquiries</h3>
+        ${printContent}
+    `;
+
+            window.print();
+            document.body.innerHTML = originalContent;
+            location.reload();
+        }
+    </script>
+
+    <%- include('footer.ejs') %>

@@ -163,24 +163,98 @@
                                 <p><i class="far fa-clock"></i> 2 hours ago | Amit Patel - Wedding</p>
                             </div>
                         </div>
-                        <span class="activity-time">Just now</span>
-                    </li>
-                    <li>
-                        <div style="display: flex; align-items: center;">
-                            <div class="activity-icon activity-payment">
-                                <i class="fas fa-rupee-sign"></i>
-                            </div>
-                            <div class="activity-info">
-                                <h4>Payment received</h4>
-                                <p><i class="far fa-clock"></i> 5 hours ago | ₹85,000 - Sharma Wedding</p>
-                            </div>
+                        <div class="col-auto">
+                            <i class="fas fa-bookmark fa-2x text-success"></i>
                         </div>
-                        <span class="activity-time">Today</span>
-                    </li>
-                    <li>
-                        <div style="display: flex; align-items: center;">
-                            <div class="activity-icon activity-event">
-                                <i class="fas fa-calendar-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- start -->
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row align-items-center">
+
+                        <div class="col">
+                            <div class="text-xs fw-bold text-info text-uppercase mb-1">
+                                Book Event Linked Mobile No
+                            </div>
+
+                            <div class="h5 fw-bold text-gray-800">
+                                <span id="mobileValue">
+                                    <%= mobile && mobile.length> 0 ? mobile[0].mobile_no : 'Not Set' %>
+                                </span>
+                            </div>
+
+                            <!-- 🔘 Edit Button -->
+                            <button class="btn btn-sm btn-outline-info mt-2" data-bs-toggle="modal"
+                                data-bs-target="#editMobileModal">
+                                Edit
+                            </button>
+                        </div>
+
+                        <div class="col-auto">
+                            <i class="fas fa-phone fa-2x text-info"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal fade" id="editMobileModal" tabindex="-1">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+
+                    <form action="/admin/edit_mobile_no" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Mobile Number</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <label class="form-label">Mobile Number</label>
+                            <input type="number" class="form-control" name="mobile_no" id="modalMobileInput" required>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Save
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const editBtn = document.querySelector('[data-bs-target="#editMobileModal"]');
+            const mobileValue = document.getElementById("mobileValue");
+            const modalMobileInput = document.getElementById("modalMobileInput");
+
+            editBtn.addEventListener("click", () => {
+                modalMobileInput.value = mobileValue.innerText;
+            });
+        </script>
+
+        <!-- end -->
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">
+                                Users
                             </div>
                             <div class="activity-info">
                                 <h4>Event completed</h4>
@@ -294,4 +368,189 @@
                 </div>
             </div>
 
-<%- include('footer.ejs') %>
+    <!-- Charts -->
+    <div class="row mb-4">
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Revenue Overview</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Booking Sources</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie">
+                        <canvas id="bookingSourceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Quick Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="#about-management" class="btn btn-light w-100 py-3 text-start">
+                                <i class="fas fa-edit text-primary me-2"></i>
+                                <strong>Edit About Page</strong>
+                                <small class="d-block text-muted mt-1">Update company information</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#bookings-management" class="btn btn-light w-100 py-3 text-start">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                <strong>Process Bookings</strong>
+                                <small class="d-block text-muted mt-1">5 pending approvals</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#events-management" class="btn btn-light w-100 py-3 text-start">
+                                <i class="fas fa-plus text-info me-2"></i>
+                                <strong>Add New Event</strong>
+                                <small class="d-block text-muted mt-1">Create upcoming events</small>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="#blog-management" class="btn btn-light w-100 py-3 text-start">
+                                <i class="fas fa-newspaper text-warning me-2"></i>
+                                <strong>Add Blog Post</strong>
+                                <small class="d-block text-muted mt-1">Share latest news</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 fw-bold text-primary">Recent Bookings</h6>
+                    <a href="#bookings-management" class="btn btn-sm btn-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Customer</th>
+                                    <th>Event</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#EVT-001</td>
+                                    <td>John Doe</td>
+                                    <td>Wedding Ceremony</td>
+                                    <td>2023-06-15</td>
+                                    <td>$2,499</td>
+                                    <td><span class="badge bg-success">Confirmed</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#EVT-002</td>
+                                    <td>Sarah Johnson</td>
+                                    <td>Corporate Conference</td>
+                                    <td>2023-06-20</td>
+                                    <td>$5,500</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">Approve</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#EVT-003</td>
+                                    <td>Michael Chen</td>
+                                    <td>Birthday Party</td>
+                                    <td>2023-06-25</td>
+                                    <td>$999</td>
+                                    <td><span class="badge bg-info">In Progress</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">Update</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Admin JS -->
+
+    <script>
+        // Charts
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000],
+                    borderColor: '#6a11cb',
+                    backgroundColor: 'rgba(106, 17, 203, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        const sourceCtx = document.getElementById('bookingSourceChart').getContext('2d');
+        const sourceChart = new Chart(sourceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Website', 'Social Media', 'Referral', 'Direct'],
+                datasets: [{
+                    data: [40, 25, 20, 15],
+                    backgroundColor: ['#6a11cb', '#2575fc', '#ff7e5f', '#28a745'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
+    <%-include("footer.ejs")%>
