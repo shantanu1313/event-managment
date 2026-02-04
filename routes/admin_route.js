@@ -4,9 +4,23 @@ var fs = require("fs");
 var path = require("path");
 var router = express.Router();
 
-router.get("/", function (req, res) {
-    res.render('admin/dashboard.ejs');
+router.get("/", async (req, res) => {
+    try {
+        const mobile = await exe(
+            "SELECT mobile_no FROM book_event_mobile WHERE id = 1"
+        );
+
+        res.render("admin/dashboard", {
+            mobile: mobile   
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server Error");
+    }
 });
+
+
 
 router.get("/home/home_slider", async function (req, res) {
     var sql = "SELECT * FROM home_slider";
@@ -2494,6 +2508,33 @@ router.post("/save_social_links", async (req, res) => {
         res.send("Server Error");
     }
 });
+
+
+router.post("/edit_mobile_no", async (req, res) => {
+    try {
+        const { mobile_no } = req.body;
+
+        if (!mobile_no || mobile_no.length !== 10) {
+            return res.status(400).send("Invalid mobile number");
+        }
+
+        const sql = `
+            UPDATE book_event_mobile
+            SET mobile_no = ?
+            WHERE id = 1
+        `;
+
+        await exe(sql, [mobile_no]);
+
+        res.redirect("/admin");
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
 
 
 

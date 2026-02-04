@@ -125,3 +125,58 @@ document.getElementById("submitBtn").addEventListener("click", function () {
 
 <%- include('./footer.ejs') %>
 
+<<<<<<< HEAD
+=======
+        if (!startDate || !endDate) {
+            Swal.fire("Missing Date", "Please select start & end date", "warning");
+            return;
+        }
+
+        if (new Date(endDate) < new Date(startDate)) {
+            Swal.fire("Invalid Date", "End date must be after start date", "error");
+            return;
+        }
+
+        
+
+const name = document.getElementById("name");
+const mobile = document.getElementById("mobile");
+const eventType = document.getElementById("eventType");
+const budget = document.getElementById("budget");
+const message = document.getElementById("message");
+
+const whatsappText = `📌 *New Event Booking BY  ${name.value} 🎉
+
+👤 Name: ${name.value}
+📞 Mobile: ${mobile.value}
+🎉 Event: ${eventType.value}
+
+📅 ${startDate} to ${endDate}
+💰 Budget: ${budget.value}
+
+📝 Message:
+${message.value}`;
+
+        Swal.fire({
+            title: "How do you want to submit?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Send WhatsApp + Submit",
+            cancelButtonText: "Only Submit",
+            confirmButtonColor: "#25D366"
+        }).then(result => {
+
+            // ✅ ALWAYS submit form
+            document.getElementById("bookEventForm").submit();
+
+            // ✅ WhatsApp only if confirmed
+            if (result.isConfirmed) {
+                window.open(
+                    "https://wa.me/91<%= mobile && mobile.length > 0 ? mobile[0].mobile_no : 'Not Set' %>?text=" + encodeURIComponent(whatsappText),
+                    "_blank"
+                );
+            }
+        });
+    });
+    </script>
+>>>>>>> b033974fe16c1581d59951bf46bbcf215f578799
