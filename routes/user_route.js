@@ -338,29 +338,32 @@ router.get("/user_registeration", async function (req, res) {
 
 
 router.get("/book_event", async (req, res) => {
-  if (req.session && req.session.user) {
-    try {
-      const mobile = await exe(
-        "SELECT mobile_no FROM book_event_mobile WHERE id = 1"
-      );
-      var social_links = await exe("SELECT * FROM social_links");
-      const contact_info = await exe("SELECT * FROM contact_info");
-
-      res.render("user/book_event.ejs", {
-        mobile: mobile, user: req.session.user,
-        event: req.query.event || "",
-        price: req.query.price || "",
-        social_links,
-        contact_info
-      });
-
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Server Error");
-    }
+  if (!req.session || !req.session.user) {
+    return res.redirect("/login");
   }
 
+  try {
+    const mobile = await exe(
+      "SELECT mobile_no FROM book_event_mobile WHERE id = 1"
+    );
+    const social_links = await exe("SELECT * FROM social_links");
+    const contact_info = await exe("SELECT * FROM contact_info");
+
+    res.render("user/book_event.ejs", {
+      mobile,
+      user: req.session.user,
+      event: req.query.event || "",
+      price: req.query.price || "",
+      social_links,
+      contact_info
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
+
 
 
 router.post("/save_user", async function (req, res) {

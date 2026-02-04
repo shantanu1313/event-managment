@@ -94,6 +94,10 @@
     </div>
   </section>
   <script>
+    // 🔹 Set WhatsApp number from server-side data
+    const WHATSAPP_NUMBER = "<%= (mobile && mobile.length > 0) ? mobile[0].mobile_no : '' %>";
+    const EVENT_TYPE_DEFAULT = "<%- event || '' %>";
+
     document.getElementById("submitBtn").addEventListener("click", function () {
 
       // 🔹 Basic fields
@@ -107,7 +111,7 @@
       const eventTypeEl = document.getElementById("eventType");
       const budgetEl = document.getElementById("budget");
 
-      const eventType = eventTypeEl ? eventTypeEl.value : "<%= event || '' %>";
+      const eventType = eventTypeEl ? eventTypeEl.value : EVENT_TYPE_DEFAULT;
       const budget = budgetEl ? budgetEl.value : "Not Selected";
 
       // 🔴 Validations
@@ -153,10 +157,9 @@ ${message || "No message"}`;
         document.getElementById("bookEventForm").submit();
 
         // ✅ WhatsApp only if confirmed
-        if (result.isConfirmed) {
+        if (result.isConfirmed && WHATSAPP_NUMBER) {
           window.open(
-            "https://wa.me/91<%= mobile && mobile.length > 0 ? mobile[0].mobile_no : '' %>?text=" +
-            encodeURIComponent(whatsappText),
+            "https://wa.me/91" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(whatsappText),
             "_blank"
           );
         }
