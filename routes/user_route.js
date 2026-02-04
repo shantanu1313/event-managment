@@ -345,13 +345,13 @@ router.get("/book_event", async (req, res) => {
       );
       var social_links = await exe("SELECT * FROM social_links");
       const contact_info = await exe("SELECT * FROM contact_info");
+
       res.render("user/book_event.ejs", {
-        mobile: mobile,
-        user: req.session.user,
+        mobile: mobile, user: req.session.user,
         event: req.query.event || "",
         price: req.query.price || "",
-        social_links: social_links,
-        contact_info: contact_info
+        social_links,
+        contact_info
       });
 
     } catch (err) {
