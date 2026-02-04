@@ -53,7 +53,7 @@ router.get("/about", async function (req, res) {
     "SELECT * FROM journey_timeline WHERE status = 1 ORDER BY year ASC"
   );
 
-  // ✅ Leadership Team (NEW)
+
   const leadership = await exe(
     "SELECT * FROM leadership_team WHERE status = 1 ORDER BY id ASC"
   );
@@ -68,6 +68,7 @@ router.get("/about", async function (req, res) {
     leadership,
     social_links,
     contact_info   // 👈 pass to ejs
+
   });
 });
 
@@ -131,7 +132,7 @@ router.get("/gallery", async function (req, res) {
 
   res.render("user/gallery.ejs", obj);
 });
-// router.get("/testimonials", async function (req, res) {
+
 
 router.get("/testimonials", async function (req, res) {
   try {
@@ -334,17 +335,21 @@ router.get("/user_registeration", async function (req, res) {
   res.render("user/register.ejs", { social_links, contact_info });
 });
 
+
+
 router.get("/book_event", async (req, res) => {
   if (req.session && req.session.user) {
     try {
       const mobile = await exe(
         "SELECT mobile_no FROM book_event_mobile WHERE id = 1"
-
       );
       var social_links = await exe("SELECT * FROM social_links");
       const contact_info = await exe("SELECT * FROM contact_info");
       res.render("user/book_event.ejs", {
         mobile: mobile,
+        user: req.session.user,
+        event: req.query.event || "",
+        price: req.query.price || "",
         social_links: social_links,
         contact_info: contact_info
       });
@@ -354,7 +359,9 @@ router.get("/book_event", async (req, res) => {
       res.status(500).send("Server Error");
     }
   }
+
 });
+
 
 router.post("/save_user", async function (req, res) {
   try {
