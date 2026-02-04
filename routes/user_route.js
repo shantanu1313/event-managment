@@ -50,7 +50,7 @@ router.get("/about", async function (req, res) {
     "SELECT * FROM journey_timeline WHERE status = 1 ORDER BY year ASC"
   );
 
-  // ✅ Leadership Team (NEW)
+  
   const leadership = await exe(
     "SELECT * FROM leadership_team WHERE status = 1 ORDER BY id ASC"
   );
@@ -62,7 +62,7 @@ router.get("/about", async function (req, res) {
     vision,
     core_values,
     journey,
-    leadership   // 👈 pass to ejs
+    leadership   
   });
 });
 
@@ -116,7 +116,7 @@ router.get("/gallery", async function (req, res) {
 
   res.render("user/gallery.ejs", obj);
 });
-// router.get("/testimonials", async function (req, res) {
+
 
 router.get("/testimonials", async function (req, res) {
   try {
@@ -298,13 +298,15 @@ router.get("/user_registeration", function (req, res) {
 });
 
 router.get("/book_event", (req, res) => {
-  if (req.session && req.session.user) {
-    res.render("book_event.ejs", {
-      user: req.session.user
-    });
-  } else {
-    res.redirect("/login");
-  }
+    if (req.session && req.session.user) {
+        res.render("user/book_event.ejs", {
+            user: req.session.user,
+            event: req.query.event || "",
+            price: req.query.price || ""
+        });
+    } else {
+        res.redirect("/login");
+    }
 });
 
 router.post("/save_user", async function (req, res) {
