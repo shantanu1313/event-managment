@@ -200,7 +200,7 @@
 
                         <div class="col-md-6">
                             <select name="event_type" class="form-select form-select-lg" required>
-                                <option selected disabled>Select Event Type</option>
+                                <option selected disabled required>Select Event Type</option>
                                 <option>Wedding</option>
                                 <option>Corporate Event</option>
                                 <option>Birthday Party</option>
@@ -244,6 +244,7 @@
                                 <i class="fas fa-paper-plane me-2"></i> Submit Review
                             </button>
                         </div>
+
                     </div>
                 </form>
 
@@ -424,6 +425,24 @@
                     });
                 });
 
+                document.getElementById("reviewForm").addEventListener("submit", function (e) {
 
+                    const name = document.querySelector('input[name="name"]').value.trim();
+                    const eventType = document.querySelector('select[name="event_type"]').value;
+                    const rating = document.getElementById("ratingValue").value;
+                    const message = document.querySelector('textarea[name="message"]').value.trim();
+                    const consent = document.getElementById("consent").checked;
 
+                    // ❌ Validation fail
+                    if (!name || !eventType || !rating || !message || !consent) {
+                        e.preventDefault(); // STOP submit
+                        alert("Please fill all fields and select rating before submitting.");
+                        return;
+                    }
+
+                    // ✅ Validation success
+                    alert("Thank you! Your review has been submitted.");
+
+                    // form will submit normally to backend
+                });
             </script>

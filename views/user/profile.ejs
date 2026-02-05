@@ -1,194 +1,168 @@
 <%- include('./navbar.ejs') %>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
 
-<link rel="stylesheet" href="css/book_event.css">
+  <link rel="stylesheet" href="css/book_event.css">
 
-<%
-  data = data || {};
+  <% data=data || {}; var profilePhoto=data.profile_photo ? '/upload/profile/' + data.profile_photo : '/images/user.png'
+    ; %>
 
-  var profilePhoto = data.profile_photo
-    ? '/upload/profile/' + data.profile_photo
-    : '/images/user.png';
-%>
+    <section class="demo_section">
+      <div class="booking-card">
 
-<section class="demo_section">
-  <div class="booking-card">
-
-    <!-- 🔥 PROFILE HEADER -->
-    <div class="booking-title text-center">
-      <img src="<%= profilePhoto %>" class="profile-photo mb-2">
-      <h2>My Profile</h2>
-      <p>View & update your profile details</p>
-    </div>
-
-    <!-- ✅ PROFILE UPDATE FORM -->
-    <form action="/profile/update" method="POST" enctype="multipart/form-data">
-      <div class="row g-3">
-        <!-- ✅ name -->
-        <div class="col-md-6">
-          <label class="form-label">Full Name</label>
-          <input type="text" class="form-control" name="name" value="<%= data.name || '' %>" required>
+        <!-- 🔥 PROFILE HEADER -->
+        <div class="booking-title text-center">
+          <img src="<%= profilePhoto %>" class="profile-photo mb-2">
+          <h2>My Profile</h2>
+          <p>View & update your profile details</p>
         </div>
 
-        <!-- email (readonly, not sent) -->
-        <div class="col-md-6">
-          <label class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            value="<%= data.email || '' %>"
-            readonly
-          >
-        </div>
+        <!-- ✅ PROFILE UPDATE FORM -->
+        <form action="/profile/update" method="POST" enctype="multipart/form-data">
+          <div class="row g-3">
+            <!-- ✅ name -->
+            <div class="col-md-6">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-control" name="name" value="<%= data.name || '' %>" required>
+            </div>
 
-        <!-- ✅ mobile -->
-        <div class="col-md-6">
-          <label class="form-label">Mobile Number</label>
-          <input
-            type="text"
-            class="form-control"
-            name="mobile"
-            value="<%= data.mobile || '' %>"
-            required
-          >
-        </div>
+            <!-- email (readonly, not sent) -->
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" value="<%= data.email || '' %>" readonly>
+            </div>
 
-        <!-- ✅ password (optional) -->
-        <div class="col-md-6">
-          <label class="form-label">New Password</label>
-          <input
-            type="password"
-            class="form-control"
-            name="password"
-            placeholder="Leave blank to keep current password"
-          >
-        </div>
+            <!-- ✅ mobile -->
+            <div class="col-md-6">
+              <label class="form-label">Mobile Number</label>
+              <input type="text" class="form-control" name="mobile" value="<%= data.mobile || '' %>" required>
+            </div>
 
-        <!-- ✅ profile photo -->
-        <div class="col-md-12">
-          <label class="form-label">Profile Photo</label>
-          <input
-  type="file"
-  class="form-control"
-  name="profile_photo"
-  id="photoInput"
-  accept="image/*"
-/>
-        </div>
+            <!-- ✅ password (optional) -->
+            <div class="col-md-6">
+              <label class="form-label">New Password</label>
+              <input type="password" class="form-control" name="password"
+                placeholder="Leave blank to keep current password">
+            </div>
 
-        <div class="col-md-12 mt-3">
-          <button type="submit" class="btn btn-book w-100">
-            <i class="fas fa-save me-2"></i> Update Profile
-          </button>
-        </div>
+            <!-- ✅ profile photo -->
+            <div class="col-md-12">
+              <label class="form-label">Profile Photo</label>
+              <input type="file" class="form-control" name="profile_photo" id="photoInput" accept="image/*" />
+            </div>
+
+            <div class="col-md-12 mt-3">
+              <button type="submit" class="btn btn-book w-100">
+                <i class="fas fa-save me-2"></i> Update Profile
+              </button>
+            </div>
+
+          </div>
+        </form>
 
       </div>
-    </form>
 
-  </div>
-
-  <!-- Crop Modal -->
-<div class="modal fade" id="cropModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Crop Profile Photo</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <!-- Crop Modal -->
+      <div class="modal fade" id="cropModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Crop Profile Photo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+              <img id="cropImage" style="max-width:100%;">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="cropSave">Crop & Save</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-body text-center">
-        <img id="cropImage" style="max-width:100%;">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="cropSave">Crop & Save</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-</section>
+    </section>
 
-<style>
-.profile-photo {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #5232DB;
-  background: #f1f1f1;
-}
-</style>
+    <style>
+      .profile-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #5232DB;
+        background: #f1f1f1;
+      }
+    </style>
 
-<script>
-let cropper;
-const input = document.getElementById('photoInput');
-const image = document.getElementById('cropImage');
-const modal = new bootstrap.Modal(document.getElementById('cropModal'));
+    <script>
+      let cropper;
+      const input = document.getElementById('photoInput');
+      const image = document.getElementById('cropImage');
+      const modal = new bootstrap.Modal(document.getElementById('cropModal'));
 
-input.addEventListener('change', function (e) {
-  const file = e.target.files[0];
-  if (!file) return;
+      input.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    image.src = reader.result;
-    modal.show();
+        const reader = new FileReader();
+        reader.onload = () => {
+          image.src = reader.result;
+          modal.show();
 
-    if (cropper) cropper.destroy();
+          if (cropper) cropper.destroy();
 
-    cropper = new Cropper(image, {
-      aspectRatio: 1, // square profile photo
-      viewMode: 2,
-      autoCropArea: 1
-    });
-  };
-  reader.readAsDataURL(file);
-});
+          cropper = new Cropper(image, {
+            aspectRatio: 1, // square profile photo
+            viewMode: 2,
+            autoCropArea: 1
+          });
+        };
+        reader.readAsDataURL(file);
+      });
 
-document.getElementById('cropSave').addEventListener('click', function () {
-  const canvas = cropper.getCroppedCanvas({
-    width: 400,
-    height: 500
-  });
+      document.getElementById('cropSave').addEventListener('click', function () {
+        const canvas = cropper.getCroppedCanvas({
+          width: 400,
+          height: 500
+        });
 
-  canvas.toBlob(blob => {
-    const file = new File([blob], "profile.jpg", { type: "image/jpeg" });
+        canvas.toBlob(blob => {
+          const file = new File([blob], "profile.jpg", { type: "image/jpeg" });
 
-    const dataTransfer = new DataTransfer();
-    dataTransfer.items.add(file);
-    input.files = dataTransfer.files;
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          input.files = dataTransfer.files;
 
-    modal.hide();
-  });
-});
-</script>
+          modal.hide();
+        });
+      });
+    </script>
 
-<script>
+    <script>
 
-const params = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams(window.location.search);
 
-  if (params.get("status") === "updated") {
-    alert("Profile updated successfully!");
-    window.history.replaceState(
-      {},
-      document.title,
-      window.location.pathname
-  );
-  }
+      if (params.get("status") === "updated") {
+        alert("Profile updated successfully!");
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname
+        );
+      }
 
-  if (params.get("status") === "error") {
-    alert("Error updating profile!");
-    window.history.replaceState(
-      {},
-      document.title,
-      window.location.pathname
-  );
-  }
+      if (params.get("status") === "error") {
+        alert("Error updating profile!");
+        window.history.replaceState(
+          {},
+          document.title,
+          window.location.pathname
+        );
+      }
 
-</script>
+    </script>
 
 
-<%- include('./footer.ejs') %>
+    <%- include('./footer.ejs') %>

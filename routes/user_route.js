@@ -67,7 +67,7 @@ router.get("/about", async function (req, res) {
     journey,
     leadership,
     social_links,
-    contact_info   // 👈 pass to ejs
+    contact_info// 👈 pass to ejs
 
   });
 });
@@ -155,35 +155,42 @@ router.get("/testimonials", async function (req, res) {
 
 
 router.post("/add", async (req, res) => {
-  try {
-    const { name, event_type, rating, message } = req.body;
 
-    let imageName = "";  // This matches admin column 'image'
-    const fs = require("fs");
+  if (req.session.user.id) {
+    try {
+      const { name, event_type, rating, message } = req.body;
 
-    // Check if file uploaded
-    if (req.files && req.files.img) {
-      const file = req.files.img;
-      // Create unique file name
-      imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
-      // Move file to upload folder
-      await file.mv("public/upload/testimonials/" + imageName);
-    }
+      let imageName = "";  // This matches admin column 'image'
+      const fs = require("fs");
 
-    // Insert into database (column 'image')
-    const sql = `
+      // Check if file uploaded
+      if (req.files && req.files.img) {
+        const file = req.files.img;
+        // Create unique file name
+        imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
+        // Move file to upload folder
+        await file.mv("public/upload/testimonials/" + imageName);
+      }
+      const sql = `
             INSERT INTO testimonials (name, event_type, rating, message, image)
             VALUES (?, ?, ?, ?, ?)
         `;
-    await exe(sql, [name, event_type, rating, message, imageName]);
+      await exe(sql, [name, event_type, rating, message, imageName]);
 
-    // Redirect to testimonials page
-    res.redirect("/testimonials");
+      // Redirect to testimonials page
+      res.redirect("/testimonials");
 
+    }
+    
   } catch (err) {
     console.error("Error adding testimonial:", err);
     res.send("Error while submitting testimonial");
   }
+  
+  else {
+    res.redirect("/login");
+  }
+
 });
 
 router.get("/testimonials", async (req, res) => {
