@@ -2288,6 +2288,7 @@ router.get("/edit_faq_header/:id", async function (req, res) {
     }
 });
 
+
 router.post("/update_header_faq/:id", async function (req, res) {
     try {
         const d = req.body;
@@ -2296,7 +2297,7 @@ router.post("/update_header_faq/:id", async function (req, res) {
 
         // if new image uploaded
         if (req.files && req.files.bg_image) {
-            filename = Date.now() + "_" + req.files.bg_image;
+            filename = Date.now() + "_" + req.files.bg_image.name;
             await req.files.bg_image.mv("public/upload/faq/" + filename);
         }
 
@@ -2323,6 +2324,7 @@ router.post("/update_header_faq/:id", async function (req, res) {
         res.status(500).send("Server Error");
     }
 });
+
 
 
 router.get("/add_faq", async function (req, res) {

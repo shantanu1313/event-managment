@@ -401,7 +401,11 @@ router.post("/save_login", async function (req, res) {
     if (d.password !== result[0].password) {
       return res.redirect("/login?error=invalid" + social_links + contact_info);
     }
-    req.session.user = result[0];
+    req.session.user = {
+      id: result[0].id,        
+      name: result[0].name,
+      email: result[0].email
+    };
     return res.redirect("/?login=success" + social_links + contact_info);
   } catch (err) {
     console.log(err);
@@ -655,11 +659,11 @@ router.post("/book_event", async (req, res) => {
       budget,
       message
     } = req.body;
-
+  
     const sql = `
             INSERT INTO book_event
-            (name, mobile, start_date, end_date, event_type, budget, message)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            (name, mobile, start_date, end_date, event_type, budget, message,user_id )
+            VALUES (?, ?, ?, ?, ?, ?, ?,?)
         `;
 
     await exe(sql, [
@@ -668,8 +672,9 @@ router.post("/book_event", async (req, res) => {
       start_date,
       end_date,
       event_type,
-      budget,
-      message
+      budget || null,
+      message,
+      req.session.user.id
     ]);
 
     // ✅ after successful save
@@ -681,10 +686,44 @@ router.post("/book_event", async (req, res) => {
   }
 });
 
+router.get("/my_bookings", async (req, res) => {
+    try {
+        if (!req.session.user) {
+            return res.redirect("/login");
+        }
+        const userId = req.session.user.id;
 
+        const bookings = await exe(
+            `SELECT * FROM book_event WHERE user_id = ? ORDER BY id DESC`,
+            [userId]
+        );
+        var sql2 = "SELECT * FROM social_links";
+    var social_links = await exe(sql2);
+    const contact_info = await exe("SELECT * FROM contact_info");
+  
 
+        res.render("user/my_bookings.ejs", {
+            bookings,
+            contact_info,
+            social_links
+        });
 
+    } catch (err) {
+        console.log(err);
+        res.send("Server Error");
+    }
+});
 
+router.post("/services_book_event", (req, res) => {
+  const { event, price } = req.body;
 
+  // ✅ session मध्ये store कर
+  req.session.selectedEvent = {
+    event,
+    price
+  };
+
+  res.redirect("/book_event.ejs");
+});
 
 module.exports = router;

@@ -13,57 +13,62 @@
                 <div class="alert alert-danger"><%= error %></div>
             <% } %>
 
-            <form action="/admin/update_header_faq/<%= headerPackage.id %>"
-                  method="POST"
-                  enctype="multipart/form-data">
+           <form action="/admin/update_header_faq/<%= headerPackage.id %>"
+      method="POST"
+      enctype="multipart/form-data">
 
-                <!-- Image -->
-                <div class="mb-3">
-                    <label class="form-label">Background Image</label>
-                    <input type="file"
-                           class="form-control"
-                           name="bg_image"
-                           accept="image/*"
-                           onchange="previewImage(event)">
+    <!-- 🔴 IMPORTANT -->
+    <input type="hidden"
+           name="old_bg_image"
+           value="<%= headerPackage.bg_image %>">
 
-                    <% if (headerPackage.bg_image) { %>
-                        <img id="imagePreview"
-                             src="/upload/faq/<%= headerPackage.bg_image %>"
-                             class="img-fluid mt-2 rounded"
-                             style="max-height:150px;">
-                    <% } %>
-                </div>
+    <!-- Image -->
+    <div class="mb-3">
+        <label class="form-label">Background Image</label>
+        <input type="file"
+               class="form-control"
+               name="bg_image"
+               accept="image/*"
+               onchange="previewImage(event)">
 
-                <!-- Title -->
-                <div class="mb-3">
-                    <label class="form-label">Title</label>
-                    <input type="text"
-                           class="form-control"
-                           name="title"
-                           value="<%= headerPackage.title %>"
-                           required>
-                </div>
+        <% if (headerPackage.bg_image) { %>
+            <img id="imagePreview"
+                 src="/upload/faq/<%= headerPackage.bg_image %>"
+                 class="img-fluid mt-2 rounded"
+                 style="max-height:150px;">
+        <% } %>
+    </div>
 
-                <!-- Description -->
-                <div class="mb-3">
-                    <label class="form-label">Description</label>
-                    <textarea class="form-control"
-                              name="description"
-                              rows="4"
-                              required><%= headerPackage.description %></textarea>
-                </div>
+    <!-- Title -->
+    <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text"
+               class="form-control"
+               name="title"
+               value="<%= headerPackage.title %>"
+               required>
+    </div>
 
-                <div class="d-flex justify-content-between">
-                    <a href="/admin/header_packages" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left me-1"></i> Back
-                    </a>
+    <!-- Description -->
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control"
+                  name="description"
+                  rows="4"
+                  required><%= headerPackage.description %></textarea>
+    </div>
 
-                    <button type="submit" class="btn btn-success">
-                        <i class="fas fa-save me-1"></i> Update
-                    </button>
-                </div>
+    <div class="d-flex justify-content-between">
+        <a href="/admin/header_packages" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Back
+        </a>
 
-            </form>
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save me-1"></i> Update
+        </button>
+    </div>
+</form>
+
         </div>
     </div>
 </div>

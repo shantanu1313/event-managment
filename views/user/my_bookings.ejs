@@ -1,0 +1,318 @@
+<%- include('./navbar.ejs') %>
+<!-- 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script> -->
+
+<!-- Custom CSS for the bookings page -->
+<style>
+    /* Background image styling */
+    .bookings-background {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+                         url('images/all_page_bg.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: calc(100vh - 150px);
+        padding: 40px 0;
+    }
+    /* Main container styling */
+    .booking-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        margin-top: 70px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .booking-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid rgba(74, 144, 226, 0.3);
+    }
+    
+    .booking-header h1 {
+        color: #2c3e50;
+        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, #4a90e2, #8e44ad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .booking-header p {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    /* Empty state styling */
+    .empty-booking-state {
+        text-align: center;
+        padding: 60px 30px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .empty-booking-state i {
+        font-size: 4rem;
+        color: #bdc3c7;
+        margin-bottom: 20px;
+        opacity: 0.7;
+    }
+    
+    .empty-booking-state h3 {
+        color: #34495e;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    
+    .empty-booking-state p {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .btn-new-booking {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-new-booking:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        color: white;
+    }
+    
+    /* Enhanced table styling */
+    .booking-table-container {
+        overflow-x: auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .booking-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .booking-table thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .booking-table thead th {
+        color: white;
+        font-weight: 600;
+        padding: 18px 15px;
+        text-align: center;
+        border: none;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .booking-table thead th:first-child {
+        border-top-left-radius: 15px;
+    }
+    
+    .booking-table thead th:last-child {
+        border-top-right-radius: 15px;
+    }
+    
+    .booking-table tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .booking-table tbody tr:nth-child(even) {
+        background-color: rgba(245, 245, 245, 0.7);
+    }
+    
+    .booking-table tbody tr:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .booking-table tbody tr:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+        transform: scale(1.005);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .booking-table tbody td {
+        padding: 16px 15px;
+        text-align: center;
+        color: #333;
+        font-size: 0.95rem;
+        border: none;
+        vertical-align: middle;
+    }
+    
+    .booking-table tbody td:first-child {
+        font-weight: 700;
+        color: #2c3e50;
+        font-size: 1.1rem;
+    }
+    
+    /* Event type badge */
+    .event-type-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    /* Budget styling */
+    .budget-cell {
+        font-weight: 700;
+        color: #27ae60;
+        font-size: 1.1rem;
+    }
+    
+    /* Message cell styling */
+    .message-cell {
+        max-width: 250px;
+        word-wrap: break-word;
+        line-height: 1.4;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .booking-container {
+            padding: 20px 15px;
+            margin: 15px;
+        }
+        
+        .booking-header h1 {
+            font-size: 2rem;
+        }
+        
+        .booking-table thead th {
+            padding: 12px 8px;
+            font-size: 0.85rem;
+        }
+        
+        .booking-table tbody td {
+            padding: 12px 8px;
+            font-size: 0.85rem;
+        }
+        
+        .event-type-badge {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+        }
+    }
+    
+    /* Animation for table rows */
+    @keyframes fadeInRow {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .booking-table tbody tr {
+        animation: fadeInRow 0.5s ease forwards;
+    }
+    
+    .booking-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+    .booking-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+    .booking-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+    .booking-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+    .booking-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+</style>
+
+<!-- Main Content -->
+<section class="bookings-background">
+    <div class="container">
+        <div class="booking-container">
+            <div class="booking-header">
+                <h1>My Event Bookings</h1>
+                <p>View and manage all your booked events in one place</p>
+            </div>
+            
+            <% if (bookings.length === 0) { %>
+                <div class="empty-booking-state">
+                    <i class="fas fa-calendar-times"></i>
+                    <h3>No Bookings Yet</h3>
+                    <p>You haven't booked any events yet. Start planning your perfect event by making your first booking!</p>
+                    <a href="/book" class="btn btn-new-booking">
+                        <i class="fas fa-plus-circle me-2"></i>Book Your First Event
+                    </a>
+                </div>
+            <% } else { %>
+                <div class="booking-table-container">
+                    <table class="booking-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Mobile</th>
+                                <th>Event Type</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Budget</th>
+                                <th>Message</th>
+                                  <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% bookings.forEach((b, i) => { %>
+                                <tr>
+                                    <td><strong><%= i + 1 %></strong></td>
+                                    <td><strong><%= b.name %></strong></td>
+                                    <td><%= b.mobile %></td>
+                                    <td>
+                                        <span class="event-type-badge"><%= b.event_type %></span>
+                                    </td>
+                                    <td><%= new Date(b.start_date).toLocaleDateString('en-GB') %></td>
+
+                                    <td><%= new Date(b.end_date).toLocaleDateString('en-GB') %></td>
+                                    <td class="budget-cell">₹ <%= b.budget %></td>
+                                    <td class="message-cell">
+                                        <% if (b.message && b.message.trim() !== '') { %>
+                                            <%= b.message %>
+                                        <% } else { %>
+                                            <span style="color: #95a5a6; font-style: italic;">- No message -</span>
+                                        <% } %>
+                                   
+                                    </td>
+                                     <td class="badge bg-warning m-3">
+                                    <%= b.status %>
+                                   </td>
+
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<%- include('./footer.ejs') %>
