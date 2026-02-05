@@ -1,255 +1,1192 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siddhhivinayak - Admin Panel</title>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <title>Siddhivinayak Events | Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Chart.js -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
         :root {
-            --primary-color: #6a11cb;
-            --secondary-color: #2575fc;
+            /* Color Scheme from Screenshot Footer */
+            --primary: #3167be;
+            --primary-light: #a9c4e4;
+            --primary-dark: #2563eb;
+            --secondary: #8b5cf6;
+            --secondary-light: #a78bfa;
+            --accent: #ec4899;
+            --accent-light: #f472b6;
+            --sidebar-bg: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            --navbar-bg: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+            --card-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            --stats-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --border-color: #cbd5e1;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --sidebar-width: 260px;
+        }
+
+        /* Hide scrollbars */
+        body::-webkit-scrollbar,
+        .sidebar::-webkit-scrollbar,
+        .main-content::-webkit-scrollbar {
+            display: none;
+        }
+        
+        body,
+        .sidebar,
+        .main-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        #sidebar {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #fdf4ff 100%);
+            color: var(--dark);
+            display: flex;
             min-height: 100vh;
+            overflow: hidden;
         }
 
-        #sidebar .nav-link {
+        /* Fixed Sidebar with Gradient */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
             color: white;
-            padding: 12px 20px;
-            border-left: 3px solid transparent;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
             transition: all 0.3s ease;
         }
 
-        #sidebar .nav-link:hover,
-        #sidebar .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left-color: var(--primary-color);
+        .logo-area {
+            padding: 24px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* ===== CUSTOM DROPDOWN ===== */
-        .custom-dropdown {
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-light);
+            background: linear-gradient(90deg, var(--primary-light), var(--accent-light));
+            background-clip: text;          /* standard */
+            -webkit-background-clip: text;  /* Chrome/Safari */
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-nav {
+            padding: 24px 0;
+            flex-grow: 1;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 20px 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 4px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
             position: relative;
         }
 
-        .dropdown-toggle-click {
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-links a.active {
+            color: white;
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-links i {
+            width: 20px;
+            font-size: 16px;
+            color: var(--primary-light);
+        }
+
+        .nav-links a.active i {
+            color: white;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--accent), var(--danger));
+            color: white;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .user-info h4 {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .user-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            overflow-y: auto;
+            height: 100vh;
+            padding: 0;
+        }
+
+        /* Top Navbar with Gradient */
+        .top-navbar {
+            position: sticky;
+            top: 0;
+            background: var(--navbar-bg);
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-wrapper input {
+            padding: 12px 20px 12px 42px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 10px;
+            width: 300px;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-wrapper input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .navbar-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            position: relative;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, var(--danger), var(--accent));
+            color: white;
+            font-size: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        /* Stats Cards with Gradient */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-gradient);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--stats-gradient);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-1 .stat-icon {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+
+        .stat-2 .stat-icon {
+            background: linear-gradient(135deg, var(--success), #34d399);
+        }
+
+        .stat-3 .stat-icon {
+            background: linear-gradient(135deg, var(--warning), #fbbf24);
+        }
+
+        .stat-4 .stat-icon {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        }
+
+        .stat-content h3 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .stat-content p {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        /* Main Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container, .upcoming-events, .recent-activity {
+            background: var(--card-gradient);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-container::before, .upcoming-events::before, .recent-activity::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        /* Wrapper */
+            .custom-dropdown {
+            position: relative;
+        }
+
+            /* Clickable row */
+            .dropdown-toggle-click {
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
         }
 
-        .dropdown-arrow i {
+            /* Arrow animation */
+            .dropdown-arrow i {
             font-size: 12px;
             transition: transform 0.3s ease;
         }
 
-        .custom-dropdown.open .dropdown-arrow i {
+            /* Rotate arrow when open */
+            .custom-dropdown.open .dropdown-arrow i {
             transform: rotate(180deg);
         }
 
-        .dropdown-menu-click {
+            /* Dropdown menu */
+            .dropdown-menu-click {
             display: none;
             background: linear-gradient(135deg, #7c3aed, #2563eb);
             border-radius: 8px;
             margin-top: 6px;
-            animation: fadeIn 0.3s ease;
         }
 
-        .dropdown-menu-click .dropdown-item {
+            /* Items */
+            .dropdown-menu-click .dropdown-item {
             color: #fff;
             padding: 10px 20px;
             font-size: 14px;
         }
 
-        .dropdown-menu-click .dropdown-item:hover {
+            .dropdown-menu-click .dropdown-item:hover {
             background: rgba(255, 255, 255, 0.15);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        .section-title-main {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-link {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .section-link:hover {
+            color: var(--secondary);
+            gap: 8px;
+        }
+
+        .chart-placeholder {
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 10px;
+            color: var(--gray);
+            flex-direction: column;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .events-list, .activity-list {
+            list-style: none;
+        }
+
+        .events-list li, .activity-list li {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .events-list li:last-child, .activity-list li:last-child {
+            border-bottom: none;
+        }
+
+        .event-info h4, .activity-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--dark);
+        }
+
+        .event-info p, .activity-info p {
+            font-size: 13px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-status, .activity-time {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            color: var(--primary);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .status-ongoing {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1));
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-booking {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .activity-payment {
+            background: linear-gradient(135deg, var(--success), #10b981);
+        }
+
+        .activity-event {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        }
+
+        .gradient-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--primary);
+            background: linear-gradient( 90deg, var(--primary), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Recent Bookings Table */
+        .recent-bookings {
+            background: var(--card-gradient);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recent-bookings::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        thead {
+            background: linear-gradient(90deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.03), rgba(139, 92, 246, 0.03));
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-view {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            color: var(--primary);
+        }
+
+        .action-edit {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
+            color: var(--success);
+        }
+
+        .action-delete {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(244, 114, 182, 0.1));
+            color: var(--danger);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer with Gradient */
+        .dashboard-footer {
+            padding: 20px 0;
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 30px;
+        }
+
+        .footer-gradient {
+            background: linear-gradient(90deg, #ff512f, #dd2476, #ffb347);
+            background-clip: text;        /* standard */
+            color: transparent;
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
             }
         }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .logo-text, .section-title, .nav-links span, .user-info {
+                display: none;
+            }
+            
+            .logo-area {
+                justify-content: center;
+                padding: 24px 0;
+            }
+            
+            .nav-links a {
+                justify-content: center;
+                padding: 16px 0;
+            }
+            
+            .nav-links i {
+                font-size: 18px;
+                width: auto;
+                margin: 0;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+            
+            .sidebar-footer {
+                padding: 20px 10px;
+            }
+            
+            .user-profile {
+                justify-content: center;
+            }
+            
+            .search-wrapper input {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .top-navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                padding: 16px 20px;
+            }
+            
+            .navbar-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .search-wrapper input {
+                width: 180px;
+            }
+            
+            .dashboard-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-wrapper input {
+                width: 150px;
+            }
+            
+            .navbar-icons {
+                gap: 12px;
+            }
+        }
+        
+        .sidebar-nav ul{
+            margin-left: 0px;
+            padding-left:0px;
+        }
+
+
+        .sidebar-nav ul li{
+            margin-left: 0px;
+            padding-left:0px;
+        }
+
     </style>
 </head>
-
 <body>
+    <!-- Fixed Sidebar -->
+    <nav class="sidebar">
+        <div class="logo-area">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="logo-text">Siddhivinayak</div>
+            </a>
+        </div>
+        
+        <div class="sidebar-nav">
+            <div class="nav-section">
+                <div class="section-title">Main</div>
+                <ul class="nav-links">
+                    <li><a href="/admin/" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
 
-    <div class="container-fluid">
-        <div class="row">
 
-            <!-- SIDEBAR -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-                <div class="position-sticky pt-3">
+                    <li class="nav-item custom-dropdown">
+                    <!-- Main clickable Home Page -->
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        Home Page
+                        </span>
 
-                    <div class="text-center py-4 border-bottom">
-                        <h2 class="text-white fw-bold">Siddhivinayak</h2>
-                        <p class="text-muted small"><b>Admin Panel</b></p>
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <!-- Dropdown menu -->
+                    <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/home/home_slider">
+                        <i class="fas fa-sliders-h me-2"></i> Home Slider
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/home/home_our_story">
+                        <i class="fas fa-history me-2"></i> Our Story
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/home/choose_us">
+                        <i class="fas fa-star me-2"></i> Why Choose Us
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/services/how_work">
+                        <i class="bi bi-gear-fill me-2"></i> How We Work
+                        </a>
                     </div>
 
-                    <ul class="nav flex-column">
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/admin/">
-                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                    <li class="nav-item custom-dropdown">
+                    <!-- About main clickable row -->
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-users me-2"></i>
+                        About Page
+                        </span>
+
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <!-- About dropdown menu -->
+                    <div class="dropdown-menu-click">
+
+                        <a class="dropdown-item" href="/admin/about/slider">
+                        <i class="fas fa-images me-2"></i> About Slider
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/about/our_story">
+                        <i class="fas fa-book-open me-2"></i> Add Our Story
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/about/vision_mission">
+                        <i class="fas fa-bullseye me-2"></i> Vision & Mission
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/about/core-values">
+                        <i class="fas fa-gem me-2"></i> Core Values
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/about/our_evolution">
+                        <i class="fas fa-timeline me-2"></i> Our Evolution
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/about/our_evolution-list">
+                        <i class="fas fa-list-ol me-2"></i> Our Evolution List
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/about/add_team">
+                        <i class="fas fa-user-plus me-2"></i> Add Team Members
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/about/team_list">
+                        <i class="fas fa-users me-2"></i> Team Members
+                        </a>
+
+                    </div>
+                    </li>
+                    
+                    <!-- Services Page Dropdown -->
+                    <li class="nav-item custom-dropdown">
+                    <a class="nav-link dropdown-toggle-click" href="javascript:void(0)">
+                        <span class="nav-text">
+                        <i class="fas fa-concierge-bell me-2"></i>
+                        Services
+                        </span>
+
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/service_slider">
+                        <i class="fas fa-sliders-h me-2"></i> Add Service Slider
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/service">
+                        <i class="fas fa-plus-circle me-2"></i> Add Service
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/services/add_other_service">
+                        <i class="fas fa-tags me-2"></i> Add Other Service
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/services/how_work">
+                        <i class="bi bi-gear-fill me-2"></i> How We Work
+                        </a>
+                    </div>
+                    </li>
+
+                    <!-- Packages Page Dropdown -->
+                    <li class="nav-item custom-dropdown">
+                    <a class="nav-link dropdown-toggle-click" href="javascript:void(0)">
+                        <span class="nav-text">
+                        <i class="fas fa-box-open me-2"></i>
+                        Packages
+                        </span>
+
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/header_packages">
+                        <i class="fas fa-sliders-h me-2"></i> Add Header
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/add_packages">
+                        <i class="fas fa-plus-circle me-2"></i> Add Packages
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/add_features">
+                        <i class="bi bi-gear-fill me-2"></i> Add Features
+                        </a>
+                    </div>
+                    </li>
+
+                    <!-- Gallery Page Dropdown -->
+                    <li class="nav-item custom-dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-images me-2"></i>
+                        Gallery
+                        </span>
+
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+
+                        <a class="dropdown-item" href="/admin/gallery">
+                        <i class="fas fa-image me-2"></i> Add Gallery
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/gallery_list">
+                        <i class="fas fa-list me-2"></i> Gallery List
+                        </a>
+
+                    </div>
+                    </li>
+
+                    <!-- Blog News Dropdown -->
+                    <li class="nav-item custom-dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-newspaper me-2"></i>
+                        Blog / News
+                        </span>
+
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/blog_slider">
+                        <i class="fas fa-photo-video me-2"></i> Blog Slider
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/blog">
+                        <i class="fas fa-plus-circle me-2"></i> Add Blog
+                        </a>
+                    </div>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/booking">
+                            <i class="fas fa-bookmark"></i>
+                            Bookings
+                        <span class="badge bg-light text-dark ms-2">3</span>
+                        </a>
+                    </li>
+
+                    <!-- Reviews & Testimonials -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/testimonials">
+                            <i class="fas fa-star"></i>
+                            Testimonials
+                        </a>
+                    </li>
+
+                    <!-- Contact Page Dropdown -->
+                    <li class="nav-item custom-dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-address-book me-2"></i>
+                        Contact
+                        </span>
+
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+
+                        <a class="dropdown-item" href="/admin/contact">
+                        <i class="fas fa-image me-2"></i> Contact Header
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/contact-info">
+                        <i class="fas fa-info-circle me-2"></i> Contact Info
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/contact-form">
+                        <i class="fas fa-envelope me-2"></i> Contact Form
+                        </a>
+
+                    </div>
+                    </li>
+
+
+                    <!-- FAQ Page Dropdown -->
+                    <li class="nav-item custom-dropdown">
+                        <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                            <span class="nav-text">
+                            <i class="fas fa-question-circle me-2"></i>
+                            FAQ
+                            </span>
+
+                            <span class="dropdown-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </a>
+
+                        <div class="dropdown-menu-click">
+
+                            <a class="dropdown-item" href="/admin/header_faq">
+                            <i class="fas fa-sliders-h me-2"></i> Header FAQ
                             </a>
+
+                            <a class="dropdown-item" href="/admin/add_faq">
+                            <i class="fas fa-plus-circle me-2"></i> Add FAQ
+                            </a>
+
+                        </div>
                         </li>
 
-                        <!-- Home -->
+                        <!-- Privacy Page Dropdown -->
                         <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-home me-2"></i> Home Page</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+                        <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                            <span class="nav-text">
+                            <i class="fas fa-shield-alt me-2"></i>
+                            Privacy Management
+                            </span>
+
+                            <span class="dropdown-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                            </span>
+                        </a>
+
+                        <div class="dropdown-menu-click">
+
+                            <a class="dropdown-item" href="/admin/policy">
+                            <i class="fas fa-shield-alt me-2"></i> Privacy Policy
                             </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/home/home_slider">Home Slider</a>
-                                <a class="dropdown-item" href="/admin/home/home_our_story">Our Story</a>
-                                <a class="dropdown-item" href="/admin/home/choose_us">Why Choose Us</a>
-                            </div>
-                        </li>
 
-                        <!-- About (Bootstrap Collapse) -->
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#aboutMenu">
-                                <i class="fas fa-info-circle me-2"></i> About Page
-                                <i class="fas fa-chevron-down float-end"></i>
+                            <a class="dropdown-item" href="/admin/reports">
+                            <i class="fas fa-file-alt me-2"></i> Reports
                             </a>
-                            <div class="collapse" id="aboutMenu">
-                                <ul class="nav flex-column ms-3">
-                                    <li class="nav-item"><a class="nav-link" href="/admin/about/slider">About Slider</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="/admin/about/our_story">Our Story</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="/admin/about/vision_mission">Vision &
-                                            Mission</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="/admin/about/core-values">Core
-                                            Values</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="/admin/about/our_evolution">Our
-                                            Evolution</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="/admin/about/our_evolution-list">Our
-                                            Evolution List</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="/admin/about/add_team">Add Team</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="/admin/about/team_list">Team List</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
 
-                        <!-- Services -->
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-concierge-bell me-2"></i> Services</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+                            <a class="dropdown-item" href="/admin/privacy-logs">
+                            <i class="fas fa-history me-2"></i> Privacy Logs
                             </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/service_slider">Service Slider</a>
-                                <a class="dropdown-item" href="/admin/service">Add Service</a>
-                                <a class="dropdown-item" href="/admin/services/add_other_service">Other Service</a>
-                                <a class="dropdown-item" href="/admin/services/how_work">How We Work</a>
-                            </div>
-                        </li>
 
-                        <!-- Packages -->
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-box me-2"></i> Packages</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/header_packages">Header</a>
-                                <a class="dropdown-item" href="/admin/add_packages">Add Packages</a>
-                                <a class="dropdown-item" href="/admin/add_features">Add Features</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-concierge-bell me-2"></i> Gallery</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/gallery">Gallery Header</a>
-                                <a class="dropdown-item" href="/admin/gallery_list">Gallery List</a>
-
-                            </div>
-                        </li>
-
-                        <!-- Blog -->
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-newspaper me-2"></i> Blog / News</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/blog_slider">Blog Slider</a>
-                                <a class="dropdown-item" href="/admin/blog">Add Blog</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-address-card me-2"></i> Contact</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/contact">
-                                    <i class="fas fa-address-book me-2"></i> Contact
-                                </a>
-
-                                <a class="dropdown-item" href="/admin/contact-info">
-                                    <i class="fas fa-phone me-2"></i> Contact Us
-                                </a>
-
-                                <a class="dropdown-item" href="/admin/contact-form">
-                                    <i class="fas fa-envelope-open-text me-2"></i> Contact Inquiry
-                                </a>
-
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/booking">
-                                <i class="fas fa-bookmark me-2"></i> Bookings
-                            </a>
-                        </li>
-
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-box me-2"></i> Testimonials</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/testimonials">Testimonials List</a>
-                                <a class="dropdown-item" href="/admin/testimonials-header">Testimonials Slider</a>
-                            </div>
+                        </div>
                         </li>
 
 
@@ -257,47 +1194,86 @@
 
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/condition">
-                                <i class="fas fa-cog me-2"></i> Terms & Condition
+                                <i class="fas fa-cog"></i>
+                                Terms & Conditions
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/social_links">
-                                <i class="fas fa-globe me-2"></i> Social Links
-                            </a>
-                        </li>
-
-                    </ul>
-
-                    <div class="mt-4 pt-3 border-top">
-                        <a href="/admin/logout" class="btn btn-outline-light w-100">
-                            <i class="fas fa-sign-out-alt me-2"></i> Logout
-                        </a>
-                    </div>
-
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <div class="section-title">Management</div>
+                <ul class="nav-links">
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> <span>Payments</span></a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> <span>Reports</span></a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <div class="section-title">Settings</div>
+                <ul class="nav-links">
+                    <li><a href="#"><i class="fas fa-cog"></i> <span>System Settings</span></a></li>
+                    <li><a href="#"><i class="fas fa-bell"></i> <span>Notifications</span></a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> <span>Help & Support</span></a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">AD</div>
+                <div class="user-info">
+                    <h4>Admin User</h4>
+                    <p>Super Admin</p>
                 </div>
-            </nav>
+                <i class="fas fa-chevron-down" style="color: rgba(255, 255, 255, 0.5);"></i>
+            </div>
+        </div>
+    </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-                <!-- ✅ FINAL JS FIX -->
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        document.querySelectorAll(".dropdown-toggle-click").forEach(toggle => {
-                            toggle.addEventListener("click", function () {
-                                const parent = this.closest(".custom-dropdown");
-                                const menu = parent.querySelector(".dropdown-menu-click");
+  const dropdowns = document.querySelectorAll(".custom-dropdown");
 
-                                document.querySelectorAll(".custom-dropdown").forEach(item => {
-                                    if (item !== parent) {
-                                        item.classList.remove("open");
-                                        const m = item.querySelector(".dropdown-menu-click");
-                                        if (m) m.style.display = "none";
-                                    }
-                                });
+  dropdowns.forEach(dropdown => {
+    const toggle = dropdown.querySelector(".dropdown-toggle-click");
+    const menu = dropdown.querySelector(".dropdown-menu-click");
 
-                                parent.classList.toggle("open");
-                                menu.style.display = parent.classList.contains("open") ? "block" : "none";
-                            });
-                        });
-                    });
-                </script>
+    // 🔹 Toggle dropdown ONLY when clicking header
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      dropdowns.forEach(d => {
+        if (d !== dropdown) {
+          d.classList.remove("open");
+          const m = d.querySelector(".dropdown-menu-click");
+          if (m) m.style.display = "none";
+        }
+      });
+
+      dropdown.classList.toggle("open");
+      menu.style.display = dropdown.classList.contains("open") ? "block" : "none";
+    });
+
+    // ✅ Allow links inside dropdown to work
+    menu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.stopPropagation(); // VERY IMPORTANT
+        // ❌ do NOT preventDefault here
+      });
+    });
+  });
+
+  // optional: close dropdown when clicking outside
+  document.addEventListener("click", () => {
+    dropdowns.forEach(d => {
+      d.classList.remove("open");
+      const m = d.querySelector(".dropdown-menu-click");
+      if (m) m.style.display = "none";
+    });
+  });
+
+});
+</script> 

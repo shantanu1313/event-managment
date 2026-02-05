@@ -1,447 +1,210 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../navbar.ejs') %>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Update Service Slider | Admin Dashboard</title>
+<main class="main-content">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- 🔹 TOP DASHBOARD BAR -->
+    <header class="top-navbar">
+        <div class="page-title">
+            <h1>Dashboard Overview</h1>
+            <p>Welcome back! Here's what's happening with your events today.</p>
+        </div>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+        <div class="navbar-right">
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search events, clients, payments...">
+            </div>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+            <div class="navbar-icons">
+                <div class="nav-icon">
+                    <i class="far fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </div>
+                <div class="nav-icon">
+                    <i class="far fa-envelope"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="nav-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+        </div>
+    </header>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f9ff 0%, #f0f7ff 100%);
-            min-height: 100vh;
-            color: #333;
-        }
+    <div class="dashboard-content">
 
-        /* Page Header */
-        .page-header {
-            background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
-            color: white;
-            padding: 24px 0;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 12px rgba(11, 94, 215, 0.15);
-            position: relative;
-            overflow: hidden;
-        }
+        <!-- 🔹 PAGE CSS -->
+        <style>
+            body {
+                font-family: 'Poppins', sans-serif;
+                background-color: #F4F6F9;
+                color: #212529;
+            }
 
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.3);
-        }
+            .page-header {
+                background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+                color: #fff;
+                padding: 22px 26px;
+                border-radius: 16px;
+                margin-bottom: 35px;
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                box-shadow: 0 8px 22px rgba(11, 94, 215, 0.3);
+            }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+            .page-header i {
+                font-size: 32px;
+            }
 
-        .page-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+            .service-card {
+                background: #FFFFFF;
+                border-radius: 16px;
+                border: 1px solid #DEE2E6;
+                box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+            }
 
-        .header-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            backdrop-filter: blur(10px);
-        }
+            .card-header {
+                background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+                color: #fff;
+                padding: 16px;
+                font-weight: 600;
+            }
 
-        .page-title-container h1 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
+            .form-label {
+                font-weight: 600;
+            }
 
-        .page-breadcrumb {
-            font-size: 14px;
-            opacity: 0.9;
-        }
+            .input-group-text {
+                background: #E9F2FF;
+                color: #0B5ED7;
+            }
 
-        .page-breadcrumb a {
-            color: white;
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
+            .btn-submit {
+                padding: 12px 38px;
+                border-radius: 12px;
+                font-weight: 600;
+                background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+                color: #fff;
+                border: none;
+            }
 
-        .page-breadcrumb a:hover {
-            opacity: 0.8;
-        }
-
-        .page-breadcrumb span {
-            margin: 0 6px;
-        }
-
-        .current-page {
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .back-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Card Container */
-        .container {
-            max-width: 520px;
-            margin: 0 auto 40px;
-            background: #ffffff;
-            padding: 32px;
-            border-radius: 18px;
-            border: 1px solid #DEE2E6;
-            box-shadow: 0 18px 40px rgba(11, 94, 215, 0.12);
-        }
-
-        /* Form Title */
-        .form-title {
-            text-align: center;
-            margin-bottom: 28px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 22px;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        .form-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
-            border-radius: 2px;
-        }
-
-        .form-title i {
-            margin-right: 8px;
-        }
-
-        /* Labels */
-        label {
-            font-weight: 600;
-            display: block;
-            margin-bottom: 8px;
-            color: #212529;
-            font-size: 15px;
-        }
-
-        /* Input Group */
-        .input-group {
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        .input-group i {
-            position: absolute;
-            top: 50%;
-            left: 14px;
-            transform: translateY(-50%);
-            color: #0B5ED7;
-            font-size: 16px;
-        }
-
-        input[type="text"],
-        input[type="file"],
-        textarea {
-            width: 100%;
-            padding: 14px 16px 14px 42px;
-            border-radius: 10px;
-            border: 1px solid #DEE2E6;
-            outline: none;
-            font-size: 15px;
-            transition: 0.3s;
-            background: #ffffff;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        input[type="file"] {
-            padding-left: 14px;
-        }
-
-        textarea {
-            resize: none;
-            height: 120px;
-            padding-top: 12px;
-        }
-
-        input:focus,
-        textarea:focus {
-            border-color: #0B5ED7;
-            box-shadow: 0 0 0 3px rgba(11, 94, 215, 0.15);
-        }
-
-        /* Old Image */
-        .old-image {
-            text-align: center;
-            margin-bottom: 28px;
-            padding: 20px;
-            background: #f8fafc;
-            border-radius: 12px;
-            border: 2px dashed #0B5ED7;
-        }
-
-        .old-image img {
-            width: 140px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 2px solid #0B5ED7;
-            margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(11, 94, 215, 0.1);
-        }
-
-        .old-image label {
-            color: #0B5ED7;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        /* Button */
-        .btn-primary {
-            padding: 14px 36px;
-            border-radius: 12px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s ease;
-            font-size: 16px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(11, 94, 215, 0.35);
-        }
-
-        /* Error */
-        .error {
-            text-align: center;
-            color: #DC3545;
-            font-weight: 500;
-            margin-top: 20px;
-            padding: 15px;
-            background: #fef2f2;
-            border-radius: 10px;
-            border: 1px solid #fecaca;
-        }
-
-        .text-center {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 20px;
+            .old-image {
                 text-align: center;
+                margin-bottom: 20px;
             }
 
-            .page-info {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .container {
-                margin: 0 15px 40px;
-                padding: 25px 20px;
-            }
-
-            .form-title {
-                font-size: 20px;
-            }
-
-            .page-title-container h1 {
-                font-size: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
             .old-image img {
-                width: 120px;
-                height: 90px;
+                width: 140px;
+                border-radius: 12px;
+                border: 2px solid #0B5ED7;
             }
+        </style>
 
-            .btn-primary {
-                width: 100%;
-                padding: 12px 20px;
-            }
+        <div class="container mt-4">
 
-            .back-btn {
-                padding: 8px 16px;
-                font-size: 13px;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <%- include('../navbar.ejs') %>
-
-    <!-- Page Header -->
-    <div class="page-header">
-        <div class="header-content">
-            <div class="page-info">
-                <div class="header-icon">
-                    <i class="fa-solid fa-sliders-h"></i>
+            <!-- 🔷 PAGE HEADER -->
+            <div class="page-header">
+                <i class="fas fa-pen-to-square"></i>
+                <div>
+                    <h3>Edit Service Slider</h3>
+                    <p>Admin Panel → Services → Edit Slider</p>
                 </div>
-                <div class="page-title-container">
-                    <h1>Service Slider Management</h1>
-                    <div class="page-breadcrumb">
-                        <a href="/admin">Dashboard</a>
-                        <span>/</span>
-                        <a href="/admin/services">Services</a>
-                        <span>/</span>
-                        <span class="current-page">Update Slider</span>
+            </div>
+
+            <!-- 🔷 EDIT FORM -->
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <div class="service-card">
+                        <div class="card-header text-center">
+                            <i class="fas fa-edit me-2"></i> Update Service Slider
+                        </div>
+
+                        <div class="card-body p-4">
+
+                            <% if (data && data.length > 0) { %>
+                                <form 
+                                    action="/admin/services/update_service_slider/<%= data[0].slider_id %>" 
+                                    method="post" 
+                                    enctype="multipart/form-data"
+                                >
+
+                                    <input type="hidden" name="old_image" value="<%= data[0].image %>">
+
+                                    <!-- OLD IMAGE -->
+                                    <div class="old-image">
+                                        <label class="form-label">Current Image</label><br>
+                                        <img src="/upload/service/<%= data[0].image %>" alt="Slider Image">
+                                    </div>
+
+                                    <!-- TITLE -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Title</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-heading"></i>
+                                            </span>
+                                            <input 
+                                                type="text" 
+                                                name="title" 
+                                                class="form-control" 
+                                                value="<%= data[0].title %>" 
+                                                required
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <!-- DESCRIPTION -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Description</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-align-left"></i>
+                                            </span>
+                                            <textarea 
+                                                name="description" 
+                                                class="form-control" 
+                                                rows="3" 
+                                                required
+                                            ><%= data[0].description %></textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- NEW IMAGE -->
+                                    <div class="mb-4">
+                                        <label class="form-label">Upload New Image (optional)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-image"></i>
+                                            </span>
+                                            <input 
+                                                type="file" 
+                                                name="image" 
+                                                class="form-control"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-submit">
+                                            <i class="fas fa-save me-1"></i> Update Slider
+                                        </button>
+                                    </div>
+
+                                </form>
+                            <% } else { %>
+                                <p class="text-center text-danger">
+                                    No slider data found.
+                                </p>
+                            <% } %>
+
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="header-actions">
-                <button class="back-btn" onclick="window.history.back()">
-                    <i class="fa-solid fa-arrow-left"></i> Back
-                </button>
-            </div>
+
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="container">
-            <h2 class="form-title"><i class="fa-solid fa-pen-to-square"></i> Update Service Slider</h2>
 
-            <% if (data && data.length> 0) { %>
-                <form action="/admin/services/update_service_slider/<%= data[0].slider_id %>" method="post"
-                    enctype="multipart/form-data">
-
-                    <input type="hidden" name="old_image" value="<%= data[0].image %>">
-
-                    <div class="old-image">
-                        <label><i class="fa-solid fa-image"></i> Current Image</label>
-                        <img src="/upload/service/<%= data[0].image %>" alt="Current Image">
-                    </div>
-
-                    <label><i class="fa-solid fa-upload"></i> Upload New Image</label>
-                    <input type="file" name="image">
-
-                    <label><i class="fa-solid fa-heading"></i> Title</label>
-                    <div class="input-group">
-                        <i class="fa-solid fa-heading"></i>
-                        <input type="text" name="title" value="<%= data[0].title %>" required>
-                    </div>
-
-                    <label><i class="fa-solid fa-align-left"></i> Description</label>
-                    <div class="input-group">
-                        <i class="fa-solid fa-align-left"></i>
-                        <textarea name="description" required><%= data[0].description %></textarea>
-                    </div>
-
-                    <div class="text-center">
-                        <button type="submit" class="btn-primary">
-                            <i class="fa-solid fa-floppy-disk"></i> Update Slider
-                        </button>
-                    </div>
-
-                </form>
-                <% } else { %>
-                    <p class="error">
-                        <i class="fa-solid fa-exclamation-triangle"></i> No slider data found.
-                    </p>
-                    <% } %>
-        </div>
-    </div>
-
-    <%- include('../footer.ejs') %>
-
-    <script>
-        // Add current date to header
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateElement = document.createElement('div');
-            dateElement.className = 'current-date';
-            dateElement.style.fontSize = '14px';
-            dateElement.style.opacity = '0.9';
-            dateElement.style.marginTop = '5px';
-            
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const today = new Date().toLocaleDateString('en-US', options);
-            dateElement.innerHTML = `<i class="fa-regular fa-calendar"></i> ${today}`;
-            
-            const pageTitleContainer = document.querySelector('.page-title-container');
-            if (pageTitleContainer) {
-                pageTitleContainer.appendChild(dateElement);
-            }
-        });
-    </script>
-
-</body>
-
-</html>
+<%- include('../footer.ejs') %>

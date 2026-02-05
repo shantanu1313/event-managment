@@ -692,8 +692,7 @@ router.get("/my_bookings", async (req, res) => {
             return res.redirect("/login");
         }
         const userId = req.session.user.id;
-
-        const bookings = await exe(
+     const bookings = await exe(
             `SELECT * FROM book_event WHERE user_id = ? ORDER BY id DESC`,
             [userId]
         );
@@ -725,5 +724,18 @@ router.post("/services_book_event", (req, res) => {
 
   res.redirect("/book_event.ejs");
 });
+
+
+router.get('/logout', function (req, res) {
+    req.session.destroy(function (err) {
+        if (err) {
+            console.error(err);
+            return res.redirect('/'); // fallback
+        }
+        res.clearCookie('connect.sid');
+        res.redirect('/login');
+    });
+});
+
 
 module.exports = router;

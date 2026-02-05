@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login | Siddhivinayak Events</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Inter','Segoe UI',sans-serif;
+        }
+
+        :root{
+            --primary:#3167be;
+            --primary-light:#a9c4e4;
+            --secondary:#8b5cf6;
+            --accent:#ec4899;
+
+            --dark:#0f172a;
+            --card:#ffffff;
+            --gray:#64748b;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 50%,#fdf4ff 100%);
+        }
+
+        .login-wrapper{
+            width:100%;
+            max-width:1100px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:40px;
+        }
+
+        /* LEFT SIDE */
+        .login-left{
+            max-width:520px;
+        }
+
+        .login-left h1{
+            font-size: 40px;
+            font-weight: 800;
+
+            color: var(--primary); /* fallback */
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+
+            background-clip: text;           /* standard */
+            -webkit-background-clip: text;   /* chrome / safari */
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 20px;
+        }
+
+
+        .login-left p{
+            font-size:16px;
+            color:var(--gray);
+            line-height:1.6;
+        }
+
+        /* LOGIN CARD */
+        .login-card{
+            width:380px;
+            background:var(--card);
+            border-radius:16px;
+            padding:35px;
+            box-shadow:0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .login-logo{
+            width:70px;
+            height:70px;
+            border-radius:16px;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-size:30px;
+            margin:0 auto 15px;
+        }
+
+        .login-card h4{
+            text-align:center;
+            font-weight:700;
+            margin-bottom:20px;
+            color:var(--dark);
+        }
+
+        .form-label{
+            font-weight:600;
+            color:var(--dark);
+        }
+
+        .form-control{
+            padding:12px;
+            border-radius:10px;
+            border:1px solid #cbd5e1;
+        }
+
+        .form-control:focus{
+            border-color:var(--primary);
+            box-shadow:0 0 0 .2rem rgba(49,103,190,.2);
+        }
+
+        .btn-login{
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            background:linear-gradient(135deg,var(--primary),var(--secondary));
+            color:#fff;
+            font-weight:700;
+            transition:.3s;
+        }
+
+        .btn-login:hover{
+            transform:translateY(-2px);
+            box-shadow:0 10px 20px rgba(59,130,246,.3);
+        }
+
+        .alert{
+            font-size:14px;
+        }
+
+        footer{
+            position:fixed;
+            bottom:15px;
+            width:100%;
+            text-align:center;
+            font-size:13px;
+            color:var(--gray);
+        }
+
+        .footer-gradient{
+            color: var(--primary); /* fallback */
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+
+        @media(max-width:900px){
+            .login-wrapper{
+                flex-direction:column;
+                text-align:center;
+            }
+            .login-left{
+                margin-bottom:30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+
+    <!-- LEFT CONTENT -->
+    <div class="login-left">
+        <h1>Admin Panel Login</h1>
+        <p>
+            Welcome to <strong>Siddhivinayak Events</strong> Admin Dashboard.<br>
+            Securely manage bookings, services, packages, blogs, and website content.
+        </p>
+    </div>
+
+    <!-- LOGIN CARD -->
+    <div class="login-card">
+
+        <div class="login-logo">
+            <i class="fas fa-user-shield"></i>
+        </div>
+
+        <h4>Secure Admin Login</h4>
+
+        <% if (error) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/admin/admin_login" method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       placeholder="admin@example.com"
+                       required>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Password</label>
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Enter password"
+                       required>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-lock me-2"></i> Login Securely
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<footer>
+    © <%= new Date().getFullYear() %>
+    <span class="footer-gradient">Siddhivinayak Events</span> | Admin Panel
+</footer>
+
+</body>
+</html>
