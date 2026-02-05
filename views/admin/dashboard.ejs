@@ -248,7 +248,7 @@
 
         <!-- end -->
 
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-12 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -552,5 +552,27 @@
                 }
             }
         });
+    </script>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.get("status") === "already_logged_in") {
+            alert("You are already logged in.");
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
+
+        if (params.get("status") === "logged_in") {
+            alert("Admin Login successful!");
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
     </script>
     <%-include("footer.ejs")%>

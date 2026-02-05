@@ -682,6 +682,19 @@ router.post("/book_event", async (req, res) => {
   }
 });
 
+router.get('/logout', function (req, res) {
+    req.session.destroy(function (err) {
+        if (err) {
+            console.error(err);
+            return res.redirect('/'); // fallback
+        }
+        res.clearCookie('connect.sid');
+        res.redirect('/login');
+    });
+});
+
+
+
 
 
 
