@@ -4,16 +4,12 @@ var fs = require("fs");
 var path = require("path");
 var router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/",isAdminLoggedIn, async (req, res) => {
     try {
-        const mobile = await exe(
-            "SELECT mobile_no FROM book_event_mobile WHERE id = 1"
-        );
-
+        const mobile = await exe("SELECT mobile_no FROM book_event_mobile WHERE id = 1");
         res.render("admin/dashboard", {
             mobile: mobile
         });
-
     } catch (err) {
         console.error(err);
         res.status(500).send("Server Error");
@@ -1161,12 +1157,31 @@ router.get("/testimonial-delete/:id", async (req, res) => {
     res.redirect("/admin/testimonials");
 });
 
+router.get("/contact", function (req, res) {
+    var sql = `select * from contact_info`;
+    var sql1 = `select * from contact_header`;
+    exe(sql).then(contacts => {
+        exe(sql1).then(header => {
+            res.render('admin/contact.ejs', { contacts, header });
+        });
+    });
+});
+
+router.get("/delete_contact/:id", async (req, res) => {
+    await exe("DELETE FROM contact_header WHERE id=?", [req.params.id]);
+    res.redirect("/admin/contact");
+});
 
 router.get("/faq", function (req, res) {
     res.render('admin/faq.ejs');
 });
 
 
+router.get("/policy", async function (req, res) {
+    var sql = `SELECT * FROM privacy_policy`;
+    var policies = await exe(sql);
+    res.render('admin/policy.ejs', { policies });
+});
 router.get("/faq", function (req, res) {
     res.render('admin/faq.ejs');
 });
@@ -2527,6 +2542,54 @@ router.post("/edit_mobile_no", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
+function isAdminLoggedIn(req, res, next) {
+  if (req.session && req.session.admin) {
+    return next(); // ✅ admin is logged in
+  }
+  return res.redirect("/admin/admin_login");
+}
+
+
+
+router.get('/admin_login', function (req, res) {
+    if (req.session.admin) {
+        return res.redirect('/admin?status=already_logged_in');
+    }
+    res.render('admin/admin_login.ejs', {
+        error: req.session.error || null
+    });
+    req.session.error = null;
+});
+
+router.post("/admin_login", async function (req, res) {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.redirect("/admin/admin_login?error=required");
+    }
+    const sql = "SELECT * FROM admin WHERE admin_email = ? LIMIT 1";
+    const result = await exe(sql, [email]);
+    if (result.length === 0) {
+      return res.redirect("/admin/admin_login?error=Admin Not Found");
+    }
+    const admin = result[0];
+    if (password !== admin.admin_password) {
+      return res.redirect("/admin/admin_login?error=Pass Dose Not Match");
+    }
+    req.session.admin = {
+      id: admin.id,
+      name: admin.name,
+      email: admin.email
+    };
+    return res.redirect("/admin?status=logged_in");
+  } catch (err) {
+    console.error(err);
+    return res.redirect("/admin/admin_login?error=server");
+  }
+});
+
+
 
 
 

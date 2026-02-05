@@ -1,10 +1,42 @@
-<%-include ("../navbar.ejs")%>
+<%- include('../navbar.ejs') %>
+    
+<main class="main-content">
 
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2" id="page-title">Slider</h1>
+        <header class="top-navbar">
+            <div class="page-title">
+                <h1>Dashboard Overview</h1>
+                <p>Welcome back! Here's what's happening with your events today.</p>
+            </div>
+            
+            <div class="navbar-right">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search events, clients, payments...">
+                </div>
+                
+                <div class="navbar-icons">
+                    <div class="nav-icon">
+                        <i class="far fa-bell"></i>
+                        <span class="notification-badge">5</span>
                     </div>
+                    <div class="nav-icon">
+                        <i class="far fa-envelope"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2" id="page-title">Slider</h1>
+    </div>
                     
-                       <div class="row justify-content-center">
+    <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="card shadow-sm">
                 <div class="card-header text-center">
@@ -60,6 +92,5 @@
             </div>
         </div>
     </div>
-    
-    
-    <%-include("../footer.ejs")%>
+
+<%- include('../footer.ejs') %>

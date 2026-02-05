@@ -1,51 +1,77 @@
-<%- include("../navbar.ejs")%>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<%- include('../navbar.ejs') %>
+    
+<main class="main-content">
 
-<style>
+        <header class="top-navbar">
+            <div class="page-title">
+                <h1>Dashboard Overview</h1>
+                <p>Welcome back! Here's what's happening with your events today.</p>
+            </div>
+            
+            <div class="navbar-right">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search events, clients, payments...">
+                </div>
+                
+                <div class="navbar-icons">
+                    <div class="nav-icon">
+                        <i class="far fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="far fa-envelope"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+
+        <style>
     .form-container {
-        max-width: 600px;
-        margin: 40px auto;
+        max-width: 800px;
+        margin: 30px auto;
         background: white;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         padding: 30px;
     }
-    
+
     .form-header {
         text-align: center;
         margin-bottom: 30px;
         padding-bottom: 20px;
         border-bottom: 2px solid #f0f0f0;
     }
-    
+
     .form-header h2 {
         color: #2c3e50;
         font-weight: 600;
     }
-    
+
     .form-label {
         font-weight: 600;
         color: #2c3e50;
         margin-bottom: 8px;
     }
-    
-    .required::after {
-        content: " *";
-        color: #e74c3c;
-    }
-    
+
     .form-control {
         border: 2px solid #dee2e6;
         border-radius: 8px;
         padding: 10px 15px;
         margin-bottom: 20px;
     }
-    
+
     .form-control:focus {
         border-color: #0d6efd;
         box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
     }
-    
+
     .btn-submit {
         background-color: #0d6efd;
         color: white;
@@ -55,74 +81,20 @@
         font-weight: 600;
         width: 100%;
         margin-top: 20px;
-        transition: background-color 0.3s;
     }
-    
-    .btn-submit:hover {
-        background-color: #0b5ed7;
-    }
-    
-    .back-btn {
-        text-decoration: none;
-        color: #6c757d;
-        display: inline-flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    
-    .back-btn:hover {
-        color: #0d6efd;
-    }
-    
-    .image-preview {
-        margin-top: 10px;
-        display: none;
-    }
-    
-    .image-preview img {
-        max-width: 100%;
-        max-height: 200px;
-        border-radius: 8px;
-        border: 1px solid #dee2e6;
-    }
-    
-    /* FAQ Header Specific Styles */
-    .status-badge {
-        padding: 5px 12px;
-        border-radius: 15px;
-        font-size: 0.8rem;
-        font-weight: 500;
-    }
-    
-    .status-active {
-        background-color: #28a745;
-        color: white;
-    }
-    
-    .status-inactive {
-        background-color: #dc3545;
-        color: white;
-    }
-    
+
     .faq-header-row:hover {
         background-color: rgba(13, 110, 253, 0.05);
-        transition: background-color 0.3s;
     }
-    
-    .question-cell {
-        max-width: 300px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    
-    .answer-cell {
+
+    .question-cell, .answer-cell {
         max-width: 300px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 </style>
+
 <div class="container mt-4">
 
     <!-- Alerts -->
@@ -143,12 +115,50 @@
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="fw-bold">FAQ Headers</h4>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addHeaderModal">
-            <i class="bi bi-plus-circle"></i> Add FAQ Header
-        </button>
     </div>
 
-    <!-- Table -->
+    <!-- ================= ADD FAQ HEADER FORM ================= -->
+    <div class="form-container mb-4">
+        <div class="form-header">
+            <h2>Add FAQ Header</h2>
+        </div>
+
+        <form action="/admin/save_faq_header" method="POST" enctype="multipart/form-data" id="faqForm">
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Background Image</label>
+                    <input type="file" name="bg_image" id="bg_image" class="form-control" accept="image/*">
+                    <small class="text-muted">Optional: Upload a header background image</small>
+                    <div class="mt-2">
+                        <img id="previewImg" class="rounded" style="max-width:100%;max-height:150px;display:none;">
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" id="title" class="form-control"
+                           placeholder="e.g., Frequently Asked Questions" required>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" id="description" class="form-control"
+                              rows="3"
+                              placeholder="e.g., Find answers to common questions about our services"></textarea>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-submit">
+                        <i class="bi bi-save me-1"></i> Save FAQ Header
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <!-- ================= TABLE ================= -->
     <table class="table table-bordered table-hover align-middle text-center">
         <thead class="table-dark">
             <tr>
@@ -166,24 +176,23 @@
                         <td><%= index + 1 %></td>
                         <td>
                             <% if (row.bg_image) { %>
-                                <img src="/upload/faq/<%= row.bg_image %>" 
-                                     width="80" height="50" class="rounded"
+                                <img src="/upload/faq/<%= row.bg_image %>"
+                                     width="80" height="50"
+                                     class="rounded"
                                      style="object-fit:cover;"
                                      onerror="this.src='https://via.placeholder.com/80x50/667eea/ffffff?text=FAQ'">
                             <% } else { %>
-                                <div class="text-muted">No Image</div>
+                                <span class="text-muted">No Image</span>
                             <% } %>
                         </td>
                         <td class="question-cell"><%= row.title || 'No Title' %></td>
                         <td class="answer-cell"><%= row.description || 'No Subtitle' %></td>
-    
                         <td>
-                            <a href="/admin/edit_faq_header/<%= row.id %>" 
+                            <a href="/admin/edit_faq_header/<%= row.id %>"
                                class="btn btn-sm btn-outline-warning me-2">
                                 <i class="bi bi-pencil"></i>
                             </a>
-
-                            <a href="/admin/delete_header_faq/<%= row.id %>" 
+                            <a href="/admin/delete_header_faq/<%= row.id %>"
                                class="btn btn-sm btn-outline-danger"
                                onclick="return confirm('Are you sure you want to delete this FAQ header?')">
                                 <i class="bi bi-trash"></i>
@@ -193,69 +202,18 @@
                 <% }) %>
             <% } else { %>
                 <tr>
-                    <td colspan="6" class="text-center py-4">
+                    <td colspan="5" class="text-center py-4">
                         <i class="bi bi-question-circle display-5 text-muted mb-3 d-block"></i>
                         <h5 class="text-muted">No FAQ Headers Found</h5>
-                        <p class="text-muted">Click "Add FAQ Header" to create your first header</p>
+                        <p class="text-muted">Use the form above to add one</p>
                     </td>
                 </tr>
             <% } %>
         </tbody>
     </table>
+
 </div>
 
-<!-- ================= MODAL ================= -->
-<div class="modal fade" id="addHeaderModal">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">Add FAQ Header</h5>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-
-      <form action="/admin/save_faq_header" method="POST" enctype="multipart/form-data">
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label fw-bold">Background Image</label>
-                <input type="file" name="bg_image" id="bg_image" class="form-control" accept="image/*">
-                <small class="text-muted">Optional: Upload a header background image</small>
-                <div class="mt-2">
-                    <img id="previewImg" class="rounded" style="max-width: 100%; max-height: 150px; display:none;">
-                </div>
-            </div>
-
-            <div class="col-12 mb-3">
-                <label class="form-label fw-bold">Title</label>
-                <input type="text" name="title" id="title" class="form-control" 
-                       placeholder="e.g., Frequently Asked Questions" required>
-            </div>
-
-            <div class="col-12 mb-3">
-                <label class="form-label fw-bold">Description</label>
-                <textarea name="description" id="description" class="form-control" 
-                          rows="3" placeholder="e.g., Find answers to common questions about our services"></textarea>
-            </div>
-
-           
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save FAQ Header</button>
-        </div>
-      </form>
-
-    </div>
-  </div>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Image Preview Script -->
 <script>
 document.getElementById("bg_image").addEventListener("change", function () {
     const file = this.files[0];
@@ -263,41 +221,31 @@ document.getElementById("bg_image").addEventListener("change", function () {
 
     if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = e => {
             preview.src = e.target.result;
             preview.style.display = "block";
-        }
+        };
         reader.readAsDataURL(file);
     } else {
         preview.style.display = "none";
     }
 });
 
-// Form validation
-document.querySelector('form').addEventListener('submit', function(e) {
+document.getElementById('faqForm').addEventListener('submit', function(e){
     const title = document.getElementById('title').value.trim();
-    if (title.length < 3) {
+    if(title.length < 3){
         e.preventDefault();
-        alert('Title must be at least 3 characters long');
-        document.getElementById('title').focus();
+        alert("Title must be at least 3 characters long");
         return false;
     }
-    
-    const description = document.getElementById('description').value.trim();
-    if (description.length > 500) {
+
+    const desc = document.getElementById('description').value.trim();
+    if(desc.length > 500){
         e.preventDefault();
-        alert('Description must be less than 500 characters');
-        document.getElementById('description').focus();
+        alert("Description must be under 500 characters");
         return false;
     }
-    
-    // Show loading state
-    const submitBtn = this.querySelector('button[type="submit"]');
-    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
-    submitBtn.disabled = true;
-    
-    return true;
 });
 </script>
 
-<%- include("../footer.ejs") %>
+<%- include('../footer.ejs') %>
