@@ -1,366 +1,279 @@
 <%- include('navbar.ejs') %>
-<style>
-     .packages-banner{
-            margin-top:80px;
-            min-height:60vh;
-            background:
-          linear-gradient(rgba(0,0,0,.70), rgba(0,0,0,.70)),
-          url('/upload/packages/<%= package_header.bg_image %>');
-             background-size:cover;
-            background-position:center;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            color:#fff;
-            text-align:center;
-        }
-</style>
 <link rel="stylesheet" href="css/packages.css">
 
-    <!-- Page Header with Background Image -->
-    <section class="packages-banner py-5">
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-lg-8 mx-auto text-center text-white">
-                    <h1 class="display-4 fw-bold mb-4"><%= package_header.title %></h1>
-                    <p class="lead mb-4"><%= package_header.description %></p>
-                    <div class="d-flex justify-content-center flex-wrap gap-3">
-                        <a href="#packages" class="btn btn-light btn-lg px-4">Explore Packages</a>
-                        <a href="#custom" class="btn btn-light btn-lg px-4">Get Custom Quote</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- HEADER / BANNER -->
+<section class="packages-header py-5"
+style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)),
+url('/upload/packages/<%= package_header.bg_image %>');
+background-size: cover;
+background-position: center;
+background-attachment: fixed;">
 
-    <!-- Packages Section -->
-    <section id="packages" class="py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Our Premium Packages</h2>
-                <p class="lead text-muted">Choose the perfect package that matches your vision and budget</p>
-            </div>
-
-           
-           
-        </div>
-    </section>
-
-<style>
-    .package-image {
-        height: 200px;
-        position: relative;
-        overflow: hidden;
-    }
-    .package-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .placeholder-image {
-        width: 100%;
-        height: 100%;
-    }
-    .package-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
-    }
-    .package-label {
-        width: 100px;
-        position: absolute;
-        top: 15px;
-         right: 15px;
-        background: #fff;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-weight: bold;
-        color: #333;
-        font-size: 12px;
-    }
-    .package-price {
-        position: absolute;
-        bottom: 15px;
-        right: 15px;
-        text-align: right;
-        color: white;
-    }
-    .package-price .amount {
-        font-size: 24px;
-        font-weight: bold;
-    }
-    .package-price .starting {
-        font-size: 12px;
-        opacity: 0.8;
-    }
-    .popular-package {
-        border: 2px solid #007bff;
-    }
-    .package-feature {
-        border-left: 3px solid #007bff;
-        padding-left: 10px;
-        margin-bottom: 8px;
-    }
-</style>
-
-
-    <section>
-    <div class="container">
+    <div class="container py-5">
         <div class="row">
-            <% packages.forEach((pkg, index) => { %>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="package-card card shadow-lg <%= pkg.type === 'Premium' ? 'popular-package' : '' %>">
-                        <div class="package-image">
-                            <% if (pkg.bg_image) { %>
-                                <img src="upload/packages/<%= pkg.bg_image %>" 
-                                     alt="<%= pkg.package_name %>"
-                                     class="img-fluid">
-                            <% } else { %>
-                                <div class="placeholder-image bg-secondary d-flex align-items-center justify-content-center">
-                                    <i class="fas fa-gift fa-3x text-light"></i>
-                                </div>
-                            <% } %>
-                            <div class="package-overlay"></div>
-                            <div class="package-label"><%= pkg.type %></div>
-                            <div class="package-price">
-                                <div class="amount">₹<%= pkg.start_price %></div>
-                                <div class="starting">Starting price</div>
-                            </div>
-                        </div>
-                        <div class="package-body">
-                            <h3 class="mb-3"><%= pkg.package_name %></h3>
-                            <p class="text-muted mb-4"><%= pkg.description %></p>
-                            
-                            <div class="d-flex justify-content-around mb-4">
-                                <div class="text-center">
-                                    <div class="fw-bold text-primary fs-4"><%= pkg.max_guests %></div>
-                                    <small class="text-muted">Max Guests</small>
-                                </div>
-                                <div class="text-center">
-                                    <div class="fw-bold text-primary fs-4"><%= pkg.support.length %></div>
-                                    <small class="text-muted">Support Options</small>
-                                </div>
-                                <div class="text-center">
-                                    <div class="fw-bold text-primary fs-4"><%= pkg.service %></div>
-                                    <small class="text-muted">Services</small>
-                                </div>
-                            </div>
- <%
-let features = [];
-
-if (pkg.feature_included) {
-    if (Array.isArray(pkg.feature_included)) {
-        features = pkg.feature_included;
-    } else if (typeof pkg.feature_included === "string") {
-        try {
-            features = JSON.parse(pkg.feature_included);
-        } catch (e) {
-            features = pkg.feature_included.split(",");
-        }
-    }
-}
-%>
-
-<% if (features.length > 0) { %>
-<ul class="list-unstyled mb-4">
-    
-    <% features.forEach(feature => { %>
-        <li class="package-feature mb-2">
-                    <%= feature.trim() %>
-        </li>
-    <% }) %>
-</ul>
-<% } %>
-
-
-
-                            <%
-let supportList = [];
-
-if (pkg.support) {
-    if (Array.isArray(pkg.support)) {
-        supportList = pkg.support;
-    } else if (typeof pkg.support === "string") {
-        try {
-            supportList = JSON.parse(pkg.support);
-        } catch (e) {
-            supportList = pkg.support.split(",");
-        }
-    }
-}
-%>
-
-<% supportList.forEach(item => { %>
-    <span class="badge bg-primary-subtle text-primary me-1 mb-1">
-        <i class="fas fa-headset me-1"></i>
-        <%= item.trim() %>
-    </span>
-<% }) %>
-
-
-                            <button class="btn btn-primary w-100" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#bookEventModal"
-                                    data-package-id="<%= pkg.id %>"
-                                    data-package-name="<%= pkg.package_name %>">
-                                <i class="fas fa-bolt me-2"></i>Select <%= pkg.type %>
-                            </button>
-
-                            <div class="text-center mt-3">
-                                <small class="text-success fw-bold">
-                                    <i class="fas fa-star me-1"></i> 
-                                    <%= pkg.service %> Services Included
-                                </small>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-lg-8 mx-auto text-center text-white">
+                <h1 class="display-4 fw-bold mb-4"><%= package_header.title %></h1>
+                <p class="lead mb-4"><%= package_header.description %></p>
+                <div class="d-flex justify-content-center flex-wrap gap-3">
+                    <a href="#packages" class="btn btn-light btn-lg px-4">Explore Packages</a>
+                    <a href="#custom" class="btn btn-outline-light btn-lg px-4">Get Custom Quote</a>
                 </div>
-            <% }); %>
+            </div>
         </div>
     </div>
 </section>
 
-    <!-- Feature Comparison -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Package Comparison</h2>
-                <p class="lead text-muted">Compare features to choose the perfect package</p>
-            </div>
+<!-- PACKAGES -->
+<section id="packages" class="py-5">
+<div class="container">
 
-            <div class="table-responsive">
-                <table class="table feature-comparison table-hover rounded overflow-hidden shadow">
-                    <thead>
-                        <tr>
-                            <th style="width: 30%;">Features</th>
-                            <th class="text-center">Basic</th>
-                            <th class="text-center">Premium</th>
-                            <th class="text-center">Luxury</th>
-                        </tr>
-                    </thead>
-                    
-                        <tbody>
-<% features.forEach(item => { %>
-<tr>
-    <td><%= item.feature %></td>
+    <div class="text-center mb-5">
+        <h2 class="section-title">Our Premium Packages</h2>
+        <p class="lead text-muted">Choose the perfect package that matches your vision and budget</p>
+    </div>
 
-    <td class="text-center">
-        <% if (item.basic == 1) { %>
-            <i class="fas fa-check check-icon"></i>
-        <% } else { %>
-            <i class="fas fa-times text-danger"></i>
-        <% } %>
-    </td>
+    <div class="row g-4">
+    <% packages.forEach(pkg => { %>
 
-    <td class="text-center">
-        <% if (item.premium == 1) { %>
-            <i class="fas fa-check check-icon"></i>
-        <% } else { %>
-            <i class="fas fa-times text-danger"></i>
-        <% } %>
-    </td>
+        <div class="col-lg-4 col-md-6">
+            <div class="package-card card shadow-lg <%= pkg.type === 'Premium' ? 'popular-package' : '' %>">
 
-    <td class="text-center">
-        <% if (item.luxury == 1) { %>
-            <i class="fas fa-check check-icon"></i>
-        <% } else { %>
-            <i class="fas fa-times text-danger"></i>
-        <% } %>
-    </td>
-</tr>
-<% }) %>
-</tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+                <div class="package-image">
+                    <img src="/upload/packages/<%= pkg.bg_image %>" alt="<%= pkg.package_name %>">
+                    <div class="package-overlay"></div>
+                    <div class="package-label"><%= pkg.type %></div>
+                    <div class="package-price">
+                        <div class="amount">₹<%= pkg.start_price %></div>
+                        <div class="starting">Starting price</div>
+                    </div>
+                </div>
 
-    <!-- Custom Package Section -->
-    <section id="custom" class="py-5">
-        <div class="container">
-            <div class="custom-package-section">
-                <div class="row align-items-center">
-                    <div class="col-lg-8">
-                        <h2 class="mb-3 text-white">Need a Custom Package?</h2>
-                        <p class="lead mb-4 text-white" style="opacity: 0.9;">
-                            Every event is unique. If none of our standard packages fit your requirements,
-                            we can create a completely customized solution tailored to your specific needs,
-                            budget, and vision.
-                        </p>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="me-3">
-                                        <i class="fas fa-check-circle text-white fs-4"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-white">Flexible Options</h5>
-                                        <p class="text-white mb-0" style="opacity: 0.8;">Mix and match services as per your needs</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="me-3">
-                                        <i class="fas fa-check-circle text-white fs-4"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-white">Personal Consultation</h5>
-                                        <p class="text-white mb-0" style="opacity: 0.8;">One-on-one planning with our experts</p>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="package-body">
+                    <h3 class="mb-3"><%= pkg.package_name %></h3>
+                    <p class="text-muted mb-4"><%= pkg.description %></p>
+
+                    <div class="d-flex justify-content-around mb-4">
+                        <div class="text-center">
+                            <div class="fw-bold text-primary fs-4"><%= pkg.max_guests %></div>
+                            <small class="text-muted">Max Guests</small>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="fw-bold text-primary fs-4"><%= pkg.service %></div>
+                            <small class="text-muted">Services</small>
                         </div>
                     </div>
-                    <div class="col-lg-4 text-center">
-                        <div class="mb-4">
-                            <i class="fas fa-gem text-white" style="font-size: 4rem;"></i>
-                        </div>
-                        <button class="btn btn-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#bookEventModal">
-                            Request Custom Quote
-                        </button>
-                        <p class="text-white mt-2 small" style="opacity: 0.8;">
-                            Get a personalized quote within 24 hours
-                        </p>
-                    </div>
+
+                    <!-- FEATURES -->
+                    <%
+                    let features = [];
+                    if (pkg.feature_included) {
+                        features = Array.isArray(pkg.feature_included)
+                          ? pkg.feature_included
+                          : pkg.feature_included.split(",");
+                    }
+                    %>
+
+                    <ul class="list-unstyled mb-4">
+                    <% features.forEach(f => { %>
+                        <li class="package-feature">
+                            <i class="fas fa-check-circle"></i> <%= f.trim() %>
+                        </li>
+                    <% }) %>
+                    </ul>
+
+                    <!-- SUPPORT -->
+                    <%
+                    let supportList = [];
+                    if (pkg.support) {
+                        supportList = Array.isArray(pkg.support)
+                          ? pkg.support
+                          : pkg.support.split(",");
+                    }
+                    %>
+
+                    <% supportList.forEach(s => { %>
+                        <span class="badge bg-primary-subtle text-primary me-1 mb-1">
+                            <i class="fas fa-headset me-1"></i> <%= s.trim() %>
+                        </span>
+                    <% }) %>
+
+                   <button class="btn btn-primary w-100 mt-3"
+    data-bs-toggle="modal"
+    data-bs-target="#packagePreviewModal"
+
+    data-name="<%= pkg.package_name %>"
+    data-type="<%= pkg.type %>"
+    data-price="<%= pkg.start_price %>"
+    data-description="<%= pkg.description %>"
+    data-features="<%= features.join('|') %>"
+    data-support="<%= supportList.join('|') %>">
+    Select <%= pkg.type %>
+</button>
+
+
                 </div>
             </div>
         </div>
-    </section>
 
-    <script>
-        // Package card hover effect
-        document.querySelectorAll('.package-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px)';
-                this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.2)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
-            });
-        });
+    <% }) %>
+    </div>
+</div>
+</section>
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === '#' || this.dataset.bsToggle === 'modal') return;
-                
-                e.preventDefault();
-                const targetElement = document.querySelector(href);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
+<!-- COMPARISON TABLE -->
+<section class="py-5 bg-light">
+<div class="container">
+
+    <div class="text-center mb-5">
+        <h2 class="section-title">Package Comparison</h2>
+        <p class="lead text-muted">Compare features to choose the perfect package</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table feature-comparison table-hover shadow">
+            <thead>
+                <tr>
+                    <th>Features</th>
+                    <th class="text-center">Basic</th>
+                    <th class="text-center">Premium</th>
+                    <th class="text-center">Luxury</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% features.forEach(item => { %>
+                <tr>
+                    <td><%= item.feature %></td>
+                    <td class="text-center">
+                        <i class="fas <%= item.basic ? 'fa-check check-icon' : 'fa-times times-icon' %>"></i>
+                    </td>
+                    <td class="text-center">
+                        <i class="fas <%= item.premium ? 'fa-check check-icon' : 'fa-times times-icon' %>"></i>
+                    </td>
+                    <td class="text-center">
+                        <i class="fas <%= item.luxury ? 'fa-check check-icon' : 'fa-times times-icon' %>"></i>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+</section>
+
+<!-- CUSTOM PACKAGE -->
+<section id="custom" class="py-5">
+<div class="container">
+    <div class="custom-package-section text-white p-5 rounded">
+        <h2>Need a Custom Package?</h2>
+        <p>We’ll tailor everything exactly to your needs.</p>
+        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#bookEventModal">
+            Request Custom Quote
+        </button>
+    </div>
+</div>
+</section>
+
+<div class="modal fade" id="packagePreviewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalPackageTitle"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <p class="text-muted mb-3" id="modalDescription"></p>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <span class="badge bg-primary fs-6" id="modalType"></span>
+          <h4 class="text-primary fw-bold">₹<span id="modalPrice"></span></h4>
+        </div>
+
+        <hr>
+
+        <h6 class="fw-bold mb-2">✨ Features Included</h6>
+        <ul class="list-unstyled" id="modalFeatures"></ul>
+
+        <h6 class="fw-bold mt-4 mb-2">🛎 Support & Services</h6>
+        <div id="modalSupport"></div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-primary" id="packageproceed">Proceed to Book</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+let selectedPackage = {};
+
+const modal = document.getElementById('packagePreviewModal');
+
+modal.addEventListener('show.bs.modal', function (event) {
+
+    const button = event.relatedTarget;
+
+    const features = button.getAttribute('data-features').split('|');
+    const support = button.getAttribute('data-support').split('|');
+
+    selectedPackage = {
+        name: button.getAttribute('data-name'),
+        type: button.getAttribute('data-type'),
+        price: button.getAttribute('data-price'),
+        description: button.getAttribute('data-description'),
+        features: features,
+        support: support
+    };
+
+    document.getElementById('modalPackageTitle').innerText = selectedPackage.name;
+    document.getElementById('modalType').innerText = selectedPackage.type;
+    document.getElementById('modalPrice').innerText = selectedPackage.price;
+    document.getElementById('modalDescription').innerText = selectedPackage.description;
+
+    // FEATURES
+    const featureList = document.getElementById('modalFeatures');
+    featureList.innerHTML = '';
+    features.forEach(f => {
+        featureList.innerHTML += `
+            <li class="mb-2">
+                <i class="fas fa-check-circle text-primary me-2"></i>${f}
+            </li>`;
+    });
+
+    // SUPPORT
+    const supportBox = document.getElementById('modalSupport');
+    supportBox.innerHTML = '';
+    support.forEach(s => {
+        supportBox.innerHTML += `
+            <span class="badge bg-primary-subtle text-primary me-2 mb-2">
+                <i class="fas fa-headset me-1"></i>${s}
+            </span>`;
+    });
+});
+
+// ✅ PROCEED BUTTON → DATA PASS करून /book_event ला redirect
+document.getElementById("packageproceed").addEventListener("click", function () {
+
+    const query =
+        "/book_event?" +
+        "package_name=" + encodeURIComponent(selectedPackage.name) +
+        "&type=" + encodeURIComponent(selectedPackage.type) +
+        "&price=" + encodeURIComponent(selectedPackage.price) +
+        "&features=" + encodeURIComponent(JSON.stringify(selectedPackage.features)) +
+        "&support=" + encodeURIComponent(JSON.stringify(selectedPackage.support));
+
+    window.location.href = query;
+});
+</script>
+
+
+
 
 <%- include('footer.ejs') %>

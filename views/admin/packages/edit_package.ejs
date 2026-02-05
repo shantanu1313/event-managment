@@ -116,7 +116,7 @@
                                                 <div class="col-md-6 mb-3">
                                                     <label for="start_price" class="form-label">Starting Price <span class="text-danger">*</span></label>
                                                     <div class="input-group">
-                                                        <span class="input-group-text">$</span>
+                                                        <span class="input-group-text"></span>
                                                         <input type="number" class="form-control" id="start_price" name="start_price" 
                                                                step="0.01" min="0" value="<%= package.start_price || '' %>" required>
                                                     </div>
@@ -341,8 +341,8 @@
                 const tag = document.createElement('span');
                 tag.className = 'feature-tag';
                 tag.innerHTML = `
-                    ${feature}
-                    <i class="fas fa-times" onclick="removeFeature(${index})"></i>
+                    ₹{feature}
+                    <i class="fas fa-times" onclick="removeFeature(₹{index})"></i>
                 `;
                 container.appendChild(tag);
             });
@@ -432,7 +432,7 @@
             });
             
             // Initialize Summernote editor for description
-            $('#description').summernote({
+            ('#description').summernote({
                 height: 200,
                 toolbar: [
                     ['style', ['bold', 'italic', 'underline', 'clear']],

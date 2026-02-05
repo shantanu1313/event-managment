@@ -1161,20 +1161,12 @@ router.get("/testimonial-delete/:id", async (req, res) => {
     res.redirect("/admin/testimonials");
 });
 
-router.get("/contact", function (req, res) {
-    var sql = `select * from contact_info`;
-    exe(sql).then(contacts => {
-        res.render('admin/contact.ejs', { contacts });
-    });
-});
 
 router.get("/faq", function (req, res) {
     res.render('admin/faq.ejs');
 });
 
-router.get("/policy", function (req, res) {
-    res.render('admin/policy.ejs');
-});
+
 router.get("/faq", function (req, res) {
     res.render('admin/faq.ejs');
 });

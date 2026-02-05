@@ -92,24 +92,46 @@ router.get("/services", async function (req, res) {
 
 
 router.get("/packages", async function (req, res) {
-  try {
-    const package_header = await exe("SELECT * FROM header_packages LIMIT 1");
-    const packages = await exe("SELECT * FROM packages");
-    const features = await exe("SELECT * FROM features");
-    const social_links = await exe("SELECT * FROM social_links");
-    const contact_info = await exe("SELECT * FROM contact_info");
-    res.render("user/packages.ejs", {
-      package_header: package_header[0] || null,
-      packages,
-      features,
-      social_links,
-      contact_info
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server error");
-  }
+
+  const package_header = await exe(
+    "SELECT * FROM header_packages ORDER BY created_at DESC LIMIT 1"
+  );
+
+  let packages = await exe("SELECT * FROM packages");
+  const features = await exe("SELECT * FROM features");
+  const social_links = await exe("SELECT * FROM social_links");
+  const contact_info = await exe("SELECT * FROM contact_info");
+
+  // ✅ FIX: parse JSON fields
+  packages = packages.map(p => {
+    try {
+      p.feature_included = p.feature_included
+        ? JSON.parse(p.feature_included)
+        : [];
+    } catch {
+      p.feature_included = [];
+    }
+
+    try {
+      p.support = p.support
+        ? JSON.parse(p.support)
+        : [];
+    } catch {
+      p.support = [];
+    }
+
+    return p;
+  });
+
+  res.render("user/packages.ejs", {
+    package_header: package_header[0] || null,
+    packages,
+    features,
+    social_links,
+    contact_info
+  });
 });
+
 
 
 router.get("/gallery", async function (req, res) {
@@ -348,15 +370,18 @@ router.get("/book_event", async (req, res) => {
     );
     const social_links = await exe("SELECT * FROM social_links");
     const contact_info = await exe("SELECT * FROM contact_info");
+    const { package: pkg, price, features } = req.query;
 
     res.render("user/book_event.ejs", {
-      mobile,
-      user: req.session.user,
-      event: req.query.event || "",
-      price: req.query.price || "",
-      social_links,
-      contact_info
-    });
+  mobile,
+  user: req.session.user,
+  event: req.query.event || "",
+  price: req.query.price || "",
+  package_name: req.query.package || "",
+  features: req.query.features || "",
+  social_links,
+  contact_info
+});
 
   } catch (err) {
     console.error(err);
