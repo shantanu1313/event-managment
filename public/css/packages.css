@@ -35,6 +35,12 @@
             transform: translateX(-50%);
         }
 
+        
+         .packages-header {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+        }
        
         /* Package Cards with Background Images */
         .package-card {

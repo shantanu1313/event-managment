@@ -19,59 +19,68 @@
                         <i class="far fa-bell"></i>
                         <span class="notification-badge">5</span>
                     </div>
-                    <div class="nav-icon">
-                        <i class="far fa-envelope"></i>
-                        <span class="notification-badge">3</span>
-                    </div>
-                    <div class="nav-icon">
-                        <i class="fas fa-cog"></i>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <div class="dashboard-content">
-
-        <div class="container-fluid py-4">
-
-    <div class="card">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">
-                <i class="fas fa-edit me-2"></i>Edit Package
-            </h5>
-            <a href="/admin/add_packages" class="btn btn-light btn-sm">
-                <i class="fas fa-arrow-left me-1"></i>Back
-            </a>
-        </div>
-
-        <div class="card-body">
-            <form action="/admin/update_packages/<%= package.id %>" 
-                  method="POST" 
-                  enctype="multipart/form-data" 
-                  id="editPackageForm">
-
-                <input type="hidden" name="package_id" value="<%= package.id %>">
-
-                <div class="row">
-
-                    <!-- LEFT -->
-                    <div class="col-md-8">
-
-                        <!-- BASIC INFO -->
-                        <div class="card mb-3">
-                            <div class="card-header bg-light">Basic Information</div>
-                            <div class="card-body">
-
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Package Type *</label>
-                                        <select class="form-select" name="type" required>
-                                            <option value="">Select</option>
-                                            <option value="Basic" <%= package.type=='Basic'?'selected':'' %>>Basic</option>
-                                            <option value="Standard" <%= package.type=='Standard'?'selected':'' %>>Standard</option>
-                                            <option value="Premium" <%= package.type=='Premium'?'selected':'' %>>Premium</option>
-                                            <option value="Custom" <%= package.type=='Custom'?'selected':'' %>>Custom</option>
-                                        </select>
+                    
+                    <div class="card-body">
+                        <form action="/admin/update_packages/<%= package.id %>" method="POST" enctype="multipart/form-data" id="editPackageForm">
+                            <!-- Hidden field for package ID -->
+                            <input type="hidden" name="package_id" value="<%= package.id %>">
+                            
+                            <div class="row">
+                                <!-- Left Column -->
+                                <div class="col-md-8">
+                                    <!-- Basic Information -->
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0">Basic Information</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="type" class="form-label">Package Type <span class="text-danger">*</span></label>
+                                                    <select class="form-select" id="type" name="type" required>
+                                                        <option value="">Select Type</option>
+                                                        <option value="Basic" <%= package.type === 'Basic' ? 'selected' : '' %>>Basic</option>
+                                                        <option value="Standard" <%= package.type === 'Standard' ? 'selected' : '' %>>Standard</option>
+                                                        <option value="Premium" <%= package.type === 'Premium' ? 'selected' : '' %>>Premium</option>
+                                                        <option value="Custom" <%= package.type === 'Custom' ? 'selected' : '' %>>Custom</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="package_name" class="form-label">Package Name <span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="package_name" name="package_name" 
+                                                           value="<%= package.package_name || '' %>" required>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="start_price" class="form-label">Starting Price <span class="text-danger">*</span></label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"></span>
+                                                        <input type="number" class="form-control" id="start_price" name="start_price" 
+                                                               step="0.01" min="0" value="<%= package.start_price || '' %>" required>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="max_guests" class="form-label">Maximum Guests <span class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control" id="max_guests" name="max_guests" 
+                                                           min="1" value="<%= package.max_guests || '' %>" required>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="service" class="form-label">Service Type</label>
+                                                <input type="text" class="form-control" id="service" name="service" 
+                                                       value="<%= package.service || '' %>" placeholder="e.g., Wedding, Birthday, Corporate">
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                                                <textarea class="form-control" name="description" rows="5" required><%= package.description || '' %></textarea>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
