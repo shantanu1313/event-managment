@@ -80,10 +80,7 @@
                                             </div>
                                             <div class="price-period">Starting price</div>
                                         </div>
-                                        <!-- <a href="/book_event?event=<%= service.title %>&price=<%= service.price %>"
-   class="btn btn-primary w-100 mt-3 rounded-pill">
-   Book Event
-</a> -->
+
 
                                         <a href="javascript:void(0)" class="btn btn-primary w-100 mt-3 rounded-pill"
                                             onclick="openServiceModal(
@@ -202,7 +199,6 @@
                     document.getElementById("f2").innerText = f2;
                     document.getElementById("f3").innerText = f3;
 
-                    // auto-fill data next page ला पाठवतो
                     document.getElementById("proceedBtn").href =
                         "/book_event?event=" + encodeURIComponent(title) +
                         "&price=" + encodeURIComponent(price);
