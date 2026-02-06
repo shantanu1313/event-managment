@@ -67,7 +67,7 @@ router.get("/about", async function (req, res) {
     journey,
     leadership,
     social_links,
-    contact_info   // 👈 pass to ejs
+    contact_info// 👈 pass to ejs
 
   });
 });
@@ -177,26 +177,32 @@ router.get("/testimonials", async function (req, res) {
 
 
 router.post("/add", async (req, res) => {
+  // Guard first
+  if (!req.session.user || !req.session.user.id) {
+    return res.redirect("/login");
+  }
+
   try {
     const { name, event_type, rating, message } = req.body;
 
-    let imageName = "";  // This matches admin column 'image'
-    const fs = require("fs");
+    let imageName = "";
 
     // Check if file uploaded
     if (req.files && req.files.img) {
       const file = req.files.img;
-      // Create unique file name
-      imageName = Date.now() + "_" + file.name.replace(/\s/g, "_");
+
+      // Create safe unique filename
+      imageName = Date.now() + "_" + file.name.replace(/\s+/g, "_");
+
       // Move file to upload folder
-      await file.mv("public/upload/testimonials/" + imageName);
+      await file.mv(`public/upload/testimonials/${imageName}`);
     }
 
-    // Insert into database (column 'image')
     const sql = `
-            INSERT INTO testimonials (name, event_type, rating, message, image)
-            VALUES (?, ?, ?, ?, ?)
-        `;
+      INSERT INTO testimonials (name, event_type, rating, message, image)
+      VALUES (?, ?, ?, ?, ?)
+    `;
+
     await exe(sql, [name, event_type, rating, message, imageName]);
 
     // Redirect to testimonials page
@@ -204,9 +210,10 @@ router.post("/add", async (req, res) => {
 
   } catch (err) {
     console.error("Error adding testimonial:", err);
-    res.send("Error while submitting testimonial");
+    res.status(500).send("Error while submitting testimonial");
   }
 });
+
 
 router.get("/testimonials", async (req, res) => {
   // Fetch testimonials with rating >= 4, newest first
@@ -708,14 +715,14 @@ router.post("/book_event", async (req, res) => {
 });
 
 router.get('/logout', function (req, res) {
-    req.session.destroy(function (err) {
-        if (err) {
-            console.error(err);
-            return res.redirect('/'); // fallback
-        }
-        res.clearCookie('connect.sid');
-        res.redirect('/login');
-    });
+  req.session.destroy(function (err) {
+    if (err) {
+      console.error(err);
+      return res.redirect('/'); // fallback
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/login');
+  });
 });
 
 
