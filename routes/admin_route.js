@@ -4,7 +4,7 @@ var fs = require("fs");
 var path = require("path");
 var router = express.Router();
 
-router.get("/",isAdminLoggedIn, async (req, res) => {
+router.get("/", isAdminLoggedIn, async (req, res) => {
     try {
         const mobile = await exe("SELECT mobile_no FROM book_event_mobile WHERE id = 1");
         res.render("admin/dashboard", {
@@ -1119,7 +1119,11 @@ router.post("/add", async (req, res) => {
 });
 
 router.get("/testimonials", async (req, res) => {
-    const sql = "SELECT * FROM testimonials ORDER BY rating DESC";
+    const sql = `
+  SELECT * FROM testimonials
+  ORDER BY rating DESC, id DESC
+`;
+    ;
     const data = await exe(sql);
     res.render("admin/testimonials.ejs", { data });
 });
@@ -2543,10 +2547,10 @@ router.post("/edit_mobile_no", async (req, res) => {
 });
 
 function isAdminLoggedIn(req, res, next) {
-  if (req.session && req.session.admin) {
-    return next(); // ✅ admin is logged in
-  }
-  return res.redirect("/admin/admin_login");
+    if (req.session && req.session.admin) {
+        return next(); // ✅ admin is logged in
+    }
+    return res.redirect("/admin/admin_login");
 }
 
 
@@ -2562,30 +2566,30 @@ router.get('/admin_login', function (req, res) {
 });
 
 router.post("/admin_login", async function (req, res) {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.redirect("/admin/admin_login?error=required");
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.redirect("/admin/admin_login?error=required");
+        }
+        const sql = "SELECT * FROM admin WHERE admin_email = ? LIMIT 1";
+        const result = await exe(sql, [email]);
+        if (result.length === 0) {
+            return res.redirect("/admin/admin_login?error=Admin Not Found");
+        }
+        const admin = result[0];
+        if (password !== admin.admin_password) {
+            return res.redirect("/admin/admin_login?error=Pass Dose Not Match");
+        }
+        req.session.admin = {
+            id: admin.id,
+            name: admin.name,
+            email: admin.email
+        };
+        return res.redirect("/admin?status=logged_in");
+    } catch (err) {
+        console.error(err);
+        return res.redirect("/admin/admin_login?error=server");
     }
-    const sql = "SELECT * FROM admin WHERE admin_email = ? LIMIT 1";
-    const result = await exe(sql, [email]);
-    if (result.length === 0) {
-      return res.redirect("/admin/admin_login?error=Admin Not Found");
-    }
-    const admin = result[0];
-    if (password !== admin.admin_password) {
-      return res.redirect("/admin/admin_login?error=Pass Dose Not Match");
-    }
-    req.session.admin = {
-      id: admin.id,
-      name: admin.name,
-      email: admin.email
-    };
-    return res.redirect("/admin?status=logged_in");
-  } catch (err) {
-    console.error(err);
-    return res.redirect("/admin/admin_login?error=server");
-  }
 });
 
 
