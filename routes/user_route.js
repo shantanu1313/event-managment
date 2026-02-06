@@ -158,10 +158,20 @@ router.get("/gallery", async function (req, res) {
 
 router.get("/testimonials", async function (req, res) {
   try {
-    const headerData = await exe("SELECT * FROM testimonials_header LIMIT 1");
-    const testimonials = await exe("SELECT * FROM testimonials ORDER BY rating DESC LIMIT 3");
+    const headerData = await exe(
+      "SELECT * FROM testimonials_header LIMIT 1"
+    );
+
+    const testimonials = await exe(`
+      SELECT *
+      FROM testimonials
+      ORDER BY rating DESC, id DESC
+      LIMIT 3
+    `);
+
     const social_links = await exe("SELECT * FROM social_links");
     const contact_info = await exe("SELECT * FROM contact_info");
+
     res.render("user/testimonials.ejs", {
       header: headerData[0] || null,
       data: testimonials || [],
@@ -176,57 +186,54 @@ router.get("/testimonials", async function (req, res) {
 
 
 
+
 router.post("/add", async (req, res) => {
-  // Guard first
-  if (!req.session.user || !req.session.user.id) {
+  if (!req.session.user) {
     return res.redirect("/login");
+  }
+
+  if (!req.session.user.profile_photo) {
+    return res.redirect("/profile?error=photo_required");
   }
 
   try {
     const { name, event_type, rating, message } = req.body;
+    const image = req.session.user.profile_photo;
 
-    let imageName = "";
+    await exe(
+      "INSERT INTO testimonials (name, event_type, rating, message, image) VALUES (?,?,?,?,?)",
+      [name, event_type, rating, message, image]
+    );
 
-    // Check if file uploaded
-    if (req.files && req.files.img) {
-      const file = req.files.img;
-
-      // Create safe unique filename
-      imageName = Date.now() + "_" + file.name.replace(/\s+/g, "_");
-
-      // Move file to upload folder
-      await file.mv(`public/upload/testimonials/${imageName}`);
-    }
-
-    const sql = `
-      INSERT INTO testimonials (name, event_type, rating, message, image)
-      VALUES (?, ?, ?, ?, ?)
-    `;
-
-    await exe(sql, [name, event_type, rating, message, imageName]);
-
-    // Redirect to testimonials page
     res.redirect("/testimonials");
-
   } catch (err) {
-    console.error("Error adding testimonial:", err);
-    res.status(500).send("Error while submitting testimonial");
+    console.log(err);
+    res.status(500).send("Error submitting review");
   }
 });
 
 
-router.get("/testimonials", async (req, res) => {
-  // Fetch testimonials with rating >= 4, newest first
-  const sql = `
-        SELECT * FROM testimonials
-        WHERE rating >= 4
-        ORDER BY id DESC
-    `;
-  const data = await exe(sql);
-  const social_links = await exe("SELECT * FROM social_links");
-  const contact_info = await exe("SELECT * FROM contact_info");
-  res.render("user/testimonials.ejs", { data, social_links, contact_info });
-});
+
+
+// router.get("/testimonials", async (req, res) => {
+//   const sql = `
+//     SELECT * FROM testimonials
+//     WHERE rating >= 4
+//     ORDER BY rating DESC, id DESC
+//   `;
+
+//   const data = await exe(sql);
+//   const social_links = await exe("SELECT * FROM social_links");
+//   const contact_info = await exe("SELECT * FROM contact_info");
+
+//   res.render("user/testimonials.ejs", {
+//     data,
+//     social_links,
+//     contact_info
+//   });
+// });
+
+
 
 router.get("/rating-stats", async (req, res) => {
   // Total number of testimonials
