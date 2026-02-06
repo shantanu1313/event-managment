@@ -14,11 +14,49 @@ router.get("/",isAdminLoggedIn, async (req, res) => {
     ORDER BY created_at DESC
     LIMIT 8`;
     var bookings = await exe(sql1);
-    res.render("admin/dashboard", {
-            mobile: mobile,
-            bookings: bookings
-        });
-    } catch (err) {
+
+  var sql2 = `SELECT *
+FROM book_event
+WHERE status IN ('Ongoing', 'Confirmed')
+ORDER BY start_date ASC
+LIMIT 4`;
+ var sql3 = `
+    SELECT COUNT(*) AS pending_count
+    FROM book_event
+    WHERE status = 'Pending'
+`;
+const booking_status = await exe(sql2);
+const pendingResult = await exe(sql3);
+
+const pending_count = pendingResult[0].pending_count;
+
+
+// Total bookings count
+const totalResult = await exe(`
+    SELECT COUNT(*) AS total_bookings
+    FROM book_event
+`);
+
+const total_bookings = totalResult[0].total_bookings;
+
+// Total clients count
+const userResult = await exe(`
+    SELECT COUNT(DISTINCT mobile) AS totalusers
+    FROM users
+`);
+
+const totalusers = userResult[0].totalusers;
+
+res.render("admin/dashboard", {
+    mobile,
+    bookings,
+    booking_status,
+    pending_count,
+    total_bookings,
+    totalusers
+});
+
+ } catch (err) {
         console.error(err);
         res.status(500).send("Server Error");
     }
@@ -1071,8 +1109,24 @@ router.get("/blog_slider_status/:id", async function (req, res) {
     res.redirect("/admin/blog_slider");
 })
 
-router.get("/booking", function (req, res) {
-    res.render('admin/booking.ejs');
+
+router.get("/booking", async function (req, res) {
+    try {
+        const sql = `
+            SELECT *
+            FROM book_event
+            ORDER BY created_at DESC
+        `;
+        const bookings = await exe(sql);
+
+        res.render('admin/booking.ejs', {
+            bookings: bookings
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.send("Error fetching bookings");
+    }
 });
 
 router.get("/testimonials-header", async function (req, res) {
@@ -2611,5 +2665,84 @@ router.get("/edit_booking/:id", async (req, res) => {
         booking: booking[0]
     });
 });
+
+router.post('/update_booking/:id', (req, res) => {
+
+    console.log("BODY 👉", req.body);
+    console.log("ID 👉", req.params.id);
+
+    const {
+        name,
+        mobile,
+        event_type,
+        budget,
+        start_date,
+        end_date,
+        message,
+        status
+    } = req.body;
+
+    const sql = `
+        UPDATE book_event
+        SET
+            name       = COALESCE(?, name),
+            mobile     = COALESCE(?, mobile),
+            event_type = COALESCE(?, event_type),
+            budget     = COALESCE(?, budget),
+            start_date = COALESCE(?, start_date),
+            end_date   = COALESCE(?, end_date),
+            message    = COALESCE(?, message),
+            status     = COALESCE(?, status)
+        WHERE id = ?
+    `;
+
+    exe(sql, [
+        name || null,
+        mobile || null,
+        event_type || null,
+        budget || null,
+        start_date || null,
+        end_date || null,
+        message || null,
+        status || null,
+        req.params.id
+    ], (err, result) => {
+        if (err) {
+            console.error("SQL ERROR 👉", err);
+            return res.status(500).send(err.sqlMessage || err.message);
+        }
+
+        if (result.affectedRows === 0) {
+            return res.send("No record found with this booking_id");
+        }
+
+        res.redirect('/admin');
+    });
+});
+
+router.get('/delete_booking/:id', async (req, res) => {
+    try {
+        const bookingId = req.params.id;
+
+        const sql = `
+            DELETE FROM book_event
+            WHERE id = ?
+        `;
+
+        const result = await exe(sql, [bookingId]);
+
+        if (result.affectedRows === 0) {
+            return res.send("No booking found with this ID");
+        }
+
+        res.redirect('/admin/booking');
+
+    } catch (err) {
+        console.error(err);
+        res.send("Delete failed");
+    }
+});
+
+
 
 module.exports = router;

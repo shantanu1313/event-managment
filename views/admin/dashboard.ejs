@@ -35,19 +35,22 @@
         <div class="dashboard-content">
             <!-- Stats Cards -->
             <div class="stats-grid">
-                <div class="stat-card stat-1">
-                    <div class="stat-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>47</h3>
-                        <p>Total Events</p>
-                        <div class="stat-trend trend-up">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>12% from last month</span>
-                        </div>
-                    </div>
-                </div>
+              <div class="stat-card stat-1">
+    <div class="stat-icon">
+        <i class="fas fa-calendar-alt"></i>
+    </div>
+
+    <div class="stat-content">
+        <h3><%= total_bookings %></h3>
+        <p>Total Events</p>
+
+        <div class="stat-trend trend-up">
+            <i class="fas fa-arrow-up"></i>
+            <span>Live from database</span>
+        </div>
+    </div>
+</div>
+
                 
                 <div class="stat-card stat-2">
                     <div class="stat-icon">
@@ -68,19 +71,21 @@
                     </div>
                 </div>
                 
-                <div class="stat-card stat-3">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>14</h3>
-                        <p>Pending Bookings</p>
-                        <div class="stat-trend trend-down">
-                            <i class="fas fa-arrow-down"></i>
-                            <span>3% from last week</span>
-                        </div>
-                    </div>
-                </div>
+ <div class="stat-card stat-3">
+    <div class="stat-icon">
+        <i class="fas fa-clock"></i>
+    </div>
+
+    <div class="stat-content">
+        <h3><%= pending_count %></h3>
+        <p>Pending Bookings</p>
+
+        <div class="stat-trend trend-down">
+            <i class="fas fa-arrow-down"></i>
+            <span>Live from database</span>
+        </div>
+    </div>
+</div>
 
                 
                 <div class="stat-card stat-4">
@@ -88,11 +93,10 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>189</h3>
-                        <p>Total Clients</p>
+                        <h3><%= totalusers %></h3>
+                         <p>Total Clients</p>
                         <div class="stat-trend trend-up">
                             <i class="fas fa-arrow-up"></i>
-                            <span>8% from last month</span>
                         </div>
                     </div>
                 </div>
@@ -116,43 +120,54 @@
 
                 
 
-                <!-- Upcoming Events -->
-                <div class="upcoming-events">
-                    <div class="section-header">
-                        <div class="section-title-main">Upcoming Events</div>
-                        <a href="#" class="section-link">View All <i class="fas fa-chevron-right"></i></a>
-                    </div>
-                    <ul class="events-list">
-                        <li>
-                            <div class="event-info">
-                                <h4>Mehta Wedding Reception</h4>
-                                <p><i class="far fa-calendar"></i> Today, 6:00 PM | 280 Guests</p>
-                            </div>
-                            <span class="event-status status-ongoing">Ongoing</span>
-                        </li>
-                        <li>
-                            <div class="event-info">
-                                <h4>TechCorp Annual Meet</h4>
-                                <p><i class="far fa-calendar"></i> Tomorrow, 10:00 AM | 150 Guests</p>
-                            </div>
-                            <span class="event-status status-upcoming">Confirmed</span>
-                        </li>
-                        <li>
-                            <div class="event-info">
-                                <h4>Singh Birthday Party</h4>
-                                <p><i class="far fa-calendar"></i> Oct 25, 7:00 PM | 90 Guests</p>
-                            </div>
-                            <span class="event-status status-upcoming">Confirmed</span>
-                        </li>
-                        <li>
-                            <div class="event-info">
-                                <h4>Product Launch Event</h4>
-                                <p><i class="far fa-calendar"></i> Oct 28, 11:00 AM | 200 Guests</p>
-                            </div>
-                            <span class="event-status status-pending">Payment Due</span>
-                        </li>
-                    </ul>
-                </div>
+                       <!-- Upcoming Events -->
+<div class="upcoming-events">
+    <div class="section-header">
+        <div class="section-title-main">Upcoming Events</div>
+        <a href="/admin/bookings" class="section-link">
+            View All <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+
+    <ul class="events-list">
+
+        <% if (booking_status && booking_status.length > 0) { %>
+
+            <% booking_status.forEach(event => { %>
+
+                <% if (event.status === 'Ongoing' || event.status === 'Confirmed') { %>
+
+                    <li>
+                        <div class="event-info">
+                            <h4><%= event.event_type %></h4>
+                             <h4><%= event.name %></h4>
+                      
+                            <p>
+                                <i class="far fa-calendar"></i>
+                                <%= new Date(event.start_date).toDateString() %>
+                            </p>
+                        </div>
+
+                        <span class="event-status
+                            <%= event.status === 'Ongoing'
+                                ? 'status-ongoing'
+                                : 'status-upcoming' %>">
+                            <%= event.status %>
+                        </span>
+                    </li>
+
+                <% } %>
+
+            <% }) %>
+
+        <% } else { %>
+            <li class="text-muted">No upcoming events</li>
+        <% } %>
+
+    </ul>
+</div>
+
+
             </div>
 
            
