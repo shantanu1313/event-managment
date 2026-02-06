@@ -1,246 +1,265 @@
 <%- include('navbar.ejs') %>
 
-<style>
-.sve-registration-section * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+  <style>
+    .sve-registration-section * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-.sve-demo-section {
-  margin-top: 70px;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/slider3.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  padding: 20px;
-}
+    .sve-demo-section {
+      margin-top: 70px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/slider3.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 20px;
+    }
 
-.sve-register-container {
-  background: rgba(255,255,255,0.95);
-  padding: 3rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  width: 100%;
-  max-width: 500px;
-}
+    .sve-register-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+    }
 
-.sve-register-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+    .sve-register-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
 
-.sve-register-header h2 {
-  color: #5232DB;
-  font-size: 2.2rem;
-  font-weight: 700;
-}
+    .sve-register-header h2 {
+      color: #5232DB;
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
 
-.sve-input-group {
-  margin-bottom: 1.4rem;
-}
+    .sve-input-group {
+      margin-bottom: 1.4rem;
+    }
 
-.sve-input-group label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  display: block;
-}
+    .sve-input-group label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
 
-.sve-input-group input {
-  width: 100%;
-  padding: 1rem;
-  border-radius: 12px;
-  border: 2px solid #e0e0e0;
-}
+    .sve-input-group input {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 12px;
+      border: 2px solid #e0e0e0;
+    }
 
-.sve-input-group.error input {
-  border-color: #e74c3c;
-}
+    .sve-input-group.error input {
+      border-color: #e74c3c;
+    }
 
-.sve-input-group.success input {
-  border-color: #2ecc71;
-}
+    .sve-input-group.success input {
+      border-color: #2ecc71;
+    }
 
-.sve-error-message {
-  color: #e74c3c;
-  font-size: 0.85rem;
-  display: none;
-}
+    .sve-error-message {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      display: none;
+    }
 
-.sve-password-container {
-  position: relative;
-}
+    .sve-password-container {
+      position: relative;
+    }
 
-.sve-toggle-password {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
+    .sve-toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
 
-.sve-terms-group {
-  background: #f8f9fa;
-  padding: 1.2rem;
-  border-radius: 12px;
-  margin-top: 1.5rem;
-}
+    .sve-terms-group {
+      background: #f8f9fa;
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin-top: 1.5rem;
+    }
 
-.sve-btn-group {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
+    .sve-btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
 
-.sve-register-btn {
-  flex: 1;
-  padding: 1rem;
-  background: linear-gradient(135deg, #5232DB, #7B52E8);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
+    .sve-register-btn {
+      flex: 1;
+      padding: 1rem;
+      background: linear-gradient(135deg, #5232DB, #7B52E8);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
 
-.sve-back-btn {
-  flex: 1;
-  padding: 1rem;
-  border: 2px solid #5232DB;
-  background: #f8f9fa;
-  color: #5232DB;
-  border-radius: 12px;
-  cursor: pointer;
-}
-</style>
+    .sve-back-btn {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #5232DB;
+      background: #f8f9fa;
+      color: #5232DB;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+  </style>
 
-<section class="sve-demo-section sve-registration-section">
-  <div class="sve-register-container">
-    <div class="sve-register-header">
-      <h2>Create Account</h2>
-      <p>Join Siddhivinayak Event Management</p>
+  <section class="sve-demo-section sve-registration-section">
+    <div class="sve-register-container">
+      <div class="sve-register-header">
+        <h2>Create Account</h2>
+        <p>Join Siddhivinayak Event Management</p>
+      </div>
+
+      <form id="sve-registerForm" action="save_user" method="post">
+
+        <!-- Name -->
+        <div class="sve-input-group">
+          <label>Name *</label>
+          <input class="user-select-none" type="text" id="sve-name" name="name" required>
+          <div class="sve-error-message" id="sve-nameError">Enter valid name</div>
+        </div>
+
+        <!-- Email -->
+        <div class="sve-input-group">
+          <label>Email *</label>
+          <input class="user-select-none" type="email" id="sve-email" name="email" required>
+          <div class="sve-error-message" id="sve-emailError">Enter valid email</div>
+        </div>
+
+        <!-- Phone -->
+        <div class="sve-input-group">
+          <label>Mobile Number *</label>
+          <input class="user-select-none" type="tel" id="sve-mobile" name="mobile" pattern="[0-9]{10}" maxlength="10"
+            required placeholder="Enter 10-digit mobile number">
+          <div class="sve-error-message" id="sve-mobileError">
+            Enter a valid 10-digit mobile number
+          </div>
+        </div>
+
+
+        <!-- Password -->
+        <div class="sve-input-group">
+          <label>Password *</label>
+          <div class="sve-password-container">
+            <input class="user-select-none" type="password" id="sve-password" name="password" required>
+            <button type="button" class="sve-toggle-password" onclick="togglePassword('sve-password')">👁️</button>
+          </div>
+          <div class="sve-error-message" id="sve-passwordError">Min 8 characters</div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="sve-input-group">
+          <label>Confirm Password *</label>
+          <div class="sve-password-container">
+            <input class="user-select-none" type="password" id="sve-confirmPassword" required>
+            <button type="button" class="sve-toggle-password"
+              onclick="togglePassword('sve-confirmPassword')">👁️</button>
+          </div>
+          <div class="sve-error-message" id="sve-confirmPasswordError">Passwords do not match</div>
+        </div>
+
+        <!-- Terms -->
+        <div class="sve-terms-group">
+          <input class="user-select-none" type="checkbox" id="sve-terms"> I agree to Terms *
+          <div class="sve-error-message" id="sve-termsError">Accept terms</div>
+        </div>
+
+        <div class="sve-btn-group">
+          <button type="button" class="sve-back-btn" onclick="window.location='/login'">Back</button>
+          <button type="submit" class="sve-register-btn">Create Account</button>
+        </div>
+      </form>
     </div>
+  </section>
 
-    <form id="sve-registerForm" action="save_user" method="post">
+  <script>
+    document.getElementById('sve-registerForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      let valid = true;
 
-      <!-- Name -->
-      <div class="sve-input-group">
-        <label>Name *</label>
-        <input class="user-select-none" type="text" id="sve-name" name="name" required>
-        <div class="sve-error-message" id="sve-nameError">Enter valid name</div>
-      </div>
+      const name = sveCheck('sve-name', v => v.length >= 2, 'sve-nameError');
+      const email = sveCheck('sve-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'sve-emailError');
+      const phone = sveCheck('sve-phone', v => v.length >= 10, 'sve-phoneError');
+      const password = sveCheck('sve-password', v => v.length >= 8, 'sve-passwordError');
 
-      <!-- Email -->
-      <div class="sve-input-group">
-        <label>Email *</label>
-        <input class="user-select-none" type="email" id="sve-email" name="email" required>
-        <div class="sve-error-message" id="sve-emailError">Enter valid email</div>
-      </div>
+      const cp = document.getElementById('sve-confirmPassword');
+      if (cp.value !== document.getElementById('sve-password').value) {
+        showError(cp, 'sve-confirmPasswordError'); valid = false;
+      }
 
-      <!-- Phone -->
-      <div class="sve-input-group">
-        <label>Phone *</label>
-        <input class="user-select-none" type="tel" id="sve-phone" name="mobile" required>
-        <div class="sve-error-message" id="sve-phoneError">Enter valid phone</div>
-      </div>
+      if (!document.getElementById('sve-terms').checked) {
+        document.getElementById('sve-termsError').style.display = 'block'; valid = false;
+      }
 
-      <!-- Password -->
-      <div class="sve-input-group">
-        <label>Password *</label>
-        <div class="sve-password-container">
-          <input class="user-select-none" type="password" id="sve-password" name="password" required>
-          <button type="button" class="sve-toggle-password" onclick="togglePassword('sve-password')">👁️</button>
-        </div>
-        <div class="sve-error-message" id="sve-passwordError">Min 8 characters</div>
-      </div>
+      if (valid) this.submit();
+    });
 
-      <!-- Confirm Password -->
-      <div class="sve-input-group">
-        <label>Confirm Password *</label>
-        <div class="sve-password-container">
-          <input class="user-select-none" type="password" id="sve-confirmPassword" required>
-          <button type="button" class="sve-toggle-password" onclick="togglePassword('sve-confirmPassword')">👁️</button>
-        </div>
-        <div class="sve-error-message" id="sve-confirmPasswordError">Passwords do not match</div>
-      </div>
+    function sveCheck(id, test, errorId) {
+      const el = document.getElementById(id);
+      if (!test(el.value.trim())) {
+        showError(el, errorId);
+        return false;
+      }
+      el.parentElement.classList.add('success');
+      return true;
+    }
 
-      <!-- Terms -->
-      <div class="sve-terms-group">
-        <input class="user-select-none" type="checkbox" id="sve-terms"> I agree to Terms *
-        <div class="sve-error-message" id="sve-termsError">Accept terms</div>
-      </div>
+    function showError(el, errorId) {
+      el.parentElement.classList.add('error');
+      document.getElementById(errorId).style.display = 'block';
+    }
 
-      <div class="sve-btn-group">
-        <button type="button" class="sve-back-btn" onclick="window.location='/login'">Back</button>
-        <button type="submit" class="sve-register-btn">Create Account</button>
-      </div>
-    </form>
-  </div>
-</section>
+    function togglePassword(id) {
+      const i = document.getElementById(id);
+      i.type = i.type === 'password' ? 'text' : 'password';
+    }
 
-<script>
-document.getElementById('sve-registerForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  let valid = true;
+    document.getElementById('sve-name').focus();
 
-  const name = sveCheck('sve-name', v => v.length >= 2, 'sve-nameError');
-  const email = sveCheck('sve-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'sve-emailError');
-  const phone = sveCheck('sve-phone', v => v.length >= 10, 'sve-phoneError');
-  const password = sveCheck('sve-password', v => v.length >= 8, 'sve-passwordError');
+    const params = new URLSearchParams(window.location.search);
 
-  const cp = document.getElementById('sve-confirmPassword');
-  if (cp.value !== document.getElementById('sve-password').value) {
-    showError(cp, 'sve-confirmPasswordError'); valid = false;
-  }
+    if (params.get("error") === "email_exists") {
+      alert("Email already exists. Please use another email.");
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
-  if (!document.getElementById('sve-terms').checked) {
-    document.getElementById('sve-termsError').style.display = 'block'; valid = false;
-  }
+    if (params.get("error") === "server_error") {
+      alert("Something went wrong. Please try again later.");
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
-  if (valid) this.submit();
-});
 
-function sveCheck(id, test, errorId) {
-  const el = document.getElementById(id);
-  if (!test(el.value.trim())) {
-    showError(el, errorId);
-    return false;
-  }
-  el.parentElement.classList.add('success');
-  return true;
-}
+    const mobileInput = document.getElementById("sve-mobile");
+    const errorMsg = document.getElementById("sve-mobileError");
 
-function showError(el, errorId) {
-  el.parentElement.classList.add('error');
-  document.getElementById(errorId).style.display = 'block';
-}
+    mobileInput.addEventListener("input", function () {
+      const mobilePattern = /^[6-9]\d{9}$/; // Indian mobile numbers
 
-function togglePassword(id) {
-  const i = document.getElementById(id);
-  i.type = i.type === 'password' ? 'text' : 'password';
-}
+      if (mobilePattern.test(mobileInput.value)) {
+        errorMsg.style.display = "none";
+      } else {
+        errorMsg.style.display = "block";
+      }
+    });
+  </script>
 
-document.getElementById('sve-name').focus();
 
-  const params = new URLSearchParams(window.location.search);
-
-  if (params.get("error") === "email_exists") {
-    alert("Email already exists. Please use another email.");
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-
-  if (params.get("error") === "server_error") {
-    alert("Something went wrong. Please try again later.");
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-
-</script>
-
-<%- include('footer.ejs') %>
+  <%- include('footer.ejs') %>
