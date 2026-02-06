@@ -51,15 +51,20 @@
                 
                 <div class="stat-card stat-2">
                     <div class="stat-icon">
-                        <i class="fas fa-rupee-sign"></i>
+                        <i class="fas fa-phone"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>₹3,24,800</h3>
-                        <p>Revenue This Month</p>
-                        <div class="stat-trend trend-up">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>18% from last month</span>
-                        </div>
+                         <div class="h5 fw-bold text-gray-800">
+                                <span id="mobileValue">
+                                    <%= mobile && mobile.length> 0 ? mobile[0].mobile_no : 'Not Set' %>
+                                </span>
+                            </div>
+                        <p>whatsapp Linked  no</p>
+                      
+                         <button class="btn btn-sm btn-outline-info mt-2" data-bs-toggle="modal"
+                                data-bs-target="#editMobileModal">
+                                Edit
+                            </button>
                     </div>
                 </div>
                 
@@ -76,6 +81,7 @@
                         </div>
                     </div>
                 </div>
+
                 
                 <div class="stat-card stat-4">
                     <div class="stat-icon">
@@ -106,6 +112,9 @@
                         <p style="font-size: 13px; margin-top: 8px;">Interactive chart would appear here</p>
                     </div>
                 </div>
+
+
+                
 
                 <!-- Upcoming Events -->
                 <div class="upcoming-events">
@@ -146,64 +155,7 @@
                 </div>
             </div>
 
-            <!-- Recent Activity -->
-            <div class="recent-activity">
-                <div class="section-header">
-                    <div class="section-title-main">Recent Activity</div>
-                    <a href="#" class="section-link">View All <i class="fas fa-chevron-right"></i></a>
-                </div>
-                <ul class="activity-list">
-                    <li>
-                        <div style="display: flex; align-items: center;">
-                            <div class="activity-icon activity-booking">
-                                <i class="fas fa-bookmark"></i>
-                            </div>
-                            <div class="activity-info">
-                                <h4>New booking received</h4>
-                                <p><i class="far fa-clock"></i> 2 hours ago | Amit Patel - Wedding</p>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-bookmark fa-2x text-success"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- start -->
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row align-items-center">
-
-                        <div class="col">
-                            <div class="text-xs fw-bold text-info text-uppercase mb-1">
-                                Book Event Linked Mobile No
-                            </div>
-
-                            <div class="h5 fw-bold text-gray-800">
-                                <span id="mobileValue">
-                                    <%= mobile && mobile.length> 0 ? mobile[0].mobile_no : 'Not Set' %>
-                                </span>
-                            </div>
-
-                            <!-- 🔘 Edit Button -->
-                            <button class="btn btn-sm btn-outline-info mt-2" data-bs-toggle="modal"
-                                data-bs-target="#editMobileModal">
-                                Edit
-                            </button>
-                        </div>
-
-                        <div class="col-auto">
-                            <i class="fas fa-phone fa-2x text-info"></i>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
+           
 
 
         <div class="modal fade" id="editMobileModal" tabindex="-1">
@@ -267,247 +219,92 @@
             </div>
 
             <!-- Recent Bookings Table -->
-            <div class="recent-bookings">
-                <div class="section-header">
-                    <div class="section-title-main">Recent Bookings</div>
-                    <a href="#" class="section-link">View All Bookings <i class="fas fa-chevron-right"></i></a>
-                </div>
-                
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Booking ID</th>
-                                <th>Client</th>
-                                <th>Event Type</th>
-                                <th>Date</th>
-                                <th>Guests</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#EVT-1042</td>
-                                <td>Amit Patel</td>
-                                <td>Wedding</td>
-                                <td>15 Oct 2023</td>
-                                <td>280</td>
-                                <td>₹1,25,000</td>
-                                <td><span class="event-status status-upcoming">Confirmed</span></td>
-                                <td>
-                                    <div class="booking-actions">
-                                        <button class="action-btn action-view"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn action-edit"><i class="fas fa-edit"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#EVT-1041</td>
-                                <td>TechCorp India</td>
-                                <td>Corporate</td>
-                                <td>18 Oct 2023</td>
-                                <td>150</td>
-                                <td>₹95,000</td>
-                                <td><span class="event-status status-upcoming">Confirmed</span></td>
-                                <td>
-                                    <div class="booking-actions">
-                                        <button class="action-btn action-view"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn action-edit"><i class="fas fa-edit"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#EVT-1040</td>
-                                <td>Rohan Singh</td>
-                                <td>Birthday</td>
-                                <td>22 Oct 2023</td>
-                                <td>90</td>
-                                <td>₹45,000</td>
-                                <td><span class="event-status status-pending">Payment Due</span></td>
-                                <td>
-                                    <div class="booking-actions">
-                                        <button class="action-btn action-view"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn action-edit"><i class="fas fa-edit"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#EVT-1039</td>
-                                <td>Innovate Labs</td>
-                                <td>Product Launch</td>
-                                <td>25 Oct 2023</td>
-                                <td>200</td>
-                                <td>₹1,50,000</td>
-                                <td><span class="event-status status-upcoming">Confirmed</span></td>
-                                <td>
-                                    <div class="booking-actions">
-                                        <button class="action-btn action-view"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn action-edit"><i class="fas fa-edit"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#EVT-1038</td>
-                                <td>Sunita Mehta</td>
-                                <td>Anniversary</td>
-                                <td>28 Oct 2023</td>
-                                <td>60</td>
-                                <td>₹35,000</td>
-                                <td><span class="event-status status-pending">Pending</span></td>
-                                <td>
-                                    <div class="booking-actions">
-                                        <button class="action-btn action-view"><i class="fas fa-eye"></i></button>
-                                        <button class="action-btn action-delete"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-    <!-- Charts -->
-    <div class="row mb-4">
-        <div class="col-xl-8 col-lg-7">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 fw-bold text-primary">Revenue Overview</h6>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 fw-bold text-primary">Booking Sources</h6>
-                </div>
-                <div class="card-body">
-                    <div class="chart-pie">
-                        <canvas id="bookingSourceChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
+ <div class="recent-bookings">
+    <div class="section-header">
+        <div class="section-title-main">Recent Bookings</div>
+        <a href="/admin/bookings" class="section-link">
+            View All Bookings <i class="fas fa-chevron-right"></i>
+        </a>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header py-3">
-                    <h6 class="m-0 fw-bold text-primary">Quick Actions</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <a href="#about-management" class="btn btn-light w-100 py-3 text-start">
-                                <i class="fas fa-edit text-primary me-2"></i>
-                                <strong>Edit About Page</strong>
-                                <small class="d-block text-muted mt-1">Update company information</small>
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="#bookings-management" class="btn btn-light w-100 py-3 text-start">
-                                <i class="fas fa-check-circle text-success me-2"></i>
-                                <strong>Process Bookings</strong>
-                                <small class="d-block text-muted mt-1">5 pending approvals</small>
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="#events-management" class="btn btn-light w-100 py-3 text-start">
-                                <i class="fas fa-plus text-info me-2"></i>
-                                <strong>Add New Event</strong>
-                                <small class="d-block text-muted mt-1">Create upcoming events</small>
-                            </a>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <a href="#blog-management" class="btn btn-light w-100 py-3 text-start">
-                                <i class="fas fa-newspaper text-warning me-2"></i>
-                                <strong>Add Blog Post</strong>
-                                <small class="d-block text-muted mt-1">Share latest news</small>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Event Type</th>
+                    <th>Event Dates</th>
+                    <th>Budget</th>
+                    <th>Status</th>
+                    <th>Added On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Example Row -->
+              <% if (bookings.length === 0) { %>
+<tr>
+    <td colspan="9" style="text-align:center;">No recent bookings found</td>
+</tr>
+<% } %>
+  <% bookings.forEach((b, index) => { %>
+        <tr>
+            <!-- SR NO -->
+  <td><%= index + 1 %></td>
+    <td><%= b.name %></td>
+
+    <td><%= b.mobile %></td>
+
+    <td><%= b.event_type %></td>
+
+    <td>
+        <%= new Date(b.start_date).toLocaleDateString('en-IN') %>
+        -
+        <%= new Date(b.end_date).toLocaleDateString('en-IN') %>
+    </td>
+
+    <td><%= b.budget %></td>
+
+    <td>
+        <% if (b.status === 'Confirmed') { %>
+            <span class="event-status status-upcoming">Confirmed</span>
+        <% } else if (b.status === 'Pending') { %>
+            <span class="event-status status-pending">Pending</span>
+        <% } else { %>
+            <span class="event-status status-cancelled"><%= b.status %></span>
+        <% } %>
+    </td>
+
+    <td>
+        <%= new Date(b.created_at).toLocaleDateString('en-IN') %>
+    </td>
+
+    <td>
+        <div class="booking-actions">
+            <a href="/admin/edit_booking/<%= b.id %>"
+               class="action-btn action-edit">
+                <i class="fas fa-edit"></i>
+            </a>
+        </div>
+    </td>
+</tr>
+<% }) %>
+
+
+
+                <!-- Repeat for total 8 recent records -->
+            </tbody>
+        </table>
+    </div>
+</div>
+         
+
+
+  </div>
             </div>
         </div>
-    </div>
-
-    <!-- Recent Bookings -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 fw-bold text-primary">Recent Bookings</h6>
-                    <a href="#bookings-management" class="btn btn-sm btn-primary">View All</a>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Booking ID</th>
-                                    <th>Customer</th>
-                                    <th>Event</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#EVT-001</td>
-                                    <td>John Doe</td>
-                                    <td>Wedding Ceremony</td>
-                                    <td>2023-06-15</td>
-                                    <td>$2,499</td>
-                                    <td><span class="badge bg-success">Confirmed</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#EVT-002</td>
-                                    <td>Sarah Johnson</td>
-                                    <td>Corporate Conference</td>
-                                    <td>2023-06-20</td>
-                                    <td>$5,500</td>
-                                    <td><span class="badge bg-warning">Pending</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary">Approve</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#EVT-003</td>
-                                    <td>Michael Chen</td>
-                                    <td>Birthday Party</td>
-                                    <td>2023-06-25</td>
-                                    <td>$999</td>
-                                    <td><span class="badge bg-info">In Progress</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary">Update</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Admin JS -->
-
     <script>
         // Charts
         const revenueCtx = document.getElementById('revenueChart').getContext('2d');

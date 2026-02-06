@@ -6,9 +6,17 @@ var router = express.Router();
 
 router.get("/",isAdminLoggedIn, async (req, res) => {
     try {
-        const mobile = await exe("SELECT mobile_no FROM book_event_mobile WHERE id = 1");
-        res.render("admin/dashboard", {
-            mobile: mobile
+    const mobile = await exe("SELECT mobile_no FROM book_event_mobile WHERE id = 1");
+    var sql1 = ` SELECT 
+    id, name, mobile, start_date, end_date,
+    event_type, budget, status, created_at
+    FROM book_event
+    ORDER BY created_at DESC
+    LIMIT 8`;
+    var bookings = await exe(sql1);
+    res.render("admin/dashboard", {
+            mobile: mobile,
+            bookings: bookings
         });
     } catch (err) {
         console.error(err);
@@ -2590,11 +2598,17 @@ router.post("/admin_login", async function (req, res) {
   }
 });
 
+router.get("/edit_booking/:id", async (req, res) => {
+    const id = req.params.id;
 
+    const booking = await exe(
+        "SELECT * FROM book_event WHERE id = ?",
+        [id]
+    );
 
-
-
-
-
+    res.render("admin/booking/edit_booking.ejs", {
+        booking: booking[0]
+    });
+});
 
 module.exports = router;
