@@ -3,20 +3,231 @@ var exe = require("../connection");
 var fs = require("fs");
 var path = require("path");
 var router = express.Router();
+var adminAuth = require("../adminAuth");
 
-router.get("/",isAdminLoggedIn, async (req, res) => {
+router.get('/admin_login', function (req, res) {
+    if (req.session.admin) {
+        return res.redirect('/admin?status=already_logged_in');
+    }
+    res.render('admin/admin_login.ejs', {
+        error: req.session.error || null
+    });
+    req.session.error = null;
+});
+
+router.post("/admin_login", async function (req, res) {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.redirect("/admin/admin_login?error=required");
+    }
+    const sql = "SELECT * FROM admin WHERE admin_email = ? LIMIT 1";
+    const result = await exe(sql, [email]);
+    if (result.length === 0) {
+      return res.redirect("/admin/admin_login?error=notfound");
+    }
+    const admin = result[0];
+    if (password !== admin.admin_password) {
+      return res.redirect("/admin/admin_login?error=passnotmatch");
+    }
+    req.session.admin = {
+      id: admin.admin_id,
+      name: admin.admin_name,
+      email: admin.admin_email
+    };
+    return res.redirect("/admin?status=logged_in");
+  } catch (err) {
+    console.error(err);
+    return res.redirect("/admin/admin_login?error=server");
+  }
+});
+
+router.get('/admin_logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Logout error:', err);
+            return res.redirect('/admin/dashboard');
+        }
+        res.clearCookie('connect.sid');
+        res.redirect('/admin/admin_login?status=logged_out');
+    });
+});
+
+router.use(adminAuth);
+
+router.get("/", async (req, res) => {
     try {
         const mobile = await exe("SELECT mobile_no FROM book_event_mobile WHERE id = 1");
-        res.render("admin/dashboard", {
-            mobile: mobile
-        });
+        res.render("admin/dashboard", { mobile: mobile });
     } catch (err) {
         console.error(err);
         res.status(500).send("Server Error");
     }
 });
 
+router.get("/admin_profile", async function (req, res) {
+    try {
+        const sql = "SELECT * FROM admin WHERE admin_id = ?";
+        const data = await exe(sql, [req.session.admin.id]);
+        if (data.length === 0) {
+            return res.status(404).send("Admin not found");
+        }
+        res.render("admin/profile.ejs", {
+            admin: data[0]
+        });
 
+    } catch (err) {
+        console.error("Admin Profile Error:", err);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+router.post("/update_admin_profile", async function (req, res) {
+  try {
+
+    // 🔐 SESSION CHECK
+    if (!req.session.admin) {
+      return res.redirect("/admin/admin_login");
+    }
+
+    var adminId = req.session.admin.id;
+    var admin_name = req.body.admin_name;
+    var admin_mobile = req.body.admin_mobile;
+    var admin_email = req.body.admin_email;
+    var admin_password = req.body.admin_password;
+
+    // ❌ SAFETY: EMAIL MUST NOT BE EMPTY
+    if (!admin_email || admin_email.trim() === "") {
+      return res.redirect("/admin/admin_profile?status=email_required");
+    }
+
+    // 📌 FETCH OLD IMAGE
+    var oldData = await exe(
+      "SELECT profile_image FROM admin WHERE admin_id=?",
+      [adminId]
+    );
+    var old_image = oldData.length > 0 ? oldData[0].profile_image : null;
+    var profile_image = old_image;
+
+    // 🔐 IMAGE VALIDATION
+    var allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    var maxSize = 2 * 1024 * 1024; // 2MB
+
+    // ✅ NEW IMAGE UPLOADED
+    if (req.files && req.files.profile_image) {
+      var imageFile = req.files.profile_image;
+
+      if (!allowedTypes.includes(imageFile.mimetype)) {
+        return res.redirect("/admin/admin_profile?status=invalid_type");
+      }
+
+      if (imageFile.size > maxSize) {
+        return res.redirect("/admin/admin_profile?status=big_file");
+      }
+
+      // 🆕 IMAGE NAME → ONLY DATE & TIME
+      var ext = path.extname(imageFile.name); // .jpg / .png
+      profile_image = Date.now() + ext;
+
+      var uploadDir = path.join(__dirname, "../public/upload/profile/");
+      var uploadPath = path.join(uploadDir, profile_image);
+
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+
+      // MOVE NEW IMAGE
+      await imageFile.mv(uploadPath);
+
+      // 🗑️ DELETE OLD IMAGE (ONLY IF NEW UPLOADED)
+      if (old_image) {
+        var oldPath = path.join(uploadDir, old_image);
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
+      }
+
+      // UPDATE SESSION IMAGE
+      req.session.admin.profile_image = profile_image;
+    }
+
+    // 🔐 UPDATE DB (PASSWORD OPTIONAL)
+    if (admin_password && admin_password.trim() !== "") {
+      await exe(
+        `UPDATE admin 
+         SET admin_name=?, admin_mobile=?, admin_email=?, admin_password=?, profile_image=? 
+         WHERE admin_id=?`,
+        [
+          admin_name,
+          admin_mobile,
+          admin_email,
+          admin_password,
+          profile_image,
+          adminId
+        ]
+      );
+    } else {
+      await exe(
+        `UPDATE admin 
+         SET admin_name=?, admin_mobile=?, admin_email=?, profile_image=? 
+         WHERE admin_id=?`,
+        [
+          admin_name,
+          admin_mobile,
+          admin_email,
+          profile_image,
+          adminId
+        ]
+      );
+    }
+
+    // ✅ UPDATE SESSION DATA
+    req.session.admin.admin_name = admin_name;
+    req.session.admin.admin_mobile = admin_mobile;
+    req.session.admin.admin_email = admin_email;
+
+    return res.redirect("/admin/admin_profile?status=updated");
+
+  } catch (err) {
+    console.error("Update Admin Profile Error:", err);
+    return res.redirect("/admin/admin_profile?status=error");
+  }
+});
+
+router.post("/delete_profile_image", async function (req, res) {
+  try {
+    if (!req.session.admin) {
+      return res.redirect("/admin/admin_login");
+    }
+    var adminId = req.session.admin.id;
+    var data = await exe(
+      "SELECT profile_image FROM admin WHERE admin_id=?",
+      [adminId]
+    );
+    if (data.length === 0 || !data[0].profile_image) {
+      return res.redirect("/admin/admin_profile");
+    }
+    var imageName = data[0].profile_image;
+    var imagePath = path.join(
+      __dirname,
+      "../public/upload/profile/",
+      imageName
+    );
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+    await exe(
+      "UPDATE admin SET profile_image=NULL WHERE admin_id=?",
+      [adminId]
+    );
+    req.session.admin.profile_image = null;
+    return res.redirect("/admin/admin_profile?status=image_deleted");
+  } catch (err) {
+    console.error("Delete Admin Profile Image Error:", err);
+    return res.redirect("/admin/admin_profile?status=error");
+  }
+});
 
 router.get("/home/home_slider", async function (req, res) {
     var sql = "SELECT * FROM home_slider";
@@ -2541,56 +2752,6 @@ router.post("/edit_mobile_no", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-
-function isAdminLoggedIn(req, res, next) {
-  if (req.session && req.session.admin) {
-    return next(); // ✅ admin is logged in
-  }
-  return res.redirect("/admin/admin_login");
-}
-
-
-
-router.get('/admin_login', function (req, res) {
-    if (req.session.admin) {
-        return res.redirect('/admin?status=already_logged_in');
-    }
-    res.render('admin/admin_login.ejs', {
-        error: req.session.error || null
-    });
-    req.session.error = null;
-});
-
-router.post("/admin_login", async function (req, res) {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.redirect("/admin/admin_login?error=required");
-    }
-    const sql = "SELECT * FROM admin WHERE admin_email = ? LIMIT 1";
-    const result = await exe(sql, [email]);
-    if (result.length === 0) {
-      return res.redirect("/admin/admin_login?error=Admin Not Found");
-    }
-    const admin = result[0];
-    if (password !== admin.admin_password) {
-      return res.redirect("/admin/admin_login?error=Pass Dose Not Match");
-    }
-    req.session.admin = {
-      id: admin.id,
-      name: admin.name,
-      email: admin.email
-    };
-    return res.redirect("/admin?status=logged_in");
-  } catch (err) {
-    console.error(err);
-    return res.redirect("/admin/admin_login?error=server");
-  }
-});
-
-
-
-
 
 
 

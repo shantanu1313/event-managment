@@ -58,6 +58,16 @@ main {
     font-weight: 500;
 }
 
+.nav-icon i {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    min-width: 160px;
+}
+
+
 /* ===== Responsive Sidebar ===== */
 @media (max-width: 768px) {
     #sidebar {

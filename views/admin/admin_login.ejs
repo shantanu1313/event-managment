@@ -233,3 +233,55 @@
 
 </body>
 </html>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+        if (params.get("error") === "notfound") {
+            alert("Admin not found.");
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
+
+        if (params.get("error") === "passnotmatch") {
+            alert("Password does not match.");
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
+
+        if (params.get("error") === "server") {
+            alert("Server error occurred.");
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
+
+        if (params.get("error") === "unauthorized") {
+            alert("Unauthorized access. Please log in.");
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
+
+        if (params.get("status") === "logged_out") {
+            alert("You have been logged out.");
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+        }
+        
+
+</script>
