@@ -1223,109 +1223,17 @@
                                 <i class="fas fa-history me-2"></i> Privacy Logs
                             </a>
 
-                        <!-- Packages -->
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-box me-2"></i> Packages</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/header_packages">Header</a>
-                                <a class="dropdown-item" href="/admin/add_packages">Add Packages</a>
-                                <a class="dropdown-item" href="/admin/add_features">Add Features</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-concierge-bell me-2"></i> Gallery</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/gallery">Gallery Header</a>
-                                <a class="dropdown-item" href="/admin/gallery_list">Gallery List</a>
-
-                            </div>
-                        </li>
-
-                        <!-- Blog -->
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-newspaper me-2"></i> Blog / News</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/blog_slider">Blog Slider</a>
-                                <a class="dropdown-item" href="/admin/blog">Add Blog</a>
-                            </div>
-                        </li>
-
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-address-card me-2"></i> Contact</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/contact">
-                                    <i class="fas fa-address-book me-2"></i> Contact
-                                </a>
-
-                                <a class="dropdown-item" href="/admin/contact-info">
-                                    <i class="fas fa-phone me-2"></i> Contact Us
-                                </a>
-
-                                <a class="dropdown-item" href="/admin/contact-form">
-                                    <i class="fas fa-envelope-open-text me-2"></i> Contact Inquiry
-                                </a>
-
-                            </div>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/booking">
-                                <i class="fas fa-bookmark me-2"></i> Bookings
-                            </a>
-                        </li>
-
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-address-card me-2"></i> Privacy Policy</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/policy">
-                                    <i class="fas fa-address-book me-2"></i> Policy    
-                                </a>
-
-                                <a class="dropdown-item" href="/admin/reports">
-                                    <i class="fas fa-phone me-2"></i> Reports
-                                </a>
-
-                                <a class="dropdown-item" href="/admin/privacy-logs">
-                                    <i class="fas fa-envelope-open-text me-2"></i> privacy-logs
-                                </a>
-
-                            </div>
-                        </li>
-                        <li class="nav-item custom-dropdown">
-                            <a class="nav-link dropdown-toggle-click">
-                                <span><i class="fas fa-box me-2"></i> Testimonials</span>
-                                <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
-                            </a>
-                            <div class="dropdown-menu-click">
-                                <a class="dropdown-item" href="/admin/testimonials">Testimonials List</a>
-                                <a class="dropdown-item" href="/admin/testimonials-header">Testimonials Slider</a>
-                            </div>
-                        </div>
-                    </li>
-
-
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/condition">
                             <i class="fas fa-cog"></i>
                             Terms & Conditions
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/social_links">
+                            <i class="fas fa-share-alt"></i>
+                            Social Links
                         </a>
                     </li>
                 </ul>
@@ -1360,7 +1268,65 @@
             </div>
         </div>
     </nav>
+    <main class="main-content">
+        <!-- Fixed Top Navbar with Gradient -->
+        <header class="top-navbar">
+            <div class="page-title">
+                <h1>Dashboard Overview</h1>
+                <p>Welcome back! Here's what's happening with your events today.</p>
+            </div>
+            
+            <div class="navbar-right">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search events, clients, payments...">
+                </div>
+                
+                <div class="navbar-icons">
+                    <div class="nav-icon">
+                        <i class="far fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="far fa-envelope"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <!-- Nav Icon with Dropdown -->
+                    <div class="nav-icon dropdown">
+                        <a href="#" class="text-light" id="settingsDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-cog"></i>
+                        </a>
 
+                        <ul class="dropdown-menu dropdown-menu-end shadow mt-3"
+                            aria-labelledby="settingsDropdown">
+
+                            <li>
+                                <a href="/admin/admin_profile"
+                                class="dropdown-item text-dark">
+                                    <i class="fas fa-user me-2"></i> Profile
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a href="/admin/admin_logout"
+                                class="dropdown-item text-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+
+        
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
