@@ -39,7 +39,7 @@
         font-size: 2.5rem;
         margin-bottom: 10px;
         background: linear-gradient(90deg, #4a90e2, #8e44ad);
-            -webkit-text-fill-color: transparent;
+        /* -webkit-text-fill-color: transparent; */
         text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
     
@@ -289,7 +289,7 @@
                                     <td><%= new Date(b.start_date).toLocaleDateString('en-GB') %></td>
 
                                     <td><%= new Date(b.end_date).toLocaleDateString('en-GB') %></td>
-                                    <td class="budget-cell">₹ <%= b.budget %></td>
+                                    <td class="budget-cell"> <%= b.budget %></td>
                                     <td class="message-cell">
                                         <% if (b.message && b.message.trim() !== '') { %>
                                             <%= b.message %>
