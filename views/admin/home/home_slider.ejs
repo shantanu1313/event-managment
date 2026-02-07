@@ -1,42 +1,25 @@
 <%- include('../navbar.ejs') %>
-    
-<main class="main-content">
+
+    <main class="main-content">
 
         <header class="top-navbar">
             <div class="page-title">
                 <h1>Dashboard Overview</h1>
                 <p>Welcome back! Here's what's happening with your events today.</p>
             </div>
-            
+
             <div class="navbar-right">
-                <div class="search-wrapper">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Search events, clients, payments...">
-                </div>
-                
-                <div class="navbar-icons">
-                    <div class="nav-icon">
-                        <i class="far fa-bell"></i>
-                        <span class="notification-badge">5</span>
-                    </div>
-                    <div class="nav-icon">
-                        <i class="far fa-envelope"></i>
-                        <span class="notification-badge">3</span>
-                    </div>
-                    <div class="nav-icon">
-                        <i class="fas fa-cog"></i>
-                    </div>
-                </div>
+
             </div>
         </header>
 
         <div class="dashboard-content">
 
-                <div class="container mt-5">
+            <div class="container mt-5">
 
-        <!-- 🔷 PAGE HEADER -->
-        <!-- 🔷 SMALL PAGE HEADER -->
-        <div class="page-header mb-3" style="background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
+                <!-- 🔷 PAGE HEADER -->
+                <!-- 🔷 SMALL PAGE HEADER -->
+                <div class="page-header mb-3" style="background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
            color: white;
            padding: 8px 14px;
            border-radius: 10px;
@@ -45,73 +28,73 @@
            align-items: center;
            gap: 10px;">
 
-            <div class="d-flex align-items-center justify-content-center" style="width:30px;height:30px;border-radius:6px;
+                    <div class="d-flex align-items-center justify-content-center" style="width:30px;height:30px;border-radius:6px;
                background:rgba(255,255,255,0.2);
                font-size:14px;">
-                🖼️
-            </div>
-
-            <div>
-                <h6 class="mb-0 fw-semibold">Add Home Slider</h6>
-                <small style="opacity:0.85; font-size:11px;">
-                    Admin Panel → Home → Slider
-                </small>
-            </div>
-        </div>
-
-
-        <!-- 🔷 FORM CARD -->
-        <div class="row my-5">
-            <div class="col-md-8 mx-auto">
-                <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
-
-                    <div class="card-body p-4">
-                        <form action="/admin/home/save_home_slider" method="post" enctype="multipart/form-data">
-
-                            <!-- Image -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-image me-2 text-primary"></i> Add Image
-                                </label>
-                                <input type="file" name="image" class="form-control" required>
-                            </div>
-
-                            <!-- Title -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-type me-2 text-primary"></i> Add Title
-                                </label>
-                                <input type="text" name="title" class="form-control" placeholder="Enter slider title"
-                                    required>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-chat-text me-2 text-primary"></i> Add Description
-                                </label>
-                                <input type="text" name="description" class="form-control"
-                                    placeholder="Enter short description" required>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary px-4 rounded-pill">
-                                    <i class="bi bi-check-circle me-1"></i> Save Slider
-                                </button>
-                            </div>
-
-                        </form>
+                        🖼️
                     </div>
 
+                    <div>
+                        <h6 class="mb-0 fw-semibold">Add Home Slider</h6>
+                        <small style="opacity:0.85; font-size:11px;">
+                            Admin Panel → Home → Slider
+                        </small>
+                    </div>
                 </div>
+
+
+                <!-- 🔷 FORM CARD -->
+                <div class="row my-5">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
+
+                            <div class="card-body p-4">
+                                <form action="/admin/home/save_home_slider" method="post" enctype="multipart/form-data">
+
+                                    <!-- Image -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-image me-2 text-primary"></i> Add Image
+                                        </label>
+                                        <input type="file" name="image" class="form-control" required>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-type me-2 text-primary"></i> Add Title
+                                        </label>
+                                        <input type="text" name="title" class="form-control"
+                                            placeholder="Enter slider title" required>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-chat-text me-2 text-primary"></i> Add Description
+                                        </label>
+                                        <input type="text" name="description" class="form-control"
+                                            placeholder="Enter short description" required>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                            <i class="bi bi-check-circle me-1"></i> Save Slider
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
 
-    </div>
-
-    <!-- 🔷 PAGE HEADER -->
-    <div class="page-header mb-3" style="
+            <!-- 🔷 PAGE HEADER -->
+            <div class="page-header mb-3" style="
     background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
     color: white;
     padding: 8px 14px;
@@ -122,77 +105,77 @@
     gap: 10px;
 ">
 
-        <div class="d-flex align-items-center justify-content-center" style="width:34px;height:34px;border-radius:8px;
+                <div class="d-flex align-items-center justify-content-center" style="width:34px;height:34px;border-radius:8px;
         background:rgba(255,255,255,0.2); font-size:16px;">
-            🖼️
-        </div>
+                    🖼️
+                </div>
 
-        <div>
-            <h6 class="mb-0 fw-semibold">Home Slider List</h6>
-            <small style="opacity:0.85; font-size:11px;">
-                Admin Panel → Home → Sliders
-            </small>
-        </div>
-    </div>
+                <div>
+                    <h6 class="mb-0 fw-semibold">Home Slider List</h6>
+                    <small style="opacity:0.85; font-size:11px;">
+                        Admin Panel → Home → Sliders
+                    </small>
+                </div>
+            </div>
 
-    <!-- 🔷 TABLE -->
-    <div class="table-responsive">
-        <table class="table table-hover table-bordered align-middle"
-            style="background:#F8FAFF;border-radius:14px;overflow:hidden;">
+            <!-- 🔷 TABLE -->
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle"
+                    style="background:#F8FAFF;border-radius:14px;overflow:hidden;">
 
-            <thead style="
+                    <thead style="
             background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
             color: white;
         ">
-                <tr class="text-center">
-                    <th style="width:60px;">#</th>
-                    <th>Image</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th style="width:160px;">Action</th>
-                </tr>
-            </thead>
+                        <tr class="text-center">
+                            <th style="width:60px;">#</th>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th style="width:160px;">Action</th>
+                        </tr>
+                    </thead>
 
-            <tbody>
-                <% for(var i=0; i < data.length; i++) { %>
-                    <tr style="background:white;">
+                    <tbody>
+                        <% for(var i=0; i < data.length; i++) { %>
+                            <tr style="background:white;">
 
-                        <td class="text-center fw-bold text-primary">
-                            <%= i + 1 %>
-                        </td>
+                                <td class="text-center fw-bold text-primary">
+                                    <%= i + 1 %>
+                                </td>
 
-                        <td class="text-center">
-                            <img src="/upload/home/<%= data[i].image %>" class="rounded shadow-sm"
-                                style="width:110px;height:65px;object-fit:cover;">
-                        </td>
+                                <td class="text-center">
+                                    <img src="/upload/home/<%= data[i].image %>" class="rounded shadow-sm"
+                                        style="width:110px;height:65px;object-fit:cover;">
+                                </td>
 
-                        <td class="fw-semibold text-dark">
-                            <%= data[i].title %>
-                        </td>
+                                <td class="fw-semibold text-dark">
+                                    <%= data[i].title %>
+                                </td>
 
-                        <td class="text-muted">
-                            <%= data[i].description %>
-                        </td>
+                                <td class="text-muted">
+                                    <%= data[i].description %>
+                                </td>
 
-                        <td>
-                            <div class="d-flex gap-2 justify-content-center">
-                                <a href="/admin/home/edit_home_slider/<%= data[i].home_slider_id %>"
-                                    class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 rounded-pill">
-                                    <i class="bi bi-pencil-square fs-6"></i> Edit
-                                </a>
+                                <td>
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        <a href="/admin/home/edit_home_slider/<%= data[i].home_slider_id %>"
+                                            class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 rounded-pill">
+                                            <i class="bi bi-pencil-square fs-6"></i> Edit
+                                        </a>
 
-                                <a href="/admin/home/delete_home_slider/<%= data[i].home_slider_id %>"
-                                    class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1 rounded-pill"
-                                    onclick="return confirm('Delete this slider?')">
-                                    <i class="bi bi-trash fs-6"></i> Delete
-                                </a>
-                            </div>
-                        </td>
+                                        <a href="/admin/home/delete_home_slider/<%= data[i].home_slider_id %>"
+                                            class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1 rounded-pill"
+                                            onclick="return confirm('Delete this slider?')">
+                                            <i class="bi bi-trash fs-6"></i> Delete
+                                        </a>
+                                    </div>
+                                </td>
 
-                    </tr>
-                    <% } %>
-            </tbody>
-        </table>
-    </div>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+            </div>
 
-<%- include('../footer.ejs') %>
+            <%- include('../footer.ejs') %>
