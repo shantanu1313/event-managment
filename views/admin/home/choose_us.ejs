@@ -1,19 +1,19 @@
 <%- include('../navbar.ejs') %>
-    
-<main class="main-content">
+
+    <main class="main-content">
 
         <header class="top-navbar">
             <div class="page-title">
                 <h1>Dashboard Overview</h1>
                 <p>Welcome back! Here's what's happening with your events today.</p>
             </div>
-            
+
             <div class="navbar-right">
                 <div class="search-wrapper">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" placeholder="Search events, clients, payments...">
                 </div>
-                
+
                 <div class="navbar-icons">
                     <div class="nav-icon">
                         <i class="far fa-bell"></i>
@@ -34,8 +34,8 @@
 
             <div class="container mt-4">
 
-        <!-- 🔷 PAGE HEADER (FORM HEADER) -->
-        <div class="page-header mb-4 no-print" style="
+                <!-- 🔷 PAGE HEADER (FORM HEADER) -->
+                <div class="page-header mb-4 no-print" style="
         background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
         color: white;
         padding: 10px 16px;
@@ -45,7 +45,7 @@
         align-items: center;
         gap: 10px;
     ">
-            <div style="
+                    <div style="
             width:36px;height:36px;
             background:rgba(255,255,255,0.2);
             border-radius:8px;
@@ -53,174 +53,176 @@
             align-items:center;
             justify-content:center;
             font-size:18px;">
-                ⭐
-            </div>
+                        ⭐
+                    </div>
 
-            <div>
-                <h6 class="mb-0 fw-semibold">Why Choose Us</h6>
-                <small style="font-size:11px;opacity:0.85;">
-                    Admin Panel → Home → Why Choose Us
-                </small>
-            </div>
-        </div>
-
-        <!-- 🔷 FORM CARD -->
-        <div class="row no-print">
-            <div class="col-lg-8 mx-auto">
-                <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
-                    <div class="card-body p-4">
-                        <form action="/admin/home/save_choose_us" method="post">
-
-                            <!-- Icon -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    <i class="fas fa-icons me-2 text-primary"></i>Select Icon
-                                </label>
-                                <select name="icon" id="icon" class="form-select" required>
-                                    <option value="">Choose an icon</option>
-                                    <option value="fas fa-award">Experience</option>
-                                    <option value="fas fa-users-cog">Expert Team</option>
-                                    <option value="fas fa-heart">Client Satisfaction</option>
-                                    <option value="fas fa-headset">24/7 Support</option>
-                                    <option value="fas fa-check-circle">Quality Service</option>
-                                    <option value="fas fa-lightbulb">Innovation</option>
-                                    <option value="fas fa-shield-alt">Security & Trust</option>
-                                    <option value="fas fa-globe">Global Reach</option>
-                                    <option value="fas fa-shipping-fast">Fast Delivery</option>
-                                    <option value="fas fa-tags">Affordable Pricing</option>
-                                    <option value="fas fa-tools">Technical Expertise</option>
-                                    <option value="fas fa-chart-line">Business Growth</option>
-                                    <option value="fas fa-handshake">Trusted Partnership</option>
-                                </select>
-                            </div>
-
-                            <!-- Title -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    <i class="fas fa-heading me-2 text-primary"></i>Title
-                                </label>
-                                <input type="text" name="title" id="title" class="form-control"
-                                    placeholder="Enter feature title" required>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold">
-                                    <i class="fas fa-align-left me-2 text-primary"></i>Description
-                                </label>
-                                <textarea name="description" id="description" class="form-control" rows="3"
-                                    placeholder="Enter short description" required></textarea>
-                            </div>
-
-                            <!-- Submit -->
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary px-4 rounded-pill">
-                                    <i class="fas fa-save me-1"></i> Save Feature
-                                </button>
-                            </div>
-
-                        </form>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">Why Choose Us</h6>
+                        <small style="font-size:11px;opacity:0.85;">
+                            Admin Panel → Home → Why Choose Us
+                        </small>
                     </div>
                 </div>
+
+                <!-- 🔷 FORM CARD -->
+                <div class="row no-print">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
+                            <div class="card-body p-4">
+                                <form action="/admin/home/save_choose_us" method="post">
+
+                                    <!-- Icon -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">
+                                            <i class="fas fa-icons me-2 text-primary"></i>Select Icon
+                                        </label>
+                                        <select name="icon" id="icon" class="form-select" required>
+                                            <option value="">Choose an icon</option>
+                                            <option value="fas fa-award">Experience</option>
+                                            <option value="fas fa-users-cog">Expert Team</option>
+                                            <option value="fas fa-heart">Client Satisfaction</option>
+                                            <option value="fas fa-headset">24/7 Support</option>
+                                            <option value="fas fa-check-circle">Quality Service</option>
+                                            <option value="fas fa-lightbulb">Innovation</option>
+                                            <option value="fas fa-shield-alt">Security & Trust</option>
+                                            <option value="fas fa-globe">Global Reach</option>
+                                            <option value="fas fa-shipping-fast">Fast Delivery</option>
+                                            <option value="fas fa-tags">Affordable Pricing</option>
+                                            <option value="fas fa-tools">Technical Expertise</option>
+                                            <option value="fas fa-chart-line">Business Growth</option>
+                                            <option value="fas fa-handshake">Trusted Partnership</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">
+                                            <i class="fas fa-heading me-2 text-primary"></i>Title
+                                        </label>
+                                        <input type="text" name="title" id="title" class="form-control"
+                                            placeholder="Enter feature title" required>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold">
+                                            <i class="fas fa-align-left me-2 text-primary"></i>Description
+                                        </label>
+                                        <textarea name="description" id="description" class="form-control" rows="3"
+                                            placeholder="Enter short description" required></textarea>
+                                    </div>
+
+                                    <!-- Submit -->
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                            <i class="fas fa-save me-1"></i> Save Feature
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🔷 TABLE HEADER + PRINT BUTTON -->
+                <div class="d-flex justify-content-between align-items-center mb-3 no-print mt-5">
+                    <h6 class="fw-semibold mb-0">Features List</h6>
+                    <button onclick="window.print()" class="btn btn-sm btn-primary">
+                        <i class="fas fa-print me-1"></i> Print Table
+                    </button>
+                </div>
+
+                <!-- 🔷 TABLE -->
+                <div class="table-responsive print-area">
+                    <table class="table table-hover table-bordered align-middle shadow-sm text-center">
+                        <thead class="table-primary">
+                            <tr>
+                                <th style="width:60px;">#</th>
+                                <th style="width:80px;">Icon</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th class="no-print" style="width:150px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(var i=0; i < data.length; i++){ %>
+                                <tr>
+                                    <td class="fw-semibold">
+                                        <%= i + 1 %>
+                                    </td>
+
+                                    <td>
+                                        <span class="badge p-3 rounded-circle shadow-sm"
+                                            style="background-color: rgb(224, 242, 255);">
+                                            <i class="<%= data[i].icon %> fs-5"></i>
+                                        </span>
+                                    </td>
+
+
+                                    <td class="fw-semibold">
+                                        <%= data[i].title %>
+                                    </td>
+
+                                    <td class="text-muted text-start">
+                                        <%= data[i].description %>
+                                    </td>
+
+                                    <td class="no-print">
+                                        <a href="/admin/home/edit_choose_us/<%= data[i].choose_us_id %>"
+                                            class="btn btn-sm btn-outline-primary me-1" title="Edit">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a href="/admin/home/delete_choose_us/<%= data[i].choose_us_id %>"
+                                            class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Delete this item?')" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
-        </div>
 
-        <!-- 🔷 TABLE HEADER + PRINT BUTTON -->
-        <div class="d-flex justify-content-between align-items-center mb-3 no-print mt-5">
-            <h6 class="fw-semibold mb-0">Features List</h6>
-            <button onclick="window.print()" class="btn btn-sm btn-primary">
-                <i class="fas fa-print me-1"></i> Print Table
-            </button>
-        </div>
+            <!-- ================= PRINT STYLES ================= -->
+            <style>
+                @media print {
+                    body * {
+                        visibility: hidden;
+                    }
 
-        <!-- 🔷 TABLE -->
-        <div class="table-responsive print-area">
-            <table class="table table-hover table-bordered align-middle shadow-sm text-center">
-                <thead class="table-primary">
-                    <tr>
-                        <th style="width:60px;">#</th>
-                        <th style="width:80px;">Icon</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th class="no-print" style="width:150px;">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for(var i=0; i < data.length; i++){ %>
-                        <tr>
-                            <td class="fw-semibold">
-                                <%= i + 1 %>
-                            </td>
+                    .print-area,
+                    .print-area * {
+                        visibility: visible;
+                    }
 
-                            <td>
-                                <span class="badge bg-light text-dark p-3 rounded-circle shadow-sm">
-                                    <i class="<%= data[i].icon %> fs-5 text-primary"></i>
-                                </span>
-                            </td>
+                    .print-area {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                    }
 
-                            <td class="fw-semibold">
-                                <%= data[i].title %>
-                            </td>
+                    .no-print,
+                    .no-print * {
+                        display: none !important;
+                    }
 
-                            <td class="text-muted text-start">
-                                <%= data[i].description %>
-                            </td>
+                    table,
+                    th,
+                    td {
+                        border: 1px solid #000 !important;
+                    }
 
-                            <td class="no-print">
-                                <a href="/admin/home/edit_choose_us/<%= data[i].choose_us_id %>"
-                                    class="btn btn-sm btn-outline-primary me-1" title="Edit">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <a href="/admin/home/delete_choose_us/<%= data[i].choose_us_id %>"
-                                    class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this item?')"
-                                    title="Delete">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <% } %>
-                </tbody>
-            </table>
-        </div>
+                    table th,
+                    table td {
+                        padding: 6px;
+                        font-size: 12px;
+                    }
+                }
+            </style>
 
-    </div>
-
-    <!-- ================= PRINT STYLES ================= -->
-    <style>
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            .print-area,
-            .print-area * {
-                visibility: visible;
-            }
-
-            .print-area {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-            }
-
-            .no-print,
-            .no-print * {
-                display: none !important;
-            }
-
-            table,
-            th,
-            td {
-                border: 1px solid #000 !important;
-            }
-
-            table th,
-            table td {
-                padding: 6px;
-                font-size: 12px;
-            }
-        }
-    </style>
-
-<%- include('../footer.ejs') %>
+            <%- include('../footer.ejs') %>

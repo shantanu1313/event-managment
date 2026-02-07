@@ -1,448 +1,389 @@
 <%- include('navbar.ejs') %>
 
-    <link rel="stylesheet" href="css/testmonials.css">
+    <link rel="stylesheet" href="/css/testmonials.css">
 
-    <!-- Hero Section -->
-    <% let bgImage=header && header.image ? '/upload/testimonials/' + header.image : '/upload/testimonials/default.jpg'
-        ; %>
+    <% var bgImage=(header && header.image) ? '/upload/testimonials/' + header.image
+        : '/upload/testimonials/default.jpg' ; var isLoggedIn=(typeof user !=='undefined' && user); var
+        hasPhoto=isLoggedIn && user.profile_photo; %>
 
-        <section class="testimonial-banner" style="background:
-      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-      url('<%= bgImage %>') center/cover no-repeat;">
+        <!-- Hero Section -->
+        <section class="testimonial-banner" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url('<%= bgImage %>') center/cover no-repeat;">
 
             <div class="container">
                 <div class="hero-content">
                     <h1 class="hero-title">
                         <%= header ? header.title : "Experience From Our Clients" %>
                     </h1>
-
                     <p class="hero-subtitle">
                         <%= header ? header.subtitle : "Real stories from our happy clients." %>
                     </p>
                 </div>
+
                 <div class="hero-buttons">
-                    <div class="hero-buttons">
-                        <button id="reviewBtn" class="btn btn-outline-light">
-                            <i class="fas fa-pen me-2"></i> Share Your Story
-                        </button>
-                    </div>
-
+                    <button id="reviewBtn" class="btn btn-outline-light">
+                        <i class="fas fa-pen me-2"></i> Share Your Story
+                    </button>
                 </div>
-
-
+            </div>
         </section>
 
-
-
-
-        <!-- Stats Section -->
+        <!-- Stats Section
         <section class="stats-section">
             <div class="stats-container">
                 <div class="stat-card">
-                    <h2 class="stat-number" data-target="500" data-suffix="%">0+</h2>
+                    <h2 class="stat-number" data-target="500" data-suffix="+">0+</h2>
                     <p class="stat-label">Events Managed</p>
                 </div>
-
                 <div class="stat-card">
                     <h2 class="stat-number" data-target="98" data-suffix="%">0%</h2>
                     <p class="stat-label">Happy Clients</p>
                 </div>
-
                 <div class="stat-card">
                     <h2 class="stat-number" data-target="50" data-suffix="+">0+</h2>
                     <p class="stat-label">Expert Planners</p>
                 </div>
-
                 <div class="stat-card">
                     <h2 class="stat-number" data-target="15" data-suffix="+">0+</h2>
                     <p class="stat-label">Years Experience</p>
                 </div>
             </div>
-        </section>
+        </section> -->
 
-
-
-        <!-- Rating Section -->
-        <section class="rating-section">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <div class="rating-box fade-in">
-                            <div class="rating-score" id="avg-rating">0</div>
-                            <div class="stars" id="stars">☆☆☆☆☆</div>
-                            <p class="text-muted" id="total-reviews">Based on 0 Verified Reviews</p>
-
-                            <div class="mt-4 pt-3 border-top">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="fw-bold text-success fs-4" id="five-star-percent">0%</div>
-                                        <small>5-Star Reviews</small>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="fw-bold text-primary fs-4" id="repeat-clients-percent">0%</div>
-                                        <small>Repeat Clients</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8">
-                        <div class="fade-in" style="animation-delay: 0.2s">
-                            <h2 class="mb-4">Why Clients Love siddhivinayak Event</h2>
-                            <p class="lead mb-4">
-                                Our clients choose us because we make event planning simple, stress-free, and
-                                absolutely memorable. We listen to your vision and bring it to life with
-                                precision and passion.
-                            </p>
-
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-start">
-                                        <div class="me-3">
-                                            <i class="fas fa-check-circle text-success fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h5>Everything Handled</h5>
-                                            <p class="text-muted mb-0">We manage all details so you can relax and enjoy
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-start">
-                                        <div class="me-3">
-                                            <i class="fas fa-clock text-primary fa-2x"></i>
-                                        </div>
-                                        <div>
-                                            <h5>Always On Time</h5>
-                                            <p class="text-muted mb-0">Events start and end exactly as planned</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-
-
-
+        <!-- Testimonials -->
         <section class="testimonials-header text-center my-5">
-            <!-- Section Header -->
             <h2 class="section-title">Client Testimonials</h2>
             <p class="section-subtitle text-muted">What our clients say about us</p>
 
             <div class="container mt-4">
-                <div class="row g-4 justify-content-center">
-                    <% if(data.length===0){ %>
+                <div class="row g-4 justify-content-start">
+
+                    <% if (!data || data.length===0) { %>
                         <p class="text-center text-muted">No testimonials available</p>
                         <% } else { %>
-                            <% data.forEach(function(item){ %>
+
+                            <% for (var j=0; j < data.length; j++) { var item=data[j]; %>
+
                                 <div class="col-lg-4 col-md-6 d-flex">
-                                    <div class="testimonial-card fade-in p-4 shadow-sm rounded w-100 text-center"
+                                    <div class="testimonial-card p-4 shadow-sm rounded w-100 text-center"
                                         style="background:#F8FAFF;">
 
-                                        <!-- Client Image -->
-                                        <% if(item.image){ %>
-                                            <img src="/upload/testimonials/<%= item.image %>"
-                                                class="rounded-circle mb-3" width="70" height="70"
-                                                style="object-fit:cover;">
+                                        <% if (item.image) { %>
+                                            <img src="/upload/profile/<%= item.image %>" class="rounded-circle mb-3"
+                                                width="70" height="70" style="object-fit:cover;">
                                             <% } else { %>
                                                 <img src="/upload/testimonials/default-user.png"
                                                     class="rounded-circle mb-3" width="70" height="70">
                                                 <% } %>
 
-                                                    <!-- Client Name and Event -->
                                                     <h5 class="mb-0">
                                                         <%= item.name %>
                                                     </h5>
-                                                    <small class="text-muted mb-2 d-block">
+                                                    <small class="text-muted d-block mb-2">
                                                         <%= item.event_type %>
                                                     </small>
 
-                                                    <!-- Rating Stars (Max 5) -->
                                                     <div class="text-warning mb-2">
-                                                        <% let starsToShow=Math.min(item.rating, 5); %>
-                                                            <% for(let i=1; i <=starsToShow; i++){ %>★<% } %>
+                                                        <% var stars=item.rating> 5 ? 5 : item.rating;
+                                                            for (var i = 1; i <= stars; i++) { %>
+                                                                ★
+                                                                <% } %>
                                                                     <small class="text-muted">(<%= item.rating %>
                                                                             )</small>
                                                     </div>
 
-                                                    <!-- Testimonial Message -->
                                                     <p class="text-muted fst-italic">"<%= item.message %>"</p>
                                     </div>
                                 </div>
-                                <% }) %>
+
+                                <% } %>
                                     <% } %>
+
                 </div>
             </div>
         </section>
-
 
         <!-- Review Form -->
         <section class="container" id="reviewSection">
             <div class="review-form-container fade-in">
                 <div class="text-center mb-5">
                     <h2>Share Your Experience</h2>
-                    <p class="text-muted">Help others discover the siddhivinayak Event difference</p>
+                    <p class="text-muted">Help others discover the Siddhivinayak Event difference</p>
                 </div>
-                <form id="reviewForm" method="POST" action="/add" enctype="multipart/form-data">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <input type="text" name="name" class="form-control form-control-lg"
-                                placeholder="Your Full Name" required>
-                        </div>
 
-                        <div class="col-md-6">
-                            <select name="event_type" class="form-select form-select-lg" required>
-                                <option selected disabled required>Select Event Type</option>
-                                <option>Wedding</option>
-                                <option>Corporate Event</option>
-                                <option>Birthday Party</option>
-                                <option>Anniversary</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
+                <% if (isLoggedIn && !hasPhoto) { %>
+                    <script>
+                        alert("Please upload your profile photo before submitting a review.");
+                        window.location.href = "/profile";
+                    </script>
+                    <% } %>
 
-                        <div class="col-12">
-                            <label class="form-label">Your Rating</label>
-                            <div class="star-rating" id="ratingStars">
-                                <i class="fas fa-star" data-value="1"></i>
-                                <i class="fas fa-star" data-value="2"></i>
-                                <i class="fas fa-star" data-value="3"></i>
-                                <i class="fas fa-star" data-value="4"></i>
-                                <i class="fas fa-star" data-value="5"></i>
-                            </div>
-                            <input type="hidden" name="rating" id="ratingValue" required>
-                        </div>
+                        <% if (isLoggedIn && hasPhoto) { %>
 
-                        <div class="col-12">
-                            <textarea name="message" class="form-control" rows="5"
-                                placeholder="Tell us about your experience..." required></textarea>
-                        </div>
+                            <form id="reviewForm" method="POST" action="/add">
+                                <div class="row g-4">
 
-                        <div class="col-12">
-                            <label class="form-label">Upload Your Photo (optional)</label>
-                            <input type="file" name="img" class="form-control" accept="image/*">
-                        </div>
+                                    <div class="col-md-6">
+                                        <input type="text" name="name" class="form-control form-control-lg"
+                                            value="<%= user.name %>" required>
+                                    </div>
 
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="consent" required>
-                                <label class="form-check-label" for="consent">I agree to share this testimonial on the
-                                    website</label>
-                            </div>
-                        </div>
+                                    <div class="col-md-6">
+                                        <select name="event_type" class="form-select form-select-lg" required>
+                                            <option disabled selected value="">Select Event Type</option>
+                                            <option>Wedding</option>
+                                            <option>Corporate Event</option>
+                                            <option>Birthday Party</option>
+                                            <option>Anniversary</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
 
-                        <div class="col-12 text-center">
-                            <button type="submit" class="btn btn-gradient px-5 py-3 mt-3">
-                                <i class="fas fa-paper-plane me-2"></i> Submit Review
-                            </button>
-                        </div>
+                                    <div class="col-12">
+                                        <label>Your Rating</label>
+                                        <div class="star-rating" id="ratingStars">
+                                            <i class="fas fa-star" data-value="1"></i>
+                                            <i class="fas fa-star" data-value="2"></i>
+                                            <i class="fas fa-star" data-value="3"></i>
+                                            <i class="fas fa-star" data-value="4"></i>
+                                            <i class="fas fa-star" data-value="5"></i>
+                                        </div>
+                                        <input type="hidden" name="rating" id="ratingValue" required>
+                                    </div>
 
-                    </div>
-                </form>
+                                    <div class="col-12">
+                                        <textarea name="message" class="form-control" rows="5" required></textarea>
+                                    </div>
+
+                                    <div class="col-12 text-center">
+                                        <img src="/upload/profile/<%= user.profile_photo %>" width="120"
+                                            class="rounded-circle mb-2">
+                                        <input type="hidden" name="img" value="<%= user.profile_photo %>">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="consent" required>
+                                            <label class="form-check-label">I agree to share this testimonial</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-gradient px-5 py-3">
+                                            Submit Review
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                            <% } else if (!isLoggedIn) { %>
+
+                                <div class="text-center">
+                                    <p class="text-warning">Please login to submit a review.</p>
+                                    <a href="/login" class="btn btn-primary">Login</a>
+                                </div>
+
+                                <% } %>
 
             </div>
         </section>
 
-
-
-
-
-
         <%- include('footer.ejs') %>
 
-            <!-- JS -->
-            <script>
-
-                document.getElementById("reviewBtn").addEventListener("click", function () {
-                    document.getElementById("reviewSection").scrollIntoView({
-                        behavior: "smooth"
-                    });
-                });
 
 
-                //from submit alert//
-                document.getElementById("reviewForm").addEventListener("submit", function (e) {
-                    // Show alert when form is submitted
-                    alert("Thank you! Your review has been submitted.");
-
-                    // After alert, allow the form to submit normally
-                    // Then redirect user to testimonials page after a short delay
-                    setTimeout(() => {
-                        window.location.href = "/testimonials";
-                    }, 100); // 100ms delay to ensure form submits
-                });
 
 
-                document.addEventListener("DOMContentLoaded", () => {
 
-                    // Stats animation
-                    const counters = document.querySelectorAll(".stat-number");
-                    counters.forEach(counter => {
-                        const updateCount = () => {
-                            const target = +counter.getAttribute("data-target");
-                            const current = +counter.innerText.replace("+", "").replace("%", "");
-                            const increment = Math.ceil(target / 200);
 
-                            if (current < target) {
-                                counter.innerText = current + increment;
-                                setTimeout(updateCount, 15);
-                            } else {
-                                counter.innerText = target;
-                            }
-                        };
-                        updateCount();
-                    });
+            <%- include('footer.ejs') %>
 
-                    // Scroll fade-in for stats
-                    const cards = document.querySelectorAll(".stat-card");
-                    window.addEventListener("scroll", () => {
-                        cards.forEach(card => {
-                            const cardTop = card.getBoundingClientRect().top;
-                            const screenHeight = window.innerHeight;
-                            if (cardTop < screenHeight - 100) {
-                                card.classList.add("show");
-                            }
+                <!-- JS -->
+                <script>
+
+                    document.getElementById("reviewBtn").addEventListener("click", function () {
+                        document.getElementById("reviewSection").scrollIntoView({
+                            behavior: "smooth"
                         });
                     });
 
-                    // Star Rating for Review Form
-                    const stars = document.querySelectorAll("#ratingStars i");
-                    const ratingInput = document.getElementById("ratingValue");
 
-                    stars.forEach(star => {
-                        star.addEventListener("mouseover", () => highlightStars(parseInt(star.dataset.value)));
-                        star.addEventListener("mouseout", () => highlightStars(ratingInput.value || 0));
-                        star.addEventListener("click", () => {
-                            ratingInput.value = star.dataset.value;
-                            highlightStars(parseInt(star.dataset.value));
-                        });
+                    //from submit alert//
+                    document.getElementById("reviewForm").addEventListener("submit", function (e) {
+                        // Show alert when form is submitted
+                        alert("Thank you! Your review has been submitted.");
+
+                        // After alert, allow the form to submit normally
+                        // Then redirect user to testimonials page after a short delay
+                        setTimeout(() => {
+                            window.location.href = "/testimonials";
+                        }, 100); // 100ms delay to ensure form submits
                     });
 
-                    function highlightStars(val) {
+
+                    document.addEventListener("DOMContentLoaded", () => {
+
+                        // Stats animation
+                        const counters = document.querySelectorAll(".stat-number");
+                        counters.forEach(counter => {
+                            const updateCount = () => {
+                                const target = +counter.getAttribute("data-target");
+                                const current = +counter.innerText.replace("+", "").replace("%", "");
+                                const increment = Math.ceil(target / 200);
+
+                                if (current < target) {
+                                    counter.innerText = current + increment;
+                                    setTimeout(updateCount, 15);
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            };
+                            updateCount();
+                        });
+
+                        // Scroll fade-in for stats
+                        const cards = document.querySelectorAll(".stat-card");
+                        window.addEventListener("scroll", () => {
+                            cards.forEach(card => {
+                                const cardTop = card.getBoundingClientRect().top;
+                                const screenHeight = window.innerHeight;
+                                if (cardTop < screenHeight - 100) {
+                                    card.classList.add("show");
+                                }
+                            });
+                        });
+
+                        // Star Rating for Review Form
+                        const stars = document.querySelectorAll("#ratingStars i");
+                        const ratingInput = document.getElementById("ratingValue");
+
                         stars.forEach(star => {
-                            const starVal = parseInt(star.dataset.value);
-                            if (starVal <= val) {
-                                star.classList.add("selected");
-                            } else {
-                                star.classList.remove("selected");
-                            }
+                            star.addEventListener("mouseover", () => highlightStars(parseInt(star.dataset.value)));
+                            star.addEventListener("mouseout", () => highlightStars(ratingInput.value || 0));
+                            star.addEventListener("click", () => {
+                                ratingInput.value = star.dataset.value;
+                                highlightStars(parseInt(star.dataset.value));
+                            });
                         });
-                    }
 
-                    // Dynamic rating stats
-                    const ratingBox = document.querySelector(".rating-box");
-                    fetch("/rating-stats")
-                        .then(res => res.json())
-                        .then(data => {
-                            const { avgRating, totalReviews, fiveStarPercent, repeatClientsPercent } = data;
+                        function highlightStars(val) {
+                            stars.forEach(star => {
+                                const starVal = parseInt(star.dataset.value);
+                                if (starVal <= val) {
+                                    star.classList.add("selected");
+                                } else {
+                                    star.classList.remove("selected");
+                                }
+                            });
+                        }
 
-                            const observer = new IntersectionObserver(entries => {
-                                entries.forEach(entry => {
-                                    if (entry.isIntersecting) {
-                                        ratingBox.classList.add("show");
+                        // Dynamic rating stats
+                        const ratingBox = document.querySelector(".rating-box");
+                        fetch("/rating-stats")
+                            .then(res => res.json())
+                            .then(data => {
+                                const { avgRating, totalReviews, fiveStarPercent, repeatClientsPercent } = data;
 
-                                        // Animate rating
-                                        const ratingEl = document.getElementById("avg-rating");
-                                        let current = 0;
-                                        const step = 0.05;
-                                        const ratingInterval = setInterval(() => {
-                                            current += step;
-                                            if (current < avgRating) {
-                                                ratingEl.innerText = current.toFixed(1);
-                                            } else {
-                                                ratingEl.innerText = avgRating.toFixed(1);
-                                                clearInterval(ratingInterval);
-                                            }
+                                const observer = new IntersectionObserver(entries => {
+                                    entries.forEach(entry => {
+                                        if (entry.isIntersecting) {
+                                            ratingBox.classList.add("show");
 
-                                            const starsEl = document.getElementById("stars");
-                                            let fullStars = Math.floor(current);
-                                            let starStr = "★★★★★".slice(0, fullStars) + "☆☆☆☆☆".slice(fullStars, 5);
-                                            starsEl.innerText = starStr;
-                                        }, 30);
+                                            // Animate rating
+                                            const ratingEl = document.getElementById("avg-rating");
+                                            let current = 0;
+                                            const step = 0.05;
+                                            const ratingInterval = setInterval(() => {
+                                                current += step;
+                                                if (current < avgRating) {
+                                                    ratingEl.innerText = current.toFixed(1);
+                                                } else {
+                                                    ratingEl.innerText = avgRating.toFixed(1);
+                                                    clearInterval(ratingInterval);
+                                                }
 
-                                        // Animate percentages
-                                        const fiveStarEl = document.getElementById("five-star-percent");
-                                        let val1 = 0;
-                                        const int1 = setInterval(() => { val1++; if (val1 <= fiveStarPercent) fiveStarEl.innerText = val1 + "%"; else clearInterval(int1); }, 15);
+                                                const starsEl = document.getElementById("stars");
+                                                let fullStars = Math.floor(current);
+                                                let starStr = "★★★★★".slice(0, fullStars) + "☆☆☆☆☆".slice(fullStars, 5);
+                                                starsEl.innerText = starStr;
+                                            }, 30);
 
-                                        const repeatEl = document.getElementById("repeat-clients-percent");
-                                        let val2 = 0;
-                                        const int2 = setInterval(() => { val2++; if (val2 <= repeatClientsPercent) repeatEl.innerText = val2 + "%"; else clearInterval(int2); }, 15);
+                                            // Animate percentages
+                                            const fiveStarEl = document.getElementById("five-star-percent");
+                                            let val1 = 0;
+                                            const int1 = setInterval(() => { val1++; if (val1 <= fiveStarPercent) fiveStarEl.innerText = val1 + "%"; else clearInterval(int1); }, 15);
 
-                                        document.getElementById("total-reviews").innerText = `Based on ${totalReviews}+ Verified Reviews`;
+                                            const repeatEl = document.getElementById("repeat-clients-percent");
+                                            let val2 = 0;
+                                            const int2 = setInterval(() => { val2++; if (val2 <= repeatClientsPercent) repeatEl.innerText = val2 + "%"; else clearInterval(int2); }, 15);
 
-                                        observer.unobserve(ratingBox);
-                                    }
-                                });
-                            }, { threshold: 0.2 });
+                                            document.getElementById("total-reviews").innerText = `Based on ${totalReviews}+ Verified Reviews`;
 
-                            observer.observe(ratingBox);
-                        }).catch(err => console.log(err));
-                });
+                                            observer.unobserve(ratingBox);
+                                        }
+                                    });
+                                }, { threshold: 0.2 });
 
-
-
-                document.getElementById("reviewBtn").addEventListener("click", function () {
-                    document.getElementById("reviewSection").scrollIntoView({
-                        behavior: "smooth"
+                                observer.observe(ratingBox);
+                            }).catch(err => console.log(err));
                     });
-                });
 
 
 
-                document.addEventListener("DOMContentLoaded", () => {
-                    const counters = document.querySelectorAll(".stat-number");
-
-                    counters.forEach(counter => {
-                        const target = +counter.getAttribute("data-target");
-                        const suffix = counter.getAttribute("data-suffix") || "";
-                        let count = 0;
-                        const stepTime = 20; // milliseconds per step
-                        const steps = 100;   // total steps
-                        const increment = target / steps;
-
-                        const updateCount = () => {
-                            count += increment;
-                            if (count < target) {
-                                counter.innerText = Math.ceil(count) + suffix; // suffix fixed
-                                setTimeout(updateCount, stepTime);
-                            } else {
-                                counter.innerText = target + suffix; // ensure exact target
-                            }
-                        };
-
-                        // Start the counter
-                        counter.innerText = "0" + suffix;
-                        updateCount();
+                    document.getElementById("reviewBtn").addEventListener("click", function () {
+                        document.getElementById("reviewSection").scrollIntoView({
+                            behavior: "smooth"
+                        });
                     });
-                });
 
-                document.getElementById("reviewForm").addEventListener("submit", function (e) {
 
-                    const name = document.querySelector('input[name="name"]').value.trim();
-                    const eventType = document.querySelector('select[name="event_type"]').value;
-                    const rating = document.getElementById("ratingValue").value;
-                    const message = document.querySelector('textarea[name="message"]').value.trim();
-                    const consent = document.getElementById("consent").checked;
 
-                    // ❌ Validation fail
-                    if (!name || !eventType || !rating || !message || !consent) {
-                        e.preventDefault(); // STOP submit
-                        alert("Please fill all fields and select rating before submitting.");
-                        return;
-                    }
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const counters = document.querySelectorAll(".stat-number");
 
-                    // ✅ Validation success
-                    alert("Thank you! Your review has been submitted.");
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute("data-target");
+                            const suffix = counter.getAttribute("data-suffix") || "";
+                            let count = 0;
+                            const stepTime = 20; // milliseconds per step
+                            const steps = 100;   // total steps
+                            const increment = target / steps;
 
-                    // form will submit normally to backend
-                });
-            </script>
+                            const updateCount = () => {
+                                count += increment;
+                                if (count < target) {
+                                    counter.innerText = Math.ceil(count) + suffix; // suffix fixed
+                                    setTimeout(updateCount, stepTime);
+                                } else {
+                                    counter.innerText = target + suffix; // ensure exact target
+                                }
+                            };
+
+                            // Start the counter
+                            counter.innerText = "0" + suffix;
+                            updateCount();
+                        });
+                    });
+
+                    document.getElementById("reviewForm").addEventListener("submit", function (e) {
+
+                        const name = document.querySelector('input[name="name"]').value.trim();
+                        const eventType = document.querySelector('select[name="event_type"]').value;
+                        const rating = document.getElementById("ratingValue").value;
+                        const message = document.querySelector('textarea[name="message"]').value.trim();
+                        const consent = document.getElementById("consent").checked;
+
+                        // ❌ Validation fail
+                        if (!name || !eventType || !rating || !message || !consent) {
+                            e.preventDefault(); // STOP submit
+                            alert("Please fill all fields and select rating before submitting.");
+                            return;
+                        }
+
+                        // ✅ Validation success
+                        alert("Thank you! Your review has been submitted.");
+
+                        // form will submit normally to backend
+                    });
+                </script>

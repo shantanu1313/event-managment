@@ -1330,7 +1330,11 @@ router.post("/add", async (req, res) => {
 });
 
 router.get("/testimonials", async (req, res) => {
-    const sql = "SELECT * FROM testimonials ORDER BY rating DESC";
+    const sql = `
+  SELECT * FROM testimonials
+  ORDER BY rating DESC, id DESC
+`;
+    ;
     const data = await exe(sql);
     res.render("admin/testimonials.ejs", { data });
 });
@@ -1386,6 +1390,7 @@ router.get("/delete_contact/:id", async (req, res) => {
 router.get("/faq", function (req, res) {
     res.render('admin/faq.ejs');
 });
+
 
 router.get("/policy", async function (req, res) {
     var sql = `SELECT * FROM privacy_policy`;
