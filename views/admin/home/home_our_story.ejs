@@ -1,10 +1,9 @@
-
 <%- include('../navbar.ejs') %>
 
-        <div class="container mt-4">
+            <div class="container mt-4">
 
-        <!-- 🔷 PAGE HEADER -->
-        <div class="page-header mb-4" style="
+                <!-- 🔷 PAGE HEADER -->
+                <div class="page-header mb-4" style="
         background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
         color: white;
         padding: 10px 16px;
@@ -14,7 +13,7 @@
         align-items: center;
         gap: 10px;
     ">
-            <div style="
+                    <div style="
             width:36px;height:36px;
             background:rgba(255,255,255,0.2);
             border-radius:8px;
@@ -22,96 +21,97 @@
             align-items:center;
             justify-content:center;
             font-size:18px;">
-                <i class="bi bi-book"></i>
-            </div>
+                        <i class="bi bi-book"></i>
+                    </div>
 
-            <div>
-                <h6 class="mb-0 fw-semibold">Home – Our Story</h6>
-                <small style="font-size:11px;opacity:0.85;">
-                    Admin Panel → Home → Our Story
-                </small>
-            </div>
-        </div>
-
-        <!-- 🔷 FORM CARD -->
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
-                    <div class="card-body p-4">
-
-                        <form action="/admin/home/save_home_our_story" method="post" enctype="multipart/form-data">
-
-                            <!-- OLD IMAGE -->
-                            <input type="hidden" name="old_image" value="<%= data ? data.image : '' %>">
-
-                            <!-- Title -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-type text-primary me-2"></i> Title
-                                </label>
-                                <input type="text" name="title" class="form-control"
-                                    value="<%= data ? data.title : '' %>" placeholder="Enter title" required>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-card-text text-primary me-2"></i> Description
-                                </label>
-                                <input type="text" name="description" class="form-control"
-                                    value="<%= data ? data.description : '' %>" placeholder="Short description"
-                                    required>
-                            </div>
-
-                            <!-- Image -->
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-image text-primary me-2"></i> Image
-                                </label>
-
-                                <% if (data && data.image) { %>
-                                    <div class="mb-2">
-                                        <img src="/upload/home/<%= data.image %>" class="rounded shadow-sm"
-                                            style="width:120px;height:70px;object-fit:cover;">
-                                    </div>
-                                    <% } %>
-
-                                        <input type="file" name="image" class="form-control">
-                            </div>
-
-                            <hr>
-
-                            <!-- Story Points -->
-                            <div class="row">
-
-                                <% for(let i=1;i<=4;i++){ %>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-semibold">
-                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            Point <%= i %>
-                                        </label>
-                                        <input type="text" name="point<%= i %>" class="form-control"
-                                            value="<%= data ? data['point'+i] : '' %>" required>
-                                    </div>
-                                    <% } %>
-
-                            </div>
-
-                            <!-- Submit -->
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary px-4 rounded-pill">
-                                    <i class="bi bi-save me-1"></i>
-                                    <%= data ? 'Update Our Story' : 'Save Our Story' %>
-                                </button>
-                            </div>
-
-                        </form>
-
+                    <div>
+                        <h6 class="mb-0 fw-semibold">Home – Our Story</h6>
+                        <small style="font-size:11px;opacity:0.85;">
+                            Admin Panel → Home → Our Story
+                        </small>
                     </div>
                 </div>
+
+                <!-- 🔷 FORM CARD -->
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card border-0 shadow" style="border-radius:16px;background:#F8FAFF;">
+                            <div class="card-body p-4">
+
+                                <form action="/admin/home/save_home_our_story" method="post"
+                                    enctype="multipart/form-data">
+
+                                    <!-- OLD IMAGE -->
+                                    <input type="hidden" name="old_image" value="<%= data ? data.image : '' %>">
+
+                                    <!-- Title -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-type text-primary me-2"></i> Title
+                                        </label>
+                                        <input type="text" name="title" class="form-control"
+                                            value="<%= data ? data.title : '' %>" placeholder="Enter title" required>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-card-text text-primary me-2"></i> Description
+                                        </label>
+                                        <input type="text" name="description" class="form-control"
+                                            value="<%= data ? data.description : '' %>" placeholder="Short description"
+                                            required>
+                                    </div>
+
+                                    <!-- Image -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-image text-primary me-2"></i> Image
+                                        </label>
+
+                                        <% if (data && data.image) { %>
+                                            <div class="mb-2">
+                                                <img src="/upload/home/<%= data.image %>" class="rounded shadow-sm"
+                                                    style="width:120px;height:70px;object-fit:cover;">
+                                            </div>
+                                            <% } %>
+
+                                                <input type="file" name="image" class="form-control">
+                                    </div>
+
+                                    <hr>
+
+                                    <!-- Story Points -->
+                                    <div class="row">
+
+                                        <% for(let i=1;i<=4;i++){ %>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label fw-semibold">
+                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                    Point <%= i %>
+                                                </label>
+                                                <input type="text" name="point<%= i %>" class="form-control"
+                                                    value="<%= data ? data['point'+i] : '' %>" required>
+                                            </div>
+                                            <% } %>
+
+                                    </div>
+
+                                    <!-- Submit -->
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                            <i class="bi bi-save me-1"></i>
+                                            <%= data ? 'Update Our Story' : 'Save Our Story' %>
+                                        </button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
 
-    </div>
-
-<%- include('../footer.ejs') %>
+            <%- include('../footer.ejs') %>

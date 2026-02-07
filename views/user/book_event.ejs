@@ -1,8 +1,7 @@
 <%- include('./navbar.ejs') %>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="css/book_event.css">
-
+<link rel="stylesheet" href="css/book_event.css">  
 <section class="demo_section">
   <div class="booking-card">
 
@@ -22,9 +21,21 @@
 
     <!-- MOBILE -->
     <div class="col-lg-4 col-md-6">
-      <label class="form-label">Mobile Number</label>
-      <input type="tel" id="mobile" name="mobile" class="form-control" required>
-    </div>
+  <label class="form-label">Mobile Number</label>
+  <input 
+    type="tel"
+    id="mobile"
+    name="mobile"
+    class="form-control"
+    required
+    pattern="[0-9]{10}"
+    maxlength="10"
+    minlength="10"
+    placeholder="Enter 10-digit mobile number"
+    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+  >
+</div>
+
 
     <!-- EVENT TYPE -->
     <% if (event) { %>

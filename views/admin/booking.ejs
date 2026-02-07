@@ -1,7 +1,117 @@
-<%- include('navbar.ejs') %>
+ <%- include('navbar.ejs') %>
+ 
+        <div class="card shadow-sm border-0 ">
+           <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
     
+    <h5 class="mb-0">
+        <i class="fas fa-calendar-check me-2"></i>Booking List
+    </h5>
+
+    <div class="status-filter">
+        <select id="statusFilter"
+                class="form-select form-select-sm"
+                onchange="filterByStatus()"
+                style="min-width: 180px;">
+            <option value="All">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Payment Due">Payment Due</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Inquiry">Inquiry</option>
+        </select>
+    </div>
+
+</div>
 
 
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Mobile</th>
+                                <th>Event Type</th>
+                                <th>Budget</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% if (bookings && bookings.length > 0) { %>
+                                <% bookings.forEach((b, index) => { %>
+                                    <tr data-status="<%= b.status %>">
+                                        <td><%= index + 1 %></td>
+                                        <td><%= b.name %></td>
+                                        <td><%= b.mobile %></td>
+                                        <td><%= b.event_type %></td>
+                                        <td><%= b.budget %></td>
+
+                                        <td><%= new Date(b.start_date).toISOString().slice(0,10) %></td>
+                                        <td><%= new Date(b.end_date).toISOString().slice(0,10) %></td>
+
+                                        <td>
+                                            <span class="badge
+                                                <%= b.status === 'Pending' ? 'bg-warning text-dark'
+                                                : b.status === 'Confirmed' ? 'bg-success'
+                                                : b.status === 'Ongoing' ? 'bg-primary'
+                                                : b.status === 'Cancelled' ? 'bg-danger'
+                                                : b.status === 'Payment Due' ? 'bg-info'
+                                                : b.status === 'Completed' ? 'bg-dark'
+                                                : 'bg-secondary' %>">
+                                                <%= b.status %>
+                                            </span>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <a href="/admin/edit_booking/<%= b.id %>" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+
+                                            <a href="/admin/delete_booking/<%= b.id %>"
+                                               class="btn btn-sm btn-danger"
+                                               onclick="return confirm('Are you sure?')">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="9" class="text-center text-muted">
+                                        No bookings found
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+<!-- STATUS FILTER SCRIPT -->
+<script>
+function filterByStatus() {
+    const selectedStatus = document.getElementById("statusFilter").value;
+    const rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+        const rowStatus = row.getAttribute("data-status");
+
+        if (selectedStatus === "All" || rowStatus === selectedStatus) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+</script>
         
 
 <%- include('footer.ejs') %>

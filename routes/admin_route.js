@@ -57,9 +57,57 @@ router.use(adminAuth);
 
 router.get("/", async (req, res) => {
     try {
-        const mobile = await exe("SELECT mobile_no FROM book_event_mobile WHERE id = 1");
-        res.render("admin/dashboard", { mobile: mobile });
-    } catch (err) {
+    const mobile = await exe("SELECT mobile_no FROM book_event_mobile WHERE id = 1");
+    var sql1 = ` SELECT 
+    id, name, mobile, start_date, end_date,
+    event_type, budget, status, created_at
+    FROM book_event
+    ORDER BY created_at DESC
+    LIMIT 8`;
+    var bookings = await exe(sql1);
+
+  var sql2 = `SELECT *
+FROM book_event
+WHERE status IN ('Ongoing', 'Confirmed')
+ORDER BY start_date ASC
+LIMIT 4`;
+ var sql3 = `
+    SELECT COUNT(*) AS pending_count
+    FROM book_event
+    WHERE status = 'Pending'
+`;
+const booking_status = await exe(sql2);
+const pendingResult = await exe(sql3);
+
+const pending_count = pendingResult[0].pending_count;
+
+
+// Total bookings count
+const totalResult = await exe(`
+    SELECT COUNT(*) AS total_bookings
+    FROM book_event
+`);
+
+const total_bookings = totalResult[0].total_bookings;
+
+// Total clients count
+const userResult = await exe(`
+    SELECT COUNT(DISTINCT mobile) AS totalusers
+    FROM users
+`);
+
+const totalusers = userResult[0].totalusers;
+
+res.render("admin/dashboard", {
+    mobile,
+    bookings,
+    booking_status,
+    pending_count,
+    total_bookings,
+    totalusers
+});
+
+ } catch (err) {
         console.error(err);
         res.status(500).send("Server Error");
     }
@@ -1274,8 +1322,24 @@ router.get("/blog_slider_status/:id", async function (req, res) {
     res.redirect("/admin/blog_slider");
 })
 
-router.get("/booking", function (req, res) {
-    res.render('admin/booking.ejs');
+
+router.get("/booking", async function (req, res) {
+    try {
+        const sql = `
+            SELECT *
+            FROM book_event
+            ORDER BY created_at DESC
+        `;
+        const bookings = await exe(sql);
+
+        res.render('admin/booking.ejs', {
+            bookings: bookings
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.send("Error fetching bookings");
+    }
 });
 
 router.get("/testimonials-header", async function (req, res) {
@@ -2510,6 +2574,7 @@ router.get("/edit_faq_header/:id", async function (req, res) {
     }
 });
 
+
 router.post("/update_header_faq/:id", async function (req, res) {
     try {
         const d = req.body;
@@ -2518,7 +2583,7 @@ router.post("/update_header_faq/:id", async function (req, res) {
 
         // if new image uploaded
         if (req.files && req.files.bg_image) {
-            filename = Date.now() + "_" + req.files.bg_image;
+            filename = Date.now() + "_" + req.files.bg_image.name;
             await req.files.bg_image.mv("public/upload/faq/" + filename);
         }
 
@@ -2545,6 +2610,7 @@ router.post("/update_header_faq/:id", async function (req, res) {
         res.status(500).send("Server Error");
     }
 });
+
 
 
 router.get("/add_faq", async function (req, res) {

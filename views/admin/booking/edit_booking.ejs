@@ -1,0 +1,176 @@
+<%- include('../navbar.ejs') %>
+    
+<main class="main-content">
+
+        <header class="top-navbar">
+            <div class="page-title">
+                <h1>Dashboard Overview</h1>
+                <p>Welcome back! Here's what's happening with your events today.</p>
+            </div>
+            
+            <div class="navbar-right">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search events, clients, payments...">
+                </div>
+                
+                <div class="navbar-icons">
+                    <div class="nav-icon">
+                        <i class="far fa-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="far fa-envelope"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="nav-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white rounded-top-4 d-flex align-items-center">
+            <i class="fas fa-calendar-edit me-2"></i>
+            <h5 class="mb-0">Edit Booking</h5>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form action="/admin/update_booking/<%= booking.id %>" method="POST">
+
+                <div class="row">
+                    <!-- Client Name -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-user me-1"></i> Client Name
+                        </label>
+                        <input type="text" name="name"
+                               class="form-control form-control-lg"
+                               value="<%= booking.name %>" required>
+                    </div>
+
+                    <!-- Mobile -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-phone me-1"></i> Mobile
+                        </label>
+                        <input type="text" name="mobile"
+                               class="form-control form-control-lg"
+                               value="<%= booking.mobile %>" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Event Type -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-glass-cheers me-1"></i> Event Type
+                        </label>
+                        <input type="text" name="event_type"
+                               class="form-control form-control-lg"
+                               value="<%= booking.event_type %>" required>
+                    </div>
+
+                    <!-- Budget -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-rupee-sign me-1"></i> Budget
+                        </label>
+                        <input type="text" name="budget"
+                               class="form-control form-control-lg"
+                               value="<%= booking.budget %>" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Start Date -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-calendar-alt me-1"></i> Start Date
+                        </label>
+                        <input type="date" name="start_date"
+                               class="form-control form-control-lg"
+                               value="<%= booking.start_date.toISOString().slice(0,10) %>" required>
+                    </div>
+
+                    <!-- End Date -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-calendar-check me-1"></i> End Date
+                        </label>
+                        <input type="date" name="end_date"
+                               class="form-control form-control-lg"
+                               value="<%= booking.end_date.toISOString().slice(0,10) %>" required>
+                    </div>
+                </div>
+
+                <!-- Message -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        <i class="fas fa-comment-dots me-1"></i> Message
+                    </label>
+                    <textarea name="message"
+                              class="form-control form-control-lg"
+                              rows="3"><%= booking.message %></textarea>
+                </div>
+
+                <!-- Status -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        <i class="fas fa-info-circle me-1"></i> Status
+                    </label>
+                    <select name="status" class="form-select form-select-lg" required>
+
+    <option value="Pending" <%= booking.status === 'Pending' ? 'selected' : '' %>>
+        Pending
+    </option>
+
+    <option value="Confirmed" <%= booking.status === 'Confirmed' ? 'selected' : '' %>>
+        Confirmed
+    </option>
+
+    <option value="Ongoing" <%= booking.status === 'Ongoing' ? 'selected' : '' %>>
+        Ongoing
+    </option>
+
+    <option value="Payment Due" <%= booking.status === 'Payment Due' ? 'selected' : '' %>>
+        Payment Due
+    </option>
+
+    <option value="Completed" <%= booking.status === 'Completed' ? 'selected' : '' %>>
+        Completed
+    </option>
+
+    <option value="Cancelled" <%= booking.status === 'Cancelled' ? 'selected' : '' %>>
+        Cancelled
+    </option>
+    <option value="Inquiry" <%= booking.status === 'Inquiry' ? 'selected' : '' %>>
+        Inquiry
+    </option>
+</select>
+
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="/admin/dashboard" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-arrow-left me-1"></i> Back
+                    </a>
+
+                    <button type="submit" class="btn btn-success btn-lg px-4">
+                        <i class="fas fa-save me-1"></i> Update Booking
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../footer.ejs') %>

@@ -1,107 +1,113 @@
 <%- include('../navbar.ejs') %>
 
-
             <div class="container mt-4">
 
-        <!-- 🔷 PAGE HEADER -->
-        <div class="mb-4 d-flex align-items-center gap-3" style="
+                <!-- 🔷 PAGE HEADER -->
+                <div class="mb-4 d-flex align-items-center gap-3" style="
         background: linear-gradient(135deg, #0B5ED7, #3BC9DB);
         color:white;
         padding:12px 18px;
         border-radius:14px;
         box-shadow:0 6px 16px rgba(11,94,215,0.25);
     ">
-            <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
-                style="width:40px;height:40px;">
-                <i class="bi bi-pencil-square fs-5"></i>
-            </div>
-            <div>
-                <h6 class="mb-0 fw-semibold">Edit – Why Choose Us</h6>
-                <small style="font-size:11px;opacity:.85;">Admin Panel → Home → Choose Us</small>
-            </div>
-        </div>
-
-        <!-- 🔷 FORM CARD -->
-        <div class="row">
-            <div class="col-lg-7 mx-auto">
-                <div class="card border-0 shadow" style="border-radius:18px;background:#F8FAFF;">
-                    <div class="card-body p-4">
-
-                        <form action="/admin/home/update_choose_us/<%= data[0].choose_us_id %>" method="POST">
-
-                            <!-- Icon -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-stars text-primary me-2"></i>Select Icon
-                                </label>
-                                <select name="icon" class="form-select" required>
-                                    <option value="">Choose an icon</option>
-
-                                    <option value="fas fa-award" <%=data[0].icon=="fas fa-award" ?"selected":"" %>>🏆
-                                        Experience</option>
-                                    <option value="fas fa-users-cog" <%=data[0].icon=="fas fa-users-cog" ?"selected":""
-                                        %>>👥 Expert Team</option>
-                                    <option value="fas fa-heart" <%=data[0].icon=="fas fa-heart" ?"selected":"" %>>❤️
-                                        Client Satisfaction</option>
-                                    <option value="fas fa-headset" <%=data[0].icon=="fas fa-headset" ?"selected":"" %>
-                                        >🎧 24/7 Support</option>
-                                    <option value="fas fa-check-circle" <%=data[0].icon=="fas fa-check-circle"
-                                        ?"selected":"" %>>✔ Quality Service</option>
-                                    <option value="fas fa-lightbulb" <%=data[0].icon=="fas fa-lightbulb" ?"selected":""
-                                        %>>💡 Innovation</option>
-                                    <option value="fas fa-shield-alt" <%=data[0].icon=="fas fa-shield-alt"
-                                        ?"selected":"" %>>🛡 Security & Trust</option>
-                                    <option value="fas fa-globe" <%=data[0].icon=="fas fa-globe" ?"selected":"" %>>🌍
-                                        Global Reach</option>
-                                    <option value="fas fa-shipping-fast" <%=data[0].icon=="fas fa-shipping-fast"
-                                        ?"selected":"" %>>🚀 Fast Delivery</option>
-                                    <option value="fas fa-tags" <%=data[0].icon=="fas fa-tags" ?"selected":"" %>>💰
-                                        Affordable Pricing</option>
-                                    <option value="fas fa-tools" <%=data[0].icon=="fas fa-tools" ?"selected":"" %>>🛠
-                                        Technical Expertise</option>
-                                    <option value="fas fa-chart-line" <%=data[0].icon=="fas fa-chart-line"
-                                        ?"selected":"" %>>📈 Business Growth</option>
-                                    <option value="fas fa-handshake" <%=data[0].icon=="fas fa-handshake" ?"selected":""
-                                        %>>🤝 Trusted Partnership</option>
-                                </select>
-                            </div>
-
-                            <!-- Title -->
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-type text-primary me-2"></i>Title
-                                </label>
-                                <input type="text" name="title" class="form-control" value="<%= data[0].title %>"
-                                    required>
-                            </div>
-
-                            <!-- Description -->
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold">
-                                    <i class="bi bi-card-text text-primary me-2"></i>Description
-                                </label>
-                                <input type="text" name="description" class="form-control"
-                                    value="<%= data[0].description %>" required>
-                            </div>
-
-                            <!-- Buttons -->
-                            <div class="d-flex justify-content-center gap-3">
-                                <button type="submit" class="btn btn-primary px-4 rounded-pill">
-                                    <i class="bi bi-check-circle me-1"></i> Update
-                                </button>
-
-                                <a href="/admin/home/choose_us" class="btn btn-outline-secondary px-4 rounded-pill">
-                                    <i class="bi bi-arrow-left"></i> Back
-                                </a>
-                            </div>
-
-                        </form>
-
+                    <div class="bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center"
+                        style="width:40px;height:40px;">
+                        <i class="bi bi-pencil-square fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">Edit – Why Choose Us</h6>
+                        <small style="font-size:11px;opacity:.85;">Admin Panel → Home → Choose Us</small>
                     </div>
                 </div>
+
+                <!-- 🔷 FORM CARD -->
+                <div class="row">
+                    <div class="col-lg-7 mx-auto">
+                        <div class="card border-0 shadow" style="border-radius:18px;background:#F8FAFF;">
+                            <div class="card-body p-4">
+
+                                <form action="/admin/home/update_choose_us/<%= data[0].choose_us_id %>" method="POST">
+
+                                    <!-- Icon -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-stars text-primary me-2"></i>Select Icon
+                                        </label>
+                                        <select name="icon" class="form-select" required>
+                                            <option value="">Choose an icon</option>
+
+                                            <option value="fas fa-award" <%=data[0].icon=="fas fa-award" ?"selected":""
+                                                %>>🏆
+                                                Experience</option>
+                                            <option value="fas fa-users-cog" <%=data[0].icon=="fas fa-users-cog"
+                                                ?"selected":"" %>>👥 Expert Team</option>
+                                            <option value="fas fa-heart" <%=data[0].icon=="fas fa-heart" ?"selected":""
+                                                %>>❤️
+                                                Client Satisfaction</option>
+                                            <option value="fas fa-headset" <%=data[0].icon=="fas fa-headset"
+                                                ?"selected":"" %>
+                                                >🎧 24/7 Support</option>
+                                            <option value="fas fa-check-circle" <%=data[0].icon=="fas fa-check-circle"
+                                                ?"selected":"" %>>✔ Quality Service</option>
+                                            <option value="fas fa-lightbulb" <%=data[0].icon=="fas fa-lightbulb"
+                                                ?"selected":"" %>>💡 Innovation</option>
+                                            <option value="fas fa-shield-alt" <%=data[0].icon=="fas fa-shield-alt"
+                                                ?"selected":"" %>>🛡 Security & Trust</option>
+                                            <option value="fas fa-globe" <%=data[0].icon=="fas fa-globe" ?"selected":""
+                                                %>>🌍
+                                                Global Reach</option>
+                                            <option value="fas fa-shipping-fast" <%=data[0].icon=="fas fa-shipping-fast"
+                                                ?"selected":"" %>>🚀 Fast Delivery</option>
+                                            <option value="fas fa-tags" <%=data[0].icon=="fas fa-tags" ?"selected":"" %>
+                                                >💰
+                                                Affordable Pricing</option>
+                                            <option value="fas fa-tools" <%=data[0].icon=="fas fa-tools" ?"selected":""
+                                                %>>🛠
+                                                Technical Expertise</option>
+                                            <option value="fas fa-chart-line" <%=data[0].icon=="fas fa-chart-line"
+                                                ?"selected":"" %>>📈 Business Growth</option>
+                                            <option value="fas fa-handshake" <%=data[0].icon=="fas fa-handshake"
+                                                ?"selected":"" %>>🤝 Trusted Partnership</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Title -->
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-type text-primary me-2"></i>Title
+                                        </label>
+                                        <input type="text" name="title" class="form-control"
+                                            value="<%= data[0].title %>" required>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold">
+                                            <i class="bi bi-card-text text-primary me-2"></i>Description
+                                        </label>
+                                        <input type="text" name="description" class="form-control"
+                                            value="<%= data[0].description %>" required>
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="d-flex justify-content-center gap-3">
+                                        <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                            <i class="bi bi-check-circle me-1"></i> Update
+                                        </button>
+
+                                        <a href="/admin/home/choose_us"
+                                            class="btn btn-outline-secondary px-4 rounded-pill">
+                                            <i class="bi bi-arrow-left"></i> Back
+                                        </a>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
 
-    </div>
-
-<%- include('../footer.ejs') %>
+            <%- include('../footer.ejs') %>
