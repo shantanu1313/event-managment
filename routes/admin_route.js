@@ -2825,6 +2825,126 @@ router.post("/edit_mobile_no", async (req, res) => {
 });
 
 
+router.get("/edit_booking/:id", async (req, res) => {
+    const id = req.params.id;
+
+    const booking = await exe(
+        "SELECT * FROM book_event WHERE id = ?",
+        [id]
+    );
+
+    res.render("admin/booking/edit_booking.ejs", {
+        booking: booking[0]
+    });
+});
+
+// UPDATE BOOKING
+router.post("/update_booking/:id", async (req, res) => {
+    const bookingId = req.params.id;
+
+    try {
+        // 1️⃣ Get old booking data first
+        const [oldData] = await exe(
+            "SELECT * FROM book_event WHERE id = ?",
+            [bookingId]
+        );
+
+        if (oldData.length === 0) {
+            return res.status(404).send("Booking not found");
+        }
+
+        const oldBooking = oldData[0];
+
+        // 2️⃣ Use new value if exists, otherwise keep old
+        const updatedData = {
+            name: req.body.name || oldBooking.name,
+            mobile: req.body.mobile || oldBooking.mobile,
+            event_type: req.body.event_type || oldBooking.event_type,
+            budget: req.body.budget || oldBooking.budget,
+            start_date: req.body.start_date || oldBooking.start_date,
+            end_date: req.body.end_date || oldBooking.end_date,
+            message: req.body.message || oldBooking.message,
+            status: req.body.status || oldBooking.status
+        };
+
+        // 3️⃣ Update query
+        await exe(
+            `UPDATE book_event SET
+                name = ?,
+                mobile = ?,
+                event_type = ?,
+                budget = ?,
+                start_date = ?,
+                end_date = ?,
+                message = ?,
+                status = ?
+             WHERE id = ?`,
+            [
+                updatedData.name,
+                updatedData.mobile,
+                updatedData.event_type,
+                updatedData.budget,
+                updatedData.start_date,
+                updatedData.end_date,
+                updatedData.message,
+                updatedData.status,
+                bookingId
+            ]
+        );
+
+        res.redirect("/admin");
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+
+router.get("/bookings", async (req, res) => {
+    try {
+        const status = req.query.status;
+
+        let query = "SELECT * FROM book_event";
+        let params = [];
+
+        if (status && status !== "All") {
+            query += " WHERE status = ?";
+            params.push(status);
+        }
+
+        const bookings = await exe(query, params);
+
+        console.log("BOOKINGS DATA =>", bookings); // 👈 CHECK THIS
+
+        res.render("admin/booking.ejs", {
+            bookings,
+            selectedStatus: status || "All"
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+});
+
+// DELETE BOOKING
+router.get("/delete_booking/:id", async (req, res) => {
+    try {
+        const bookingId = req.params.id;
+
+        const query = "DELETE FROM book_event WHERE id = ?";
+
+        await exe(query, [bookingId]);
+
+        res.redirect("/admin/bookings");
+
+    } catch (error) {
+        console.error("Delete error:", error);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 
 module.exports = router;

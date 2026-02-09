@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +12,8 @@
     <!-- Chart.js for graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap JS Bundle -->
-     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -60,7 +55,7 @@
         .main-content::-webkit-scrollbar {
             display: none;
         }
-
+        
         body,
         .sidebar,
         .main-content {
@@ -123,10 +118,8 @@
             font-weight: 800;
             color: var(--primary-light);
             background: linear-gradient(90deg, var(--primary-light), var(--accent-light));
-            background-clip: text;
-            /* standard */
-            -webkit-background-clip: text;
-            /* Chrome/Safari */
+            background-clip: text;          /* standard */
+            -webkit-background-clip: text;  /* Chrome/Safari */
             color: transparent;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
@@ -466,9 +459,7 @@
             margin-bottom: 30px;
         }
 
-        .chart-container,
-        .upcoming-events,
-        .recent-activity {
+        .chart-container, .upcoming-events, .recent-activity {
             background: var(--card-gradient);
             border-radius: var(--border-radius);
             padding: 24px;
@@ -478,9 +469,7 @@
             overflow: hidden;
         }
 
-        .chart-container::before,
-        .upcoming-events::before,
-        .recent-activity::before {
+        .chart-container::before, .upcoming-events::before, .recent-activity::before {
             content: '';
             position: absolute;
             top: 0;
@@ -491,45 +480,45 @@
         }
 
         /* Wrapper */
-        .custom-dropdown {
+            .custom-dropdown {
             position: relative;
         }
 
-        /* Clickable row */
-        .dropdown-toggle-click {
+            /* Clickable row */
+            .dropdown-toggle-click {
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
         }
 
-        /* Arrow animation */
-        .dropdown-arrow i {
+            /* Arrow animation */
+            .dropdown-arrow i {
             font-size: 12px;
             transition: transform 0.3s ease;
         }
 
-        /* Rotate arrow when open */
-        .custom-dropdown.open .dropdown-arrow i {
+            /* Rotate arrow when open */
+            .custom-dropdown.open .dropdown-arrow i {
             transform: rotate(180deg);
         }
 
-        /* Dropdown menu */
-        .dropdown-menu-click {
+            /* Dropdown menu */
+            .dropdown-menu-click {
             display: none;
             background: linear-gradient(135deg, #7c3aed, #2563eb);
             border-radius: 8px;
             margin-top: 6px;
         }
 
-        /* Items */
-        .dropdown-menu-click .dropdown-item {
+            /* Items */
+            .dropdown-menu-click .dropdown-item {
             color: #fff;
             padding: 10px 20px;
             font-size: 14px;
         }
 
-        .dropdown-menu-click .dropdown-item:hover {
+            .dropdown-menu-click .dropdown-item:hover {
             background: rgba(255, 255, 255, 0.15);
         }
 
@@ -574,13 +563,11 @@
             border: 2px dashed #cbd5e1;
         }
 
-        .events-list,
-        .activity-list {
+        .events-list, .activity-list {
             list-style: none;
         }
 
-        .events-list li,
-        .activity-list li {
+        .events-list li, .activity-list li {
             padding: 16px 0;
             border-bottom: 1px solid var(--border-color);
             display: flex;
@@ -588,21 +575,18 @@
             justify-content: space-between;
         }
 
-        .events-list li:last-child,
-        .activity-list li:last-child {
+        .events-list li:last-child, .activity-list li:last-child {
             border-bottom: none;
         }
 
-        .event-info h4,
-        .activity-info h4 {
+        .event-info h4, .activity-info h4 {
             font-size: 15px;
             font-weight: 600;
             margin-bottom: 6px;
             color: var(--dark);
         }
 
-        .event-info p,
-        .activity-info p {
+        .event-info p, .activity-info p {
             font-size: 13px;
             color: var(--gray);
             display: flex;
@@ -610,8 +594,7 @@
             gap: 8px;
         }
 
-        .event-status,
-        .activity-time {
+        .event-status, .activity-time {
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
@@ -665,7 +648,7 @@
             font-size: 48px;
             margin-bottom: 16px;
             color: var(--primary);
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: linear-gradient( 90deg, var(--primary), var(--secondary));
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
@@ -781,8 +764,7 @@
 
         .footer-gradient {
             background: linear-gradient(90deg, #ff512f, #dd2476, #ffb347);
-            background-clip: text;
-            /* standard */
+            background-clip: text;        /* standard */
             color: transparent;
             font-weight: 700;
         }
@@ -798,42 +780,39 @@
             .sidebar {
                 width: 80px;
             }
-
-            .logo-text,
-            .section-title,
-            .nav-links span,
-            .user-info {
+            
+            .logo-text, .section-title, .nav-links span, .user-info {
                 display: none;
             }
-
+            
             .logo-area {
                 justify-content: center;
                 padding: 24px 0;
             }
-
+            
             .nav-links a {
                 justify-content: center;
                 padding: 16px 0;
             }
-
+            
             .nav-links i {
                 font-size: 18px;
                 width: auto;
                 margin: 0;
             }
-
+            
             .main-content {
                 margin-left: 80px;
             }
-
+            
             .sidebar-footer {
                 padding: 20px 10px;
             }
-
+            
             .user-profile {
                 justify-content: center;
             }
-
+            
             .search-wrapper input {
                 width: 200px;
             }
@@ -843,23 +822,23 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
+            
             .top-navbar {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 16px;
                 padding: 16px 20px;
             }
-
+            
             .navbar-right {
                 width: 100%;
                 justify-content: space-between;
             }
-
+            
             .search-wrapper input {
                 width: 180px;
             }
-
+            
             .dashboard-content {
                 padding: 20px;
             }
@@ -869,31 +848,31 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-
+            
             .search-wrapper input {
                 width: 150px;
             }
-
+            
             .navbar-icons {
                 gap: 12px;
             }
         }
-
-        .sidebar-nav ul {
+        
+        .sidebar-nav ul{
             margin-left: 0px;
-            padding-left: 0px;
+            padding-left:0px;
         }
 
 
-        .sidebar-nav ul li {
+        .sidebar-nav ul li{
             margin-left: 0px;
-            padding-left: 0px;
+            padding-left:0px;
         }
+
     </style>
 </head>
-
 <body>
-    <aside>
+    <!-- Fixed Sidebar -->
     <nav class="sidebar">
         <div class="logo-area">
             <a href="#" class="logo">
@@ -903,312 +882,324 @@
                 <div class="logo-text">Siddhivinayak</div>
             </a>
         </div>
-
+        
         <div class="sidebar-nav">
             <div class="nav-section">
                 <div class="section-title">Main</div>
                 <ul class="nav-links">
-                    <li><a href="/admin/" class="active"><i class="fas fa-tachometer-alt"></i>
-                            <span>Dashboard</span></a></li>
+                    <li><a href="/admin/" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
 
 
                     <li class="nav-item custom-dropdown">
-                        <!-- Main clickable Home Page -->
-                        <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
-                            <span class="nav-text">
-                                <i class="fas fa-calendar-check me-2"></i>
-                                Home Page
-                            </span>
+                    <!-- Main clickable Home Page -->
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        Home Page
+                        </span>
 
-                            <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </span>
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <!-- Dropdown menu -->
+                    <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/home/home_slider">
+                        <i class="fas fa-sliders-h me-2"></i> Home Slider
                         </a>
 
-                        <!-- Dropdown menu -->
-                        <div class="dropdown-menu-click">
-                            <a class="dropdown-item" href="/admin/home/home_slider">
-                                <i class="fas fa-sliders-h me-2"></i> Home Slider
-                            </a>
+                        <a class="dropdown-item" href="/admin/home/home_our_story">
+                        <i class="fas fa-history me-2"></i> Our Story
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/home/home_our_story">
-                                <i class="fas fa-history me-2"></i> Our Story
-                            </a>
+                        <a class="dropdown-item" href="/admin/home/choose_us">
+                        <i class="fas fa-star me-2"></i> Why Choose Us
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/home/choose_us">
-                                <i class="fas fa-star me-2"></i> Why Choose Us
-                            </a>
-
-                            <a class="dropdown-item" href="/admin/services/how_work">
-                                <i class="bi bi-gear-fill me-2"></i> How We Work
-                            </a>
-                        </div>
+                        <a class="dropdown-item" href="/admin/services/how_work">
+                        <i class="bi bi-gear-fill me-2"></i> How We Work
+                        </a>
+                    </div>
 
                     </li>
 
                     <li class="nav-item custom-dropdown">
-                        <!-- About main clickable row -->
-                        <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
-                            <span class="nav-text">
-                                <i class="fas fa-users me-2"></i>
-                                About Page
-                            </span>
+                    <!-- About main clickable row -->
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-users me-2"></i>
+                        About Page
+                        </span>
 
-                            <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </span>
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <!-- About dropdown menu -->
+                    <div class="dropdown-menu-click">
+
+                        <a class="dropdown-item" href="/admin/about/slider">
+                        <i class="fas fa-images me-2"></i> About Slider
                         </a>
 
-                        <!-- About dropdown menu -->
-                        <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/about/our_story">
+                        <i class="fas fa-book-open me-2"></i> Add Our Story
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/about/slider">
-                                <i class="fas fa-images me-2"></i> About Slider
-                            </a>
+                        <a class="dropdown-item" href="/admin/about/vision_mission">
+                        <i class="fas fa-bullseye me-2"></i> Vision & Mission
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/about/our_story">
-                                <i class="fas fa-book-open me-2"></i> Add Our Story
-                            </a>
+                        <a class="dropdown-item" href="/admin/about/core-values">
+                        <i class="fas fa-gem me-2"></i> Core Values
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/about/vision_mission">
-                                <i class="fas fa-bullseye me-2"></i> Vision & Mission
-                            </a>
+                        <a class="dropdown-item" href="/admin/about/our_evolution">
+                        <i class="fas fa-timeline me-2"></i> Our Evolution
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/about/core-values">
-                                <i class="fas fa-gem me-2"></i> Core Values
-                            </a>
+                        <a class="dropdown-item" href="/admin/about/our_evolution-list">
+                        <i class="fas fa-list-ol me-2"></i> Our Evolution List
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/about/our_evolution">
-                                <i class="fas fa-timeline me-2"></i> Our Evolution
-                            </a>
+                        <a class="dropdown-item" href="/admin/about/add_team">
+                        <i class="fas fa-user-plus me-2"></i> Add Team Members
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/about/our_evolution-list">
-                                <i class="fas fa-list-ol me-2"></i> Our Evolution List
-                            </a>
+                        <a class="dropdown-item" href="/admin/about/team_list">
+                        <i class="fas fa-users me-2"></i> Team Members
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/about/add_team">
-                                <i class="fas fa-user-plus me-2"></i> Add Team Members
-                            </a>
-
-                            <a class="dropdown-item" href="/admin/about/team_list">
-                                <i class="fas fa-users me-2"></i> Team Members
-                            </a>
-
-                        </div>
+                    </div>
                     </li>
-
+                    
                     <!-- Services Page Dropdown -->
                     <li class="nav-item custom-dropdown">
-                        <a class="nav-link dropdown-toggle-click" href="javascript:void(0)">
-                            <span class="nav-text">
-                                <i class="fas fa-concierge-bell me-2"></i>
-                                Services
-                            </span>
+                    <a class="nav-link dropdown-toggle-click" href="javascript:void(0)">
+                        <span class="nav-text">
+                        <i class="fas fa-concierge-bell me-2"></i>
+                        Services
+                        </span>
 
-                            <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </span>
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/service_slider">
+                        <i class="fas fa-sliders-h me-2"></i> Add Service Slider
                         </a>
 
-                        <div class="dropdown-menu-click">
-                            <a class="dropdown-item" href="/admin/service_slider">
-                                <i class="fas fa-sliders-h me-2"></i> Add Service Slider
-                            </a>
+                        <a class="dropdown-item" href="/admin/service">
+                        <i class="fas fa-plus-circle me-2"></i> Add Service
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/service">
-                                <i class="fas fa-plus-circle me-2"></i> Add Service
-                            </a>
+                        <a class="dropdown-item" href="/admin/services/add_other_service">
+                        <i class="fas fa-tags me-2"></i> Add Other Service
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/services/add_other_service">
-                                <i class="fas fa-tags me-2"></i> Add Other Service
-                            </a>
-
-                            <a class="dropdown-item" href="/admin/services/how_work">
-                                <i class="bi bi-gear-fill me-2"></i> How We Work
-                            </a>
-                        </div>
+                        <a class="dropdown-item" href="/admin/services/how_work">
+                        <i class="bi bi-gear-fill me-2"></i> How We Work
+                        </a>
+                    </div>
                     </li>
 
                     <!-- Packages Page Dropdown -->
                     <li class="nav-item custom-dropdown">
-                        <a class="nav-link dropdown-toggle-click" href="javascript:void(0)">
-                            <span class="nav-text">
-                                <i class="fas fa-box-open me-2"></i>
-                                Packages
-                            </span>
+                    <a class="nav-link dropdown-toggle-click" href="javascript:void(0)">
+                        <span class="nav-text">
+                        <i class="fas fa-box-open me-2"></i>
+                        Packages
+                        </span>
 
-                            <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </span>
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/header_packages">
+                        <i class="fas fa-sliders-h me-2"></i> Add Header
                         </a>
 
-                        <div class="dropdown-menu-click">
-                            <a class="dropdown-item" href="/admin/header_packages">
-                                <i class="fas fa-sliders-h me-2"></i> Add Header
-                            </a>
+                        <a class="dropdown-item" href="/admin/add_packages">
+                        <i class="fas fa-plus-circle me-2"></i> Add Packages
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/add_packages">
-                                <i class="fas fa-plus-circle me-2"></i> Add Packages
-                            </a>
-
-                            <a class="dropdown-item" href="/admin/add_features">
-                                <i class="bi bi-gear-fill me-2"></i> Add Features
-                            </a>
-                        </div>
+                        <a class="dropdown-item" href="/admin/add_features">
+                        <i class="bi bi-gear-fill me-2"></i> Add Features
+                        </a>
+                    </div>
                     </li>
 
                     <!-- Gallery Page Dropdown -->
                     <li class="nav-item custom-dropdown">
-                        <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
-                            <span class="nav-text">
-                                <i class="fas fa-images me-2"></i>
-                                Gallery
-                            </span>
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-images me-2"></i>
+                        Gallery
+                        </span>
 
-                            <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </span>
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+
+                        <a class="dropdown-item" href="/admin/gallery">
+                        <i class="fas fa-image me-2"></i> Add Gallery
                         </a>
 
-                        <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/gallery_list">
+                        <i class="fas fa-list me-2"></i> Gallery List
+                        </a>
 
-                            <a class="dropdown-item" href="/admin/gallery">
-                                <i class="fas fa-image me-2"></i> Add Gallery
-                            </a>
-
-                            <a class="dropdown-item" href="/admin/gallery_list">
-                                <i class="fas fa-list me-2"></i> Gallery List
-                            </a>
-
-                        </div>
+                    </div>
                     </li>
 
                     <!-- Blog News Dropdown -->
                     <li class="nav-item custom-dropdown">
-                        <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
-                            <span class="nav-text">
-                                <i class="fas fa-newspaper me-2"></i>
-                                Blog / News
-                            </span>
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-newspaper me-2"></i>
+                        Blog / News
+                        </span>
 
-                            <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </span>
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+                        <a class="dropdown-item" href="/admin/blog_slider">
+                        <i class="fas fa-photo-video me-2"></i> Blog Slider
                         </a>
 
-                        <div class="dropdown-menu-click">
-                            <a class="dropdown-item" href="/admin/blog_slider">
-                                <i class="fas fa-photo-video me-2"></i> Blog Slider
-                            </a>
-
-                            <a class="dropdown-item" href="/admin/blog">
-                                <i class="fas fa-plus-circle me-2"></i> Add Blog
-                            </a>
-                        </div>
+                        <a class="dropdown-item" href="/admin/blog">
+                        <i class="fas fa-plus-circle me-2"></i> Add Blog
+                        </a>
+                    </div>
                     </li>
 
+
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/bookings">
-                            <i class="fas fa-cog"></i>
+                        <a class="nav-link" href="/admin/booking">
+                            <i class="fas fa-bookmark"></i>
                             Bookings
-                        </a>
+                              </a>
                     </li>
 
                     <!-- Reviews & Testimonials -->
-
-                    <li class="nav-item custom-dropdown">
-                        <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
-                            <span class="nav-text">
-                                <i class="fas fa-star me-2"></i>
-                                Reviews & Testimonials
-                            </span>
-
-                            <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
-                            </span>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/testimonials">
+                            <i class="fas fa-star"></i>
+                            Testimonials
                         </a>
-
-                        <div class="dropdown-menu-click">
-                            <a class="dropdown-item" href="/admin/testimonials-header">
-                                <i class="fas fa-sliders-h me-2"></i> Testimonials Header
-                            </a>
-
-                            <a class="dropdown-item" href="/admin/testimonials">
-                                <i class="fas fa-list me-2"></i> Testimonials List
-                            </a>
-                        </div>
                     </li>
 
                     <!-- Contact Page Dropdown -->
+                    <li class="nav-item custom-dropdown">
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
+                        <span class="nav-text">
+                        <i class="fas fa-address-book me-2"></i>
+                        Contact
+                        </span>
+
+                        <span class="dropdown-arrow">
+                        <i class="fas fa-chevron-down"></i>
+                        </span>
+                    </a>
+
+                    <div class="dropdown-menu-click">
+
+                        <a class="dropdown-item" href="/admin/contact">
+                        <i class="fas fa-image me-2"></i> Contact Header
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/contact-info">
+                        <i class="fas fa-info-circle me-2"></i> Contact Info
+                        </a>
+
+                        <a class="dropdown-item" href="/admin/contact-form">
+                        <i class="fas fa-envelope me-2"></i> Contact Form
+                        </a>
+
+                    </div>
+                    </li>
+
+
                     <!-- FAQ Page Dropdown -->
                     <li class="nav-item custom-dropdown">
                         <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
                             <span class="nav-text">
-                                <i class="fas fa-question-circle me-2"></i>
-                                FAQ
+                            <i class="fas fa-question-circle me-2"></i>
+                            FAQ
                             </span>
 
                             <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
+                            <i class="fas fa-chevron-down"></i>
                             </span>
                         </a>
 
                         <div class="dropdown-menu-click">
 
                             <a class="dropdown-item" href="/admin/header_faq">
-                                <i class="fas fa-sliders-h me-2"></i> Header FAQ
+                            <i class="fas fa-sliders-h me-2"></i> Header FAQ
                             </a>
 
                             <a class="dropdown-item" href="/admin/add_faq">
-                                <i class="fas fa-plus-circle me-2"></i> Add FAQ
+                            <i class="fas fa-plus-circle me-2"></i> Add FAQ
                             </a>
 
                         </div>
-                    </li>
+                        </li>
 
-                    <!-- Privacy Page Dropdown -->
-                    <li class="nav-item custom-dropdown">
+                        <!-- Privacy Page Dropdown -->
+                        <li class="nav-item custom-dropdown">
                         <a href="javascript:void(0)" class="nav-link dropdown-toggle-click">
                             <span class="nav-text">
-                                <i class="fas fa-shield-alt me-2"></i>
-                                Privacy Management
+                            <i class="fas fa-shield-alt me-2"></i>
+                            Privacy Management
                             </span>
 
                             <span class="dropdown-arrow">
-                                <i class="fas fa-chevron-down"></i>
+                            <i class="fas fa-chevron-down"></i>
                             </span>
                         </a>
 
                         <div class="dropdown-menu-click">
 
                             <a class="dropdown-item" href="/admin/policy">
-                                <i class="fas fa-shield-alt me-2"></i> Privacy Policy
+                            <i class="fas fa-shield-alt me-2"></i> Privacy Policy
                             </a>
 
                             <a class="dropdown-item" href="/admin/reports">
-                                <i class="fas fa-file-alt me-2"></i> Reports
+                            <i class="fas fa-file-alt me-2"></i> Reports
                             </a>
 
                             <a class="dropdown-item" href="/admin/privacy-logs">
-                                <i class="fas fa-history me-2"></i> Privacy Logs
+                            <i class="fas fa-history me-2"></i> Privacy Logs
                             </a>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/condition">
-                            <i class="fas fa-cog"></i>
-                            Terms & Conditions
-                        </a>
-                    </li>
+                        </div>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/social_links">
-                            <i class="fas fa-share-alt"></i>
-                            Social Links
-                        </a>
-                    </li>
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/condition">
+                                <i class="fas fa-cog"></i>
+                                Terms & Conditions
+                            </a>
+                        </li>
                 </ul>
             </div>
-
+            
             <div class="nav-section">
                 <div class="section-title">Management</div>
                 <ul class="nav-links">
@@ -1216,17 +1207,9 @@
                     <li><a href="#"><i class="fas fa-chart-bar"></i> <span>Reports</span></a></li>
                 </ul>
             </div>
-
-            <div class="nav-section">
-                <div class="section-title">Settings</div>
-                <ul class="nav-links">
-                    <li><a href="#"><i class="fas fa-cog"></i> <span>System Settings</span></a></li>
-                    <li><a href="#"><i class="fas fa-bell"></i> <span>Notifications</span></a></li>
-                    <li><a href="#"><i class="fas fa-question-circle"></i> <span>Help & Support</span></a></li>
-                </ul>
-            </div>
+            
         </div>
-
+        
         <div class="sidebar-footer">
             <div class="user-profile">
                 <div class="user-avatar">AD</div>
@@ -1238,29 +1221,14 @@
             </div>
         </div>
     </nav>
+
     <main class="main-content">
-        <!-- Fixed Top Navbar with Gradient -->
         <header class="top-navbar">
             <div class="page-title">
                 <h1>Dashboard Overview</h1>
                 <p>Welcome back! Here's what's happening with your events today.</p>
             </div>
             
-            <div class="navbar-right">
-                <div class="search-wrapper">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Search events, clients, payments...">
-                </div>
-                
-                <div class="navbar-icons">
-                    <div class="nav-icon">
-                        <i class="far fa-bell"></i>
-                        <span class="notification-badge">5</span>
-                    </div>
-                    <div class="nav-icon">
-                        <i class="far fa-envelope"></i>
-                        <span class="notification-badge">3</span>
-                    </div>
                     <!-- Nav Icon with Dropdown -->
                     <div class="nav-icon dropdown">
                         <a href="#" class="text-light" id="settingsDropdown"
@@ -1293,53 +1261,51 @@
             </div>
         </header>
 
-        <!-- Dashboard Content -->
         <div class="dashboard-content">
 
-        
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-            const dropdowns = document.querySelectorAll(".custom-dropdown");
+  const dropdowns = document.querySelectorAll(".custom-dropdown");
 
-            dropdowns.forEach(dropdown => {
-                const toggle = dropdown.querySelector(".dropdown-toggle-click");
-                const menu = dropdown.querySelector(".dropdown-menu-click");
+  dropdowns.forEach(dropdown => {
+    const toggle = dropdown.querySelector(".dropdown-toggle-click");
+    const menu = dropdown.querySelector(".dropdown-menu-click");
 
-                // 🔹 Toggle dropdown ONLY when clicking header
-                toggle.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
+    // 🔹 Toggle dropdown ONLY when clicking header
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
 
-                    dropdowns.forEach(d => {
-                        if (d !== dropdown) {
-                            d.classList.remove("open");
-                            const m = d.querySelector(".dropdown-menu-click");
-                            if (m) m.style.display = "none";
-                        }
-                    });
+      dropdowns.forEach(d => {
+        if (d !== dropdown) {
+          d.classList.remove("open");
+          const m = d.querySelector(".dropdown-menu-click");
+          if (m) m.style.display = "none";
+        }
+      });
 
-                    dropdown.classList.toggle("open");
-                    menu.style.display = dropdown.classList.contains("open") ? "block" : "none";
-                });
+      dropdown.classList.toggle("open");
+      menu.style.display = dropdown.classList.contains("open") ? "block" : "none";
+    });
 
-                // ✅ Allow links inside dropdown to work
-                menu.querySelectorAll("a").forEach(link => {
-                    link.addEventListener("click", function (e) {
-                        e.stopPropagation(); // VERY IMPORTANT
-                        // ❌ do NOT preventDefault here
-                    });
-                });
-            });
+    // ✅ Allow links inside dropdown to work
+    menu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.stopPropagation(); // VERY IMPORTANT
+        // ❌ do NOT preventDefault here
+      });
+    });
+  });
 
-            // optional: close dropdown when clicking outside
-            document.addEventListener("click", () => {
-                dropdowns.forEach(d => {
-                    d.classList.remove("open");
-                    const m = d.querySelector(".dropdown-menu-click");
-                    if (m) m.style.display = "none";
-                });
-            });
+  // optional: close dropdown when clicking outside
+  document.addEventListener("click", () => {
+    dropdowns.forEach(d => {
+      d.classList.remove("open");
+      const m = d.querySelector(".dropdown-menu-click");
+      if (m) m.style.display = "none";
+    });
+  });
 
-        });
-    </script>
+});
+</script>
