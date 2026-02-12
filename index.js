@@ -32,4 +32,4 @@ app.use((req, res, next) => {
 app.use("/admin", admin_route);
 app.use("/", user_route);
 
-app.listen(1000);
+app.listen(3000);
